@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LiabilityEandODeductiblesDetailsComponent } from '../eando-liability-deductibles-details/eando-liability-deductibles-details.component';
 
-import { LiabilityEandODeductiblesDetailsComponent } from './liability-cgl-deductibles-details.component';
+// import { LiabilityEandODeductiblesDetailsComponent } from './liability-cgl-deductibles-details.component';
 
 describe('LiabilityEandODeductiblesDetailsComponent', () => {
   let component: LiabilityEandODeductiblesDetailsComponent;

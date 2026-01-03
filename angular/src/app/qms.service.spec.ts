@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { QmsService } from './features/quote/pages/quote-discussion-page/qms.service';
 
-import { QmsService } from './qms.service';
 
 describe('QmsService', () => {
   let service: QmsService;

@@ -1,7 +1,7 @@
-import { CoInsurer } from './co-insurer.model';
+import { ICoInsurer } from './co-insurer.model';
 
 describe('CoInsurer', () => {
   it('should create an instance', () => {
-    expect(new CoInsurer()).toBeTruthy();
+    expect(new ICoInsurer()).toBeTruthy();
   });
 });

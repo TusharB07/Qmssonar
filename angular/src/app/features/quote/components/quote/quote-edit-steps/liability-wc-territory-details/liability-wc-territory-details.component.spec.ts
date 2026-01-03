@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LiabilityWCDeductiblesDetailsComponent } from '../liability-wc-deductibles-details/liability-wc-deductibles-details.component';
 
-import { LiabilityWCDeductiblesDetailsComponent } from './liability-wc-territory-details.component';
+// import { LiabilityWCDeductiblesDetailsComponent } from './liability-wc-territory-details.component';
 
 describe('LiabilityWCDeductiblesDetailsComponent', () => {
   let component: LiabilityWCDeductiblesDetailsComponent;

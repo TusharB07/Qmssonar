@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SubTemplateLiabilityComponent } from '../sub-template-liability/sub-template-liability.component';
 
-import { SubTemplateLiabilityComponent } from './sub-template-liability-cgl.component';
+// import { SubTemplateLiabilityComponent } from './sub-template-liability-cgl.component';
 
 describe('SubTemplateLiabilityComponent', () => {
   let component: SubTemplateLiabilityComponent;
