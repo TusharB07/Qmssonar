@@ -1,0 +1,134 @@
+<!-- <div class="px-5">
+    <div class="mb-5" style="min-height: 200px;">
+
+        <div *ngIf="isMergeOption">
+            <div class="field-checkbox" *ngFor="let quoteOption of this.allQuoteOptionDropdown">
+                <label for="{{quoteOption.label}}" class="py-3 flex align-items-center">
+                    <p-checkbox class="mr-3" name="{{quoteOption.label}}" id="SelectBrokers_BrokerWiseQuote_checkBox"
+                        value="{{quoteOption.value}}" inputId="{{quoteOption.value}}"
+                        [disabled]="isCheckboxDisabled(quoteOption.value)"
+                        (onChange)="onCheckboxChange(quoteOption.value, $event.checked)" [binary]="true"
+                        [ngModel]="selectedQuoteOption.includes(quoteOption.value)">
+
+                    </p-checkbox>
+
+                    <div class="">
+                        <h5 class="" id="SelectBrokers_OriginalIntermediateName">{{quoteOption.label}}</h5>
+                    </div>
+                </label>
+            </div>
+            <div class="flex justify-content-start">
+                <div class="mr-5">
+                    <button class="btn btn-primary" id="SelectBrokers_ApplyButton"
+                        [disabled]="this.selectedQuoteOption.length == 0" (click)="createOptions()">Create
+                        Options</button>
+                </div>
+
+                <div class="" *ngIf="this.user.roleId?.name == AllowedRoles.PLACEMENT_CREATOR_AND_APPROVER">
+                    <button class="btn btn-primary" id="SelectBrokers_ApplyButton"
+                        [disabled]="this.selectedQuoteOption.length == 0" (click)="mergeOptions()">Merge
+                        Options</button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!isMergeOption">
+            <div class="field-checkbox" *ngFor="let quoteOption of this.allQuoteOptionDropdown">
+                <label for="{{quoteOption.label}}" class="py-3 flex align-items-center">
+                    <p-checkbox class="mr-3" name="{{quoteOption.label}}" id="SelectBrokers_BrokerWiseQuote_checkBox"
+                        value="{{quoteOption.value}}" [(ngModel)]="selectedQuoteOption"
+                        inputId="{{quoteOption.value}}"></p-checkbox>
+
+                    <div class="">
+                        <h5 class="" id="SelectBrokers_OriginalIntermediateName">{{quoteOption.label}}</h5>
+                    </div>
+                </label>
+            </div>
+            <div class="mb-5">
+                <button class="btn btn-primary" id="SelectBrokers_ApplyButton"
+                    [disabled]="this.selectedQuoteOption.length == 0" (click)="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div>
+    <div *ngIf="isIcOptionList">
+        <div class="field-checkbox" *ngFor="let quoteOption of this.allQuoteOptionDropdown">
+            <label for="{{quoteOption.quoteOption}}" class="py-3 flex align-items-center">
+                <p-checkbox class="mr-3" name="{{quoteOption.quoteOption}}" id="SelectBrokers_BrokerWiseQuote_checkBox"
+                    value="{{quoteOption._id}}" [(ngModel)]="selectedQuoteOption"
+                    inputId="{{quoteOption._id}}"></p-checkbox>
+
+                <div class="">
+                    <h5 class="" id="SelectBrokers_OriginalIntermediateName">{{quoteOption.quoteOption}}</h5>
+                </div>
+            </label>
+        </div>
+        <div class="mb-5">
+            <button class="btn btn-primary" id="SelectBrokers_ApplyButton"
+                [disabled]="this.selectedQuoteOption == undefined" (click)="save()">Save</button>
+        </div>
+    </div>
+
+    <div class="options-modal" *ngIf="!isIcOptionList">
+        <p>You can create options for your current quote</p>
+
+        <div class="dropdown-container" [class.disabled]="this.hasExpiredOption">
+            <div class="dropdown-group">
+                <label>Select an option to merge with expired:</label>
+                <select class="form-select" [(ngModel)]="selectedMergeOption" [disabled]="!this.hasExpiredOption">
+                    <option></option>
+                    <option *ngFor="let option of this.optionWithoutExpired" [value]="option.value">{{ option.label }}
+                    </option>
+                </select>
+                <button class="btn merge-btn" [disabled]="!this.hasExpiredOption" (click)="mergeWithExpired()">Merge with
+                    Expired</button>
+            </div>
+        </div>
+
+        <div class="options-list">
+            <div *ngFor="let option of this.allQuoteOptionDropdown" class="option-item">
+                <div class="option-info">
+                    <div class="title-container">
+                        <span [ngClass]="{ 'option-active': option.isActive }" class="status-dot"></span>
+                        <h5>{{ option.quoteOption }}</h5>
+                    </div>
+                    <p *ngIf="option?.replicatedOptionFrom" class="replicated-info">
+                        Replicated from: {{ option.replicatedOptionFrom }}
+                    </p>
+                </div>
+
+
+                <div class="option-actions mr-5">
+                    <div *ngIf="!isAnyOptionSelected() || option.expiredQuoteOption">
+                        <label class="mr-2">Expired</label>
+                        <p-checkbox binary="true" [(ngModel)]="option.expiredQuoteOption" value="true"
+                            (ngModelChange)="this.updateQuoteOptionWise(option._id, option.expiredQuoteOption)"
+                            name="expiredQuoteOption_{{ option._id }}">
+                        </p-checkbox>
+                    </div>
+                    <!-- <button class="delete-btn" (click)="deleteOption(option._id)">
+                    <i class="pi pi-trash"></i>
+                </button> -->
+                </div>
+            </div>
+
+            <div *ngIf="showNewOption" class="new-option-container">
+                <h5>Option {{ allQuoteOptionDropdown.length + 1 }}</h5>
+                <div class="replicate-container">
+                    <div *ngFor="let replicateOption of allQuoteOptionDropdown" class="replicate-option">
+                        <input type="radio" [value]="replicateOption._id" [(ngModel)]="selectedQuoteOption"
+                            name="replication" />
+                        <label>Replicate Option From {{ replicateOption.quoteOption }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn create-btn" *ngIf="this.selectedQuoteOption" (click)="createNewOption()">
+            Create Option
+        </button>
+        <button class="btn add-more-btn" *ngIf="!showNewOption" (click)="addMore()">Add More</button>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="BranchMasterFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="BranchMasterForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                    icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="BranchMasterForm_CancelButton" pButton pRipple label="Cancel"
+                                    icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="BranchMasterForm_GeneralInformation">General Information</h5>
+
+                    <div class="field">
+                        <label id="UserForm_PartnerLabel" for="name">Partner</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="UserForm_Partner" [dropdown]="true"
+                                        optionValue="value" field="label" formControlName="partnerId"
+                                        [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        <small id="UserForm_Partner_ValidationError"
+                               *ngIf="this.recordForm.controls['partnerId'].errors?.required" class="ng-invalid">This field
+                            Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="UserForm_ZoneLabel" for="zone">Zone</label>
+                        <p-dropdown id="UserForm_ZoneDropdown" placeholder="Select a Zone" [options]="zoneOptions" optionLabel="label"
+                                    class="custom-dropdowns" formControlName="zone"></p-dropdown>
+                        <small id="UserForm_Zone_ValidationError" *ngIf="this.recordForm.controls['zone'].errors?.required"
+                               class="ng-invalid">This field Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="name" id="BranchMasterForm_NameLabel">Name</label>
+                        <input maxlength="100" class="form-control" id="BranchMasterForm_Name" type="text" pInputText id="name" formControlName="name" required
+                               autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['name']}" />
+                        <small class="ng-dirty ng-invalid" id="BranchMasterForm_Name_ValidationError" *ngIf="submitted && !recordForm.value['name']">Name is required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="BranchMasterForm_RateLabel" for="code">Code</label>
+                        <input id="BranchMasterForm_Rate" class="form-control" type="text" pInputText id="code"
+                               formControlName="code" required autofocus
+                               [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['code']}" />
+                        <small id="BranchMasterForm_RateValidationError" class="ng-dirty ng-invalid"
+                               *ngIf="submitted && !recordForm.value['code']">Code is
+                            required.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail id="BranchMasterForm_AuditTrail" [entityId]="this.id"
+                                     [entityResourcePrefix]="'branchMaster'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,190 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2">
+                            <button id="IcrmContactList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="IcrmContactList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="IcrmContactList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="IcrmContactList_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" accept="image/*" id="IcrmContactList_FileUpload"
+                            [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name','email']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="IcrmContactList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+
+                            <th style="width: 1700px;" pSortableColumn="icPartnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="IcrmContactList_IcPartnerHeader">
+                                        Ic Partner
+                                    </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="text" field="partnerId" display="menu" placeholder="Search by name"></p-columnFilter> -->
+                                        <p-sortIcon id="IcrmContactList_NameSortIcon" field="icPartnerId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 1700px;" pSortableColumn="rmName">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="IcrmContactList_RMNameHeader">
+                                        RM Name
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="IcrmContactList_RMNameColumnFilter" type="text"
+                                            field="rmName" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by rmName"></p-columnFilter>
+                                        <p-sortIcon id="IcrmContactList_RMNameSortIcon" field="rmName"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 1700px;" pSortableColumn="rmEmail">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="IcrmContactList_RMEmailHeader">
+                                        RM Email
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="IcrmContactList_RMEmailColumnFilter" type="text"
+                                            field="rmEmail" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by rmEmail"></p-columnFilter>
+                                        <p-sortIcon id="IcrmContactList_RMEmailSortIcon" field="rmEmail"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 1700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="IcrmContactList_ActiveHeader">
+                                        Active
+                                    </span>
+                                    <div>
+                                        <!-- <p-columnFilter id="IcrmContactList_ActiveColumnFilter" type="text" field="partnerId" display="menu" placeholder="Search by name"></p-columnFilter> -->
+                                        <p-sortIcon id="IcrmContactList_ActiveSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 1700px;" pSortableColumn="mobileNo">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="IcrmContactList_MobileNumberHeader">
+                                        Mobile Number
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="IcrmContactList_MobileNumberColumnFilter" type="text"
+                                            field="mobileNo" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by mobileNo"></p-columnFilter>
+                                        <p-sortIcon id="IcrmContactList_MobileNumberSortIcon"
+                                            field="mobileNo"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-icmrContact>
+                        <tr (click)="this.editRecord(icmrContact)">
+                            <td>
+                                <p-tableCheckbox [value]="icmrContact"
+                                    id="IcrmContactList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+
+
+                            <td id="IcrmContactList_IcPartner">
+                                <a
+                                    routerLink="/backend/admin/partners/{{icmrContact.icPartnerId?._id}}">{{icmrContact.icPartnerId?.name}}</a>
+
+
+                            </td>
+                            <td id="IcrmContactList_RMName">
+                                {{icmrContact.rmName}}
+
+                            </td>
+                            <td id="IcrmContactList_RMEmail">
+                                {{icmrContact.rmEmail}}
+
+                            </td>
+                            <td id="IcrmContactList_Active">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': icmrContact.active, 'false-icon pi-times-circle': !icmrContact.active}"></i>
+                            </td>
+                            <td id="IcrmContactList_MobileNumber">
+                                {{icmrContact.mobileNo}}
+
+                            </td>
+                            <!-- <td>
+                                <div class="flex">
+                                    <button id="IcrmContactList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(icmrContact)"></button>
+                                    </div>
+                                </td> -->
+                            <!-- <button id="IcrmContactList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(icmrContact)"></button> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="IcrmContactList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="IcrmContactList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want
+                    to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="IcrmContactList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="IcrmContactList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="IcrmContactList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="IcrmContactList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="IcrmContactList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="IcrmContactList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

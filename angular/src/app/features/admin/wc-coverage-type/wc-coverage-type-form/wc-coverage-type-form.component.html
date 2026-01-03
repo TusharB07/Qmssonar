@@ -1,0 +1,106 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ExclusionFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="wcCoverageTypeForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="wcCoverageTypeForm_CancelButton" pButton pRipple label="Cancel"
+                                icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                            
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field">
+                            <label for="name">Partner</label>
+                            <p-autoComplete [disabled]="this.mode == 'edit'" [dropdown]="true" optionValue="value"
+                                field="label" formControlName="partnerId" [suggestions]="this.optionsPartners"
+                                (completeMethod)="this.searchOptionsPartners($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                            <small *ngIf="this.recordForm.controls['partnerId'].errors?.required"
+                                class="ng-invalid">This field Required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="productId">Product</label>
+                            <p-autoComplete [dropdown]="true" [suggestions]="this.optionsProducts" field="label"
+                                formControlName="productId" [disabled]="this.mode == 'edit'"
+                                (completeMethod)="this.searchOptionsProducts($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label id="wcCoverageTypeForm_type" for="coverageType">Coverage Type</label>
+                            <input id="wcCoverageTypeForm_type" class="form-control" type="text" pInputText
+                                id="coveragetype" formControlName="coverageType" required
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['coverageType']}" />
+                            <small id="wcCoverageTypeForm_typeValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['coverageType']">Coverage Type is
+                                required.</small>
+
+                        </div>
+                        <div class="field">
+                            <label id="wcCoverageTypeForm_rateLabel" for="fromLimit">Rate</label>
+                            <input id="wcCoverageTypeForm_rate" type="number" pInputText id="rate"
+                                formControlName="rate" required
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rate']}" />
+                            <small id="wcCoverageTypeForm_rateValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['rate']">Rate is required.</small>
+                        </div>
+                        <div class="field">
+                            <p-radioButton name="featureGroup" class="mr-4" formControlName="coveragePaidORFree"
+                                value="Paid" label="Paid" (click)="onPaidorFreeChanged($event)" inputId="feature"
+                                styleClass="inline-radio"></p-radioButton>
+                            <p-radioButton name="featureGroup" class="mr-4" formControlName="coveragePaidORFree"
+                                value="Free" label="Free" (click)="onPaidorFreeChanged($event)" inputId="feature"
+                                styleClass="inline-radio"></p-radioButton>
+                        </div>
+                        <div class="field">
+                            <p-radioButton name="featureGroup" class="mr-4" formControlName="isStandard" [value]="false"
+                                label="Coverage" (click)="onCoverageOrStandard($event)" inputId="coverage"
+                                styleClass="inline-radio">
+                            </p-radioButton>
+
+                            <p-radioButton name="featureGroup" class="mr-4" formControlName="isStandard" [value]="true"
+                                label="Standard" (click)="onCoverageOrStandard($event)" inputId="standard"
+                                styleClass="inline-radio">
+                            </p-radioButton>
+                        </div>
+
+                        <div class="field">
+                            <label id="wcCoverageTypeForm_StatuwcCoverageTypeel" for="status">Status</label>
+                            <p-toggleButton id="wcCoverageTypeForm_Status" class="form-control" formControlName="active"
+                                onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times"
+                                iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field"
+                            *ngIf="this.mode == 'edit' && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value">
+                            <label for="taskStatus" id="wcCoverageTypeForm_taskStatusLabel">Task Status</label>
+                            <input id="wcCoverageTypeForm_taskStatus" class="form-control" type="text" pInputText
+                                id="taskStatus" formControlName="taskStatus" />
+                        </div>
+
+                        <div class="field"
+                            *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value == 'failed'">
+                            <label for="failedMessage" id="wcCoverageTypeForm_failedMessageLabel">Failed Reasson</label>
+                            <input id="wcCoverageTypeForm_failedMessage" class="form-control" type="text" pInputText
+                                id="failedMessage" formControlName="failedMessage" />
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

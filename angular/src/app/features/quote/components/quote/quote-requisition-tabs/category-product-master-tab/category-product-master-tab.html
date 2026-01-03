@@ -1,0 +1,195 @@
+<!-- <div class="grid" *ngIf="this.quote"> -->
+
+
+    <!-- <div class="col-5"> -->
+        <!-- <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2">Total Indicative Quote</h6>
+                        <p class="sub-head">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                        <p class="premium-price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2">Total Indicative Quote</h6>
+                        <p class="sub-head">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                        <p class="premium-price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <form [formGroup]="this.riskParametersForm" (ngSubmit)="this.submitRiskParameterForm()">
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Age of Building</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['ageOfBuilding']" [options]="ageOfBuildingOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsAgeOfBuilding" field="label"
+                                    formControlName="ageOfBuilding"
+                                    (completeMethod)="this.searchOptionsAgeOfBuilding($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !liabilitySectionForm.value['ageOfBuilding']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Construction Type</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['constructionType']" [options]="constructionTypeOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsConstructionType" field="label"
+                                    formControlName="constructionType"
+                                    (completeMethod)="this.searchOptionsConstructionType($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['constructionType']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">3 Year Loss History</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['yearLossHistory']" [options]="yearLossHistoryOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsYearLossHistory" field="label"
+                                    formControlName="yearLossHistory"
+                                    (completeMethod)="this.searchOptionsYearLossHistory($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['yearLossHistory']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Fire Protection</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['fireProtection']" [options]="fireProtectionOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsFireProtection" field="label"
+                                    formControlName="fireProtection"
+                                    (completeMethod)="this.searchOptionsFireProtection($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['fireProtection']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Whether AMC for the Fire Protection Appliances is
+                                in force</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['amcFireProtection']" [options]="amcProtectionOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsAmcFireProtection" field="label"
+                                    formControlName="amcFireProtection"
+                                    (completeMethod)="this.searchOptionsAmcFireProtection($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['amcFireProtection']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Distance between the risk to be covered and nearest
+                                Fire Brigade</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['riskCovered']" [options]="riskCoveredOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsRiskCovered" field="label"
+                                    formControlName="riskCovered"
+                                    (completeMethod)="this.searchOptionsRiskCovered($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['riskCovered']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mb-5">
+                        <div class="col-10">
+                            <label for="" class="form-label">Premises Basement/Ground/ Above Ground</label>
+                            <div class="pp-dropdown-c"> -->
+        <!-- <p-dropdown [formControl]="riskParametersForm.controls['premises']" [options]="premisesBasementOptions" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                </p-dropdown> -->
+        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true"
+                                    [suggestions]="this.optionsPremises" field="label"
+                                    formControlName="premises"
+                                    (completeMethod)="this.searchOptionsPremises($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !riskParametersForm.value['premises']}">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                        class="btn btn-success"></button>
+                </form>
+            </div>
+        </p-card> -->
+
+<div class="grid" *ngIf="this.quote">
+    <div class="col-5">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="RiskManagementFeatureTab_TotalIndcativeQuote">Total Indicative Quote</h6>
+                        <p class="sub-head" id="RiskManagementFeatureTab_ProductType">{{this.quote.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="RiskManagementFeatureTab_TotalPremium_Label">Total Premium</p>
+                        <p class="premium-price" id="RiskManagementFeatureTab_TotalPremium"><span><app-currency [value]="(this.quote?.totalIndictiveQuoteAmt)"></app-currency></span></p>
+                        <!-- <p class="premium-price">{{this.quote?.totalIndictiveQuoteAmt | currency: 'INR'}}</p> -->
+                    </div>
+                </div>
+            </ng-template>
+            <app-risk-management-features-card id="RiskManagementFeatureTab_RiskManagementFeaturesCard" *ngIf="this.quote" [quote]="this.quote" [permissions]="['read','update']"></app-risk-management-features-card>
+        </p-card>
+        <!-- <app-risk-inspection-card [quote]="this.quote" [permissions]="['read','update']"></app-risk-inspection-card> -->
+    </div>
+
+    <!-- </div> -->
+    <div class="col-5" style="display:none ;">
+        <div class="grid">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="RiskManagementFeatureTab_IndustryAverage_Header">Industry Average Quote</h5>
+                    <p class="sub-heading" id="RiskManagementFeatureTab_IndustryAverage_ProductType">{{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p id="RiskManagementFeatureTab_IndustryAverage_AvgPremiumLabel">Avg. Premium </p>
+                        <p class="price" id="RiskManagementFeatureTab_IndustryAverage_AvgPremium"> <span><app-currency [value]="(this.quote?.totalIndictiveQuoteAmt)"></app-currency></span></p>
+                    </div>
+                    <!-- <div class="sum-assured" id="RiskManagementFeatureTab_IndustryAverage_SumInssured">
+                        <span class="icon"></span> Sum Assured: {{(this.quote?.totalSumAssured ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} -
+                        {{toWord.convert(this.quote?.totalSumAssured ?? 0)}}
+                    </div> -->
+                    <div class="sum-assured" id="RiskManagementFeatureTab_IndustryAverage_SumInssured">
+                        <span class="icon"></span> Sum Assured: <span><app-currency [maximumFractionDigits]="0" [value]="(this.quote?.totalSumAssured)"></app-currency></span> -
+                        {{toWord.convert(this.quote?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container" id="RiskManagementFeatureTab_IndustryAverage_ViewBreakup">
+                        <button class="btn btn-success" type="submit">View Breakup</button>
+                    </div>
+                    <div class="info" id="RiskManagementFeatureTab_IndustryAverage_SouceName"><i class="pi pi-info-circle"></i> This information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

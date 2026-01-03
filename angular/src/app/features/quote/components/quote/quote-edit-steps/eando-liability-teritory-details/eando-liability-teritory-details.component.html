@@ -1,0 +1,205 @@
+<div class="px-5">
+    <div class="grid">
+        <div class="col-12 mx-0">
+            <div class="col-12">
+                <div class="grid mt-1">
+                    <div class="col-12">
+                        <p-card>
+                            <div style="text-align: left;">
+                                <button class="btn btn-lg btn btn-success" type="button" id="requisitionTab_EditOptions"
+                                    (click)="save()">Save</button>
+                            </div>
+                            <table class="static-table" cellpadding="0" cellspacing="0">
+                                <tr style="background-color:#0048bc; color: white !important;">
+                                    <td class="text-black" id="DandOSubTemplate_Details">
+                                        <h4 style="color: white;">Territory & Subsidiary Details</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid ml-4">
+                                            <div class="col-10">
+                                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Jurisdiction
+                                                </p>
+                                            </div>
+                                            <!-- <div class="col-2">
+                                                {{this.quoteEandOOptions.juridictionId!=null?
+                                                this.quoteEandOOptions.juridictionId['lovKey']:'N/A'}}
+                                            </div> -->
+                                            <div class="col-2" *ngIf="showEditOption">
+                                                <p-dropdown class="form-control"
+                                                    [options]="this.OptionTerritoryAndJurasdiction" placeholder="Select"
+                                                    optionLabel="label" optionValue="value"
+                                                    [(ngModel)]="this.quoteEandOOptions.juridictionId['_id']"
+                                                    #juridictionId="ngModel" id="juridictionId" name="juridictionId"
+                                                    appendTo="body"></p-dropdown>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="grid ml-4">
+                                            <div class="col-10">
+                                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Territorys</p>
+                                            </div>
+                                            <!-- <div class="col-2">
+                                                {{this.quoteEandOOptions.territoryId!=null?
+                                                this.quoteEandOOptions.territoryId['lovKey']:'N/A'}}
+                                            </div> -->
+                                            <div class="col-2" *ngIf="showEditOption">
+                                                <p-dropdown class="form-control"
+                                                    [options]="this.OptionTerritoryAndJurasdiction" placeholder="Select"
+                                                    optionLabel="label" optionValue="value"
+                                                    [(ngModel)]="this.quoteEandOOptions.territoryId['_id']"
+                                                    #territoryId="ngModel" id="territoryId" name="territoryId"
+                                                    appendTo="body"></p-dropdown>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <!-- <table class="static-table" cellpadding="0" cellspacing="0">
+                                <tr style="background-color:#0048bc; color: white !important;">
+                                    <td class="text-black" id="DandO">
+                                        <h4 style="color: white;">Subsidiary Annual report</h4>
+                                    </td>
+                                </tr>
+                                <div class="row">
+                                    <div class="col-10">
+                                        <div *ngIf="this.quoteEandOOptions.subsidairyAnnualReportFilePath"
+                                            id="territorycard_SubsidiaryauditedfinancialReport"
+                                            style="display: flex; justify-content: space-between;">
+                                            <span style="font-size: 14px;">{{this.subsidairyfilename}}</span>
+                                            <a class="red-link"
+                                                (click)="this.downloadSubsidiaryauditedfinancialReport()"
+                                                style="color: blue; font-size: 12px; "><i class="pi pi-eye"
+                                                    id="territorycard_View_SubsidiaryauditedfinancialReport"></i>
+                                                View</a>
+                                            <a class="red-link"
+                                                (click)="this.downloadFileSubsidiaryauditedfinancialReport()"
+                                                style="color: blue; font-size: 12px;"><i class="pi pi-download"
+                                                    id="territorycard_Download_SubsidiaryauditedfinancialReport"></i>
+                                                Download</a>
+                                        </div>
+                                        <div *ngIf="!this.quoteEandOOptions.subsidairyAnnualReportFilePath"
+                                            style="display: flex; justify-content: space-between; padding-bottom: unset;">
+                                            <p class="red-link"
+                                                id="territorycard_SubsidiaryauditedfinancialReport_NotFound"
+                                                style="font-size: 12px;">No Subsidiary audited financial Report Found
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </table> -->
+
+
+                            <br />
+                            <!-- Subsidiary Details -->
+                            <p-table [value]="subsidaryDetails" responsiveLayout="scroll" dataKey="id"
+                                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                responsiveLayout="scroll">
+                                <ng-template pTemplate="caption">
+                                    <h4 class="text-center text-black" id="WCPSubTemplate_EmployementDetails_Header">
+                                        Subsidiary Details
+                                    </h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="tableBorder" class="text-center text-black">
+                                            Location Name
+                                        </th>
+                                        <th class="tableBorder" class="text-center text-black">
+                                            Is Business activity not as per parent company?
+                                        </th>
+                                        <th class="tableBorder" class="text-center text-black">
+                                            Activity Name
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-items>
+                                    <tr class="no-border">
+                                        <td id="wcRates_natureOfWork" class="text-center  text-left">
+                                            {{items.countryName }}
+                                        </td>
+                                        <td id="wcRates_typeOfEmployees" class="text-center  text-left">
+                                            {{items.isSelected?'Yes':'No'}}</td>
+                                        <td id="wcRates_typeOfEmployees" class="text-center  text-left">
+                                            {{items.activityName}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+
+                        </p-card>
+
+                        <!-- <p-card>
+                            <div class="from-row">
+                                <div class="col-14">
+                                    <div class="form-row">
+                                        <label for="" class="form-label" id="lblClientIndustry"
+                                            style="text-align: center;">Subsidiary Details</label>
+                                    </div>
+                                    <table style="margin: 0 auto; width: 100%; text-align: center;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Sr No</th>
+                                                <th style="text-align: center;width: 30% !important;">Location Name</th>
+                                                <th style="text-align: center;width: 30% !important;">Is Business
+                                                    activity as per parent company?</th>
+                                                <th style="text-align: center;">Details of Activity</th>
+                                                <th style="text-align: center;">Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of quoteEandOOptions.subsidaryDetails; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>
+                                                    <p-dropdown class="form-control" [options]="this.countryList"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        [(ngModel)]="item.countryId" #countryIdId="ngModel"
+                                                        id="countryIdId" name="countryIdId"
+                                                        (onChange)="setCountryName(item)" appendTo="body"
+                                                        [disabled]="item.isSelected && (item.countryId!='' && item.countryId!=null)"></p-dropdown>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <p-checkbox class="mr-2" name="isSelected{{i}}"
+                                                        value="{{item.isSelected}}" id="conditionalFree_{{i}}"
+                                                        [binary]="true" [(ngModel)]="item.isSelected"
+                                                        inputId="{{item.isSelected}}"
+                                                        (onChange)="handleBusinessActivityCheckboxChange($event,item,i)">
+                                                    </p-checkbox>
+                                                </td>
+                                                <td>
+                                                    <input pInputText type="text" placeholder="Activity name"
+                                                        [(ngModel)]="item.activityName" maxlength="255"
+                                                        autocomplete="off" #activityName_{{i}}="ngModel"
+                                                        id="activityName_{{i}}" name="activityName_{{i}}"
+                                                        [disabled]="!item.isSelected || !item.countryId" />
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <button pButton pRipple label="Delete" icon="pi pi-trash"
+                                                        class="btn btn-danger" style="height: 30px; line-height: 1;"
+                                                        (click)="removeRow(i)"></button>
+                                                </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-info add-button" (click)="addSubsidary()">
+                                        + Add More
+                                    </button>
+
+                                </div>
+                            </div>
+                        </p-card> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

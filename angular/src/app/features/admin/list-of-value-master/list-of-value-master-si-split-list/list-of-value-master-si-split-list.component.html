@@ -1,0 +1,399 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button *ngIf="this.user?.partnerId?.partnerType == 'self'" id="ListOfValueList_CreateRecord"
+                            pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="this.createRecord()"></button>
+                        <!-- <button id="ListOfValueList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="ListOfValueList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="ListOfValueList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Search by LovKey" />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="ListOfValueList_FileUpload" accept="image/*" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['lovKey']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="ListOfValueList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center" >
+                                <span  id="ListOfValueList_ProductHeader">
+                                    Product
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_NameColumnFilter" type="text" field="productId" display="menu" placeholder="Search by Product"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_NameSortIcon" field="productId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Partner Id </span>
+                                <p-columnFilter field="partnerId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">partnerId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedPartners" [suggestions]="optionsPartners"
+                                            (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="partnerIdHandleFilter($event)"
+                                            (onUnselect)="partnerIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="parentLovId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_ParentLovHeader">
+                                    Parent Lov
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_ParentLovColumnFilter" type="text" field="parentLovId" display="menu" placeholder="Search by Parent Lov Id"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_ParentLovSortIcon" field="parentLovId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="parentLovId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Parent Lov </span>
+                                <p-columnFilter field="parentLovId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Parent Lov filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedParentLovId"
+                                            [suggestions]="optionsParentLovId"
+                                            (completeMethod)="getOptionsParentLovId($event)" field="parentLovId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="ParentLovIdHandleFilter($event)"
+                                            (onUnselect)="ParentLovIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+                        <!-- <th pSortableColumn="sequenceNumber">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Sequence Number
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="sequenceNumber" display="menu" placeholder="Search by Sequence Number"></p-columnFilter>
+                                    <p-sortIcon field="sequenceNumber"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="lovType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_LovTypeHeader">
+                                    Lov Type
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_LovTypeColumnFilter" type="text" field="lovType"
+                                        display="lovType" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="and"
+                                        placeholder="Search by Lov Type"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_LovTypeSortIcon" field="lovType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="lovKey">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_LovKeyHeader">
+                                    Lov Key
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_LovKeyColumnFilter" type="text" field="lovKey"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="and"
+                                        placeholder="Search by Lov Key"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_LovKeySortIcon" field="lovKey"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="lovValue">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_LovValueHeader">
+                                    Lov Value
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_LovValueColumnFilter" type="text"
+                                        field="lovValue" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="and"
+                                        placeholder="Search by Lov Value"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_LovValueSortIcon" field="lovValue"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="lovReferences">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_lovReferencesHeader">
+                                    lovReferences
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ListOfValueList_lovReferencesColumnFilter" type="text"
+                                        field="lovReferences" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="and"
+                                        placeholder="Search by lovReferences"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_lovReferencesSortIcon"
+                                        field="lovReferences"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="parentLovType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Parent Lov Type
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="parentLovType" display="menu" placeholder="Search by Parent Lov Type"></p-columnFilter>
+                                    <p-sortIcon field="parentLovType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="children">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Children
+                                </span>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="isRequired">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ProductList_isRequiredHeader">Is Required</span>
+                                <div>
+                                    <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                    <p-sortIcon field="isRequired"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th></th>
+                        <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="ListOfValueListStatusList_taskStatusHeader">
+                                    TaskStatus
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="ListOfValueList_taskStatusColumnFilter" type="text"
+                                        field="taskStatus" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by status"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_taskStatusSortIcon" field="taskStatus"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap"
+                                    id="ListOfValueListStatusfailedMessage_failedMessageHeader">
+                                    FailedMessage
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-sortIcon id="ListOfValueList_failedMessageSortIcon"
+                                        field="failedMessage"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="active">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ListOfValueList_ActiveHeader">
+                                    Active
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="ListOfValueList_ActiveColumnFilter" matchMode="equals"
+                                        type="boolean" field="active" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" operator="and"
+                                        placeholder="Search by active"></p-columnFilter>
+                                    <p-sortIcon id="ListOfValueList_ActiveSortIcon" field="active"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item" id="ListOfValueList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td>
+                            {{item.sequenceNumber}}
+                        </td> -->
+                        <td id="ListOfValueList_Product">
+                            {{item.productId?.type}}
+                        </td>
+                        <td>
+                            {{item?.partnerId?.name}}
+                        </td>
+                        <td id="ListOfValueList_ParentLov">
+                            {{item.parentLovId?.lovType}} - {{item.parentLovId?.lovKey}}
+                        </td>
+                        <td id="ListOfValueList_LovType">
+                            {{item.lovType}}
+                        </td>
+                        <td id="ListOfValueList_LovKey">
+                            {{item.lovKey}}
+                        </td>
+                        <td id="ListOfValueList_LovValue">
+                            {{item.lovValue}}
+                        </td>
+                        <td id="ListOfValueList_lovReferences">
+                            {{item.lovReferences?.join(', ')}}
+                        </td>
+                        <!-- <td>
+                            {{item.parentLovType}}
+                        </td> -->
+                        <td id="ListOfValueList_isRequired">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.isRequired, 'false-icon pi-times-circle': !item.isRequired}"></i>
+
+                        </td>
+                        <td id="ListOfValueList_ChildrenLov">
+                            {{item.children?.lovType}}
+                            <!-- <a routerLink="/backend/admin/list-of-value-master/{{item.children?._id}}">{{item.children?.lovType}}</a> -->
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{item?.taskStatus ?? '-'}}</td>
+
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{item?.failedMessage ?? '-'}}</td>
+                        <td id="ListOfValueList_Active">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.active, 'false-icon pi-times-circle': !item.active}"></i>
+                        </td>
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="ListOfValueList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(item)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="ListOfValueList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ListOfValueList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ListOfValueList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want
+                    to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ListOfValueList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ListOfValueList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ListOfValueList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ListOfValueList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ListOfValueList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ListOfValueList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

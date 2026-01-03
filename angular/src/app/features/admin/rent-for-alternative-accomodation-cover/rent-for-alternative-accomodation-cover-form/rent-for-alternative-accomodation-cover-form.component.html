@@ -1,0 +1,50 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                <div class="card p-fluid">
+
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="AccomodationCoverFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="AccomodationCoverForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button id="AccomodationCoverForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </p-card>
+            </div>
+            <div class="col-6">
+                <p-card>
+                <div class="card p-fluid">
+                    <div class="field">
+                        <label id="AccomodationCoverForm_QuoteIdLabel" for="quoteId">Quote Id</label>
+                        <p-autoComplete id="AccomodationCoverForm_QuoteId" [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId']?.valid}"></p-autoComplete>
+                        <small id="AccomodationCoverForm_QuoteId_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote ID is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="sumInsured" id="AccomodationCoverForm_SumInsuredLabel">Sum Insured</label>
+                        <input  type="text" pInputText id="sumInsured" id="AccomodationCoverForm_SumInsured" formControlName="sumInsured" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sumInsured']}" />
+                        <small class="ng-dirty ng-invalid" id="AccomodationCoverForm_SumInsuredValidationError" *ngIf="submitted && !recordForm.value['sumInsured']">sumInsured is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="AccomodationCoverForm_NoOfMonthsLabel" for="numberOfMonth">No. of Months</label>
+                        <input id="AccomodationCoverForm_NoOfMonths"  type="text" pInputText id="numberOfMonth" formControlName="numberOfMonth" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['numberOfMonth']}" />
+                        <small class="ng-dirty ng-invalid" id="AccomodationCoverForm_NoOfMonths_ValidationError" *ngIf="submitted && !recordForm.value['numberOfMonth']">Number Of Month is
+                            required.</small>
+                    </div>
+
+                </div>
+            </p-card>
+            </div>
+        </div>
+    </div>
+</form>

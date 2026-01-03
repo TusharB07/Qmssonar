@@ -1,0 +1,35 @@
+<form [formGroup]="submitOtpForm" (ngSubmit)="submitted = true;this.submitOTP()" id="VerierOTP_Form">
+    <div>
+        <a target="_blank" id="VerierOTP_Back" [href]="" class="mr-2"><i class="pi pi-angle-left"></i> Back</a>
+    </div>
+    <div class="row">
+        <div class="display: inline-flex">
+            <div class="col-2">
+                <input pInputText type="text" id="VerierOTP_Otp1Input" #otp1 formControlName="otp1" class="p-inputtext1" maxlength="1" (keyup)="move($event, '', otp1, otp2)">
+            </div>
+            <div class="col-2">
+                <input pInputText type="text" id="VerierOTP_Otp2Input" #otp2 formControlName="otp2" class="p-inputtext1" maxlength="1" (keyup)="move($event, otp1, otp2, otp3)">
+            </div>
+            <div class="col-2">
+                <input pInputText type="text" id="VerierOTP_Otp3Input" #otp3 formControlName="otp3" class="p-inputtext1" maxlength="1" (keyup)="move($event, otp2, otp3, otp4)">
+            </div>
+            <div class="col-2">
+                <input pInputText type="text" id="VerierOTP_Otp4Input" #otp4 formControlName="otp4" class="p-inputtext1" maxlength="1" (keyup)="move($event, otp3, otp4, '')">
+            </div>
+        </div>
+
+        <div class="col-12" style=" display:flex">
+            <h4 class="ml-3 pi pi-refresh" style="font-size: 15px;" id="VerierOTP_ResendOTP">Resend</h4>
+            <!-- <h4  class="ml-8" style="font-size: 15px;">{{ time | async}}</h4> -->
+        </div>
+    </div>
+
+    <div class="mt-3 mr-auto">
+        <div id="container-btn">
+            <button class="btn btn-primary mr-4" type="submit" id="VerierOTP_VerifyProposal">Verify Proposal</button>
+        </div>
+    </div>
+    <div class="mt-3 mr-auto">
+        <h5 style="font-family: italic;" id="VerierOTP_OTPSentMessage">We have sent an OTP on your Number</h5>
+    </div>
+</form>

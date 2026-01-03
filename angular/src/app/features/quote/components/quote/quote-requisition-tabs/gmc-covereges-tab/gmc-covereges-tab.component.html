@@ -1,0 +1,204 @@
+<div class="grid risk-parameters-container">
+  <div class="mx-3" style="width: 100%">
+    <div class="grid">
+      <div class="col-12">
+        <p-card class="">
+          <button class="btn btn-success mr-4" type="button" id="familyComposition_Save"
+            (click)="saveTabs()">Save</button>
+
+          <div *ngFor="let item of tabsData.gmcSubTab; let i = index">
+            <h4 class="reqHeader">{{item.subTabName}}</h4>
+            <div class="grid mb-4" *ngFor="let itemSubLabel of item.gmcLabelForSubTab; let j = index">
+              <div class="col-2">
+                <label for="" class="form-label" id="lblClientIndustry"> {{ itemSubLabel.labelName }}</label>
+                <p-checkbox name="isChecked{{i}}_{{j}}" id="isChecked{{i}}_{{j}}" value="isChecked" [binary]="true"
+                [(ngModel)]="this.itemSubLabel.isChecked" inputId="isChecked" (onChange)="onCheckboxChange($event, itemSubLabel.gmcQuestionAnswers)" ></p-checkbox>
+              &nbsp;&nbsp;<label class="label" for="ny" id="">Select all</label>
+              </div>
+              <div class="col-8">
+                <div class="grid">
+                  <div class="col-6" *ngFor="let itemquestion of itemSubLabel.gmcQuestionAnswers; let k = index">
+                    <label *ngIf="itemquestion.isActive" for="" class="form-label" id="lblClientIndustry"> {{
+                      itemquestion.question }} <span style="color: red;" *ngIf="itemquestion.isQuestionRequired">*</span></label>
+
+                    <ng-container *ngIf="itemquestion.inputControl == 'dropdown' && itemquestion.isActive">
+                      <div>
+                        <p-dropdown id="gmc_question{{k}}" class="custom-dropdown" [options]="itemquestion.answer"
+                          placeholder="Select" optionLabel="answer" optionValue="_id"
+                          [(ngModel)]="itemquestion.selectedAnswer" name="gmc_question{{k}}"
+                          #gmc_question{{k}}="ngModel"
+                          (onChange)="onDDLChange($event, itemquestion, itemSubLabel.gmcQuestionAnswers)"
+                          appendTo="body"  [showClear]="true">
+                        </p-dropdown>
+                        <div style="margin-top: 3;"
+                          *ngIf="itemquestion?.question.toLowerCase().trim() =='sum insured basis' && isModalVisible">
+                          <table class="graded-form">
+                            <thead>
+                              <tr>
+                                <th>Grade</th>
+                                <th>Sum Insured</th>
+                                <th>Add More</th>
+                                <th>Action</th> <!-- New column for delete button -->
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of selectedQuoteTemplate.gradedFormData; let i = index">
+                                <td>
+                                  <input pInputText type="text"
+                                    [(ngModel)]="selectedQuoteTemplate.gradedFormData[i].grade"
+                                    placeholder="Add free text" />
+                                </td>
+                                <td>
+                                  <input pInputText  currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+                                  class="input01"
+                                    [(ngModel)]="selectedQuoteTemplate.gradedFormData[i].sumInsured"
+                                    placeholder="Add free text" />
+                                </td>
+                                <td>
+                                  <input pInputText type="text"
+                                    [(ngModel)]="selectedQuoteTemplate.gradedFormData[i].additionalColumn"
+                                    placeholder="Add free text" />
+                                </td>
+                                <td>
+                                  <button (click)="deleteRow(i)" class="p-button p-button-danger">
+                                      Delete
+                                  </button>
+                              </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <button pButton type="button" label="Add Row" (click)="addRow()"></button>
+                        </div>
+                        <div *ngIf="itemquestion.freeText">
+                          <button pButton type="button" label="Add more info" class="p-button-link"
+                            (click)="removeTextInfo(itemquestion)"></button>
+                        </div>
+                        <textarea maxlength="255" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                          [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text" #itemquestion_text="ngModel"
+                          type="text" class="p-inputtext1 text-left mt-3"></textarea>
+                        <div *ngIf="!itemquestion.freeText">
+                          <button pButton type="button" label="Remove" class="p-button-link"
+                            (click)="removeTextInfo(itemquestion)"></button>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="itemquestion.inputControl == 'multiselectdropdown' && itemquestion.isActive">
+                      <p-multiSelect id="packaging{{k}}" class="custom-dropdown"
+                        [(ngModel)]="itemquestion.selectedAnswer" name="packaging{{k}}" #packaging{{k}}="ngModel"
+                        [options]="itemquestion.answer" placeholder="Select" optionLabel="answer"
+                        (onChange)="onMultiSelectChange($event, itemquestion)" [style]="{'width':'400px'}">
+                        <ng-template let-option pTemplate="item">
+                          <div class="p-multiselect-representative-option">
+                            <span class="ml-1">{{ option.answer }}</span>
+                          </div>
+                        </ng-template>
+                      </p-multiSelect>
+                      <div style="margin-top: 3;"
+                        *ngIf="itemquestion?.question.toLowerCase().trim() =='restriction on' && isModalVisible2">
+                        <table class="graded-form">
+                          <thead>
+                            <tr>
+                              <th>Grade</th>
+                              <th>Sum Insured</th>
+                              <th>Room Eligible</th>
+                              <th>Add More</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of selectedQuoteTemplate.gradedFormDataMultiple; let i = index">
+                              <td>
+                                <input pInputText type="text"
+                                  [(ngModel)]="selectedQuoteTemplate.gradedFormDataMultiple[i].grade"
+                                  placeholder="Add free text" />
+                              </td>
+                              <td>
+                                <input pInputText currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+                                  class="input01"
+                                  [(ngModel)]="selectedQuoteTemplate.gradedFormDataMultiple[i].sumInsured"
+                                  placeholder="SI" />
+                              </td>
+                              <td>
+                                <input pInputText type="text"
+                                  [(ngModel)]="selectedQuoteTemplate.gradedFormDataMultiple[i].roomEligible"
+                                  placeholder="Room Eligible" />
+                              </td>
+                              <td>
+                                <input pInputText type="text"
+                                  [(ngModel)]="selectedQuoteTemplate.gradedFormDataMultiple[i].additionalColumn"
+                                  placeholder="Add free text" />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button pButton type="button" label="Add Row" (click)="addRow()"></button>
+                      </div>
+                      <div *ngIf="itemquestion.freeText">
+                        <button pButton type="button" label="Add more info" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                      <textarea maxlength="255" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                        [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text" #itemquestion_text="ngModel"
+                        type="text" class="p-inputtext1 text-left mt-3"></textarea>
+                      <div *ngIf="!itemquestion.freeText">
+                        <button pButton type="button" label="Remove" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="itemquestion.inputControl == 'textbox' && itemquestion.isActive">
+                      <input maxlength="100" pInputText id="itemquestion_text" [(ngModel)]="itemquestion.selectedAnswer"
+                        name="itemquestion_text" #itemquestion_text="ngModel"
+                        [type]="itemquestion.answer[0].ansDataType" class="p-inputtext1 text-left" />
+                      <div *ngIf="itemquestion.freeText">
+                        <button pButton type="button" label="Add more info" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                      <textarea maxlength="255" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                        [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text" #itemquestion_text="ngModel"
+                        type="text" class="p-inputtext1 text-left mt-3"></textarea>
+                      <div *ngIf="!itemquestion.freeText">
+                        <button pButton type="button" label="Remove" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="itemquestion.inputControl == 'radiobutton' && itemquestion.isActive">
+                      <div *ngIf="itemquestion.answer && itemquestion.answer.length > 0" class="radio-inline-container">
+                        <!-- Radio Buttons inline -->
+                        <div *ngFor="let option of itemquestion.answer" class="radio-inline">
+                          <label>
+                            <input type="radio" [value]="option.answer" [(ngModel)]="itemquestion.selectedAnswer"
+                              name="gmc_radio_{{itemquestion._id}}_{{k}}_{{itemquestion.question}}" />
+                            {{ option.answer }}
+                          </label>
+                        </div>
+                      </div>
+                      <div *ngIf="itemquestion.freeText">
+                        <button pButton type="button" label="Add more info" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                      <textarea maxlength="255" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                        [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text" #itemquestion_text="ngModel"
+                        type="text" class="p-inputtext1 text-left mt-3">
+                        </textarea>
+                      <div *ngIf="!itemquestion.freeText">
+                        <button pButton type="button" label="Remove" class="p-button-link"
+                          (click)="removeTextInfo(itemquestion)"></button>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-card>
+
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>

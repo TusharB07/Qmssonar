@@ -1,0 +1,22 @@
+ul {
+    padding-left: 25px;
+}
+
+li {
+    padding: 6px;
+    // font-size: 12px;
+}
+
+.YesBtn,
+.NoBtn {
+    padding: 10px;
+    width: 80px;
+    height: 40px;
+}
+
+:host ::ng-deep .flatPopup .p-dialog-content {
+    overflow-y: scroll !important;
+}
+.marginLeft{
+    margin-left: 2rem;
+}

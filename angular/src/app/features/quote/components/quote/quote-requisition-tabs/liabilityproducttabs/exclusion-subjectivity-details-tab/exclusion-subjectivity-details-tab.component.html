@@ -1,0 +1,334 @@
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width: 900px">
+        <div class="grid">
+            <div class="col-12 mx-0">
+                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check" (click)="save()"
+                    class="btn btn-success"></button>
+                <div class="col-12">
+                    <div class="grid mt-1">
+                        <div class="col-5">
+                            <p-card class="" >
+                                <ng-template pTemplate="header">
+                                    <h4>Major Exclusions</h4>
+                                </ng-template>
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="quoteDandOOptions.isBodilyInjuryOrPropertyDamageExclusion"
+                                        #isBodilyInjuryOrPropertyDamageExclusion="ngModel"
+                                        id="isBodilyInjuryOrPropertyDamageExclusion"
+                                        name="isBodilyInjuryOrPropertyDamageExclusion"></p-checkbox>
+                                    <label class="form-label" id="BodilyInjuryOrPropertyDamageExclusion"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Bodily injury or property damage
+                                        exclusion</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control" [options]="majorExclusions"
+                                        optionLabel="label" optionValue="value"
+                                        [(ngModel)]="quoteDandOOptions.bodilyInjuryOrPropertyDamageExclusionValue"
+                                        #bodilyInjuryOrPropertyDamageExclusionValue="ngModel" id="marinePolicyType"
+                                        name="listed" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isBodilyInjuryOrPropertyDamageExclusion">
+                                    </p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.bodilyInjuryOrPropertyDamageExclusionValue=='Applicable with Carve Back' && quoteDandOOptions.isBodilyInjuryOrPropertyDamageExclusion">
+                                    <input maxlength="255" pInputText
+                                        id="bodilyInjuryOrPropertyDamageExclusionCraveBack"
+                                        name="bodilyInjuryOrPropertyDamageExclusionCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.bodilyInjuryOrPropertyDamageExclusionCraveBack"
+                                        #bodilyInjuryOrPropertyDamageExclusionCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true" [(ngModel)]="this.quoteDandOOptions.isEAndOEXclusion"
+                                        #isBodilyInjuryOrPropertyDamageExclusion="ngModel" id="isEAndOEXclusion"
+                                        name="isEAndOEXclusion"></p-checkbox>
+                                    <label class="form-label" id="EAndOEXclusion"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">E & O Exclusion</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.eAndOExclusionValue"
+                                        #isEAndOEXclusion="ngModel" id="eAndOExclusionValue" name="eAndOExclusionValue"
+                                        appendTo="body" [disabled]="!quoteDandOOptions.isEAndOEXclusion"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.eAndOExclusionValue=='Applicable with Carve Back' && quoteDandOOptions.isEAndOEXclusion">
+                                    <input maxlength="255" pInputText id="eAndOExclusionCraveBack"
+                                        name="eAndOExclusionCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.eAndOExclusionCraveBack"
+                                        #eAndOExclusionCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isEPLIClaimsForMassLayoffs"
+                                        #isEPLIClaimsForMassLayoffs="ngModel" id="isEPLIClaimsForMassLayoffs"
+                                        name="isEPLIClaimsForMassLayoffs"></p-checkbox>
+                                    <label class="form-label" id="EPLIClaimsForMassLayoffs"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">EPLI Claims for mass
+                                        layoffs</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.ePLIClaimsForMassLayoffsValue"
+                                        #ePLIClaimsForMassLayoffsValue="ngModel" id="ePLIClaimsForMassLayoffsValue"
+                                        name="ePLIClaimsForMassLayoffsValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isEPLIClaimsForMassLayoffs"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.ePLIClaimsForMassLayoffsValue=='Applicable with Carve Back' && quoteDandOOptions.isEPLIClaimsForMassLayoffs">
+                                    <input maxlength="255" pInputText id="ePLIClaimsForMassLayoffsCraveBack"
+                                        name="ePLIClaimsForMassLayoffsCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.ePLIClaimsForMassLayoffsCraveBack"
+                                        #ePLIClaimsForMassLayoffsCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true" [(ngModel)]="this.quoteDandOOptions.isMajorShareholders"
+                                        #isMajorShareholders="ngModel" id="isMajorShareholders"
+                                        name="isMajorShareholders"></p-checkbox>
+                                    <label class="form-label" id="MajorShareholders"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Major Shareholders</label>
+                                </div>
+                                <div>
+                                    <p-inputNumber class="text-right" placeholder="Enter in %"
+                                        [(ngModel)]="this.quoteDandOOptions.majorShareholdersValue"
+                                        #majorShareholdersValue="ngModel" id="majorShareholdersValue"
+                                        name="majorShareholdersValue"
+                                        [disabled]="!quoteDandOOptions.isMajorShareholders"
+                                        [maxlength]="2"></p-inputNumber>
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isProspectusExclusionFutureOffering"
+                                        #isProspectusExclusionFutureOffering="ngModel"
+                                        id="isProspectusExclusionFutureOffering"
+                                        name="isProspectusExclusionFutureOffering"></p-checkbox>
+                                    <label class="form-label" id="ProspectusExclusionFutureOffering"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Prospectus Exclusion Future
+                                        Offering</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.prospectusExclusionFutureOfferingValue"
+                                        #prospectusExclusionFutureOfferingValue="ngModel"
+                                        id="prospectusExclusionFutureOfferingValue"
+                                        name="prospectusExclusionFutureOfferingValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isProspectusExclusionFutureOffering"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.prospectusExclusionFutureOfferingValue=='Applicable with Carve Back' && quoteDandOOptions.isProspectusExclusionFutureOffering">
+                                    <input maxlength="255" pInputText id="prospectusExclusionFutureOfferingCraveBack"
+                                        name="prospectusExclusionFutureOfferingCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.prospectusExclusionFutureOfferingCraveBack"
+                                        #prospectusExclusionFutureOfferingCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isMitigationAndAvoidingServices"
+                                        #isMitigationAndAvoidingServices="ngModel" id="isMitigationAndAvoidingServices"
+                                        name="isMitigationAndAvoidingServices"></p-checkbox>
+                                    <label class="form-label" id="MitigationAndAvoidingServices"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Mitigation & Avoiding
+                                        Services</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.mitigationAndAvoidingServicesValue"
+                                        #mitigationAndAvoidingServicesValue="ngModel"
+                                        id="mitigationAndAvoidingServicesValue"
+                                        name="mitigationAndAvoidingServicesValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isMitigationAndAvoidingServices"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.mitigationAndAvoidingServicesValue=='Applicable with Carve Back' && quoteDandOOptions.isMitigationAndAvoidingServices">
+                                    <input maxlength="255" pInputText id="mitigationAndAvoidingServicesCraveBack"
+                                        name="mitigationAndAvoidingServicesCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.mitigationAndAvoidingServicesCraveBack"
+                                        #mitigationAndAvoidingServicesCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isOFACSanctionsEndorsement"
+                                        #isOFACSanctionsEndorsement="ngModel" id="isOFACSanctionsEndorsement"
+                                        name="isOFACSanctionsEndorsement"></p-checkbox>
+                                    <label class="form-label" id="OFACSanctionsEndorsement"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">OFAC Sanctions
+                                        Endorsement</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.oFACSanctionsEndorsementValue"
+                                        #oFACSanctionsEndorsementValue="ngModel" id="oFACSanctionsEndorsementValue"
+                                        name="oFACSanctionsEndorsementValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isOFACSanctionsEndorsement"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.oFACSanctionsEndorsementValue=='Applicable with Carve Back' && quoteDandOOptions.isOFACSanctionsEndorsement">
+                                    <input maxlength="255" pInputText id="oFACSanctionsEndorsementCraveBack"
+                                        name="oFACSanctionsEndorsementCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.oFACSanctionsEndorsementCraveBack"
+                                        #oFACSanctionsEndorsementCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isProductLiabilityExclusion"
+                                        #isProductLiabilityExclusion="ngModel" id="isProductLiabilityExclusion"
+                                        name="isProductLiabilityExclusion"></p-checkbox>
+                                    <label class="form-label" id="ProductLiabilityExclusion"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Product Liability
+                                        Exclusion</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.productLiabilityExclusionValue"
+                                        #productLiabilityExclusionValue="ngModel" id="productLiabilityExclusionValue"
+                                        name="productLiabilityExclusionValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isProductLiabilityExclusion"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.productLiabilityExclusionValue=='Applicable with Carve Back' && quoteDandOOptions.isProductLiabilityExclusion">
+                                    <input maxlength="255" pInputText id="productLiabilityExclusionCraveBack"
+                                        name="productLiabilityExclusionCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.productLiabilityExclusionCraveBack"
+                                        #productLiabilityExclusionCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true" [(ngModel)]="this.quoteDandOOptions.isOthersExclusion"
+                                        #isOthersExclusion="ngModel" id="isOthersExclusion"
+                                        name="isOthersExclusion"></p-checkbox>
+                                    <label class="form-label" id="OthersExclusion"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Others</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.othersExclusionValue"
+                                        #othersExclusionValue="ngModel" id="othersExclusionValue"
+                                        name="othersExclusionValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isOthersExclusion"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.othersExclusionValue=='Applicable with Carve Back' && quoteDandOOptions.isOthersExclusion">
+                                    <input maxlength="255" pInputText id="othersExclusionCraveBack"
+                                        name="othersExclusionCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.othersExclusionCraveBack"
+                                        #othersExclusionCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+
+                            </p-card>
+                        </div>
+                        <div class="col-7">
+                            <p-card class="">
+                                <ng-template pTemplate="header">
+                                    <h3>Subjectivity</h3>
+                                </ng-template>
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isCompletedSignedSubjectivity"
+                                        #isCompletedSignedSubjectivity="ngModel" id="isCompletedSignedSubjectivity"
+                                        name="isCompletedSignedSubjectivity"></p-checkbox>
+                                    <label class="form-label" id="CompletedSignedSubjectivity"
+                                        style="margin-left: 1rem; margin-top: 0.5rem; font-size: 9; ">Completed,signed
+                                        and dated D&O Proposal form by one of the director and AML Declaration</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.completedSignedSubjectivityValue"
+                                        #completedSignedSubjectivityValue="ngModel"
+                                        id="completedSignedSubjectivityValue" name="completedSignedSubjectivityValue"
+                                        appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isCompletedSignedSubjectivity"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.completedSignedSubjectivityValue=='Applicable with Carve Back' && quoteDandOOptions.isCompletedSignedSubjectivity">
+                                    <input maxlength="255" pInputText id="completedSignedSubjectivityCraveBack"
+                                        name="completedSignedSubjectivityCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.completedSignedSubjectivityCraveBack"
+                                        #completedSignedSubjectivityCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true"
+                                        [(ngModel)]="this.quoteDandOOptions.isAnnualReportOfTheCompanySubjectTOKNORL"
+                                        #isAnnualReportOfTheCompanySubjectTOKNORL="ngModel"
+                                        id="isAnnualReportOfTheCompanySubjectTOKNORL"
+                                        name="isAnnualReportOfTheCompanySubjectTOKNORL"></p-checkbox>
+                                    <label class="form-label" id="AnnualReportOfTheCompanySubjectTOKNORL"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Latest audited Annual Report of
+                                        the Company Subject to KNORL</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.annualReportOfTheCompanySubjectTOKNORLValue"
+                                        #annualReportOfTheCompanySubjectTOKNORLValue="ngModel"
+                                        id="annualReportOfTheCompanySubjectTOKNORLValue"
+                                        name="annualReportOfTheCompanySubjectTOKNORLValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isAnnualReportOfTheCompanySubjectTOKNORL"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.annualReportOfTheCompanySubjectTOKNORLValue=='Applicable with Carve Back' && quoteDandOOptions.isAnnualReportOfTheCompanySubjectTOKNORL">
+                                    <input maxlength="255" pInputText
+                                        id="annualReportOfTheCompanySubjectTOKNORLCarveBack"
+                                        name="annualReportOfTheCompanySubjectTOKNORLCarveBack" type="text"
+                                        placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.annualReportOfTheCompanySubjectTOKNORLCarveBack"
+                                        #annualReportOfTheCompanySubjectTOKNORLCarveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+
+                                <div class="grid" style="margin-top: 5%; margin-bottom: 2%;">
+                                    <p-checkbox binary="true" [(ngModel)]="this.quoteDandOOptions.isOthersSubjectivty"
+                                        #isOthersSubjectivty="ngModel" id="isOthersSubjectivty"
+                                        name="isOthersSubjectivty"></p-checkbox>
+                                    <label class="form-label" id="lblClientIndustry"
+                                        style="margin-left: 1rem; margin-top: 0.5rem;">Others</label>
+                                </div>
+                                <div>
+                                    <p-dropdown placeholder="Select" class="form-control"
+                                        [options]="this.majorExclusions" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteDandOOptions.othersSubjectivityValue"
+                                        #othersSubjectivityValue="ngModel" id="othersSubjectivityValue"
+                                        name="othersSubjectivityValue" appendTo="body"
+                                        [disabled]="!quoteDandOOptions.isOthersSubjectivty"></p-dropdown>
+                                </div>
+                                <div
+                                    *ngIf="quoteDandOOptions.othersSubjectivityValue=='Applicable with Carve Back' && quoteDandOOptions.isOthersSubjectivty">
+                                    <input maxlength="255" pInputText id="othersSubjectivityCraveBack"
+                                        name="othersSubjectivityCraveBack" type="text" placeholder=""
+                                        [(ngModel)]="this.quoteDandOOptions.othersSubjectivityCraveBack"
+                                        #othersSubjectivityCraveBack="ngModel" class="p-inputtext1"
+                                        style="margin-top: 5px;" />
+                                </div>
+                            </p-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,331 @@
+<div class="root" *ngIf="!isMobile">
+    <p-toast key="success" position="top-right" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="flex flex-column" style="flex: 1;font-size: 1.3rem" id="Login_Summary">
+                {{message.summary}}
+                <div [innerHTML]="message.detail" id="Login_MessageDetails"></div>
+            </div>
+        </ng-template>
+    </p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="btn btn-danger"
+        acceptButtonStyleClass="btn btn-primary"></p-confirmDialog>
+    <div class="grid pt-3">
+        <!-- <div class="col-12 my-3">
+            <a routerLink="/" label="Money In Transit" type="button" class="btn btn-outline-gray-custom p-2 px-3"><i class="pi pi-angle-left pt-1 mr-2"></i>Back To Dashboard</a>
+        </div> -->
+        <div class="col-12" style="display:none">
+
+            <div class="grid flex align-items-center px-5">
+                <div class="col-6 ">
+                    <h5 class="mb-0" id="QuoteKanban_ToDoList">To do List</h5>
+                </div>
+                <div class="col-6 text-right" data-aos="fade-left">
+                    <!-- <button label="Money In Transit" type="submit" class="btn mr-2"><i class="pi pi-plus pt-1 mr-2"></i>Draft</button> -->
+                    <!-- <button label="View Details" type="button" class="btn btn-primary-custom mr-2"><i
+                    class="pi pi-plus pt-1 mr-2"></i>Draft</button> -->
+                    <a *ngIf="this.isAllowedCreateQuote" routerLink="quotes/new" label="Money In Transit" type="button"
+                        class="btn btn-blue-ce-custom"><i class="pi pi-plus pt-1 mr-2"
+                            id="QuoteKanban_CreateTask"></i>Create Quote</a>
+                    <a routerLink="quotes/list-View" label="Money In Transit" type="button"
+                        class="btn btn-blue-ce-custom"><i class="pi pi-angle-down pt-1 mr-2"
+                            id="QuoteKanban_ViewQuoteList"></i>View List</a>
+                    <!-- <a  routerLink="quotes/Placed-quote-List" label="Money In Transit" type="button" class="btn btn-blue-ce-custom"><i class="pi pi-angle-down pt-1 mr-2"></i>Placed Quotes</a> -->
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-end w-full mr-5">
+            <input class="w-15rem" pInputText type="text" placeholder="Search Quote No" [(ngModel)]="quoteNumber"
+                (ngModelChange)="this.searchQuote($event)">
+        </div>
+    </div>
+    <!-- <hr class="root-hr"> -->
+    <div class="grid">
+        <div class="col-12">
+            <div class="board ">
+                <div class="board-wrapper">
+                    <div class="board-columns">
+                        <div class=" board-column" style="vertical-align: top;" *ngFor="let column of board.columns">
+                            <div class="mx-3">
+                                <div class="column-title text-left p-3">
+                                    <i class="pi pi-circle-fill custom-plus" id="QuoteKanban_tabs_Icon"></i>
+                                    <p id="QuoteKanban_tabs_Names">
+                                        {{ column.name }}
+                                    </p>
+                                </div>
+
+                                <div class="tasks-container p-2" data-aos="zoom-in" cdkDropList
+                                    [cdkDropListData]="column.quotes">
+                                    <div [class]=" ' ' + (this.isAllowedOpenQuote(item) ? '' : 'disabled')"
+                                        id="custom-shadow" *ngFor="let item of column.quotes">
+                                        <div class="task">
+                                            <div [class]="'mb-3 px-3 py-2 action ' + ([AllowedQuoteStates.PENDING_PAYMENT].includes(item.quoteState && !item.paymentMode) ? 'bg-yellow-100' : '')"
+                                                pRipple
+                                                style="background-color: #2F51C60F; border-radius: 6px; color:#000000"
+                                                (click)="this.openQuote(item)">
+                                                <!-- <div style=""> -->
+                                                    <div *ngIf="this.user._id == item.assignedToPlacementMakerId">
+                                                        <div style="text-align: end;" *ngIf="([AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState) && !item.qcrApprovedRequested)">
+                                                            <i class="pi pi-circle-fill custom-plus"></i>
+                                                        </div>
+                                                        <div style="text-align: end;" *ngIf="([AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState) && item.qcrApprovedRequested && !item.qcrApproved)">
+                                                            <i class="pi pi-circle-fill custom"></i>
+                                                        </div>
+                                                        <div style="text-align: end;" *ngIf="([AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState) && item.qcrApprovedRequested && item?.assignedToPlacementCheckerId && !item.quoteSlipGenerationRequested)">
+                                                            <i class="pi pi-circle-fill custom-plus"></i>
+                                                        </div>
+                                                        <div style="text-align: end;" *ngIf="([AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState) && item.quoteSlipGenerationRequested && !item.placementApproved)">
+                                                            <i class="pi pi-circle-fill custom"></i>
+                                                        </div>
+                                                        <div style="text-align: end;" *ngIf="([AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState) && item.placementApproved)">
+                                                            <i class="pi pi-circle-fill custom-plus"></i>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="flex justify-content-between">
+                                                    <div>
+                                                        <ul>
+                                                            <li class="text-left">
+                                                                <h5 class="cq-h5" id="QuoteKanban_ClientName">
+                                                                    <!-- Quote slip V1 -->{{item.clientId?.name}}
+                                                                </h5>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div style="text-align: end;">
+                                                        <!-- <p-badge *ngIf="item.chatCount > 0" [value]="item.chatCount" styleClass="mr-2"></p-badge> -->
+
+                                                    </div>
+
+                                                </div>
+                                                <div>
+
+                                                    <small class="cq-sm-p" id="QuoteKanban_ProductName">
+                                                        {{ item?.productId?.type ?? 'Product Not Selected' }}
+                                                    </small>
+                                                    <p class="cq-quoteno" id="QuoteKanban_QuoteNumber">{{item.quoteNo ??
+                                                        'Draft'}}</p>
+                                                    <p *ngIf="item.quoteState == 'Rejected'" class="cq-quoteno"
+                                                        id="QuoteKanban_QuoteNumber">Rejected By : {{item?.rejectedBy}}
+                                                    </p>
+                                                    <div *ngIf="this.showBrokerName">
+                                                        <p class="cq-quoteno" id="QuoteKanban_BrokerName"
+                                                            *ngIf="this.item.quoteState =='Sent To Insurance Company RM' || this.item.quoteState =='Under Writter Review' || this.item.quoteState =='QCR From Underwritter' || this.item.quoteState =='Pending Payment' || this.item.quoteState =='Quote Placed'">
+                                                            {{item?.originalIntermediateName}}</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="flex justify-content-between align-items-center">
+
+                                                <div class="icon">
+
+                                                    <div class="flex justify-content-between">
+
+                                                        <i class="pi pi-comments mr-4 p-text-secondary"
+                                                            (click)="this.openQuote(item)" *ngIf="item.chatCount > 0"
+                                                            pBadge style="font-size: 1.5rem"
+                                                            [value]="item.chatCount"></i>
+                                                        <div
+                                                            *ngIf="[AllowedQuoteStates.PENDING_REQUISTION_FOR_QUOTE, AllowedQuoteStates.WAITING_FOR_APPROVAL,AllowedQuoteStates.SENT_TO_INSURER_RM,AllowedQuoteStates.QCR_FROM_UNDERWRITTER,AllowedQuoteStates.PENDING_PAYMENT,AllowedQuoteStates.PLACEMENT].includes(item.quoteState) && this.user.roleId['name'] != AllowedRoles.PLACEMENT_CREATOR_AND_APPROVER">
+                                                            <span *ngIf="this.allowedCopyQuote"><i
+                                                                    class="pi pi-copy mr-2" style="font-size: 1.5rem;"
+                                                                    (click)="copyRevisedQuote(item)"
+                                                                    pTooltip="Replicate Quote"></i></span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="[AllowedQuoteStates.PENDING_REQUISTION_FOR_QUOTE, AllowedQuoteStates.REJECTED].includes(item.quoteState)">
+                                                            <span class="ml-1" *ngIf="this.allowedCopyQuote"><i
+                                                                    class="pi pi-trash " style="font-size: 1.5rem;"
+                                                                    (click)="cancelQuote(item, 'cancel')"
+                                                                    pTooltip="Cancel Quote"></i></span>
+
+                                                        </div>
+                                                        <div
+                                                            *ngIf="[AllowedQuoteStates.DRAFT, 
+                                                            AllowedQuoteStates.PENDING_REQUISTION_FOR_QUOTE, 
+                                                            AllowedQuoteStates.WAITING_FOR_APPROVAL, 
+                                                            AllowedQuoteStates.SENT_TO_INSURER_RM,
+                                                            AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState)">
+                                                            <span class="ml-1" *ngIf="this.allowedCopyQuote"><i
+                                                                    class="pi pi-question" style="font-size: 1.5rem;"
+                                                                    (click)="OpenLossQuote(item, 'cancel')"
+                                                                    pTooltip="Loss Quote"></i></span>
+                                                        </div>
+                                                        <div
+                                                            *ngIf="[AllowedQuoteStates.QCR_FROM_UNDERWRITTER].includes(item.quoteState)">
+                                                            <span><i class="pi pi-clone mr-2" style="font-size: 1.5rem;"
+                                                                    (click)="revisedQuote(item)"
+                                                                    pTooltip="Revised Quote"></i></span>
+                                                        </div>
+                                                        <div class="lightPin" pTooltip="Pin Quote">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-pin pinIcon" viewBox="0 0 16 16"
+                                                                [ngStyle]="{'color': item?.pinnedQuoteAt ? 'red' : 'rgb(68 72 109)'}"
+                                                                (click)="pinnedQuote(item)">
+                                                                <path
+                                                                    d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A6 6 0 0 1 5 6.708V2.277a3 3 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354m1.58 1.408-.002-.001zm-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a5 5 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a5 5 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.8 1.8 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14q.091.15.214.271a1.8 1.8 0 0 0 .37.282" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="darkPin">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21"
+                                                                height="16" fill="currentColor" id="light"
+                                                                class="bi bi-pin pinIcon" viewBox="0 0 16 16"
+                                                                [ngStyle]="{'color': item?.pinnedQuoteAt ? 'red' : 'white'}"
+                                                                (click)="pinnedQuote(item)">
+                                                                <path
+                                                                    d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A6 6 0 0 1 5 6.708V2.277a3 3 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354m1.58 1.408-.002-.001zm-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a5 5 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a5 5 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.8 1.8 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14q.091.15.214.271a1.8 1.8 0 0 0 .37.282" />
+                                                            </svg>
+                                                            <!-- <fa-icon [icon]="faThumbtack" class="ml-2" style="font-size: 1.5rem; float:right;" [ngStyle]="{'color': item?.pinnedQuoteAt ? 'red' : '#b5b7c5'}" (click)="pinnedQuote(item)"></fa-icon> -->
+                                                        </div>
+                                                        <div
+                                                            *ngIf="[AllowedQuoteStates.CANCELLED].includes(item.quoteState)">
+                                                            <span class="ml-1"><i class="pi pi-refresh "
+                                                                    style="font-size: 1.5rem;"
+                                                                    (click)="cancelQuote(item, 'restore')"
+                                                                    pTooltip="Restore Quote"></i></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- <div class="text-left">
+                                                        <button pButton type="button" label="" icon="pi pi-check" class="p-button-rounded p-button-success mr-2"
+                                                                (click)="updateQuoteFields(item,user)" *ngIf="role.name === 'insurer_underwriter' && !item.acceptedByUnderwriter && item.quoteState === AllowedQuoteStates.UNDERWRITTER_REVIEW && !item.underwriterMappingId">
+                                                        </button>
+                                                    </div> -->
+
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="m-0 created-date" id="QuoteKanban_QuoteCreate_Date">
+                                                        {{item.updatedAt | date: 'mediumDate'}}</p>
+                                                    <small class="created-time"
+                                                        id="QuoteKanban_QuoteCreate_Time">{{item.updatedAt | date:
+                                                        'shortTime'}}</small>
+                                                    <div class="text-right" *ngIf="item.acceptedByUnderwriter">
+                                                        <p class="m-0 created-date" id="QuoteKanban_QuoteCreate_Date">
+                                                            <span>Accepted by</span> {{ item.acceptedByUnderwriter ==
+                                                            user?._id ? 'Self' : 'Other Insurer UnderWriter' }}
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-dialog [(visible)]="showModal" header="Select Insurer" [modal]="true" [closable]="false" [responsive]="true"
+        [style]="{width: '50vw', maxWidth: '600px'}" [contentStyle]="{padding: '1.5rem'}">
+
+        <table class="insurer-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc;">Select</th>
+                    <th style="text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc;">Partner Name</th>
+                    <th style="text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc;">Version</th>
+                    <th style="text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc;">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let col of allInsurerList">
+                    <td style="padding: 0.5rem;">
+                        <p-radioButton name="insurer" [(ngModel)]="selectedInsurer" [value]="col.id"
+                            inputId="{{col.id}}"></p-radioButton>
+                    </td>
+                    <td style="padding: 0.5rem;">{{ col.partnerName }}</td>
+                    <td style="padding: 0.5rem;">{{ col.version }}</td>
+                    <td style="padding: 0.5rem;">{{ col.createdAt | date:'MMM d, y, h:mm a' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p-footer>
+            <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                <button pButton label="Submit" icon="pi pi-check" (click)="submitSelection()"
+                    [disabled]="!selectedInsurer" style="width: 100px;"></button>
+                <button pButton label="Cancel" icon="pi pi-times" class="ui-button-secondary" (click)="cancel()"
+                    style="width: 100px;"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+
+
+</div>
+<div class="root" *ngIf="isMobile">
+    <div class="card" *ngIf="board.columns.length > 0">
+        <p-tabView [(activeIndex)]="activeIndex2" [scrollable]="false">
+            <p-tabPanel *ngFor="let column of board.columns;" [header]="column.name">
+                <div [class]=" ' ' + (this.isAllowedOpenQuote(item) ? '' : 'disabled')" id="custom-shadow"
+                    *ngFor="let item of column.quotes">
+                    <div class="task">
+                        <div [class]="'mb-3 px-3 py-2 action ' + ([AllowedQuoteStates.PENDING_PAYMENT].includes(item.quoteState && !item.paymentMode) ? 'bg-yellow-100' : '')"
+                            pRipple style="background-color: #2F51C60F; border-radius: 6px; color:#000000"
+                            (click)="this.openQuote(item)">
+                            <div class="flex justify-content-between mt-3">
+                                <div>
+                                    <ul>
+                                        <li class="text-left">
+                                            <h5 class="cq-h5" id="QuoteKanban_ClientName">
+                                                {{item.clientId.name}}
+                                            </h5>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div style="text-align: end;">
+                                </div>
+                            </div>
+                            <div>
+                                <small class="cq-sm-p" id="QuoteKanban_ProductName">
+                                    {{ item?.productId?.type ?? 'Product Not Selected' }}
+                                </small>
+                                <p class="cq-quoteno" id="QuoteKanban_QuoteNumber">{{item.quoteNo ??
+                                    'Draft'}}</p>
+                                <div *ngIf="this.showBrokerName">
+                                    <p class="cq-quoteno" id="QuoteKanban_BrokerName"
+                                        *ngIf="this.item.quoteState =='Sent To Insurance Company RM' || this.item.quoteState =='Under Writter Review' || this.item.quoteState =='QCR From Underwritter' || this.item.quoteState =='Pending Payment' || this.item.quoteState =='Quote Placed'">
+                                        {{item?.originalIntermediateName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between align-items-center">
+                            <div class="icon">
+                                <div class="flex justify-content-between">
+                                    <i class="pi pi-comments mr-4 p-text-secondary" (click)="this.openQuote(item)"
+                                        *ngIf="item.chatCount > 0" pBadge style="font-size: 1.5rem"
+                                        [value]="item.chatCount"></i>
+                                    <div
+                                        *ngIf="[AllowedQuoteStates.PENDING_REQUISTION_FOR_QUOTE].includes(item.quoteState)">
+                                        <span *ngIf="this.allowedCopyQuote"><i class="pi pi-copy mr-2"
+                                                style="font-size: 1.5rem;" (click)="copyRevisedQuote(item)"
+                                                pTooltip="Replicate Quote"></i></span>
+                                        <span class="ml-1" *ngIf="this.allowedCopyQuote"><i class="pi pi-trash "
+                                                style="font-size: 1.5rem;" (click)="cancelQuote(item, 'cancel')"
+                                                pTooltip="Cancel Quote"></i></span>
+                                    </div>
+                                    <div *ngIf="[AllowedQuoteStates.CANCELLED].includes(item.quoteState)">
+                                        <span class="ml-1"><i class="pi pi-refresh " style="font-size: 1.5rem;"
+                                                (click)="cancelQuote(item, 'restore')"
+                                                pTooltip="Restore Quote"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="m-0 created-date" id="QuoteKanban_QuoteCreate_Date">
+                                    {{item.updatedAt | date: 'mediumDate'}}</p>
+                                <small class="created-time" id="QuoteKanban_QuoteCreate_Time">{{item.updatedAt | date:
+                                    'shortTime'}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+
+</div>

@@ -1,0 +1,128 @@
+<div class="p-5">
+
+    <p-card>
+        <p-table #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['productId','clientId']">
+
+            <ng-template pTemplate="header">
+                <tr style="font-size :15px;">
+                    <th style="width: 3rem ; ">
+                        <p-tableHeaderCheckbox id="QuoteListView_Checkbox"></p-tableHeaderCheckbox>
+                    </th>
+
+                    <th pSortableColumn="quoteId">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_QuoteId_label">
+                                Reference No.
+                            </strong>
+                        </div>
+                    </th>
+                    <th pSortableColumn="clientId">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_ClientName_label">
+                                Client
+                            </strong>
+                        </div>
+                    </th>
+                    <th pSortableColumn="productId">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_Product_label">
+                                Product
+                            </strong>
+                        </div>
+                    </th>
+                    <th pSortableColumn="quoteState">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_Stage_label">
+                                Stage
+                            </strong>
+                            <div style="white-space: nowrap">
+                                <!-- <p-columnFilter type="text" field="status" display="menu" placeholder="Search by Status"></p-columnFilter> -->
+                                <p-sortIcon field="quoteState"></p-sortIcon>
+                            </div>
+                        </div>
+                    </th>
+                    <!-- <th pSortableColumn="PeopleInvolved">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_PeopleInvolved_label">
+                                PEOPLE INVOLVED
+                            </strong>
+                        </div>
+                    </th> -->
+                    <th pSortableColumn="sumAssured">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_sumAssured_label">
+                                Sum Insured
+                            </strong>
+                        </div>
+                    </th>
+                    <th pSortableColumn="totalPremium">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_totalPremium_label">
+                                Total Premium
+                            </strong>
+                        </div>
+                    </th>
+                    <th pSortableColumn="createdOn">
+                        <div class="flex justify-content-between align-items-center">
+                            <strong style="white-space: nowrap" id="QuoteListView_Creation_Date_label">
+                                Creation Date
+                            </strong>
+                            <div style="white-space: nowrap">
+                                <!-- <p-columnFilter type="text" field="createdOn" display="menu" placeholder="Search by Quote Created On"></p-columnFilter> -->
+                                <p-sortIcon field="createdOn"></p-sortIcon>
+                            </div>
+                        </div>
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr style="font-size :12px;">
+                    <td>
+                        <p-tableCheckbox [value]="item" id="QuoteListView_Checkbox"></p-tableCheckbox>
+                    </td>
+                    <!-- <td>
+                    <a routerLink="/backend/admin/sectors/{{item.sectorId?._id}}">{{item.quoteId}}</a>
+                </td> -->
+                    <td id="QuoteListView_QuoteId">
+                        <!-- <a  (click)="this.openQuote(item)">{{item._id}}</a> -->
+                        <strong *ngIf="item?.quoteNo">{{item?.quoteNo}}</strong>
+                        <span *ngIf="!item?.quoteNo"> - </span>
+                    </td>
+                    <td id="QuoteListView_ClientName">
+                        {{item.clientId?.name}}
+                    </td>
+                    <td style="width: 10%;min-width: 300px" id="QuoteListView_Product">
+                        {{item.productId?.type ?? 'Product Not Selected'}}
+                    </td>
+                    <td id="QuoteListView_Status">
+                        <!-- <p-badge [style]="{padding: '0 15px' }" [value]="item.quoteState" severity="success" size="large"></p-badge> -->
+                        {{item.quoteState}}
+                    </td>
+                    <!-- <td>
+                        <div style="display: flex; overflow: right;" id="QuoteListView_PeopleInvolved">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxC-_XQfsOtOMFXiv_Uaz6Ll-vxwkqpuyRsW7DV17MCQ&s" width="30px" class="img-thumbnail mx-1" alt="img" style="border-radius: 23px;">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxE8ah7QjsqhHguM2_-sf-HDzNDRfouRHW_t2tHWXfKA&s" width="30px" class="img-thumbnail mx-1" alt="img" style="border-radius: 23px;">
+                            <a class="pt-2">+2 more</a>
+                        </div>
+                    </td> -->
+                    <td id="QuoteListView_sumAssured">
+                        {{item?.totalQuoteSI}}
+                    </td>
+                    <td id="QuoteListView_totalPremium">
+                        {{item?.totalIndictiveQuoteAmtWithGst | number: '1.0-0'}}
+                    </td>
+                    <td id="QuoteListView_Creation_Date">
+                        <!-- {{item.clientId.creationDate}} -->
+                        {{item.createdAt | date: 'mediumDate'}}
+                    </td>
+
+                    <td style="width: 70px">
+                        <button class="btn btn-primary btn-sm text-nowrap" (click)="this.openQuote(item)">View Quote</button>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

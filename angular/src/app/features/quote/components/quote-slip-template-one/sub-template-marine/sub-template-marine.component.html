@@ -1,0 +1,300 @@
+<div class="px-5 pb-3">
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr style="background-color:#0048bc; color: white !important;">
+                <td class="text-black" id="GmcSubTemplate_SIDetails">
+                    <h3 style="color: white;">Sum Insured Details</h3>
+                </td>
+            </tr>
+            <tr style="border: 2px solid #0064BB;">
+                <td>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Policy Start Date
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.policyStartDate | date:'dd/MM/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Policy End Date
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.policyEndDate | date:'dd/MM/yyyy'}}
+                        </div>
+                    </div>
+                    <h4 class="mt-3" id="MyOrganization_GeneralInformation">Transit Type</h4>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Transit Type
+                        </div>
+                        <div class="col-2">
+                            {{showTransitType(marineSIData.transitType)}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Location From
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.locationFrom}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Location To
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.locationTo}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Country
+                        </div>
+                        <div class="col-2">
+                            {{showCountry(marineSIData.selectedCountry)}}
+                        </div>
+                    </div>
+                    <h5 class="mt-3" id="MyOrganization_GeneralInformation">Conveyance</h5>
+                    <div class="grid ml-4">
+                        <ng-container *ngFor="let item of this.marineSIData.conveyanceList;let i= index">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    {{item.label}}
+                            </div>
+                            <div class="col-2">
+                                {{item.text}}
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <h4 class="mt-3" id="MyOrganization_GeneralInformation">Cargo Details</h4>
+
+                    <h5 class="mt-3" id="MyOrganization_GeneralInformation">Interest</h5>
+
+                    <div class="grid ml-4">
+                        <ng-container *ngFor="let item of this.marineSIData.interestList;let i= index">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    {{item.label}}
+                            </div>
+                            <div class="col-2">
+                                {{item.text}}
+                            </div>
+                        </ng-container>
+
+                    </div>
+                    <h5 class="mt-3" id="MyOrganization_GeneralInformation">Packaging</h5>
+                    <div class="grid ml-4">
+                        <ng-container *ngFor="let item of this.marineSIData.packagingList;let i= index">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    {{item.label}}
+                            </div>
+                            <div class="col-2">
+                                {{item.text}}
+                            </div>
+                        </ng-container>
+
+                    </div>
+                    <h4 class="mt-3" id="MyOrganization_GeneralInformation">Sum Insured Split</h4>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Sum Insured :
+                        </div>
+                        <div class="col-2">
+                            <app-currency [value]="(quote.totalSumAssured)"></app-currency>
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Estimated Turnover
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.estimatedTurnOver}}
+                        </div>
+                    </div>
+
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                As Per Invoice/STA
+                            <p class="ml-4">(W/O Taxes)</p>
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.asPerInvoiceSta}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Frieght
+                            <p class="ml-4">If not included in invoice</p>
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.frieght}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Additional 10% Uplift
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.additionalUplift == true?"Yes":"No"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Custom Duty
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.customDuty}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                GST/Other Taxes
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.gstOtherTaxes}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Total
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.total}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Description
+                        </div>
+                        <div class="col-2">
+                            {{marineSIData.marineSISplit.description}}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="background-color:#0048bc; color: white !important;">
+                <td class="text-black" id="GmcSubTemplate_Coverages">
+                    <h3 style="color: white;">Coverages & Clauses</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div *ngFor="let item of marineHeads">
+                        <h5>
+                            {{item. headName}}
+                        </h5>
+                        <ul class="list-group p-3" id="SectorPaidAddons_AddOnsCovers">
+                            <li draggable *ngFor="let item of filteredClaues(item._id)" class="list-group-item my-2">
+                                <i class="pi pi-circle-on" style="font-size: 5px"></i> {{item.clauseName}}
+                            </li>
+                        </ul>
+                    </div>
+
+                </td>
+            </tr>
+            <tr style="background-color:#0048bc; color: white !important;">
+                <td class="text-black" id="GmcSubTemplate_Coverages">
+                    <h3 style="color: white;">Other Details</h3>
+                </td>
+            </tr>
+            <tr style="border: 2px solid #0064BB;">
+                <td>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Other 1
+                        </div>
+                        <div class="col-2">
+                            {{marineData.otherDetails1}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Other 2
+                        </div>
+                        <div class="col-2">
+                            {{marineData.otherDetails2}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Other 3
+                        </div>
+                        <div class="col-2">
+                            {{marineData.otherDetails3}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Other 4
+                        </div>
+                        <div class="col-2">
+                            {{marineData.otherDetails4}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Other 5
+                        </div>
+                        <div class="col-2">
+                            {{marineData.otherDetails5}}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <div *ngFor="let item of marineData.otherDetails">
+                        <ul class="list-group p-3" id="SectorPaidAddons_AddOnsCovers">
+                            <li class="list-group-item my-2">
+                                <i class="pi pi-circle-on" style="font-size: 5px"></i> {{item}}
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <p class="p-3 mb-3" id="BLUSSubTemplate_QuoteValidNote">
+        Quotation is valid for 15 days from the date of quotation
+    </p>
+    <p class="p-3 mb-8" id="BLUSSubTemplate_ClientNameAndLocation"
+        *ngIf="this.quote?.otpVerifiedAt || this.quote?.offlineVerificationFormUrl">
+        Signed for and on behalf of the {{this.quote.clientId['name']}} <br>
+        <span>
+            {{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ? 'at : ' : 'URL :'}}
+        </span>
+        <a *ngIf="!this.quote?.otpVerifiedAt" [href]="this.quote.offlineVerificationFormUrl" target="_blank">
+            {{this.quote.offlineVerificationFormUrl}}
+        </a>
+        <span *ngIf="this.quote?.otpVerifiedAt">
+            <b>{{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ?? ''}}</b>
+        </span>
+    </p>
+</div>

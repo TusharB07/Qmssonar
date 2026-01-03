@@ -1,0 +1,555 @@
+<div class="card">
+    <p-tabView styleClass="tabview-custom" [activeIndex]="createClientActiveTabIndex" (onChange)="onTabViewChange($event)">
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="number">1</i>
+                <span>Select Group</span>
+                <i class="pi pi-calendar"></i>
+            </ng-template>
+            <div class="grid">
+                <div class="col-12">
+                    <p-card class="">
+                       <div class="head">
+                        <h2 id="CreateClienrGrp_Header">Select the group this client belongs to.</h2>
+                       </div>
+
+                        <form [formGroup]="this.selectClientGroupForm " id="CreateClienrGrp_Form"
+                            (ngSubmit)="submittedSelectClientGroupForm = true; this.onCreateClient()">
+                            <div class="grid">
+                                <div class="col-6 mb-5">
+                                    <p-autoComplete [dropdown]="true" placeholder="Enter Client Group Name" class="custom-dropdown"
+                                        [suggestions]="this.optionsClientGroups"
+                                        (completeMethod)="this.searchOptionsClientGroups($event)" field="label" optionValue="value"
+                                        formControlName="clientGroupId"
+                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedSelectClientGroupForm && !selectClientGroupForm.controls['clientGroupId'].valid }"
+                                        id="CreateClienrGrp_clientGroupId">
+                                    </p-autoComplete>
+                                    <small class="ng-dirty ng-invalid"
+                                        *ngIf="submittedSelectClientGroupForm && selectClientGroupForm.controls['clientGroupId']?.errors?.required">Client
+                                        group is required when attempting to create a client.</small>
+                                </div>
+
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <button pButton type="submit" icon="pi pi-check" label="Create Client"
+                                        class="btn btn-success mr-4" id="CreateClienrGrp_CreateClient"></button>
+
+                                    <p-confirmPopup></p-confirmPopup>
+                                    <button class="btn btn-outline-success" id="CreateClienrGrp_CreateClientGroup" (click)="this.onCreateClientGroup($event)" pButton icon="pi pi-check"
+                                        label="Create Client Group"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-card>
+                </div>
+            </div>
+
+
+        </p-tabPanel>
+
+        <p-tabPanel [disabled]="'true'">
+            <ng-template pTemplate="header">
+                <i class="number">2</i>
+                <span id="CreateClienrGrp_CreateGroup">Create Group</span>
+                <i class="pi pi-user"></i>
+            </ng-template>
+
+
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="sign-in-container">
+                            <form [formGroup]="this.clientGroupForm" (ngSubmit)="submittedClientGroupForm = true; this.onSaveClientGroup()"
+                                class="form-style1">
+                                <div class="col-12">
+                                <div class="card p-fluid">
+                                    <div class="grid">
+                                        <div class="col-12">
+                                            <div class="sign-in-head text-center">
+                                                <h2 class="head3" id="CreateClienrGrp_CreateClientGroup_Header">Create a Client Group</h2>
+                                                <p id="CreateClienrGrp_CreateClientGroup_SubHeader">Make a new Client Group</p>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="vin" class="label-row" id="CreateClienrGrp_Vin_Label">Vin</label>
+                                                <input class="form-control" type="text" pInputText id="vin" formControlName="vin" required autofocus
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['vin'] }" id="CreateClienrGrp_Vin"/>
+                                                <small class="ng-dirty ng-invalid"
+                                                    *ngIf="submittedClientGroupForm && !clientGroupForm.value['vin']">Vin is
+                                                    required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="clientGroupName" class="label-row" id="CreateClienrGrp_ClientGroupName_Label">Client Group Name</label>
+                                                <input maxlength="100" class="form-control" type="text" pInputText id="clientGroupName"
+                                                    formControlName="clientGroupName" required autofocus id="CreateClienrGrp_ClientGroupName"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['clientGroupName'] }" />
+                                                <small class="ng-dirty ng-invalid"
+                                                    *ngIf="submittedClientGroupForm && !clientGroupForm.value['clientGroupName']">Client Group Name
+                                                    is required.</small>
+                                                    </div>
+                                            </div>
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="clientGroupContactName" class="label-row" id="CreateClienrGrp_ClientGroupContactName_Label">Client Group Contact Name</label>
+                                                <input maxlength="60" class="form-control" type="text" pInputText id="clientGroupContactName" required
+                                                formControlName="clientGroupContactName" id="CreateClienrGrp_ClientGroupContactName"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['clientGroupContactName'] }"
+                                                autofocus />
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="address" class="label-row" id="CreateClienrGrp_Address_Label">Address</label>
+                                                <input maxlength="255" class="form-control" type="text" pInputText id="address" id="CreateClienrGrp_Address" formControlName="address" required
+                                                autofocus
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['address'] }" />
+                                                <!-- <small *ngIf="this.clientGroupForm.controls['address'].errors?.maxlength" class="ng-invalid">Only 255 Characters Allowed.</small> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="name" class="label-row" id="CreateClienrGrp_City_Label">City</label>
+                                                <p-autoComplete class="custom-dropdown" [dropdown]="true" id="CreateClienrGrp_City" field="label" formControlName="cityId"
+                                                    [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['cityId'].valid }">
+                                                </p-autoComplete>
+                                                <small class="ng-dirty ng-invalid"
+                                                    *ngIf="submittedClientGroupForm && clientGroupForm.controls['cityId']?.errors?.required">City is
+                                                    required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="name" class="label-row" id="CreateClienrGrp_Pincode_Label">Pincode</label>
+                                                <p-autoComplete class="custom-dropdown" [dropdown]="true" field="label" id="CreateClienrGrp_Pincode" formControlName="pincodeId"
+                                                    [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['pincodeId'].valid }">
+                                                </p-autoComplete>
+                                                <small class="ng-dirty ng-invalid"
+                                                    *ngIf="submittedClientGroupForm && clientGroupForm.controls['pincodeId']?.errors?.required">Pincode
+                                                    is required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="email" class="label-row" id="CreateClienrGrp_Email_Label">Email</label>
+                                                <input class="form-control" type="email" ngModel email pInputText  id="CreateClienrGrp_Email" id="email" formControlName="email"
+                                                    required autofocus
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['email'] }" />
+                                                <small class="ng-dirty ng-invalid"
+                                                    *ngIf="submittedClientGroupForm && !clientGroupForm.value['email']">Email is required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <label for="active" class="label-row" id="CreateClienrGrp_Active_Label">Active?</label>
+                                                <div>
+                                                    <p-toggleButton class="form-control" formControlName="active" id="CreateClienrGrp_Active"
+                                                        onLabel="{{ 'Client Group active' }}" offLabel="{{ 'Client Group inactive' }}"
+                                                        onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 md:col-6 form-footer-btn">
+                                            <button type="submit" pButton label="Save" icon="pi pi-check" class="btn btn-success mr-4"></button>
+                                            <a href="#" class="blue-link" id="CreateClienrGrp_CreateClientMaster_Label">Create Client Master</a>
+                                        </div>
+                                        <!-- <button pButton type="submit" icon="pi pi-check" label="Create Client"
+                                        class="btn-green mr-4"></button> -->
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- <div class="col-6">
+                        <div class="banner-rt">
+                            <img class="img-fluid" src="../../../../assets/create-clent-group.png" alt="">
+                        </div>
+                    </div> -->
+                </div>
+
+        </p-tabPanel>
+
+        <p-tabPanel [disabled]="'true'">
+            <ng-template pTemplate="header">
+
+                <i class="number">3</i>
+                <span id="CreateClientMaster_Label">Create Client</span>
+                <i class="pi pi-search"></i>
+                <!-- <i class="pi pi-cog"></i> -->
+            </ng-template>
+
+
+                <div class="form-container">
+                    <div class="grid">
+                        <div class="col-12">
+                            <div class="sign-in-container">
+                            <form [formGroup]="this.clientForm" *ngIf="this.selectedClientGroup"
+                                (ngSubmit)="submittedClientForm = true; this.onSaveClient()" class="form-style1">
+                                <div class="sign-in-head text-center">
+                                    <h2 class="head3" id="CreateClientMaster_Header">Create Client Master</h2>
+                                    <p id="CreateClientMaster_AddNew">Add a new Client</p>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card p-fluid">
+                                        <div class="grid">
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="clientType" class="label-row" id="CreateClientMaster_ClientType_Label">Client Type</label>
+                                                    <input maxlength="255" class="form-control" type="text" pInputText id="clientType" formControlName="clientType" id="CreateClientMaster_ClientType"
+                                                        required autofocus
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['clientType'] }" />
+                                                    <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && !clientForm.value['clientType']">Client Type is
+                                                        required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="active" class="label-row" id="CreateClientMaster_Active_Label"> Active</label>
+                                                    <p-toggleButton class="form-control" formControlName="active" id="CreateClientMaster_Active" onLabel="{{ 'Client active' }}"
+                                                        offLabel="{{ 'Client inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times"
+                                                        iconPos="right"></p-toggleButton>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="name" class="label-row" id="CreateClientMaster_Name_Label">Name</label>
+                                                    <input maxlength="255" class="form-control" type="text" pInputText id="name" formControlName="name" required
+                                                        autofocus id="CreateClientMaster_Name"
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['name'] }" />
+                                                    <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['name']">Name
+                                                        is required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="shortName" class="label-row" id="CreateClientMaster_ShortName_Label">Short Name</label>
+                                                    <input class="form-control" type="text" pInputText id="CreateClientMaster_ShortName" id="shortName" formControlName="shortName"
+                                                        required autofocus
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['shortName'] }" />
+                                                    <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && !clientForm.value['shortName']">Short Name
+                                                        iskmskkamkm.@aa.xsax required.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <div class="col-12">
+                                    <div class="card p-fluid">
+                                        <div class="sign-in-head">
+                                            <h4 class="head4" id="CreateClientMaster_BusinessDetails_Header">Business Details</h4>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="name" class="label-row" id="CreateClientMaster_ClientGroup_Label">Client Group</label>
+                                                    <p-autoComplete class="custom-dropdown" [dropdown]="true" field="label" id="CreateClientMaster_ClientGroup"
+                                                        formControlName="clientGroupId" [suggestions]="this.optionsClientGroups"
+                                                        (completeMethod)="this.searchOptionsClientGroups($event)"
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.controls['clientGroupId'].valid }"
+                                                        [disabled]="'true'"></p-autoComplete>
+                                                    <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && clientForm.controls['clientGroupId']?.errors?.required"
+                                                        readonly>Client group is required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <!-- Required tag removed for this field-->
+                                                    <label for="pan" class="label-row" id="CreateClientMaster_PANNumber_Label">PAN Number</label>
+                                                    <input class="form-control" type="text" pInputText id="pan" id="CreateClientMaster_PANNumber" formControlName="pan" autofocus  oninput="this.value = this.value.toUpperCase()"/>
+                                                    <!-- <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['pan']">pan is required.</small> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <!-- Required tag removed for this field-->
+                                                    <label for="copyOfPan" class="label-row" id="CreateClientMaster_CopyOfPAN_Label">Copy Of PAN</label>
+                                                    <!-- <input class="form-control" type="text" pInputText id="copyOfPan" formControlName="copyOfPan" autofocus /> -->
+                                                    <div class="custom-file">
+                                                        <input formControlName="copyOfPan" id="copyOfPan" type="file" class="custom-file-input"
+                                                            (change)="onCopyOfPanFileChange($event)" id="customFile" id="CreateClientMaster_CopyOfPAN">
+                                                        <label class="custom-file-label" for="customFile" id="CreateClientMaster_UploadHere_Label">Upload here</label>
+                                                    </div>
+                                                    <!-- <input formControlName="copyOfPan" id="copyOfPan" type="file" class="form-control"
+                                                                                    (change)="onCopyOfPanFileChange($event)"> -->
+
+                                                    <!-- <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['copyOfPan']">copyOfPan is required.</small> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="vin" class="label-row" id="CreateClientMaster_VinNo_Label">Vin No.</label>
+                                                    <input class="form-control" type="text" pInputText id="vin" id="CreateClientMaster_VinNo" formControlName="vin" required autofocus
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['vin'] }" oninput="this.value = this.value.toUpperCase()"/>
+                                                    <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['vin']">Vin
+                                                        No. is required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="leadGenerator" class="label-row" id="CreateClientMaster_LeadGenerator_Label">Lead Generator</label>
+                                                    <input maxlength="25" class="form-control" type="text" pInputText id="leadGenerator"
+                                                        formControlName="leadGenerator" required autofocus id="CreateClientMaster_LeadGenerator"
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['leadGenerator'] }" />
+                                                    <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && !clientForm.value['leadGenerator']">Lead Generator is
+                                                        required.</small>
+                                                </div>
+                                            </div>
+                                                <div class="col-12 md:col-6">
+                                                    <div class="field">
+                                                        <label for="natureOfBusiness" class="label-row" id="CreateClientMaster_NatureOfBusiness_Label">Nature Of Business</label>
+                                                        <input maxlength="25" class="form-control" type="text" pInputText id="natureOfBusiness"
+                                                        formControlName="natureOfBusiness" required autofocus id="CreateClientMaster_NatureOfBusiness"
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['natureOfBusiness'] }" />
+                                                        <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && !clientForm.value['natureOfBusiness']">Nature Of
+                                                        Business is required.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 md:col-6">
+                                                    <div class="field">
+                                                        <!-- Required tag removed for this field-->
+                                                        <label for="claimsManager" class="label-row" id="CreateClientMaster_ClaimsManager_Label">Claims Manager</label>
+                                                        <input maxlength="25" class="form-control" type="text" pInputText id="claimsManager" id="CreateClientMaster_ClaimsManager"
+                                                        formControlName="claimsManager" autofocus
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['claimsManager'] }" />
+                                                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['claimsManager']">claimsManager is required.</small> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 md:col-6">
+                                                    <div class="field">
+                                                        <!-- Required tag removed for this field-->
+                                                        <label for="referralRM" class="label-row" id="CreateClientMaster_ReferralRM_Label">Referral RM</label>
+                                                        <input maxlength="25" class="form-control" type="text" pInputText id="referralRM" formControlName="referralRM"  id="CreateClientMaster_ReferralRM"/>
+                                                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['referralRM']">referralRM is required.</small> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 md:col-6">
+                                                    <div class="field">
+                                                        <!-- Required tag removed for this field-->
+                                                        <label for="referredCompany" class="label-row" id="CreateClientMaster_ReferredCompany_Label">Referred Company</label>
+                                                        <input maxlength="25" class="form-control" type="text" pInputText id="referredCompany" id="CreateClientMaster_ReferredCompany"
+                                                        formControlName="referredCompany" />
+                                                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['referredCompany']">referredCompany is required.</small> -->
+                                                    </div>
+                                            </div>
+                                            <div class="col-12 md:col-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="col-12">
+                                    <div class="card p-fluid">
+                                        <div class="sign-in-head">
+                                            <h4 class="head4" id="CreateClientMaster_ClientDetails_Label">Client Details</h4>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="col-12 md:col-6">
+                                                <div class="field">
+                                                    <label for="employeeStrength" class="label-row" id="CreateClientMaster_EmployeeStrength_Label">Employee Strength</label>
+                                                    <input class="form-control" type="number" pInputText id="employeeStrength" id="CreateClientMaster_EmployeeStrength"
+                                                        formControlName="employeeStrength" required autofocus
+                                                        [ngClass]="{ 'ng-invalid ng-dirty': submittedClientForm && !clientForm.value['employeeStrength'] }" />
+                                                    <small class="ng-dirty ng-invalid"
+                                                        *ngIf="submittedClientForm && !clientForm.value['employeeStrength']">Employee
+                                                        Strength is required.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="col-12">
+                                    <div class="card p-fluid">
+                                        <div class="">
+                                            <div class="sign-in-head flex align-items-center justify-content-between">
+                                                <h4 class="head4" id="CreateClientMaster_ContactDetails_Label">Contact Details</h4>
+                                                <a class="blue-link" id="CreateClientMaster_AddMore" (click)="this.onAddContactDetailsRow()">Add more</a>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div formArrayName="contactDetailsArray"
+                                            *ngFor="let contactDetailForm of this.contactDetailsArray.controls; let i = index">
+                                            <div [formGroupName]="i">
+                                                <div class="sign-in-head flex align-items-center justify-content-between">
+                                                    <h4 class="head5" id="CreateClientMaster_ContactDetail">I am contact detail {{ i + 1 }}</h4>
+                                                    <a class="red-link" (click)="this.onDeleteContactDetailsRow(i)">Delete</a>
+                                                </div>
+
+                                                <div class="grid">
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="contactPerson" class="label-row" id="CreateClientMaster_ContactPerson_Label">Contact Person</label>
+                                                            <input maxlength="255" class="form-control" type="text" pInputText id="contactPerson"
+                                                                formControlName="contactPerson" required autofocus id="CreateClientMaster_ContactPerson"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['contactPerson'] }" />
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm.value['contactPerson']">Contact
+                                                                Person is required.</small>
+                                                                <!-- <small *ngIf="this.contactDetailForm.controls['contactPerson'].errors?.maxlength" class="ng-invalid">Only 255 Characters Allowed.</small> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="designation" class="label-row" id="CreateClientMaster_Designation_Label">Designation</label>
+                                                            <input class="form-control" type="text" pInputText id="designation"
+                                                                formControlName="designation" autofocus id="CreateClientMaster_Designation"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['designation'] }" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="phone" class="label-row" id="CreateClientMaster_PhoneNo_Label">Phone No.</label>
+                                                            <input class="form-control" type="text" pInputText id="phone" id="CreateClientMaster_PhoneNo" formControlName="phone"
+                                                                required autofocus
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['phone'] }" />
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm.value['phone']">Phone No. is
+                                                                required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="email" class="label-row" id="CreateClientMaster_Email_Label">Email</label>
+                                                            <input class="form-control" type="email" ngModel email pInputText id="email"
+                                                                formControlName="email" required autofocus id="CreateClientMaster_Email"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['email'] }" />
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm.value['email']">Email is
+                                                                required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="mobile" class="label-row" id="CreateClientMaster_Mobile_Label">Mobile</label>
+                                                            <input class="form-control" type="text" pInputText id="mobile" formControlName="mobile"
+                                                                required autofocus id="CreateClientMaster_Mobile"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['mobile'] }" />
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm.value['mobile']">Mobile is
+                                                                required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="address" class="label-row" id="CreateClientMaster_Address_Label">Address</label>
+                                                            <input maxlength="255" class="form-control" type="text" pInputText id="address" formControlName="address"
+                                                                required autofocus id="CreateClientMaster_Address"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['address'] }" />
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm.value['address']">Address is
+                                                                required.</small>
+                                                                <!-- <small *ngIf="this.contactDetailForm.controls['address'].errors?.maxlength" class="ng-invalid">Only 255 Characters Allowed.</small> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="name" class="label-row" id="CreateClientMaster_State_Label">State</label>
+                                                            <p-autoComplete class="custom-dropdown" [dropdown]="true" field="label"
+                                                                formControlName="stateId" [suggestions]="this.optionsStates"
+                                                                (completeMethod)="this.searchOptionsStates($event)" id="CreateClientMaster_State"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.controls['stateId'].valid }">
+                                                            </p-autoComplete>
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && contactDetailForm.controls['stateId']?.errors?.required">State
+                                                                is required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="name" class="label-row" id="CreateClientMaster_City_Label">City</label>
+                                                            <p-autoComplete class="custom-dropdown" [dropdown]="true" field="label" id="CreateClientMaster_City"
+                                                                formControlName="cityId" [suggestions]="this.optionsCities"
+                                                                (completeMethod)="this.searchOptionsCities($event)"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.controls['cityId'].valid }">
+                                                            </p-autoComplete>
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && contactDetailForm.controls['cityId']?.errors?.required">City
+                                                                is required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+                                                            <label for="name" class="label-row" id="CreateClientMaster_Pincode_Label">Pincode</label>
+                                                            <p-autoComplete class="custom-dropdown" [dropdown]="true" field="label" id="CreateClientMaster_Pincode"
+                                                                formControlName="pincodeId" [suggestions]="this.optionsPincodes"
+                                                                (completeMethod)="this.searchOptionsPincodes($event)"
+                                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.controls['pincodeId'].valid }">
+                                                            </p-autoComplete>
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm[i].value['pincodeId']?.errors?.required">Pincode
+                                                                is required.</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="field">
+
+                                                            <label for="visitingCard" class="label-row" id="CreateClientMaster_VisitingCard_Label">Visiting Card</label>
+                                                            <div class="custom-file">
+                                                                <input formControlName="visitingCard" id="visitingCard" type="file" id="CreateClientMaster_VisitingCard"
+                                                                    class="custom-file-input" (change)="onVisitingCardFileChange($event, i)"
+                                                                    id="customFile">
+                                                                <label class="custom-file-label" for="customFile">Upload here</label>
+                                                            </div>
+                                                            <small class="ng-dirty ng-invalid"
+                                                                *ngIf="submitted && !contactDetailForm[i].value['visitingCard']">Visiting
+                                                                Card is required.</small>
+                                                            <!--
+                                                                                                                <div *ngIf="f.visitingCard.touched && f.visitingCard.invalid" class="alert alert-danger">
+                                                                                                                    <div *ngIf="f.visitingCard.errors.required">File is required.</div>
+                                                                                                                </div>
+                                                                                                                -->
+
+                                                            <!-- <input type="text" formControlName="" pInputText id="visitingCard" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !contactDetailForm.value['visitingCard'] }" /> -->
+                                                            <!-- <p-fileUpload class="form-control" mode="basic" formControlName="visitingCard" name="visitingCard[]" accept="image/*" maxFileSize="1000000"></p-fileUpload> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="col-12">
+                                    <div class="card">
+                                        <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="btn btn-success mr-4" id="CreateClientMaster_Submit"></button>
+                                        <button type="submit" pButton pRipple label="Cancel" icon="pi pi-check" class="btn btn-outline-light" id="CreateClientMaster_Cancel"></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                        <!-- <div class="col-6">
+                            <div class="banner-rt">
+                                <img class="img-fluid" src="../../../../assets/create-clent-group.png" alt="">
+                            </div>
+                        </div> -->
+                        <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+                            <div class="card p-fluid">
+                                <app-audit-trail [entityId]="this.id" [entityResourcePrefix]="'clients'" id="CreateClientMaster_AuditTrail"></app-audit-trail>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </p-tabPanel>
+    </p-tabView>
+</div>

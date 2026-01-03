@@ -1,0 +1,109 @@
+<div class="grid risk-parameters-container">
+    <div class="mx-3">
+        <div class="grid">
+            <div class="col-6 ml-4"><button (click)="saveTabs()" class="btn btn-success">Save</button></div>
+        </div>
+        <div class="grid">
+            <div class="col-4">
+                <p-card class="">
+                    <div class="card p-fluid">
+                        <div class="grid">
+                            <div class="col-12" *ngFor="let item of marineHeads;">
+                                <div class="grid">
+                                    <div class="col-8">
+                                        <h5>{{item.headName}}</h5>
+                                        <p>{{item.description}}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <button [disabled]="checkDisableButton(item._id)" (click)="this.editRecord(item._id)" label="Edit" type="button"
+                                            class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93=""
+                                                class="pi pi-pencil mr-1"></i> Edit</button>
+                                    </div>
+
+                                </div>
+                                <hr style="background-color: lightgrey;" />
+                            </div>
+
+                        </div>
+                    </div>
+                </p-card>
+
+            </div>
+            <div class="col-8">
+
+                <p-card class="">
+                    <div class="card p-fluid">
+                        <h4 id="MyOrganization_GeneralInformation">Other Details</h4>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-6">
+                                    <label class="form-label" for="name" id="Other1_Label">Other 1 Details</label>
+                                    <textarea pInputText id="otherDetail1" [(ngModel)]="marineData.otherDetails1"
+                                        name="otherDetail1" #otherDetail1="ngModel" type="text"
+                                        class="p-inputtext1 text-left"></textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="name" id="Other1_Label">Other 2 Details</label>
+                                    <textarea pInputText id="otherDetail2" [(ngModel)]="marineData.otherDetails2"
+                                        name="otherDetail2" #otherDetail2="ngModel" type="text"
+                                        class="p-inputtext1 text-left"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-6">
+                                    <label class="form-label" for="name" id="Other1_Label">Other 3 Details</label>
+                                    <textarea pInputText id="otherDetail3" [(ngModel)]="marineData.otherDetails3"
+                                        name="otherDetail3" #otherDetail3="ngModel" type="text"
+                                        class="p-inputtext1 text-left"></textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="name" id="Other1_Label">Other 4 Details</label>
+                                    <textarea pInputText id="otherDetail4" [(ngModel)]="marineData.otherDetails4"
+                                        name="otherDetail4" #otherDetail4="ngModel" type="text"
+                                        class="p-inputtext1 text-left"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-6">
+                                    <label class="form-label" for="name" id="Other1_Label">Other 5 Details</label>
+                                    <textarea pInputText id="otherDetail5" [(ngModel)]="marineData.otherDetails5"
+                                        name="otherDetail5" #otherDetail5="ngModel" type="text"
+                                        class="p-inputtext1 text-left"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-6 mt-3">
+                                    <label class="form-label" for="name" id="Other_Label">Other Details</label>
+                                    <textarea pInputText id="other" [(ngModel)]="otherDetailsText" name="other"
+                                        #other="ngModel" type="text" class="p-inputtext1 text-left"></textarea>
+                                </div>
+                                <div class="col-3">
+                                    <button pButton type="button" label="Add" class="p-button btn-primary mt-6"
+                                        (click)="addOtherDetails()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <table class="table table-bordered" style="width: 100%;">
+                                    <tr *ngFor="let item of marineOtherDetails;">
+                                        <td>{{item}}</td>
+                                        <td (click)="removeOther(item)"><i [class]="'pi pi-times'"></i></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>

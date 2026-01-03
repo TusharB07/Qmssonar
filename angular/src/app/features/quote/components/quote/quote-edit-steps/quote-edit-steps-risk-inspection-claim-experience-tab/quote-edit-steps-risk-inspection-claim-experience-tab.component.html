@@ -1,0 +1,382 @@
+<!-- Old_Quote -->
+<!-- <div class="container" *ngIf="this.quote"> -->
+<!-- <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+<!-- <div class="grid">
+        <div class="col-5">
+            <app-risk-inspection-report-and-location-photographs-crud-card *ngIf="this.quote" [permissions]="['read']"
+                id="RiskInspectionStatu_Card"
+                [quote]="this.quote"></app-risk-inspection-report-and-location-photographs-crud-card>
+            <p-card class="p-3" [style]="{'height':'430px','border-radius':'25px' ,'display':'none'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-5">
+                        <h4 id="RiskInspectionStatu_Label">Risk Inspection Status</h4> -->
+<!-- <h4>(Last 2 Years)<span class="clr-blue">*</span></h4> -->
+<!-- </div>
+                </ng-template>
+                <ul class="px-3">
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report2">Report_1</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report2">Report_2</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View2">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment2">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report3">Report_3</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View3">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment3">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </p-card>
+        </div>
+        <div class="col-7">
+            <div class="mx-3" style="width:500px" *ngIf="this.quote?.productId?.productTemplate == 'BLUS'">
+                <div class="grid">
+                    <div class="col-12">
+
+                        <app-risk-inspection-card id="RiskInspection_card" [quote]="this.quote"
+                            [permissions]="['read']"></app-risk-inspection-card> -->
+<!-- <p-card class="" *ngIf="this.quote?.locationBasedCovers">
+                            <div class="top-bar">
+                                <div class="">
+                                    <h5>Risk Parameters For {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.locationName}}
+                                    </h5>
+                                </div>
+                                <div class="view-location"><a (click)="openRiskInspectionStatusDialog()" label="Risk Inspection Status & Claim Experience" href="javascript:void(0);">View all
+                                        locations</a></div>
+                            </div>
+                            <div class="inner-container">
+                                <form [formGroup]="this.riskParametersForm" (ngSubmit)="this.submitRiskParameterForm()">
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Age of Building</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['ageOfBuilding']" [options]="this.optionsAgeOfBuilding" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Construction Type</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['constructionType']" [options]="this.optionsConstructionType" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">3 Year Loss History</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['yearLossHistory']" [options]="this.optionsYearLossHistory" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Fire Protection</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['fireProtection']" [options]="this.optionsFireProtection" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Whether AMC for the Fire Protection Appliances is
+                                                in force</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['amcFireProtection']" [options]="this.optionsAmcProtection" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Distance between the risk to be covered and nearest
+                                                Fire Brigade</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['distanceBetweenFireBrigade']" [options]="this.optionsDistanceBetweenFireBrigade" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid mb-5">
+                                        <div class="col-10">
+                                            <label for="" class="form-label">Premises Basement/Ground/ Above Ground</label>
+                                            <div>
+                                                <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['premises']" [options]="this.optionsPremises" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                                </p-dropdown>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                </form>
+    
+                            </div>
+                        </p-card> -->
+<!-- </div>
+                </div>
+            </div> -->
+<!-- <app-claim-experience [quote]="this.quote"></app-claim-experience> -->
+<!-- <div *ngIf="this.quote && this.quote.quoteType == 'existing'"> -->
+<div *ngIf="this.quote">
+
+    <app-claim-experience id="RiskInspectionStatu_ClaimExperience" [quote]="this.quote"
+        [permissions]="['read']"></app-claim-experience>
+</div>
+<p-card class="px-4 claim-exp-location" [style]="{'height':'430px', 'display':'none'}">
+    <div class="box">
+        <div class="col-3 inline-block p-1">
+            <div class="grid-container m-1 p-2 ">
+                <div class="flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6>Claim Experience</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container m-1 p-2 " *ngFor="let row of rows">
+                <div class="flex align-items-center">
+                    <div class="flex-grow-1 text-left" style="font-size: 13px;">
+
+                        {{row?.header}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-9 inline-block p-1">
+            <div class="grid-container m-1 p-2 location-details flex align-items-center justify-content-center">
+                <div class=" text-center" *ngFor="let col of cols">
+                    <div class=" custom-width">
+                        {{col?.from | date:'YYYY'}} to {{col?.to | date:'yy'}}
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container m-1 p-2 location-details" *ngFor="let row of rows">
+                <div class="custom-width flex align-items-center" *ngFor="let  col of cols">
+                    <input style="text-align: right;" type="text" value="0" id="" pInputText>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-card>
+<div class="mx-3" style="width:500px"
+    *ngIf="this.quote?.productId?.shortName == 'GLL' || this.quote?.productId?.shortName == 'FSL' || this.quote?.productId?.shortName == 'FLL'">
+    <div class="grid">
+        <div class="col-12">
+
+            <app-risk-inspection-card id="RiskInspection_card" [quote]="this.quote"
+            [quoteOptionData]="this.quoteOptionData"   [permissions]="['read']"></app-risk-inspection-card>
+            <!-- <p-card class="" *ngIf="this.quote?.locationBasedCovers">
+                        <div class="top-bar">
+                            <div class="">
+                                <h5>Risk Parameters For {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.locationName}}
+                                </h5>
+                            </div>
+                            <div class="view-location"><a (click)="openRiskInspectionStatusDialog()" label="Risk Inspection Status & Claim Experience" href="javascript:void(0);">View all
+                                    locations</a></div>
+                        </div>
+                        <div class="inner-container">
+                            <form [formGroup]="this.riskParametersForm" (ngSubmit)="this.submitRiskParameterForm()">
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Age of Building</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['ageOfBuilding']" [options]="this.optionsAgeOfBuilding" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Construction Type</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['constructionType']" [options]="this.optionsConstructionType" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">3 Year Loss History</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['yearLossHistory']" [options]="this.optionsYearLossHistory" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Fire Protection</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['fireProtection']" [options]="this.optionsFireProtection" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Whether AMC for the Fire Protection Appliances is
+                                            in force</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['amcFireProtection']" [options]="this.optionsAmcProtection" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Distance between the risk to be covered and nearest
+                                            Fire Brigade</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['distanceBetweenFireBrigade']" [options]="this.optionsDistanceBetweenFireBrigade" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid mb-5">
+                                    <div class="col-10">
+                                        <label for="" class="form-label">Premises Basement/Ground/ Above Ground</label>
+                                        <div>
+                                            <p-dropdown placeholder="Select Option" [formControl]="riskParametersForm.controls['premises']" [options]="this.optionsPremises" optionLabel="label" optionvalue="value" class="custom-dropdown">
+                                            </p-dropdown>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </p-card> -->
+        </div>
+    </div>
+</div>
+
+<!-- </div>
+</div> -->
+
+
+<!-- New_Quote_option -->
+<div class="container" *ngIf="this.quote">
+    <div class="grid">
+        <div class="col-5">
+            <app-risk-inspection-report-and-location-photographs-crud-card *ngIf="this.quote" [permissions]="['read']"
+                id="RiskInspectionStatu_Card" [quote]="this.quote"
+                [quoteOptionData]="this.quoteOptionData"></app-risk-inspection-report-and-location-photographs-crud-card>
+            <p-card class="p-3" [style]="{'height':'430px','border-radius':'25px' ,'display':'none'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-5">
+                        <h4 id="RiskInspectionStatu_Label">Risk Inspection Status</h4>
+                    </div>
+                </ng-template>
+                <ul class="px-3">
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report2">Report_1</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report2">Report_2</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View2">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment2">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-5">
+                        <div class="grid">
+                            <div class="col-6" id="RiskInspectionStatu_Report3">Report_3</div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_View3">View</a>
+                            </div>
+                            <div class="col-3">
+                                <a id="RiskInspectionStatu_Comment3">comment</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </p-card>
+        </div>
+        <div class="col-7">
+            <div class="mx-3" style="width:500px" *ngIf="this.quote?.productId?.productTemplate == 'BLUS'">
+                <div class="grid">
+                    <div class="col-12">
+
+                        <app-risk-inspection-card id="RiskInspection_card" [quote]="this.quote"
+                            [quoteOptionData]="this.quoteOptionData"
+                            [permissions]="['read']"></app-risk-inspection-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mx-3" style="width:500px"
+            *ngIf="this.quote?.productId?.shortName == 'GLL' || this.quote?.productId?.shortName == 'FSL' || this.quote?.productId?.shortName == 'FLL'">
+            <div class="grid">
+                <div class="col-12">
+
+                    <app-risk-inspection-card id="RiskInspection_card" [quote]="this.quote"
+                        [quoteOptionData]="this.quoteOptionData" [permissions]="['read']"></app-risk-inspection-card>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

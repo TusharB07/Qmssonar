@@ -1,0 +1,568 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button *ngIf="this.user?.partnerId?.partnerType == 'self'" id="OccupancyRateList_CreateRecord"
+                            pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="this.createRecord()"></button>
+                        <!-- <button id="OccupancyRateList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="OccupancyRateList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        <!-- <button
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                            icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                        <p-fileUpload
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+                            [method]="this.uploadProps.method"
+                            (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                            [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                            [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                            [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel"
+                            styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload> -->
+                        <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action"
+                            [(ngModel)]="this.selectedOption" optionLabel="name" (onChange)="selectAction($event)"
+                            (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="OccupancyRateList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" id="OccupancyRateList_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="OccupancyRateList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center" >
+                                <span style="white-space: nowrap">
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+
+
+                        <th pSortableColumn="occupancyType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_OccupancyTypeHeader">
+                                    Occupancy Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_OccupancyTypeColumnFilter" type="text"
+                                        field="occupancyType" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by Occupancy Type"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_OccupancyTypeSortIcon"
+                                        field="occupancyType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="hazardCategoryId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_HazardHeader">
+                                    Hazard Category
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter field="hazardCategoryId" matchMode="equals" display="menu" type="text" [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Hazard Category filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete  [(ngModel)]="selectedHazardCategoryId" [suggestions]="optionsHazardCategoryId" (completeMethod)="getOptionsHazardCategoryId($event)" field="hazardCategoryId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="hazardCategoryIdHandleFilter($event)" (onUnselect)="hazardCategoryIdHandleFilter($event)">
+                                              <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                              <span style="font-size:18px">{{group.label}}</span>
+                                          </ng-template>
+                                            </p-autoComplete>
+                                             </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon field="hazardCategoryId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="gradedRetention">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_GradedRetentionHeader">
+                                    Graded Retention
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_GradedRetentionColumnFilter" type="boolean"
+                                        field="gradedRetention" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="equals" operator="and"
+                                        placeholder="Search by Graded Retention"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_GradedRetentionSortIcon"
+                                        field="gradedRetention"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="tacCode">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_TacHeader">
+                                    Tac Code
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_TacColumnFilter" type="text" field="tacCode"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by Tac Code"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_TacSortIcon" field="tacCode"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="flexaiib">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_FlexaiibHeader">
+                                    Flexaiib
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_FlexaiibColumnFilter" type="text"
+                                        field="flexaiib" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and" placeholder="Search by Flexaiib"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_FlexaiibSortIcon" field="flexaiib"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stfiRate">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_StfiRateHeader">
+                                    Stfi Rate
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_StfiRateColumnFilter" type="text"
+                                        field="stfiRate" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and"
+                                        placeholder="Search by Stfi Rate"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_StfiRateSortIcon" field="stfiRate"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="section">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_SectionHeader">
+                                    Section
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_SectionColumnFilter" type="text"
+                                        field="section" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and" placeholder="Search by Section"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_SectionSortIcon" field="section"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="riskCode">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_RiskCodeHeader">
+                                    Risk Code
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_RiskCodeColumnFilter" type="text"
+                                        field="riskCode" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and"
+                                        placeholder="Search by Risk Code"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_RiskCodeSortIcon" field="riskCode"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="rateCode">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_RateCodeHeader">
+                                    Rate Code
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_RateCodeColumnFilter" type="text"
+                                        field="rateCode" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and"
+                                        placeholder="Search by Rate Code"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_RateCodeSortIcon" field="rateCode"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="policyType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_PolicyTypeHeader">
+                                    Policy Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_PolicyTypeColumnFilter" type="text"
+                                        field="policyType" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Policy Type"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_PolicyTypeSortIcon"
+                                        field="policyType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="specialRemark">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_SpecialRemarkHeader">
+                                    SpecialRemark
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_SpecialRemarkColumnFilter" type="text"
+                                        field="specialRemark" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by SpecialRemark"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_SpecialRemarkSortIcon"
+                                        field="specialRemark"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="specialExcessGIC">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_GICHeader">
+                                    Special Excess GIC
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_GICColumnFilter" type="text"
+                                        field="specialExcessGIC" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Special Excess GIC"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_GICSortIcon"
+                                        field="specialExcessGIC"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="iibOccupancyCode">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_OccupancyCodeHeader">
+                                    Iib Occupancy Code
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_OccupancyCodeColumnFilter" type="text"
+                                        field="iibOccupancyCode" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Iib Occupancy Code"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_OccupancyCodeSortIcon"
+                                        field="iibOccupancyCode"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="effectiveFrom">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_EffectiveFromHeader">
+                                    Effective From
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_EffectiveFromColumnFilter" type="date"
+                                        field="effectiveFrom" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Effective From"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_EffectiveFromSortIcon"
+                                        field="effectiveFrom"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="effectiveTo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_EffectiveToHeader">
+                                    Effective To
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_EffectiveToColumnFilter" type="date"
+                                        field="effectiveTo" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Effective To"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_EffectiveToSortIcon"
+                                        field="effectiveTo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="applicableFrom">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_ApplicableFromHeader">
+                                    Applicable From
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_ApplicableFromColumnFilter" type="date"
+                                        field="applicableFrom" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Applicable From"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_ApplicableFromSortIcon"
+                                        field="applicableFrom"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="applicableTo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_ApplicableToHeader">
+                                    Applicable To
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_ApplicableToColumnFilter" type="date"
+                                        field="applicableTo" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Applicable To"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_ApplicableToSortIcon"
+                                        field="applicableTo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="OccupancyRateList_ProductHeader">
+                                    Product
+                                </span> -->
+                        <!-- <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by ProductId"></p-columnFilter>
+                                    <p-sortIcon field="productId"></p-sortIcon>
+                                </div> -->
+                        <!-- </div>
+                        </th> -->
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" display="menu" [showClearButton]="false"
+                                    [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                    [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Partner Id </span>
+                                <p-columnFilter field="partnerId" display="menu" [showClearButton]="false"
+                                    [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                    [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">partnerId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedPartners" [suggestions]="optionsPartners"
+                                            (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="partnerIdHandleFilter($event)"
+                                            (onUnselect)="partnerIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="OccupancyRateStatusList_taskStatusHeader">
+                                    TaskStatus
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="OccupancyRateList_RateColumnFilter" type="text"
+                                        field="taskStatus" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by status"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_RateSortIcon" field="taskStatus"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap"
+                                    id="OccupancyRateStatusfailedMessage_failedMessageHeader">
+                                    FailedMessage
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-sortIcon id="OccupancyRateList_RateSortIcon" field="failedMessage"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="active" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="OccupancyRateStatusList_activeHeader">
+                                    Active
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="OccupancyRateListActive_RateColumnFilter" type="boolean"
+                                        field="active" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by active"></p-columnFilter>
+                                    <p-sortIcon id="OccupancyRateList_RateSortIcon" field="active"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-occupancyRate>
+                    <tr (click)="this.editRecord(occupancyRate)">
+                        <td>
+                            <p-tableCheckbox [value]="occupancyRate"
+                                id="OccupancyRateList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td}
+                        </td> -->
+
+
+                        <td id="OccupancyRateList_OccupancyType">
+                            {{occupancyRate.occupancyType}}
+                        </td>
+                        <td id="OccupancyRateList_Hazard">
+                            {{occupancyRate.hazardCategoryId.category}}
+                            <!-- <a routerLink="/backend/admin/hazard-categories/{{occupancyRate.hazardCategoryId._id}}">{{occupancyRate.hazardCategoryId.category}}</a> -->
+
+                        </td>
+                        <td id="OccupancyRateList_GradedRetention">
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': occupancyRate.gradedRetention, 'false-icon pi-times-circle':
+                            !occupancyRate.gradedRetention}"></i>
+                        </td>
+                        <td id="OccupancyRateList_Tac">
+                            {{occupancyRate.tacCode}}
+                        </td>
+                        <td id="OccupancyRateList_Flexaiib">
+                            {{occupancyRate.flexaiib}}
+                        </td>
+                        <td id="OccupancyRateList_StfiRate">
+                            {{occupancyRate.stfiRate}}
+                        </td>
+                        <td id="OccupancyRateList_Section">
+                            {{occupancyRate.section}}
+                        </td>
+                        <td id="OccupancyRateList_RiskCode">
+                            {{occupancyRate.riskCode}}
+                        </td>
+                        <td id="OccupancyRateList_RateCode">
+                            {{occupancyRate.rateCode}}
+                        </td>
+                        <!-- <td id="OccupancyRateList_PolicyType">
+                            {{occupancyRate.policyType}}
+                        </td> -->
+                        <td id="OccupancyRateList_SpecialRemark">
+                            {{occupancyRate.specialRemark}}
+                        </td>
+                        <td id="OccupancyRateList_GIC">
+                            {{occupancyRate.specialExcessGIC}}
+                        </td>
+                        <td id="OccupancyRateList_OccupancyCode">
+                            {{occupancyRate.iibOccupancyCode}}
+                        </td>
+                        <td id="OccupancyRateList_EffectiveFrom">
+                            {{occupancyRate.effectiveFrom | date: "dd MMM Y" }}
+                        </td>
+                        <td id="OccupancyRateList_EffectiveTo">
+                            {{occupancyRate.effectiveTo | date: "dd MMM Y" }}
+                        </td>
+                        <td id="OccupancyRateList_ApplicableFrom">
+                            {{occupancyRate.applicableFrom | date: "dd MMM Y" }}
+                        </td>
+                        <td id="OccupancyRateList_ApplicableTo">
+                            {{occupancyRate.applicableTo | date: "dd MMM Y" }}
+                        </td>
+                        <td style="min-width: 300px" id="OccupancyRateList_Product">
+                            {{occupancyRate?.productId?.type}}
+                            <!-- <a routerLink="/backend/admin/products/{{occupancyRate.productId?._id}}">{{occupancyRate.productId?.type}}</a> -->
+                        </td>
+                        <td>
+                            {{occupancyRate?.partnerId?.name}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{occupancyRate?.taskStatus ?? '-'}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{occupancyRate?.failedMessage ?? '-'}}
+                        </td>
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="OccupancyRateList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(occupancyRate)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="OccupancyRateList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(occupancyRate)"></button> -->
+                        <td id="OccupancyTypeList_Active">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': occupancyRate.active, 'false-icon pi-times-circle': !occupancyRate.active}"></i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="OccupancyRateList_DeleteRecordConfirmationIcon"></i>
+                <span id="OccupancyRateList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you
+                    want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="OccupancyRateList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="OccupancyRateList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="OccupancyRateList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="OccupancyRateList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="OccupancyRateList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="OccupancyRateList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

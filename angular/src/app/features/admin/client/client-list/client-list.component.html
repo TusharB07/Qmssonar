@@ -1,0 +1,475 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <p-toast></p-toast>
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <div class="my-2 flex">
+            <button id="ClientList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+              class="p-button-success mr-2" (click)="this.createRecord()"></button>
+            <!-- <button id="ClientList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+            <button id="ClientList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+              (click)="clear(dt)"></button>
+
+            <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2" icon="pi pi-download"
+              (click)="this.bulkImportGenerateSample(dt)"></button>
+            <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+              [method]="this.uploadProps.method" (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+              [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+              [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+              [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel"
+              styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload>
+
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" id="ClientList_FilterGlobal"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+            </span>
+          </div>
+
+          <p-fileUpload mode="basic" id="ClientList_FileUpload" accept="image/*" [maxFileSize]="1000000" label=""
+            chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+          <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+        </ng-template>
+      </p-toolbar>
+
+      <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+        responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+        (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+        (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]"
+        [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name', 'email']">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox id="ClientList_HeaderCheckBox"></p-tableHeaderCheckbox>
+            </th>
+
+            <th pSortableColumn="clientGroupId">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_ClientGroupHeader"> Client Group </span>
+                <p-columnFilter id="ClientList_ClientGroupColumnFilter" field="clientGroupId" matchMode="equals"
+                  display="menu" [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                  [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                  <ng-template pTemplate="header">
+                    <div class="px-3 pt-3 pb-0">
+                      <span class="font-bold">Client Group Filter</span>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                    <p-autoComplete [(ngModel)]="selectedClientGroups" [suggestions]="optionsClientGroups"
+                      (completeMethod)="getOptionsClientGroup($event)" field="clientGroupId" [dropdown]="true"
+                      [multiple]="true" (onSelect)="handleFilter($event)" (onUnselect)="handleFilter($event)">
+                      <ng-template let-group pTemplate="item">
+                        <div class="country-item">
+                          <div>{{group.label}}</div>
+                        </div>
+                      </ng-template>
+                      <ng-template let-group pTemplate="selectedItem">
+                        <span style="font-size:18px">{{group.label}}</span>
+                      </ng-template>
+                    </p-autoComplete>
+                  </ng-template>
+                </p-columnFilter>
+                <!-- <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="clientGroupId" display="menu" placeholder="Search by clientGroupId"></p-columnFilter>
+                  <p-sortIcon field="clientGroupId"></p-sortIcon>
+                </div> -->
+              </div>
+            </th>
+            <th pSortableColumn="name">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_NameHeader"> Name </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_NameColumnFilter" type="text" field="name" display="menu"
+                    [showMatchModes]="false" [showOperator]="false" matchMode="contains" operator="or"
+                    placeholder="Search by name"></p-columnFilter>
+                  <p-sortIcon id="ClientList_NameSortIcon" field="name"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <!-- <th pSortableColumn="phone">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Phone </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="phone" display="menu" placeholder="Search by phone"></p-columnFilter>
+                  <p-sortIcon field="phone"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="email">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Email </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="email" display="menu" placeholder="Search by email"></p-columnFilter>
+                  <p-sortIcon field="email"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="mobile">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Mobile </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="mobile" display="menu" placeholder="Search by mobile"></p-columnFilter>
+                  <p-sortIcon field="mobile"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <th pSortableColumn="clientType">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_ClientTypeHeader"> Client Type </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_ClientTypeColumnFilter" type="text" field="clientType" display="menu"
+                    [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                    placeholder="Search by Client Type"></p-columnFilter>
+                  <p-sortIcon id="ClientList_ClientTypeSortIcon" field="clientType"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="shortName">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_ShortNameHeader"> Short Name </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_ShortNameColumnFilter" type="text" field="shortName" display="menu"
+                    [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                    placeholder="Search by shortName"></p-columnFilter>
+                  <p-sortIcon id="ClientList_ShortNameSortIcon" field="shortName"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="pan">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_PANNoHeader"> PAN No. </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_PANNoColumnFilter" type="text" field="pan" display="menu"
+                    [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                    placeholder="Search by pan"></p-columnFilter>
+                  <p-sortIcon id="ClientList_PANNoSortIcon" field="pan"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <!-- <th pSortableColumn="vin">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Vin no. </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="vin" display="menu" placeholder="Search by vin"></p-columnFilter>
+                  <p-sortIcon field="vin"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <th pSortableColumn="leadGenerator">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_LeadGeneratorHeader"> Lead Generator </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_LeadGeneratorColumnFilter" type="text" field="leadGenerator"
+                    display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="contains" operator="or"
+                    placeholder="Search by leadGenerator"></p-columnFilter>
+                  <p-sortIcon id="ClientList_LeadGeneratorSortIcon" field="leadGenerator"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="natureOfBusiness">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_NatureOfBusinessHeader"> Nature Of Business </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_NatureOfBusinessColumnFilter" type="text" field="natureOfBusiness"
+                    display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                    placeholder="Search by natureOfBusiness"></p-columnFilter>
+                  <p-sortIcon id="ClientList_NatureOfBusinessSortIcon" field="natureOfBusiness"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="claimsManager">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_ClaimsManagerHeader"> Claims Manager </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_ClaimsManagerColumnFilter" type="text" field="claimsManager"
+                    display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="contains" operator="or"
+                    placeholder="Search by claimsManager"></p-columnFilter>
+                  <p-sortIcon id="ClientList_ClaimsManagerSortIcon" field="claimsManager"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <!-- <th pSortableColumn="referralRM">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Referral RM </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="referralRM" display="menu" placeholder="Search by Referral RM"></p-columnFilter>
+                  <p-sortIcon field="referralRM"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="referredCompany">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Referred Company </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="referredCompany" display="menu" placeholder="Search by referredCompany"></p-columnFilter>
+                  <p-sortIcon field="referredCompany"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <th pSortableColumn="employeeStrength">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_EmployeeStrengthHeader"> Employee Strength </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_EmployeeStrengthColumnFilter" type="text" field="employeeStrength"
+                    display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                    placeholder="Search by employeeStrength"></p-columnFilter>
+                  <p-sortIcon id="ClientList_EmployeeStrengthSortIcon" field="employeeStrength"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <!-- <th pSortableColumn="sameAddressVerification">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Same Address Verification </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="boolean" field="sameAddressVerification" display="menu" placeholder="Search by Same Address Verification"></p-columnFilter>
+                  <p-sortIcon field="sameAddressVerification"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <!-- <th pSortableColumn="contactPerson">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Contact Person </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="contactPerson" display="menu" placeholder="Search by contactPerson"></p-columnFilter>
+                  <p-sortIcon field="contactPerson"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="designation">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Designation </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="designation" display="menu" placeholder="Search by designation"></p-columnFilter>
+                  <p-sortIcon field="designation"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <!-- <th pSortableColumn="address">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Address </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="address" display="menu" placeholder="Search by address"></p-columnFilter>
+                  <p-sortIcon field="address"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="state">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> State </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="state" display="menu" placeholder="Search by state"></p-columnFilter>
+                  <p-sortIcon field="state"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="cityId">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> City </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="cityId" display="menu" placeholder="Search by cityId"></p-columnFilter>
+                  <p-sortIcon field="cityId"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+            <th pSortableColumn="pincodeId">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Pincode </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="pincodeId" display="menu" placeholder="Search by pincodeId"></p-columnFilter>
+                  <p-sortIcon field="pincodeId"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <!-- <th pSortableColumn="visitingCard">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Visiting Card </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="visitingCard" display="menu" placeholder="Search by visitingCard"></p-columnFilter>
+                  <p-sortIcon field="visitingCard"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <!-- <th pSortableColumn="narration">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Narration </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter type="text" field="narration" display="menu" placeholder="Search by narration"></p-columnFilter>
+                  <p-sortIcon field="narration"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <!-- <th pSortableColumn="clientKycMasterId">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap"> Client KYC Master </span>
+                <div style="white-space: nowrap">
+                  <p-columnF  ilter type="text" field="clientKycMasterId" display="menu" placeholder="Search by clientKycMasterId"></p-columnF>
+                  <p-sortIcon field="clientKycMasterId"></p-sortIcon>
+                </div>
+              </div>
+            </th> -->
+            <th pSortableColumn="creationDate">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_CreationDateHeader"> Creation Date </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_CreationDateColumnFilter" type="date" field="creationDate"
+                    display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="dateIs" operator="and"
+                    placeholder="Search by creationDate"></p-columnFilter>
+                  <p-sortIcon id="ClientList_CreationDateSortIcon" field="creationDate"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="active">
+              <div class="flex justify-content-between align-items-center">
+                <span style="white-space: nowrap" id="ClientList_ActiveHeader"> Active </span>
+                <div style="white-space: nowrap">
+                  <p-columnFilter id="ClientList_ActiveColumnFilter" type="bool" field="active" display="menu"
+                    [showMatchModes]="false" [showOperator]="false" matchMode="equals" operator="and"
+                    placeholder="Search by active"></p-columnFilter>
+                  <p-sortIcon id="ClientList_ActiveSortIcon" field="active"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <!-- <th></th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-client>
+          <tr (click)="this.editRecord(client)">
+            <td>
+              <p-tableCheckbox [value]="client" id="ClientList_ItemCheckBox"></p-tableCheckbox>
+            </td>
+            <td id="ClientList_ClientGroup">
+              <a routerLink="/backend/admin/client-groups/{{ client.clientGroupId?._id }}">{{
+                client.clientGroupId?.clientGroupName }}</a>
+            </td>
+            <td id="ClientList_Name">
+              {{ client.name }}
+            </td>
+            <!-- <td>
+              {{ client.phone }}
+            </td>
+            <td>
+              {{ client.email }}
+            </td>
+            <td>
+              {{ client.mobile }}
+            </td> -->
+            <td id="ClientList_ClientType">
+              {{ client.clientType }}
+            </td>
+            <td id="ClientList_ShortName">
+              {{ client.shortName }}
+            </td>
+            <td id="ClientList_PANNo">
+              {{ client.pan }}
+            </td>
+            <!-- <td>
+              {{ client.vin }}
+            </td> -->
+            <td id="ClientList_LeadGenerator">
+              {{ client.leadGenerator }}
+            </td>
+            <td id="ClientList_NatureOfBusiness">
+              {{ client.natureOfBusiness }}
+            </td>
+            <td id="ClientList_ClaimsManager">
+              {{ client.claimsManager }}
+            </td>
+            <!-- <td>
+              {{ client.referralRM }}
+            </td>
+            <td>
+              {{ client.referredCompany }}
+            </td> -->
+            <td id="ClientList_EmployeeStrength">
+              {{ client.employeeStrength }}
+            </td>
+            <!-- <td class="text-center">
+              <i class="pi" [ngClass]="{ 'true-icon pi-check-circle': client.sameAddressVerification, 'false-icon pi-times-circle': !client.sameAddressVerification }"></i>
+            </td> -->
+            <!-- <td>
+              {{ client.contactPerson }}
+            </td>
+            <td>
+              {{ client.designation }}
+            </td> -->
+
+            <!-- <td>
+              {{ client.address }}
+            </td>
+            <td>
+              <a routerLink="/backend/states/{{ client.stateId._id }}">{{ client.stateId.name }}</a>
+            </td>
+            <td>
+              <a routerLink="/backend/cities/{{ client.cityId._id }}">{{ client.cityId.name }}</a>
+            </td>
+            <td>
+              <a routerLink="/backend/pincodes/{{ client.pincodeId._id }}">{{ client.pincodeId.name }}</a>
+            </td> -->
+            <!-- <td>
+              {{ client.visitingCard }}
+            </td> -->
+            <!-- <td>
+              {{ client.narration }}
+            </td> -->
+            <!-- <td>
+              {{ client.clientKycMasterId }}
+            </td> -->
+            <td class="text-center" id="ClientList_CreationDate">
+              {{ client.creationDate | date: "dd MMM Y" }}
+            </td>
+            <td class="text-center" id="ClientList_Active">
+              <i class="pi"
+                [ngClass]="{ 'true-icon pi-check-circle': client.active, 'false-icon pi-times-circle': !client.active }"></i>
+            </td>
+            <!-- <td>
+              <div class="flex">
+                <button id="ClientList_editRecord" pButton pRipple icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(client)"></button>
+                </div>
+              </td> -->
+              <!-- <button id="ClientList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(client)"></button> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+      <div class="flex align-items-center justify-content-center">
+        <i i id="ClientList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+          style="font-size: 2rem"></i>
+        <span span id="ClientList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to
+          delete <b>{{ selectedRecord.name }}</b>?</span>
+      </div>
+      <ng-template pTemplate="footer">
+        <button id="ClientList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+          (click)="this.deleteRecordDialog = false"></button>
+        <button id="ClientList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+          (click)="this.deleteRecord()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+      [style]="{ width: '450px' }">
+      <div class="flex align-items-center justify-content-center">
+        <i id="ClientList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+          style="font-size: 2rem"></i>
+        <span id="ClientList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+      </div>
+      <ng-template pTemplate="footer">
+        <button id="ClientList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+          (click)="this.deleteManyRecordsDialog = false"></button>
+        <button id="ClientList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+          label="Yes" (click)="this.deleteSelectedRecords()"></button>
+      </ng-template>
+    </p-dialog>
+  </div>
+</div>

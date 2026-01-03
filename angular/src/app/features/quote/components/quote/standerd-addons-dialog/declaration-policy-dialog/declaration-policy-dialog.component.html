@@ -1,0 +1,39 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="this.coverForm" (ngSubmit)="submitted = true; this.submitForm()" id="DeclarationPolicyDialog_Form">
+        <div class="grid align-items-end">
+
+            <div class="col-12 md:col-6 mb-2">
+                <label for="" class="form-label" id="DeclarationPolicyDialog_FluctuateValue_Label">Stocks which fluctuate in value to be covered on (monthly) declaration basis</label>
+                <!-- <input pInputText formControlName="stock" placeholder="Enter Value" class="p-inputtext1"> -->
+                <input maxlength="255" id="DeclarationPolicyDialog_FluctuateValue" pInputText formControlName="stock" *ngIf="this.permissions.includes('update')" placeholder="Enter Value" class="p-inputtext1">
+                <input maxlength="255" id="DeclarationPolicyDialog_FluctuateValue" pInputText formControlName="stock" *ngIf="!this.permissions.includes('update')" disabled="true" placeholder="Enter Value" class="p-inputtext1">
+                <!-- <small id="DeclarationPolicyDialog_FluctuateValue_ErrorMSG" class="ng-dirty ng-invalid" *ngIf="this.coverForm.controls['stock']?.errors?.maxlength">Stock cannot be more than 255 Characters.</small> -->
+            </div>
+
+            <div class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="DeclarationPolicyDialog_SumInsured_Label">Sum Insured</label>
+                <!-- <span pTooltip="{{this.coverForm.controls['sumInsured'].value > 0 ? (toWords.convert(this.coverForm.controls['sumInsured'].value,{ currency: true ,ignoreZeroCurrency: true })) : ''}}" tooltipPosition="bottom"> -->
+                <!-- <input maxlength="11" id="DeclarationPolicyDialog_SumInsured" pInputText formControlName="sumInsured"
+                    *ngIf="this.permissions.includes('update')" placeholder="" currencyMask [options]="{ prefix: '₹ ', precision:0   }"
+                    class="p-inputtext1"> -->
+                <!-- </span> -->
+                <p-inputNumber id="sumInsured" mode="decimal" locale="en-IN" prefix="₹ "
+                    [minFractionDigits]="0" placeholder="0" formControlName="sumInsured"
+                    [disabled]="!this.permissions.includes('update')" maxlength="11">
+                </p-inputNumber>
+                <!-- <input maxlength="11" id="DeclarationPolicyDialog_SumInsured" pInputText formControlName="sumInsured"
+                    *ngIf="!this.permissions.includes('update')" disabled="true" placeholder="" currencyMask
+                    [options]="{ prefix: '₹ ', precision:0   }" class="p-inputtext1"> -->
+                <small id="DeclarationPolicyDialog_SumInsured_ErrorMSG" class="ng-dirty ng-invalid" *ngIf="this.submitted && this.coverForm.controls['sumInsured']?.errors?.required">SumInsured is required.</small>
+                <!-- <small id="DeclarationPolicyDialog_SumInsured_ErrorMSG" class="ng-dirty ng-invalid" *ngIf="this.coverForm.controls['sumInsured']?.errors?.max">SumInsured cannot be more than 11 Characters.</small> -->
+
+            </div>
+            <div class="col-12" style="padding-top: 30px;">
+                <div class="flex justify-content-end">
+                    <button id="DeclarationPolicyDialog_Save" class="btn btn-success mr-4" type="submit" *ngIf="this.permissions.includes('update') && quote?.quoteState != 'Rejected'">Save</button>
+                    <button id="DeclarationPolicyDialog_Close" class="btn btn-outline-light" type="button" (click)="cancel()">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

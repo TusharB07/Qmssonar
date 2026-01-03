@@ -1,0 +1,78 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted = true; this.saveRecord()">
+  <div class="form-container">
+    <div class="grid">
+      <div class="col-12">
+        <div class="card p-fluid">
+          <p-toast></p-toast>
+          <p-toolbar styleClass="">
+            <ng-template pTemplate="left">
+              <h3 class="mb-0" id="QuoteLocationOcccupancyFormRecordName">{{ this.recordSingularName }}</h3>
+            </ng-template>
+            <ng-template pTemplate="right">
+              <button id="QuoteLocationOcccupancyForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+              <button id="QuoteLocationOcccupancyForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+            </ng-template>
+          </p-toolbar>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-12">
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <div class="card p-fluid">
+              <h5 id="QuoteLocationOcccupancyForm_GeneralInformationHeader">General Information</h5>
+
+              <div class="field">
+                <label  id="QuoteLocationOcccupancyForm_ClientLocationsLabel" for="clientLocationId">Client Locations</label>
+                <p-autoComplete id="QuoteLocationOcccupancyForm_ClientLocations" [dropdown]="true" field="label" formControlName="clientLocationId" [suggestions]="this.optionsClientLocations" (completeMethod)="this.searchOptionsClientLocations($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['clientLocationId'].valid }"></p-autoComplete>
+                <small id="QuoteLocationOcccupancyForm_ClientLocationsValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['clientLocationId']?.errors?.required">Client Location is required.</small>
+              </div>
+              <div class="field">
+                <label  id="QuoteLocationOcccupancyForm_OccupancyLabel" for="occupancyId">Occupancy</label>
+                <p-autoComplete id="QuoteLocationOcccupancyForm_Occupancy" class="form-control" id="occupancyId" formControlName="occupancyId" field="label" required [dropdown]="true" [suggestions]="this.optionsOccupancies" (completeMethod)="this.searchOptionsOccupancies($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['occupancyId'].valid }"></p-autoComplete>
+                <small id="QuoteLocationOcccupancyForm_OccupancyValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['occupancyId']">Occupancy is required.</small>
+              </div>
+              <div class="field">
+                <label  id="QuoteLocationOcccupancyForm_QuoteLabel" for="quoteId">Quote</label>
+                <p-autoComplete id="QuoteLocationOcccupancyForm_Quote" class="form-control" id="quoteId" [dropdown]="true" formControlName="quoteId" field="label" required [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId'].valid }"></p-autoComplete>
+                <small id="QuoteLocationOcccupancyForm_QuoteValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['quoteId']">Quote is required.</small>
+              </div>
+              <div class="field">
+                <label id="QuoteLocationOcccupancyForm_SumAssuredLabel" for="sumAssured">Sum Insured</label>
+                <input id="QuoteLocationOcccupancyForm_SumAssured" class="form-control" type="number" pInputText id="sumAssured" formControlName="sumAssured" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['sumAssured'] }" />
+                <small id="QuoteLocationOcccupancyForm_SumAssuredValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sumAssured']">Sum Insured is required.</small>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-12 md:col-6">
+            <div class="card p-fluid">
+              <h5 id="QuoteLocationOcccupancyForm_Premium_Header">Premium</h5>
+
+              <div class="field">
+                <label id="QuoteLocationOcccupancyForm_FlexaPremiumLabel" for="flexaPremium">Flexa Premium</label>
+                <input id="QuoteLocationOcccupancyForm_FlexaPremium" class="form-control" type="number" pInputText id="flexaPremium" formControlName="flexaPremium" />
+              </div>
+              <div class="field">
+                <label id="QuoteLocationOcccupancyForm_STFIPremiumLabel" for="STFIPremium">STFI Premium</label>
+                <input id="QuoteLocationOcccupancyForm_STFIPremium" class="form-control" type="number" pInputText id="STFIPremium" formControlName="STFIPremium" />
+              </div>
+              <div class="field">
+                <label id="QuoteLocationOcccupancyForm_EarthquakePremiumLabel" for="earthquakePremium">Earthquake Premium</label>
+                <input id="QuoteLocationOcccupancyForm_EarthquakePremium" class="form-control" type="number" pInputText id="earthquakePremium" formControlName="earthquakePremium" />
+              </div>
+              <div class="field">
+                <label  id="QuoteLocationOcccupancyForm_TerrorismPremiumLabel" for="terrorismPremium">Terrorism Premium</label>
+                <input  id="QuoteLocationOcccupancyForm_TerrorismPremium" class="form-control" type="number" pInputText id="terrorismPremium" formControlName="terrorismPremium" />
+              </div>
+              <div class="field">
+                <label id="QuoteLocationOcccupancyForm_TotalPremiumLabel" for="totalPremium">Total Premium</label>
+                <input id="QuoteLocationOcccupancyForm_TotalPremium" class="form-control" type="number" pInputText id="totalPremium" formControlName="totalPremium" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

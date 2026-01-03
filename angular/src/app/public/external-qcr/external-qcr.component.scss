@@ -1,0 +1,223 @@
+:host ::ng-deep .p-sidebar.p-sidebar-right {
+    border-radius: unset;
+    background-color : white;
+    top: 80px;
+    height:90vh;
+}
+
+.custom-step-header {
+    height: 93vh;
+    position: fixed;
+}
+
+.custom-step-content {
+    position: relative;
+    left: 320px;
+}
+
+:host ::ng-deep .p-steps-item {
+    padding-bottom: 15px;
+    justify-content: unset !important;
+}
+
+:host ::ng-deep .p-steps ul {
+    display: block;
+}
+
+:host ::ng-deep .p-steps ul li a {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-number {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-title {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps .p-steps-item:before {
+    content: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:focus {
+    color: #0064bb;
+}
+
+.custom-anchor-index {
+    background-color: #0064bb;
+    color: #fff;
+    min-height: 20px;
+    min-width: 20px;
+    border-radius: 10px;
+}
+
+ul.edit-quote-links li {
+    display: inline-block;
+    margin: 0 50px;
+    position: relative;
+}
+
+ul.edit-quote-links li:first-child {
+    margin-left: 0px !important;
+}
+
+ul.edit-quote-links li:last-child {
+    margin-right: 0 !important;
+}
+
+ul.edit-quote-links li a {
+    font: normal normal bold 1.188rem/26px OpenSans-Bold;
+    color: #6c7888;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+ul.edit-quote-links li a .number {
+    border: 2px dashed #6c7888;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 30px;
+    font: normal normal bold 0.875rem/19px OpenSans-Bold;
+    color: #6c7888;
+    text-align: center;
+    padding-top: 3px;
+    margin-right: 7px;
+}
+
+ul.edit-quote-links li.p-highlight a .number {
+    background: #2156c2;
+    border: 2px solid #2156c2;
+    color: #ffffff;
+}
+
+ul.edit-quote-links li.p-highlight a,
+ul.edit-quote-links li.p-highlight a,
+li a:not(.p-highlight):not(.p-disabled):hover {
+    color: #2156c2;
+    // border-bottom: 3px solid #2156C2;
+}
+
+ul.edit-quote-links li:not(:last-child):after {
+    content: "";
+    position: absolute;
+    right: -95px;
+    top: 50%;
+    width: 80px;
+    border: 2px dashed #6c7888;
+    transform: translateY(-50%);
+    border-top: 0;
+}
+
+ul.edit-quote-links {
+    padding: 10px 0;
+}
+
+.edit-quote-link-container .flex {
+    justify-content: space-between;
+}
+
+.action .button {
+    border: 1px solid #ECECEC;
+    border-radius: 4px 0px 0px 4px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.action .button .taskcount {
+    margin: 0 10px;
+    font: normal normal 600 18px/24px OpenSans-bold;
+}
+
+.action .status-button {
+    min-height: 54px;
+}
+
+.action .status-button img {
+    margin-left: -15px;
+}
+
+.action .status-button img:first-child {
+    margin-left: 0;
+}
+
+
+
+.sidebar {
+
+    box-shadow: 2px 0px 8px #E5EDFEE0;
+
+    .tab-item {
+        color: var(--unnamed-color-6c7888);
+        text-align: left;
+        font: normal normal bold 14px/20px OpenSans-Bold;
+        color: #6C7888;
+        cursor: pointer;
+        margin-bottom: 5px;
+
+        &:hover,&.active {
+
+            color: #2156C2;
+        }
+    }
+}
+
+
+.quote-comparision-table {
+    // border-radius: 8px;
+    overflow: hidden;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    // border: 1px solid #EEEEEE;
+
+    .header {
+
+        background: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+        border-radius: 8px 8px 0px 0px;
+        overflow: hidden;
+
+        th {
+            color: #fff;
+            padding: 1.5rem 1rem;
+            font: normal normal bold 14px/20px OpenSans-Bold;
+        }
+
+    }
+
+    td {
+        text-align: left;
+        padding: 1rem 1rem;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+tr,td {
+    border: 1px solid #0064BB;
+    padding: 2px;
+}
+.flex-form {
+    display: flex;         
+    align-items: center;    
+    // gap: 16px;              
+}
+.flex-form input{
+    margin-left: 300px;
+    width: 300px;
+}
+.flex-form button{
+    margin-left: 10px;
+}
+

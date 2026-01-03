@@ -1,0 +1,29 @@
+<div class="grid px-2">
+    <div class="col-6">
+        <div class="mb-4">
+            <h3 id="DeleteConfirmationDialog_Header">Delete Confirmation</h3>
+        </div>
+
+        <div class="mb-5" style="font-weight: 500;">
+            <p id="DeleteConfirmationDialog_Message">Are you sure you want to delete this record?</p>
+        </div>
+
+        <div class="mb-5">
+            <span>
+                <button pButton type="button" id="DeleteConfirmationDialog_Yes" class="mr-3 btn btn-danger"
+                    (click)="confirmDelete()">Yes</button>
+                <button pButton type="button" id="DeleteConfirmationDialog_No" class="mr-3 btn btn-primary"
+                    (click)="cancelDelete()">No</button>
+            </span>
+        </div>
+
+        <small>
+            <div class="mb-5 flex align-items-center" style="font-weight: 500;">
+                <i class="pi pi-info-circle mr-2" id="DeleteConfirmationDialog_Icon"></i>
+                <p class="inline-block" id="DeleteConfirmationDialog_Info">
+                    <span style="color: red;">This action cannot be undone.</span>
+                </p>
+            </div>
+        </small>
+    </div>
+</div>

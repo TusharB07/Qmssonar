@@ -1,0 +1,838 @@
+<div *ngIf="!isMobile">
+    <div class="sidebar darkLayout" data-aos="fade-right">
+        <!-- <div> -->
+        <p-sidebar [(visible)]="this.isSidebarVisible" [baseZIndex]="10000">
+            <div class="basic-details-quote">
+                <div class="grid">
+                    <div class="col-10">
+                        <div class="head">
+                            <h2 id="SideBar_header">BASIC DETAILS OF THE QUOTE</h2>
+                        </div>
+                        <div class="mb-2" id="SideBar_Insured_Name"><span class="clr-blue"> Insured Name:</span>
+                            {{this.quote?.clientId?.name}}</div>
+                        <div class="" id="SideBar_policy_Type"><span class="clr-blue"> Policy Type:</span>
+                            {{this.quote?.productId?.type}}
+                        </div>
+                        <div
+                            *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT &&  this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER">
+                            <!-- Old_Quote -->
+                            <!-- <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Location:</span>
+                                {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}}
+                                {{this.quote.locationBasedCovers.quoteLocationOccupancy.clientLocationId['isHeadOffice']
+                                ? '(Head Office)' : ''}}
+                            </div>
+                            <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Occupancy:</span>
+                                {{this.quote.locationBasedCovers.quoteLocationOccupancy.occupancyId['occupancyType']?.split(',')[0]}}
+                            </div>
+                            <div class="mb-2" id="SideBar_Location_Name"
+                                *ngIf="this.quote?.productId['isOccupancySubTypeShow']"><span class="clr-blue">Type Of
+                                    Shop
+                                    <span
+                                        *ngIf="this.quote.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName=='Others'">
+                                        <i class="pi pi-circle-fill" style="font-size: 0.75rem ;color :red"></i>
+                                    </span>
+                                    : </span>
+                                {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName}}
+                                {{this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription'] ?
+                                '('+this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']+
+                                ')' : ''}}
+
+                            </div> -->
+
+                            <!-- New_Quote_Option -->
+                            <div class="mb-2" id="SideBar_Location_Name" style="font-size: 1.2rem;"><span class="clr-blue">Location:</span>
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.locationName?.split(',')[0]}}
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.clientLocationId['isHeadOffice']
+                                ? '(Head Office)' : ''}}
+                            </div>
+                            <div class="mb-2" id="SideBar_Location_Name" style="font-size: 1.2rem;"><span class="clr-blue">Occupancy:</span>
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.occupancyId['occupancyType']?.split(',')[0]}}
+                            </div>
+                            <div class="mb-2" id="SideBar_Location_Name"
+                                *ngIf="this.quote?.productId['isOccupancySubTypeShow']"><span class="clr-blue">Type Of
+                                    Shop
+                                    <span
+                                        *ngIf="this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName=='Others'">
+                                        <i class="pi pi-circle-fill" style="font-size: 0.75rem ;color :red"></i>
+                                    </span>
+                                    : </span>
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName}}
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']
+                                ?
+                                '('+this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']+
+                                ')' : ''}}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-2">
+                        <a class="edit-button" id="SideBar_OpenEditInsuredsDialog"
+                            (click)="this.openInsuredDetailsDialog()" label="Insured Details: Q_FIRE_SFSP_22515"
+                            href="javascript:void(0);"><img src="../../../../assets/icons/edit.svg" alt=""></a>
+                    </div> -->
+                </div>
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT &&  this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER">
+                    <div class="col-12">
+                        <hr class="sb-bor" />
+                    </div>
+                </div>
+
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT  && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER">
+                    <div class="col-12">
+                        <div class="head">
+                            <!-- Old_Quote -->
+                            <!-- <h4 id="SideBar_CoverOpted_Header"
+                                *ngIf="this.quote.locationBasedCovers.quoteLocationOccupancy"> COVERS OPTED :
+                                {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}}
+                            </h4> -->
+
+                            <!-- New_Quote_Option -->
+                            <h4 id="SideBar_CoverOpted_Header"
+                                *ngIf="this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy"> COVERS OPTED :
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.locationName?.split(',')[0]}}
+                            </h4>
+                        </div>
+                        <app-toggle-cover-opted id="SideBar_ToggleCoverOpted"></app-toggle-cover-opted>
+                    </div>
+                </div>
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT 
+                    &&  this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION 
+                    && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER ">
+                    <div class="col-12">
+                        <hr class="sb-bor">
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-center mb-3"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY
+                     && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO 
+                     && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL
+                      && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT 
+                      &&  this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC 
+                      && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE 
+                      && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION
+                       && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER 
+                       && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC
+                        && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME" >
+                    <!-- <div class="col setHigh" style="width: 180px"
+                        *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.BLUS">
+                        <p-multiSelect placeholder="No Covers Selected" [resetFilterOnHide]="true" [showClear]="true"
+                            id="SideBar_multiSelection" (onChange)="this.coversUpdated($event)"
+                            [(ngModel)]="this.selectedAllowedBscCoversForQuote" pInputText
+                            [options]="this.optionsAllowedBscCoversForQuote" optionLabel="label" class="mr-3">
+                            <ng-template pTemplate="empty">
+                                No Covers Found
+                            </ng-template>
+                        </p-multiSelect>
+                    </div> -->
+                    <div class="col">
+                        <button id="SideBar_LocationWiseBreakupDialog" (click)="openLocationWiseBreakupDialog()"
+                            label="Location wise Breakup of Total Indicative Pricing"
+                            class=" btn btn-lg btn btn-success h-4rem" type="button">View Location Wise Breakup</button>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12">
+                        <hr class="sb-bor">
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-center"
+                    *ngIf="this.quote?.productId['isFlexaShow']">
+                    <div class="col-12">
+                        <div class="head">
+                            <h2 id="SideBar_ADD-ONS_COVERAGES&CLAUSES_Header">ADD-ONS, COVERAGES & CLAUSES</h2>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR">
+                        <div>
+                            <p-dropdown placeholder="No Type Selected" [dropdown]="true"
+                                (onChange)="this.addonCoverTypeChanged($event)"
+                                [(ngModel)]="this.selectedAddonCoverType"
+                                [options]="this.optionsAddonCoverCategories"></p-dropdown>
+                        </div> -->
+                        <!-- <p-dropdown placeholder="No Covers Selected"  id="SideBar_multiSelection" (onChange)="this.coversUpdated($event)" [(ngModel)]="this.selectedAllowedBscCoversForQuote" [options]="this.selecteOption" optionLabel="label"  ></p-dropdown> -->
+                        <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="pincodeId" [suggestions]="this.selecteOption" (completeMethod)="this.searchOptionsPincodes($event)"></p-autoComplete> -->
+                    <!-- </div> -->
+                </div>
+                <div class="grid add-ons"
+                    *ngIf="this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true"
+                            *ngIf="this.quote?.productId['isFlexaShow']">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Flexa Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog" (click)="openFlexaCoversDialog()">VIEW
+                                    ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of flexaCovers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.addOnCoverId?.name"
+                                            tooltipPosition="top"></i>
+                                        <!-- <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.addOnCoverId?.name.length > 37 ? (cover?.addOnCoverId?.name.slice(0,37)+'...') : cover?.addOnCoverId?.name"
+                                            tooltipPosition="top"></i> -->
+                                        <a class="custom-anchor"
+                                            href="javascript:void(0)">{{cover?.addOnCoverId?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                            <!-- <p-tabPanel>
+                                <ng-template pTemplate="header">
+                                    <span>Sector Avg. Add-Ons</span>
+                                </ng-template>
+                                <a class="viewall" (click)="openSectorAvgAddOnsDialog()">VIEW ALL</a>
+                                <ul class="lists">
+                                    <li *ngFor="let cover of sectorAvgCovers | slice:0:5">
+                                        <a href="#">{{cover}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel> -->
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.IAR, AllowedProductTemplate.FIRE, AllowedProductTemplate.BLUS].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_ConditionalFreeAdd-Ons_Header">
+                                    <span>Conditional Free Add-Ons</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_openConditionalFreeAddOnsDialog"
+                                    (click)="openConditionalFreeAddOnsDialog()">VIEW ALL</a>
+                                <ul class="lists1">
+                                    <!-- <li *ngFor="let cover of conditionalFreeCovers | slice:0:4" id="SideBar_openConditionalFreeAddOns_List">
+                                        <p-checkbox class="mr-2" name="conditionalFree" id="SideBar_openConditionalFreeAddOns_List_CheckBox" value="{{cover.addOnCoverId.name}}" [(ngModel)]="selectedConditionalFreeCovers" inputId="{{cover.addOnCoverId.name}}" (onChange)="updateAddonCover(cover, $event)" [disabled] = "true"></p-checkbox>
+                                        <a href="javascript:void(0)">{{cover?.addOnCoverId?.name}}</a>
+                                    </li> -->
+                                    <li *ngFor="let cover of conditionalFreeCovers | slice:0:4"
+                                        id="SideBar_openConditionalFreeAddOns_List">
+                                        <p-checkbox class="mr-2" name="conditionalFree"
+                                            id="SideBar_openConditionalFreeAddOns_List_CheckBox"
+                                            value="{{cover.addOnCoverId.name}}"
+                                            [(ngModel)]="selectedConditionalFreeCovers"
+                                            inputId="{{cover.addOnCoverId.name}}" [disabled]="true"></p-checkbox>
+                                        <a href="javascript:void(0)">{{cover?.addOnCoverId?.name}}</a>
+                                    </li>
+
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.IAR, AllowedProductTemplate.FIRE, AllowedProductTemplate.BLUS].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_SectorAvgPaidAdd-Ons_Header">
+                                    <span>Sector Avg. Paid Add-Ons</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_openSectorAvgPaidAddOnsDialog"
+                                    (click)="openSectorAvgPaidAddOnsDialog()">VIEW ALL</a>
+                                <ul class="lists1">
+                                    <!-- <li *ngFor="let addon of sectorAvgPaidCovers | slice:0:5" id="SideBar_openSectorAvgPaidAddOns_List">
+                                        <p-checkbox class="mr-2" name="sectorAvgPaid" id="SideBar_openSectorAvgPaidAddOns_List_CheckBox" value="{{addon.addOnCoverId.name}}" [(ngModel)]="selectedSectorAvgPaidCovers" inputId="{{addon.addOnCoverId.name}}" (onChange)="updateAddonCover(addon, $event)" readonly></p-checkbox>
+                                        <a>{{addon?.addOnCoverId?.name}}</a>
+                                    </li> -->
+                                    <li *ngFor="let addon of sectorAvgPaidCovers | slice:0:5"
+                                        id="SideBar_openSectorAvgPaidAddOns_List">
+                                        <p-checkbox class="mr-2" name="sectorAvgPaid"
+                                            id="SideBar_openSectorAvgPaidAddOns_List_CheckBox"
+                                            value="{{addon.addOnCoverId.name}}"
+                                            [(ngModel)]="selectedSectorAvgPaidCovers"
+                                            inputId="{{addon.addOnCoverId.name}}" [disabled]="true"></p-checkbox>
+                                        <a>{{addon?.addOnCoverId?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="false">
+                            <p-tabPanel *ngIf="selectedQuoteTemplate">
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Coverages</span>
+                                </ng-template>
+                                <ul *ngIf="selectedQuoteTemplate.gmcTemplateData">
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid" *ngIf="coveritemQuetions.isShowInList"
+                                                                style="align-items: center;">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.freeTextValue"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_ConditionalFreeAdd-Ons_Header">
+                                    <span>Covered</span>
+                                </ng-template>
+                                <!-- <a class="viewall" id="SideBar_openConditionalFreeAddOnsDialog" (click)="openConditionalFreeAddOnsDialog()">VIEW ALL</a> -->
+                                <ul *ngIf="selectedQuoteTemplate">
+
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid"
+                                                                *ngIf="coveritemQuetions.isShowInList && +coveritemQuetions.selectedAnswer > 0">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.freeTextValue"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_SectorAvgPaidAdd-Ons_Header">
+                                    <span>Not Covered</span>
+                                </ng-template>
+                                <ul *ngIf="selectedQuoteTemplate">
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid"
+                                                                *ngIf="coveritemQuetions.isShowInList && +coveritemQuetions.selectedAnswer == 0">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.freeTextValue"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.LIABILITY].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CRIME].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Addons Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog"
+                                    (click)="openLiabilityCoversDialog()">VIEW
+                                    ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of covers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.description"
+                                            tooltipPosition="top"></i>
+                                        <a class="custom-anchor" href="javascript:void(0)">{{cover?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.LIABILITY_EANDO].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Add-Ons Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog"
+                                    (click)="openLiabilityEandOCoversDialog()">VIEW ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of covers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.description"
+                                            tooltipPosition="top"></i>
+                                        <a class="custom-anchor" href="javascript:void(0)">{{cover?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.LIABILITY_CGL].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Add-Ons Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog"
+                                    (click)="openLiabilityCGLCoversDialog()">VIEW ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of covers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.description"
+                                            tooltipPosition="top"></i>
+                                        <a class="custom-anchor" href="javascript:void(0)">{{cover?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.WORKMENSCOMPENSATION].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Add-Ons Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog"
+                                    (click)="openWorkmanCompensationCoversDialog()">VIEW ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of covers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.description"
+                                            tooltipPosition="top"></i>
+                                        <a class="custom-anchor" href="javascript:void(0)">{{cover?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.LIABILITY_PRODUCT].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CYBER].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Add-Ons Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog"
+                                    (click)="openLiabilityProductLiabilityCoversDialog()">VIEW ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of covers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="cover?.description"
+                                            tooltipPosition="top"></i>
+                                        <a class="custom-anchor" href="javascript:void(0)">{{cover?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.MARINE].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel *ngFor="let item of marineHeads">
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>{{item. headName}}</span>
+                                </ng-template>
+                                <ul class="list-group p-3" id="SectorPaidAddons_AddOnsCovers">
+                                    <li style="color: white;" id="SideBar_FlexaCovers_List"
+                                        *ngFor="let item of filteredClaues(item._id)">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="item.clauseName"
+                                            tooltipPosition="top"></i> {{item.clauseName}}
+                                    </li>
+                                </ul>
+
+
+                            </p-tabPanel>
+
+                        </p-tabView>
+                    </div>
+                </div>
+            </div>
+        </p-sidebar>
+        <div class="sidebar-start" [ngStyle]="{'display': this.isSidebarVisible ? 'none' : ''}">
+            <div class="sidebar-header">
+                <h3 class="vt-align first" id="sidebare_Index_header">BASIC DETAILS OF THE QUOTE</h3>
+                <h3 class="vt-align second" id="sidebare_Index_header">ADD-ONS, COVERAGES &amp; CLAUSES</h3>
+            </div>
+            <div class="sidebar-open">
+                <p-button class="sidebar-open" id="toOpen_SideBar" type="button" (click)="this.isSidebarVisible = true"
+                    icon="pi pi-arrow-right"></p-button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
+<div *ngIf="isMobile">
+    <div class="sidebar">
+        <p-sidebar class="mobile-sidebar" [(visible)]="this.isSidebarVisible" [baseZIndex]="10000"
+            (onHide)="sidebarClosed($event)">
+            <div class="basic-details-quote">
+                <div class="grid">
+                    <div class="col-10">
+                        <div class="head">
+                            <h2 id="SideBar_header">BASIC DETAILS OF THE QUOTE</h2>
+                        </div>
+                        <div class="mb-2" id="SideBar_Insured_Name"><span class="clr-blue"> Insured Name:</span>
+                            {{this.quote?.clientId?.name}}</div>
+                        <div class="" id="SideBar_policy_Type"><span class="clr-blue"> Policy Type:</span>
+                            {{this.quote?.productId?.type}}
+                        </div>
+                        <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Location:</span>
+                            {{this.quote?.locationBasedCovers?.quoteLocationOccupancy?.locationName?.split(',')[0]}}
+                        </div>
+                        <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Occupancy:</span>
+                            {{this.quote?.locationBasedCovers?.quoteLocationOccupancy?.occupancyId['occupancyType']?.split(',')[0]}}
+                        </div>
+                        <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Type Of Shop:</span>
+                        </div>
+                    </div>
+                    <!-- <div class="col-2">
+                        <a class="edit-button" id="SideBar_OpenEditInsuredsDialog"
+                            (click)="this.openInsuredDetailsDialog()" label="Insured Details: Q_FIRE_SFSP_22515"
+                            href="javascript:void(0);"><img src="../../../../assets/icons/edit.svg" alt=""></a>
+                    </div> -->
+                </div>
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION">
+                    <div class="col-12">
+                        <hr class="sb-bor" />
+                    </div>
+                </div>
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION">
+                    <div class="col-12">
+                        <div class="head">
+                            <h2 id="SideBar_CoverOpted_Header"
+                                *ngIf="this.quote.locationBasedCovers?.quoteLocationOccupancy"> COVERS OPTED :
+                                {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.locationName?.split(',')[0]}}
+                            </h2>
+                        </div>
+                        <app-toggle-cover-opted id="SideBar_ToggleCoverOpted"></app-toggle-cover-opted>
+                    </div>
+                </div>
+                <div class="grid"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION">
+                    <div class="col-12">
+                        <hr class="sb-bor">
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-center mb-3"
+                    *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION">
+                    <div class="col" style="width: 80px"
+                        *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.BLUS">
+                        <p-multiSelect placeholder="No Covers Selected" [resetFilterOnHide]="true" [showClear]="true"
+                            id="SideBar_multiSelection" (onChange)="this.coversUpdated($event)"
+                            [(ngModel)]="this.selectedAllowedBscCoversForQuote" pInputText
+                            [options]="this.optionsAllowedBscCoversForQuote" optionLabel="label" class="mr-3">
+                            <ng-template pTemplate="empty">
+                                No Covers Found
+                            </ng-template>
+                        </p-multiSelect>
+                    </div>
+                    <div class="col">
+                        <button id="SideBar_LocationWiseBreakupDialog" (click)="openLocationWiseBreakupDialog()"
+                            style="width:165px" label="Location wise Breakup of Total Indicative Pricing"
+                            class=" btn btn-lg btn btn-success" type="button">View Location Wise Breakup</button>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12">
+                        <hr class="sb-bor">
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-center ">
+                    <div class="col-12">
+                        <div class="head">
+                            <h2 id="SideBar_ADD-ONS_COVERAGES&CLAUSES_Header">ADD-ONS, COVERAGES & CLAUSES</h2>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR">
+                        <div>
+                            <p-dropdown placeholder="No Type Selected" [dropdown]="true"
+                                (onChange)="this.addonCoverTypeChanged($event)"
+                                [(ngModel)]="this.selectedAddonCoverType"
+                                [options]="this.optionsAddonCoverCategories"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid add-ons"
+                    *ngIf="this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel>
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Flexa Covers</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_FlexaCoversDialog" (click)="openFlexaCoversDialog()">VIEW
+                                    ALL</a>
+                                <ul>
+                                    <li *ngFor="let cover of flexaCovers | slice:0:5" id="SideBar_FlexaCovers_List">
+                                        <i class="pi pi-info-circle custom-info"
+                                            [pTooltip]="cover?.addOnCoverId?.description" tooltipPosition="top"></i>
+                                        <a class="custom-anchor"
+                                            href="javascript:void(0)">{{cover?.addOnCoverId?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.IAR, AllowedProductTemplate.FIRE].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_ConditionalFreeAdd-Ons_Header">
+                                    <span>Conditional Free Add-Ons</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_openConditionalFreeAddOnsDialog"
+                                    (click)="openConditionalFreeAddOnsDialog()">VIEW ALL</a>
+                                <ul class="lists1">
+                                    <li *ngFor="let cover of conditionalFreeCovers | slice:0:4"
+                                        id="SideBar_openConditionalFreeAddOns_List">
+                                        <p-checkbox class="mr-2" name="conditionalFree"
+                                            id="SideBar_openConditionalFreeAddOns_List_CheckBox"
+                                            value="{{cover.addOnCoverId.name}}"
+                                            [(ngModel)]="selectedConditionalFreeCovers"
+                                            inputId="{{cover.addOnCoverId.name}}" [disabled]="true"></p-checkbox>
+                                        <a href="javascript:void(0)">{{cover?.addOnCoverId?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.IAR, AllowedProductTemplate.FIRE].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_SectorAvgPaidAdd-Ons_Header">
+                                    <span>Sector Avg. Paid Add-Ons</span>
+                                </ng-template>
+                                <a class="viewall" id="SideBar_openSectorAvgPaidAddOnsDialog"
+                                    (click)="openSectorAvgPaidAddOnsDialog()">VIEW ALL</a>
+                                <ul class="lists1">
+                                    <li *ngFor="let addon of sectorAvgPaidCovers | slice:0:5"
+                                        id="SideBar_openSectorAvgPaidAddOns_List">
+                                        <p-checkbox class="mr-2" name="sectorAvgPaid"
+                                            id="SideBar_openSectorAvgPaidAddOns_List_CheckBox"
+                                            value="{{addon.addOnCoverId.name}}"
+                                            [(ngModel)]="selectedSectorAvgPaidCovers"
+                                            inputId="{{addon.addOnCoverId.name}}" [disabled]="true"></p-checkbox>
+                                        <a>{{addon?.addOnCoverId?.name}}</a>
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel *ngIf="selectedQuoteTemplate">
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>Coverages</span>
+                                </ng-template>
+                                <ul *ngIf="selectedQuoteTemplate.gmcTemplateData">
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid" *ngIf="coveritemQuetions.isShowInList"
+                                                                style="align-items: center;">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.question"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_ConditionalFreeAdd-Ons_Header">
+                                    <span>Covered</span>
+                                </ng-template>
+                                <ul *ngIf="selectedQuoteTemplate">
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid"
+                                                                *ngIf="coveritemQuetions.isShowInList && +coveritemQuetions.selectedAnswer > 0">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.question"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                *ngIf="[AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])">
+                                <ng-template pTemplate="header" id="SideBar_SectorAvgPaidAdd-Ons_Header">
+                                    <span>Not Covered</span>
+                                </ng-template>
+                                <ul *ngIf="selectedQuoteTemplate">
+                                    <ngcontainer *ngFor="let cover of selectedQuoteTemplate.gmcTemplateData">
+                                        <ngcontainer *ngIf="getCoveragesFlag(cover)">
+                                            <ngcontainer *ngFor="let coveritem of cover.gmcSubTab">
+                                                <ngcontainer *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                                    <ngcontainer
+                                                        *ngFor="let coveritemQuetions of coveritemLabel.gmcQuestionAnswers">
+                                                        <li id="SideBar_FlexaCovers_List">
+                                                            <div class="grid"
+                                                                *ngIf="coveritemQuetions.isShowInList && +coveritemQuetions.selectedAnswer == 0">
+                                                                <div class="col-1 justify-content-center"> <i
+                                                                        class="pi pi-info-circle custom-info"
+                                                                        style="padding: 0px;"
+                                                                        [pTooltip]="coveritemQuetions?.question"
+                                                                        tooltipPosition="top"></i></div>
+                                                                <div class="col-7 justify-content-center">
+                                                                    <a class="custom-anchor"
+                                                                        href="javascript:void(0)">{{
+                                                                        coveritemQuetions?.question }}</a>
+                                                                </div>
+                                                                <div class="col-4 justify-content-center">
+                                                                    <a class="custom-anchor float-right pull-right"
+                                                                        href="javascript:void(0)">{{getAnswer(
+                                                                        coveritemQuetions) }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ngcontainer>
+                                                </ngcontainer>
+                                            </ngcontainer>
+                                        </ngcontainer>
+                                    </ngcontainer>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+                <div class="grid add-ons"
+                    *ngIf="[AllowedProductTemplate.MARINE].includes(this.quote?.productId['productTemplate'])">
+                    <div class="col-12">
+                        <p-tabView styleClass="tabview-custom" [scrollable]="true">
+                            <p-tabPanel *ngFor="let item of marineHeads">
+                                <ng-template pTemplate="header" id="SideBar_FlexaCovers_header">
+                                    <span>{{item. headName}}</span>
+                                </ng-template>
+                                <ul class="list-group p-3" id="SectorPaidAddons_AddOnsCovers">
+                                    <li style="color: white;" id="SideBar_FlexaCovers_List"
+                                        *ngFor="let item of filteredClaues(item._id)">
+                                        <i class="pi pi-info-circle custom-info" [pTooltip]="item.clauseName"
+                                            tooltipPosition="top"></i> {{item.clauseName}}
+                                    </li>
+                                </ul>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+            </div>
+        </p-sidebar>
+        <div class="sidebar-start" [ngStyle]="{'display': this.isSidebarVisible ? 'none' : ''}">
+            <div class="sidebar-header">
+                <h3 class="vt-align first" id="sidebare_Index_header">BASIC DETAILS OF THE QUOTE</h3>
+                <h3 class="vt-align second" id="sidebare_Index_header">ADD-ONS, COVERAGES &amp; CLAUSES</h3>
+            </div>
+            <div class="sidebar-open">
+                <p-button class="sidebar-open" id="toOpen_SideBar" type="button" (click)="this.isSidebarVisible = true"
+                    icon="pi pi-arrow-right"></p-button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1344 @@
+<div class="px-5 pb-3">
+
+    <div class=" tblz01-pdf mt-4" *ngIf="this.quote.qcrApproved == null">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <ng-container>
+                <hr style="padding: -80%; width: calc(100% + 24px); margin-left: -12px;" />
+                <ng-container>
+                    <tr style="background-color:#0048bc; color: white !important;">
+                        <td class="text-black" id="GmcSubTemplate_Employee_Header">
+                            <h3 style="color: white;">
+                                {{selectedQuoteTemplate.optionName}}</h3>
+                        </td>
+                        <td class="text-black" id="GmcSubTemplate_Employee_Header" align="right">
+                            <h3 style="color: white;">
+                                {{selectedQuoteTemplate.isAccepted =='Accept'?'Accepted':
+                                selectedQuoteTemplate.isAccepted ==''?'':'Rejected'}}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="grid">
+                                <div class="col-12" *ngIf="this.quote?.quoteType=='new'">
+                                    <p-table [value]="selectedQuoteTemplate.gmcBasicDetails.gmcPolicyDetails">
+                                        <ng-template pTemplate="header">
+                    <tr>
+                        <th>Details</th>
+                        <th>Inception</th>
+                    </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-detail>
+                        <tr>
+                            <td>{{ detail.name }}</td>
+                            <td><label>{{ detail.inception }}</label></td>
+                        </tr>
+                    </ng-template>
+                    </p-table>
+    </div>
+    <div class="col-12" *ngIf="selectedQuoteTemplate.showClaimHistory && (this.quote?.productId['type'] == 'Group Health Policy' || this.quote?.productId['type'] == 'Group Health Policy Top Up')">
+        <h5>Policy Details</h5>
+        <p-table [value]="selectedQuoteTemplate.gmcBasicDetails.gmcPolicyDetails">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Details</th>
+                    <th>Inception</th>
+                    <th>As on Date</th>
+                    <th>% Change</th>
+                    <th>Proposed</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detail>
+                <tr>
+                    <td>{{ detail.name }}</td>
+                    <td><label>{{ detail.inception }}</label></td>
+                    <td><label>{{ detail.asOnDate }}</label></td>
+                    <td><label>{{ detail.change }}</label></td>
+                    <td><label>{{ detail.proposed }}</label></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+
+</div>
+<div *ngIf="selectedQuoteTemplate.showClaimHistory">
+    <ng-container
+        *ngIf="this.quote?.productId['type'] == 'Group Health Policy' || this.quote?.productId['type'] == 'Group Health Policy Top Up'">
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> No. of Days Lapsed in Policy:
+                </p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.policyRunDays }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Premium Paid at Inception
+                    (Excluding ST) - INR:</p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.premiumAtInception | currency: 'INR' }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Total Premium Paid as on date
+                    (Excluding ST) - INR:</p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.premiumAsOnDate | currency: 'INR' }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Earned Premium (excl. GST):
+                </p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.earnedPremium | currency: 'INR' }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Existing Insurer:</p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.existingInsurer }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Existing TPA:</p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.existingTPA }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="grid ml-4">
+            <div class="col-10">
+                <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Existing Broker:</p>
+            </div>
+            <div class="col-2">
+                <ng-container>
+                    <p [ngClass]="dataTypeCss">
+                        {{ selectedQuoteTemplate.gmcBasicDetails.existingBroker }}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<div class="col-12"
+    *ngIf="(this.quote?.productId['type'] == 'Group Health Policy' || this.quote?.productId['type'] == 'Group Health Policy Top Up')">
+    <div class="p-col-12" *ngIf="selectedQuoteTemplate.showClaimHistory">
+        <h5>Claim Details</h5>
+        <div class="p-col-12">
+            <p-table [value]="selectedQuoteTemplate.gmcBasicDetails.gmcClaimDetails" class="graded-form">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Claim</th>
+                        <th>Count</th>
+                        <th>Amount</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body">
+                    <tr>
+                        <td>Claims</td>
+                        <td colspan="2"><label>{{ selectedQuoteTemplate.gmcBasicDetails.claimAsOnDate |
+                                date }}</label>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-claim>
+                    <tr>
+                        <td>{{ claim.name }}</td>
+                        <td><label>{{ claim.count }}</label></td>
+                        <td><label>{{ claim.amount | currency: 'INR' }}</label></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <ng-container>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                            Annualized Claim Amount</p>
+                    </div>
+                    <div class=" col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.annualizedClaimAmount |
+                                currency: 'INR' }}
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                            Average Claim Amount</p>
+                    </div>
+                    <div class=" col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.averageClaimSize | currency:
+                                'INR' }}
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Claim Ratio on Earned
+                            Premium (ICR):
+                        </p>
+                    </div>
+                    <div class="col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.claimRatioPremium }}
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Claim Ratio on Total
+                            Premium:</p>
+                    </div>
+                    <div class="col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.claimRatioTotalPremium }} %
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Co-Insure Details:</p>
+                    </div>
+                    <div class="col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.coInsureDetails }}
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid ml-4">
+                    <div class="col-10">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Co-Insure Percentage:
+                        </p>
+                    </div>
+                    <div class="col-2">
+                        <ng-container>
+                            <p [ngClass]="dataTypeCss">
+                                {{ selectedQuoteTemplate.gmcBasicDetails.coInsurePercentage }}
+                            </p>
+                        </ng-container>
+                    </div>
+                </div>
+
+            </ng-container>
+
+            <div style="margin-top: 3" *ngIf="selectedQuoteTemplate.gradedFormData.length >0">
+                <h5>Sum Insured Basis - Graded</h5>
+                <table class="graded-form">
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Sum Insured</th>
+                            <th>Add More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of selectedQuoteTemplate.gradedFormData; let i = index">
+                            <td>
+                                {{selectedQuoteTemplate.gradedFormData[i].grade}}
+                            </td>
+                            <td>
+                                {{ selectedQuoteTemplate.gradedFormData[i].sumInsured | currency:
+                                'INR' }}
+                            </td>
+                            <td>
+                                {{selectedQuoteTemplate.gradedFormData[i].additionalColumn}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 3;"
+                *ngIf="selectedQuoteTemplate.gradedFormDataMultiple.length>0 && selectedQuoteTemplate.gradedFormDataMultiple[0].grade !=''">
+                <h5>Restriction On</h5>
+                <table class="graded-form">
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Sum Insured</th>
+                            <th>Room Eligible</th>
+                            <th>Add More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of selectedQuoteTemplate.gradedFormDataMultiple; let i = index">
+                            <td>
+                                {{selectedQuoteTemplate.gradedFormDataMultiple[i].grade}}
+                            </td>
+                            <td>
+                                {{ selectedQuoteTemplate.gradedFormDataMultiple[i].sumInsured | currency:
+                                'INR' }} </td>
+                            <td>
+                                {{selectedQuoteTemplate.gradedFormDataMultiple[i].roomEligible}}
+                            </td>
+                            <td>
+                                {{selectedQuoteTemplate.gradedFormDataMultiple[i].additionalColumn}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="installment-tenure" *ngIf="selectedQuoteTemplate?.otherDetailsInstallment.length >0">
+                <h5>No of Instalments</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Installment Number</th>
+                            <th>Installment Date</th>
+                            <th>Premium Excluding GST</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let installment of selectedQuoteTemplate?.otherDetailsInstallment">
+                            <td>{{ installment.number }}</td>
+                            <td>{{installment.date | date:'dd-MMM-yyyy'}}</td>
+                            <td>
+                                {{installment.premium}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <button (click)="addInstallment()">+ Add More</button> -->
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <!-- <div class="col-4" *ngIf="quote.quoteType != 'new'">
+        <p-card class="">
+            <h4 class="mb-6">Insurer Details</h4>
+            <div class="inner-container">
+                <div class="grid mb-2">
+                    <div class="col-6" *ngIf="typeOfInsurerList.length > 0">
+                        <label for="" class="form-label" id="lblClientIndustry">Type of Insurer</label>
+                        <label>{{ employeeDemographic.typeOfInsurer }}</label>
+                        <button *ngIf="!employeeDemographic.istypeOfInsurerDescription" pButton type="button"
+                            label="Add more info" class="p-button-link"
+                            (click)="employeeDemographic.istypeOfInsurerDescription = !employeeDemographic.istypeOfInsurerDescription"></button>
+                    </div>
+                    <div class="col-6" *ngIf="employeeDemographic.istypeOfInsurerDescription">
+                        <label for="" class="form-label" id="lblDescription">Description</label>
+                        <label>{{ this.employeeDemographic.typeOfInsurerDescription }}</label>
+                        <button pButton type="button" label="Remove" class="p-button-link btn-danger"
+                            (click)="employeeDemographic.istypeOfInsurerDescription = !employeeDemographic.istypeOfInsurerDescription"></button>
+                    </div>
+                </div>
+                <div class="grid mb-2">
+                    <div class="col-6" *ngIf="optionsInsurers.length > 0">
+                        <label for="" class="form-label" id="lblDescription">Name of Lead
+                            Insurer</label>
+                        <label>{{ employeeDemographic.nameOfLeadInsurer }}</label>
+                        <button *ngIf="!employeeDemographic.isnameOfLeadInsurerDescription" pButton type="button"
+                            label="Add more info" class="p-button-link"
+                            (click)="employeeDemographic.isnameOfLeadInsurerDescription = !employeeDemographic.isnameOfLeadInsurerDescription"></button>
+                    </div>
+                    <div class="col-6" *ngIf="employeeDemographic.isnameOfLeadInsurerDescription">
+                        <label for="" class="form-label" id="lblDescription">Name of Insurer
+                            Description</label>
+                        <label>{{ this.employeeDemographic.nameOfLeadInsurerDescription }}</label>
+                        <button pButton type="button" label="Remove" class="p-button-link btn-danger"
+                            (click)="employeeDemographic.isnameOfLeadInsurerDescription = !employeeDemographic.isnameOfLeadInsurerDescription"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div> -->
+</div>
+<div class="col-12">
+    <div class="grid">
+        <div class="col-12" *ngIf="selectedQuoteTemplate.showClaimHistory">
+            <h5 class="">Claim Details</h5>
+            <p-table [value]="selectedQuoteTemplate.gpaGtlFormDetails" class="p-table" border="1" cellspacing="0"
+                cellpadding="5">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th>Year 1</th>
+                        <th>Year 2</th>
+                        <th>Year 3</th>
+                        <th>Year 4</th>
+                        <th>Year 5</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-detail>
+                    <tr>
+                        <td>{{ detail.label }}</td>
+                        <td>{{ detail.data.year1 }}</td>
+                        <td>{{ detail.data.year2 }}</td>
+                        <td>{{ detail.data.year3 }}</td>
+                        <td>{{ detail.data.year4 }}</td>
+                        <td>{{ detail.data.year5 }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="grid ml-4 mt-3">
+                <div class="col-10">
+                    <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Claim as on Date:</p>
+                </div>
+                <div class="col-2">
+                    <ng-container>
+                        <p [ngClass]="dataTypeCss">
+                            {{ selectedQuoteTemplate.gmcBasicDetails.claimAsOnDate |
+                            date }}
+                        </p>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="grid ml-4">
+                <div class="col-10">
+                    <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Existing TPA:</p>
+                </div>
+                <div class="col-2">
+                    <ng-container>
+                        <p [ngClass]="dataTypeCss">
+                            {{ selectedQuoteTemplate.gmcBasicDetails.existingTPA }}
+                        </p>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="grid ml-4">
+                <div class="col-10">
+                    <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Existing Broker:</p>
+                </div>
+                <div class="col-2">
+                    <ng-container>
+                        <p [ngClass]="dataTypeCss">
+                            {{ selectedQuoteTemplate.gmcBasicDetails.existingBroker }}
+                        </p>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</td>
+</tr>
+<tr *ngIf="(selectedQuoteTemplate.isAccepted =='Accept')">
+    <td colspan="2">
+        <h3><strong class="premium-price" *ngIf="this.quote.partnerId['isRate'] == true">Premium: <app-currency
+                    [value]="(selectedQuoteTemplate.indicativePremium)"></app-currency> *(Incl. Taxes)</strong>
+        </h3>
+    </td>
+</tr>
+<!-- <tr
+    *ngIf="selectedQuoteTemplate.isAccepted !='Accept' && this.user.roleId?.name == AllowedRoles.BROKER_CREATOR_AND_APPROVER &&  quote.quoteType == 'new' && quote.quoteState != 'QCR From Underwritter'">
+    <td colspan="2">
+        <h3><strong class="premium-price" *ngIf="this.quote.partnerId['isRate'] == true">Premium: <app-currency
+                    [value]="(selectedQuoteTemplate.calculatedPremium)"></app-currency> *(Incl. Taxes)</strong>
+        </h3>
+
+
+    </td>
+</tr> -->
+<tr style="margin-top: 5px;"
+    *ngIf="(selectedQuoteTemplate.isAccepted =='Accept' && quote.quoteState != 'QCR From Underwritter')">
+    <td colspan="2">
+        <h5>Decision</h5>
+        <ng-container *ngIf="selectedQuoteTemplate.isAccepted == 'Accept'">
+            <div class="grid mt-3">
+                <div class="col-6">
+                    <label class="text-left">Premium - {{selectedQuoteTemplate.indicativePremium |
+                        currency:'INR'}}</label>
+                </div>
+                <div class="col-6">
+                    <label>Brokerage % - {{selectedQuoteTemplate.brokarage}}</label>
+                </div>
+            </div>
+
+            <div class="grid mt-3">
+                <div class="col-6">
+                    <div *ngIf="selectedQuoteTemplate.otherTerms.length>0">
+                        <label><b>Other Terms</b></label>
+                        <table class="table table-bordered" style="width: 100%;">
+                            <!-- <tr style="background-color: #0064BB; color: white;">
+                                                    <td style="border: 2px solid #0064BB;">Terms</td>
+                                                </tr> -->
+                            <tr *ngFor="let item of selectedQuoteTemplate.otherTerms;"
+                                style="border: 2px solid #0064BB;">
+                                <td style="max-width:100px; border: 1px solid #0064BB;
+                                            word-wrap:break-word;">{{item}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2">
+        <ng-container *ngFor="let subOption of selectedQuoteTemplate.gmcTemplateData; let j = index">
+            <ng-container *ngIf="showTabs(subOption.parentTabName, j)">
+                <!-- Parent Tab Section -->
+                <div class="p-3 border rounded" style="background-color: #f8f9fa;">
+                    <h4 *ngIf="subOption.gmcSubTab.length > 0" class="text-primary">
+                        <b><u>{{ subOption.parentTabName }}</u></b>
+                    </h4>
+                </div>
+
+                <!-- SubTabs Section -->
+                <div *ngFor="let coveritem of subOption.gmcSubTab" class="border-bottom p-3">
+                    <h5 class="text-secondary mb-2">
+                        <b>{{ coveritem.subTabName }}</b>
+                    </h5>
+                    <!-- Labels and Questions -->
+                    <div *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                        <ng-container *ngFor="let coveritemQuestions of coveritemLabel.gmcQuestionAnswers">
+                            <!-- Check Visibility and State -->
+                            <ng-container *ngIf="coveritemQuestions.isActive && coveritemQuestions.selectedAnswer!=0">
+                                <table class="table table-bordered table-striped"
+                                    style="margin: 0px !important;border: 1px solid #c8ccd8 !important">
+                                    <tbody>
+                                        <tr
+                                            *ngIf="coveritemQuestions.isActive && coveritemQuestions.question.trim() === 'Restriction on'">
+                                            <!-- Question Section -->
+                                            <td style="width:70%;" colspan="2">
+                                                <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+
+                                                <p [ngClass]="dataTypeCss" class="mb-0">
+                                                    <span>{{ coveritemQuestions?.question }}</span>: <per>{{ getAnswer(coveritemQuestions,
+                                                        coveritem.subTabName,
+                                                        selectedQuoteTemplate.planType) }}</per>
+                                                    <span class="text-muted"
+                                                        *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                        ,{{ coveritemQuestions.freeTextValue }}
+                                                    </span>
+                                                </p>
+                                                <ng-container>
+                                                    <div style="margin-top: 3;"
+                                                        *ngIf="selectedQuoteTemplate.gradedFormDataMultiple.length > 0">
+                                                        <table class="graded-form">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Grade</th>
+                                                                    <th>Sum Insured</th>
+                                                                    <th>Room Eligible</th>
+                                                                    <th>Add More</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let row of selectedQuoteTemplate.gradedFormDataMultiple; let i = index">
+                                                                    <td>
+                                                                        <label>{{ row.grade }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>₹ {{ row.sumInsured }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ row.roomEligible }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ row.additionalColumn }}</label>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+
+                                            <!-- Answer Section -->
+
+                                        </tr>
+
+                                        <tr
+                                            *ngIf="coveritemQuestions.isActive && coveritemQuestions.question.trim() === 'Sum Insured Basis'">
+                                            <!-- Question Section -->
+                                            <td style="width:70%;" colspan="2">
+                                                <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+
+                                                <p [ngClass]="dataTypeCss" class="mb-0">
+                                                    <span>{{ coveritemQuestions?.question }}</span>: <per>{{ getAnswer(coveritemQuestions,
+                                                        coveritem.subTabName,
+                                                        selectedQuoteTemplate.planType) }}</per>
+                                                    <span class="text-muted"
+                                                        *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                        ,{{ coveritemQuestions.freeTextValue }}
+                                                    </span>
+                                                </p>
+                                                <ng-container>
+                                                    <div style="margin-top: 3;"
+                                                        *ngIf="selectedQuoteTemplate.gradedFormData.length > 0">
+                                                        <table class="graded-form">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Grade</th>
+                                                                    <th>Sum Insured</th>
+                                                                    <th>Add More</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let row of selectedQuoteTemplate.gradedFormData; let i = index">
+                                                                    <td>
+                                                                        <label>{{ row.grade }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>₹ {{ row.sumInsured }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ row.additionalColumn }}</label>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+
+                                            <!-- Answer Section -->
+
+                                        </tr>
+                                        <tr
+                                            *ngIf="coveritemQuestions.isActive && coveritemQuestions.question.trim() === 'No of Instalments'">
+                                            <!-- Question Section -->
+                                            <td style="width:70%;" colspan="2">
+                                                <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+<!-- 
+                                                <p [ngClass]="dataTypeCss" class="mb-0">
+                                                    <span>{{ coveritemQuestions?.question }}</span>: <per>{{ getAnswer(coveritemQuestions,
+                                                        coveritem.subTabName,
+                                                        selectedQuoteTemplate.planType) }}</per>
+                                                    <span class="text-muted"
+                                                        *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                        ,{{ coveritemQuestions.freeTextValue }}
+                                                    </span>
+                                                </p> -->
+                                                <ng-container>
+                                                    <div style="margin-top: 3;"
+                                                        *ngIf="selectedQuoteTemplate.otherDetailsInstallment.length > 0">
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Installment Number</th>
+                                                                    <th>Installment Date</th>
+                                                                    <th>Premium Excluding GST</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    *ngFor="let installment of selectedQuoteTemplate?.otherDetailsInstallment">
+                                                                    <td>{{ installment.number }}</td>
+                                                                    <td>{{ installment.date }}</td>
+                                                                    <td>{{ installment.premium }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+
+                                            <!-- Answer Section -->
+
+                                        </tr>
+
+                                        <tr
+                                            *ngIf="coveritemQuestions.isActive && coveritemQuestions.question.toLowerCase().trim() === 'ailment limit'">
+                                            <!-- Question Section -->
+                                            <td style="width:70%;" colspan="2">
+                                                <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+
+                                                <!-- <p [ngClass]="dataTypeCss" class="mb-0">
+                                                    <span>{{ coveritemQuestions?.question }}</span>: <per>{{ getAnswer(coveritemQuestions,
+                                                        coveritem.subTabName,
+                                                        selectedQuoteTemplate.planType) }}</per>
+                                                    <span class="text-muted"
+                                                        *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                        ,{{ coveritemQuestions.freeTextValue }}
+                                                    </span>
+                                                </p> -->
+                                                <ng-container>
+                                                    <div style="margin-top: 3;"
+                                                        *ngIf="selectedQuoteTemplate.gmcOtherDetails.length > 0">
+                                                        <table class="graded-form">
+                                                            <thead>
+                                                              <tr>
+                                                                <th>Alignment</th>
+                                                                <th>Sub-Limit</th>
+                                                                <th>Description</th>
+                                                              </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                              <tr *ngFor="let row of selectedQuoteTemplate.gmcOtherDetails; let i = index">
+                                                                <td>
+                                                                  <label>{{ row.alignment || 'N/A' }}</label>
+                                                                </td>
+                                                                <td>
+                                                                  <label>₹ {{ row.sublimit || '0' }}</label>
+                                                                </td>
+                                                                <td>
+                                                                  <label>{{ row.description || 'N/A' }}</label>
+                                                                </td>
+                                                              </tr>
+                                                            </tbody>
+                                                          </table>
+                                                          
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+
+                                            <!-- Answer Section -->
+
+                                        </tr>
+                                        <tr
+                                            *ngIf="coveritemQuestions.isActive && coveritemQuestions.question.trim() !== 'Restriction on'">
+                                            <!-- Question Section -->
+                                            <td style="width: 70%;">
+                                                <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+                                                <span>{{ coveritemQuestions?.question }}</span>
+                                            </td>
+
+                                            <!-- Answer Section -->
+                                            <td class="text-right" style="width: 30%;">
+                                                <!-- Family Definition Logic -->
+                                                <ng-container
+                                                    *ngIf="coveritemQuestions.question.trim() === 'Family Demography'">
+                                                    <p [ngClass]="dataTypeCss" class="mb-0">{{
+                                                        selectedQuoteTemplate.coverageTypeName }}</p>
+                                                </ng-container>
+
+                                                <!-- Non-Family Definition Logic -->
+                                                <ng-container
+                                                    *ngIf="coveritemQuestions.question.trim() !== 'Family Demography'">
+                                                    <p [ngClass]="dataTypeCss" class="mb-0">
+                                                        <per>{{ getAnswer(coveritemQuestions,
+                                                            coveritem.subTabName,
+                                                            selectedQuoteTemplate.planType) }}</per>
+                                                        <span class="text-muted"
+                                                            *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                            ,{{ coveritemQuestions.freeTextValue }}
+                                                        </span>
+                                                    </p>
+                                                </ng-container>
+
+                                                <!-- Sum Insured Basis Logic -->
+                                                <ng-container *ngIf="coveritemQuestions.question.trim() === 'Sum Insured Basis' &&
+                                             selectedQuoteTemplate.planType === 'Floater' &&
+                                             selectedQuoteTemplate.siType === 'Flat'">
+                                                    <p [ngClass]="dataTypeCss" class="mb-0">
+                                                        {{ selectedQuoteTemplate.siFlat | currency: 'INR':'symbol':'1.0'
+                                                        }}
+                                                    </p>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </td>
+</tr>
+
+
+</ng-container>
+</ng-container>
+</table>
+<table class="static-table" cellpadding="0" cellspacing="0">
+    <ng-container>
+        <hr style="padding: -80%; width: calc(100% + 24px); margin-left: -12px;" />
+        <tr *ngIf="this.quote.quoteType != 'new'" style="border: 2px solid #0064BB;">
+            <td>
+                <ng-container>
+                    <div class="mb-4">
+                        <h4><b><u>Claim Analytics</u></b></h4>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-6" *ngFor="let currentClaim of selectedQuoteTemplate.claimExperience">
+                            <h5> {{currentClaim.startYear}} - {{currentClaim.endYear}} </h5>
+                            <table class="table mt-4">
+                                <tr>
+                                    <td>Premium Paid</td>
+                                    <td align="right"> {{currentClaim.premiumPaid | currency:"INR"}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Paid Amount</td>
+                                    <td align="right">{{currentClaim.paidAmount | currency:"INR"}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Outstanding Amount</td>
+                                    <td align="right">{{currentClaim.outstandingAmount | currency:"INR"}}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. of Claims</td>
+                                    <td align="right">{{currentClaim.noOfClaims}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </ng-container>
+            </td>
+        </tr>
+
+    </ng-container>
+</table>
+<table class="static-table" cellpadding="0" cellspacing="0">
+    <ng-container *ngFor="let selectedQuoteTemplate of selectedQuoteTemplate;let k = index">
+        <hr style="padding: -80%; width: calc(100% + 24px); margin-left: -12px;" />
+        <tr *ngIf="this.quote.quoteType != 'new' && k==0" style="border: 2px solid #0064BB;">
+            <td>
+                <ng-container>
+                    <div class="mb-4">
+                        <h4><b><u>Final Rater</u></b></h4>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Premium Paid Till Date
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.premiumPaidTillDate | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Claims as on Date
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.claimAsOnDate | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Claims Paid + Outstanding
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.claimsPaidOutStanding | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                One Time Claims
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.oneTimeClaims | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Covid Claims
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.covidClaims | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Claims due to Death of Employee
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.claimsDuetoDeathOfEmployee | currency:"INR"}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Adjustment % for increase in life
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.adjustmentpercentage}}
+                        </div>
+                    </div>
+
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                IBNR (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.ibnr}}
+                        </div>
+                    </div>
+
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Medical Inflation (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.medicalInflation}}
+                        </div>
+                    </div>
+
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                TPA Loading (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.tpaLoading}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Brokerage (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.brokerage}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Insurer Margin (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.insurerMargin}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Investment Income (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.investmentIncome}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                Overall Loading discount (%)
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.overAllLoadingDiscount}}
+                        </div>
+                    </div>
+                    <div class="grid ml-4">
+                        <div class="col-10">
+                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                <b>Total Premium</b>
+                        </div>
+                        <div class="col-2">
+                            {{selectedQuoteTemplate.finalRater.grandTotalAmount | currency:"INR"}}
+                        </div>
+                    </div>
+                </ng-container>
+            </td>
+        </tr>
+
+    </ng-container>
+</table>
+</div>
+
+<div class="placement-slip-container" *ngIf="this.quote.qcrApproved != null">
+    <div class="container">
+        <table>
+            <tr style="text-align: center;background-color: white !important;">
+                <th colspan="4" style="text-align: center;background-color: white !important;color: black;">
+                    {{this.quote.clientId['name']}}</th>
+
+            </tr>
+            <tr style="text-align: center; background-color: #0048bc !important;color: white !important;">
+                <th colspan="4">Details</th>
+            </tr>
+            <tr>
+                <td>Name of the Client</td>
+                <td colspan="3">{{this.quote.clientId['name']}}</td>
+            </tr>
+            <tr>
+                <td>Name of Insurer</td>
+                <td colspan="3">{{this.quote.clientId['name']}}</td>
+            </tr>
+            <tr>
+                <td>TPA (Third Party Administrator)</td>
+                <td colspan="3">{{ selectedQuoteTemplate.gmcBasicDetails.existingTPA }}</td>
+            </tr>
+            <tr>
+                <td>Policy Start Date</td>
+                <td colspan="3">{{selectedQuoteTemplate.policyStartDate}}</td>
+            </tr>
+            <tr>
+                <td>Policy End Date</td>
+                <td colspan="3">{{selectedQuoteTemplate.policyEndDate}}</td>
+            </tr>
+            <tr>
+                <th colspan="4">Population Demography</th>
+            </tr>
+            <tr>
+                <td>Total Number of Employees</td>
+                <td colspan="3">{{getTotalEmployees(selectedQuoteTemplate.gmcBasicDetails)}}</td>
+
+            </tr>
+            <tr>
+                <td>Total Number of Dependents</td>
+                <td colspan="3">{{getTotalDependents(selectedQuoteTemplate.gmcBasicDetails)}}</td>
+            </tr>
+            <tr>
+                <td>Total Lives</td>
+                <td colspan="3">{{getTotalLives(selectedQuoteTemplate.gmcBasicDetails)}}</td>
+            </tr>
+            <tr>
+                <th colspan="4">Sum Insured Details</th>
+            </tr>
+            <tr>
+                <td colspan="4" class="highlight"></td>
+            </tr>
+            <tr>
+                <th colspan="4">Premium Details</th>
+            </tr>
+            <tr style="background-color: brown; color: white;">
+                <td>Net Premium</td>
+                <td colspan="3">{{selectedQuoteTemplate.paymentAmount | currency:
+                    'INR':'symbol':'1.0'}}</td>
+            </tr>
+            <tr>
+                <td>Add GST 18%</td>
+                <td colspan="3" class="highlight">{{selectedQuoteTemplate.totalGSTAmount | currency:
+                    'INR':'symbol':'1.0'}}</td>
+            </tr>
+            <tr>
+                <td>Total Premium Payable</td>
+                <td colspan="3" class="highlight">{{selectedQuoteTemplate.amountWithGST | currency:
+                    'INR':'symbol':'1.0'}}</td>
+            </tr>
+            <tr>
+                <td>Mode of Payment</td>
+                <td colspan="3" class="highlight"><span
+                        *ngIf="selectedQuoteTemplate.otherDetailsInstallment.length > 0">Installment</span><span
+                        *ngIf="selectedQuoteTemplate.otherDetailsInstallment.length == 0">One Time</span></td>
+            </tr>
+            <tr>
+                <th colspan="4">Installment Details</th>
+            </tr>
+
+            <tr *ngFor="let installment of selectedQuoteTemplate.otherDetailsInstallment; let i = index">
+                <td class="highlight">{{installment.number }}st Installment (%-age) {{ installment.date }}</td>
+                <td>{{ installment.premium }}</td>
+            </tr>
+
+            <!-- <tr>
+                <td>1st Installment (%-age) Date</td>
+                <td class="highlight"></td>
+
+            </tr>
+            <tr>
+                <td>2nd Installment (%-age) Date</td>
+                <td class="highlight"></td>
+            </tr>
+            <tr>
+                <td>3rd Installment (%-age) Date</td>
+                <td colspan="3" class="highlight"></td>
+            </tr> -->
+            <tr>
+                <th colspan="4">Payment Details</th>
+            </tr>
+            <tr>
+                <td colspan="4">Cheque/ NEFT/ UTR Number with Date : {{selectedQuoteTemplate.chequeNo}},
+                    {{selectedQuoteTemplate.paymentDate}}</td>
+            </tr>
+            <tr>
+                <th colspan="4">Agreed Terms and Conditions</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ng-container *ngFor="let subOption of selectedQuoteTemplate.gmcTemplateData; let j = index">
+                        <ng-container *ngIf="showTabs(subOption.parentTabName, j)">
+                            <!-- Parent Tab Section -->
+                            <div class="p-3 border rounded" style="background-color: #f8f9fa;">
+                                <h4 *ngIf="subOption.gmcSubTab.length > 0" class="text-primary">
+                                    <b><u>{{ subOption.parentTabName }}</u></b>
+                                </h4>
+                            </div>
+
+                            <!-- SubTabs Section -->
+                            <div *ngFor="let coveritem of subOption.gmcSubTab" class="border-bottom p-3">
+                                <h5 class="text-secondary mb-2">
+                                    <b>{{ coveritem.subTabName }}</b>
+                                </h5>
+                                <!-- Labels and Questions -->
+                                <div *ngFor="let coveritemLabel of coveritem.gmcLabelForSubTab">
+                                    <ng-container *ngFor="let coveritemQuestions of coveritemLabel.gmcQuestionAnswers">
+                                        <!-- Check Visibility and State -->
+                                        <ng-container *ngIf="coveritemQuestions.isActive">
+                                            <table class="table table-bordered table-striped"
+                                                style="margin: 0px !important;border: 1px solid #c8ccd8 !important">
+                                                <tbody>
+                                                    <tr *ngIf="coveritemQuestions.isActive">
+                                                        <!-- Question Section -->
+                                                        <td style="width: 70%;">
+                                                            <!-- <i class="pi pi-circle-on text-success" style="font-size: 6px"></i> -->
+                                                            <span class="font-weight-bold">{{
+                                                                coveritemQuestions?.question }}</span>
+                                                        </td>
+
+                                                        <!-- Answer Section -->
+                                                        <td class="text-right" style="width: 30%;">
+                                                            <!-- Family Definition Logic -->
+                                                            <ng-container
+                                                                *ngIf="coveritemQuestions.question.trim() === 'Family Demography'">
+                                                                <p [ngClass]="dataTypeCss" class="mb-0">{{
+                                                                    selectedQuoteTemplate.coverageTypeName }}</p>
+                                                            </ng-container>
+
+                                                            <!-- Non-Family Definition Logic -->
+                                                            <ng-container
+                                                                *ngIf="coveritemQuestions.question.trim() !== 'Family Demography'">
+                                                                <p [ngClass]="dataTypeCss" class="mb-0">
+                                                                    <per>{{ getAnswer(coveritemQuestions,
+                                                                        coveritem.subTabName,
+                                                                        selectedQuoteTemplate.planType) }}</per>
+                                                                    <span class="text-muted"
+                                                                        *ngIf="coveritemQuestions.freeTextValue !== ''">
+                                                                        ,{{ coveritemQuestions.freeTextValue }}
+                                                                    </span>
+                                                                </p>
+                                                            </ng-container>
+
+                                                            <!-- Sum Insured Basis Logic -->
+                                                            <ng-container *ngIf="coveritemQuestions.question.trim() === 'Sum Insured Basis' &&
+                                                         selectedQuoteTemplate.planType === 'Floater' &&
+                                                         selectedQuoteTemplate.siType === 'Flat'">
+                                                                <p [ngClass]="dataTypeCss" class="mb-0">
+                                                                    {{ selectedQuoteTemplate.siFlat | currency:
+                                                                    'INR':'symbol':'1.0'
+                                                                    }}
+                                                                </p>
+                                                            </ng-container>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </td>
+            </tr>
+
+            <!-- <tr>
+                <td>Sum Insured Approach (Uniform/ Graded)</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Sum Insured</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Family Scope</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Family Members Covered (Family Definition)</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Corporate Buffer</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Coverage of Pre-existing Disease</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Pre & Post Hospitalisation Cover</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>30 Days Waiting Period</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>1st, 2nd, 3rd & 4th Year Waiting Period</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Room Rent Limit Per Day</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Co-payment</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Maternity Limit</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>New Born Baby Cover from Day 1</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Pre and Post Natal Cover</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>9 Month Waiting Period for Maternity</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Disease Wise Capping: Ailment Capping</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Metro Towns: Mumbai, Bangalore, Kolkata, Chennai, Delhi & NCR (National Capital Region: Gurgaon &
+                    Noida)</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Day Care</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 1</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 2</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 3</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 4</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 5</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Specific Condition - 6</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Enrollment Period</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Modern Treatment / Advance Treatment</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Infertility/Subfertility/Assisted Conception Procedure to Be Covered</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>AYUSH</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Congenital Diseases</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>External Congenital Disease</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Hospitalisation/Injury Arising out of Terrorism</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Ambulance Charges</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>GIPSA / PPN / R&C Clause</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Pandemic Disease</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Other Conditions</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Lasik Treatment Cover</td>
+                <td colspan="3"></td>
+            </tr> -->
+        </table>
+    </div>
+</div>
+<!-- <p class="p-3 mb-3" id="BLUSSubTemplate_QuoteValidNote">
+    Quotation is valid for 15 days from the date of quotation
+</p> -->
+<p class="p-3 mb-8" id="BLUSSubTemplate_ClientNameAndLocation"
+    *ngIf="this.quote?.otpVerifiedAt || this.quote?.offlineVerificationFormUrl">
+    Signed for and on behalf of the {{this.quote.clientId['name']}} <br>
+    <span>
+        {{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ? 'at : ' : 'URL :'}}
+    </span>
+    <a *ngIf="!this.quote?.otpVerifiedAt" [href]="this.quote.offlineVerificationFormUrl" target="_blank">
+        {{this.quote.offlineVerificationFormUrl}}
+    </a>
+    <span *ngIf="this.quote?.otpVerifiedAt">
+        <b>{{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ?? ''}}</b>
+    </span>
+</p>
+</div>

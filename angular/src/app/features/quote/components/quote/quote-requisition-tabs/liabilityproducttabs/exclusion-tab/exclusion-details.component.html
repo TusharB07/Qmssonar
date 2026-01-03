@@ -1,0 +1,58 @@
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width: 900px">
+        <div class="grid">
+            <div class="col-12 mx-0">
+                <div class="col-12">
+                    <div class="grid mt-1">
+                        <p-card class="card-width">
+                            <!-- Major Exclusions Section -->
+                            <div class="col-12 mb-3">
+                                <h4 style="margin-bottom: 10px;">Major Exclusions</h4>
+                                <p-table [value]="this.majorExclusions" responsiveLayout="scroll">
+                                    <ng-template pTemplate="body" let-rowData let-i="index">
+                                        <tr style="border-top: 1px solid #dee2e6;">
+                                            <td style="width: 5%;">
+                                                <p-checkbox class="mr-2" name="selected_{{rowData.id}}" value="{{rowData.isSelected}}" id="selected_{{rowData.id}}" [(ngModel)]="rowData.isSelected" [binary]="true" (onChange)="onCheckboxChange(rowData, $event)"></p-checkbox>
+                                            </td>
+                                            <td style="width: 40%;" id="Exclusions_name">
+                                                <div *ngIf="!rowData.isExternal">{{rowData?.name}}</div>
+                                                <div *ngIf="rowData.isExternal">
+                                                    <input pInputText type="text" placeholder="Name" [(ngModel)]="rowData.name" maxlength="255" autocomplete="off" #coverName_{{i}}="ngModel" id="coverName_{{i}}" name="coverName_{{i}}" />
+                                                </div>
+                                            </td>
+                                            <td id="Exclusions_options">
+                                                <div *ngIf="rowData.name!='Major Shareholders'">
+                                                    <p-dropdown class="form-control" [options]="this.optionsData" placeholder="Select" name="optionSelected_{{rowData.id}}" id="optionSelected_{{rowData.id}}" optionLabel="label" [disabled]="!rowData.isSelected" (onChange)="onOptionChange(rowData)" optionValue="value" [(ngModel)]="rowData.optionSelected" appendTo="body"></p-dropdown>
+                                                </div>
+                                                <div *ngIf="rowData.name=='Major Shareholders'">
+                                                    <p-inputNumber class="text-right" placeholder="Enter in %" [(ngModel)]="rowData.optionSelected" #optionSelected="ngModel" id="majorShareholdersValue{{rowData.id}}" name="majorShareholdersValue{{rowData.id}}" [disabled]="!rowData.isSelected" [maxlength]="2"></p-inputNumber>
+                                                </div>
+                                            </td>
+                                            <td id="Exclusions_option">
+                                                <input [(ngModel)]="rowData.description" type="text" id="" maxlength="21" pInputText [disabled]="rowData.optionSelected!='Applicable with Carve Back'" id="description{{rowData.id}}" name="description{{rowData.id}}">
+                                            </td>
+                                            <td style="text-align: center;" *ngIf="rowData.isExternal">
+                                                <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;" (click)="deleteExclusions(rowData.id)" title="Delete"></i>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                <div class="flex justify-content-end" style="margin-top: 10px;">
+                                    <button class="btn btn-info add-button" (click)="addmoreExclusions()">+ Add More</button>
+                                </div>
+                            </div>
+                        
+                           
+                        
+                            <!-- Save Button -->
+                            <div class="button-container flex justify-content-end">
+                                <button class="btn btn-lg btn btn-success" type="button" id="requisitionTab_EditOptions" (click)="save()">Save</button>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

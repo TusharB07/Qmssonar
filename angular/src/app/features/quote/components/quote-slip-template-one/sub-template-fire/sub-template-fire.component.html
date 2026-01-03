@@ -1,0 +1,556 @@
+<div class="px-5 pb-3">
+    <div class="tblz01-pdf">
+        <p-table [value]="this.coversPremium" responsiveLayout="scroll" dataKey="id"
+            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+            <ng-template *ngIf="!isAllowedToShow" pTemplate="caption">
+                <h4 class="text-center text-black" id="FIRESubTemplate_SumInsuredDetails_Header">
+                    Sum Insured
+                </h4>
+            </ng-template>
+            <ng-template *ngIf="isAllowedToShow" pTemplate="caption">
+                <h4 class="text-center text-black" id="FIRESubTemplate_SumInsuredDetails_Header">
+                    Sum Insured and Premium Details
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="FIRESubTemplate_SectionsCovers_Header" class="text-center text-black">Sections/Covers</th>
+                    <th id="FIRESubTemplate_SumInsured_Header" class="text-center text-black">Sum Insured(₹) </th>
+                    <th id="FIRESubTemplate_NetPremium_Header" class="text-center text-black" *ngIf="isAllowedToShow">Net Premium(₹) </th>
+                    <th id="FIRESubTemplate_GST@18%_Header" class="text-center text-black" *ngIf="isAllowedToShow">GST @ 18%</th>
+                    <th id="FIRESubTemplate_TotalPremium_Header" class="text-center text-black" *ngIf="isAllowedToShow">Total Premium(₹) </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cover>
+                <tr class="no-border">
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-left">{{cover?.sectionOrCover}} </td>
+                    <td id="FIRESubTemplate_SumInsured" class="text-center text-right text-nowrap "><span><app-currency
+                                [maximumFractionDigits]="0" [value]="(cover?.sumInsured ?? 0)"></app-currency></span></td>
+                    <td id="FIRESubTemplate_NetPremium" class="text-center text-right text-nowrap " *ngIf="isAllowedToShow"><span><app-currency
+                                [value]="(cover?.netPremium ?? 0)"></app-currency></span></td>
+                    <td id="FIRESubTemplate_Gst" class="text-center text-right text-nowrap " *ngIf="isAllowedToShow"><span><app-currency
+                                [value]="(cover?.gst ?? 0)"></app-currency></span></td>
+                    <td id="FIRESubTemplate_TotalPremium" class="text-black text-right text-nowrap " *ngIf="isAllowedToShow"><span><app-currency
+                                [value]="(cover?.totalPremium ?? 0)"></app-currency></span></td>
+                </tr>
+            </ng-template>
+
+            <!-- https://alwrite.youtrack.cloud/issues?q=&preview=BLUS-32 -->
+            <!-- To  show Discount in quoteslip -->
+            <ng-template  pTemplate="footer" *ngIf="this.discountPercentage">
+                <tr class="no-border">
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-left"
+                        style="border: 1px solid #0462BC">Discount</td>
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-center"
+                        style="border: 1px solid #0462BC" colspan="4">{{this.discountPercentage}}%</td>
+                </tr>
+                <tr class="no-border">
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-left"
+                        style="border: 1px solid #0462BC">{{this.discount.sectionOrCover}}</td>
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-right"
+                        style="border: 1px solid #0462BC"></td>
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-right"
+                        style="border: 1px solid #0462BC"><span><app-currency
+                                [value]="(this.discount.netPremium)"></app-currency></span></td>
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-right"
+                        style="border: 1px solid #0462BC"><span><app-currency
+                                [value]="(this.discount.gst)"></app-currency></span></td>
+                    <td id="FIRESubTemplate_SectionOrCover" class="text-center text-black text-right"
+                        style="border: 1px solid #0462BC"><span><app-currency
+                                [value]="(this.discount.totalPremium)"></app-currency></span></td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="5" id="FIRESubTemplate_NoRecordsFoundMSG">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-black">
+                    <div class="flex mb-3 justify-content-between">
+                        <p>
+                            Declaration Clauses
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex mb-3 justify-content-between">
+                        <p class="" id="FireSubTemplate_ClauseLabel">{{this.quoteOption?.dropdownClause ? 'Selected' : 'Not Selected'}}</p>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-black">
+                    <div class="flex mb-3 justify-content-between">
+                        <p>
+                            Section and Deductibles
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex mb-3 justify-content-between">
+                        <!-- <p class="" id="FireSubTemplate_ClauseLabel">{{this.quoteOption.dropdownClause ? 'Selected' : 'Not Selected'}}</p> -->
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <hr style="border-top: dashed 3px;border-color : #0462BC">
+    <div class="" *ngFor="let cover of this.covers" id="FireSubTemplate">
+
+        <!-- <div class=" tblz01-pdf mt-4">
+            <table class="static-table" cellpadding="0" cellspacing="0" id="FireSubTemplate_Teble">
+                <tr>
+                    <td class="text-black" id="FireSubTemplate_RiskDescriptionCoverages_Header">Risk Description
+                        Coverages</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="m-0" *ngIf="cover.riskDescriptionCover?.length == 0"
+                            id="FireSubTemplate_NoCoverOpted">No Available</p>
+                        <ul class="covers-list" id="FireSubTemplate_RiskDescription_List">
+                            <li *ngFor="let item of cover.riskDescriptionCover">{{item.name}}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div> -->
+        <div class="tblz01-pdf mt-3">
+
+            <table class="p-datatable p-datatable-striped" style="border-collapse: collapse;">
+
+                <tbody class="p-datatable-tbody">
+                    <tr>
+                        <td id="FireSubTemplate_LocationAddress_Label" class="text-center text-black" colspan="2">
+                            Location Address</td>
+                        <td id="FireSubTemplate_Occupancy_Label" class="text-center  text-black" colspan="2">Occupancy
+                        </td>
+                        <td id="FireSubTemplate_TotalSumInsured_Label" class="text-center  text-black" colspan="2">Total
+                            Sum Insured</td>
+                        <td id="FireSubTemplate_BasePremium_Label" class="text-center  text-black">Base Premium</td>
+                    </tr>
+
+                    <tr class="no-border">
+                        <td id="FireSubTemplate_LocationAddress" class="text-center text-black" colspan="2">
+                            {{cover.address.address}}</td>
+                        <td id="FireSubTemplate_Occupancy" colspan="2" class="text-center">{{cover.address.occupancy}}
+                        </td>
+                        <!-- <td id="FireSubTemplate_TotalSumInsured" colspan="2" class="text-center text-nowrap currency" rowspan="3"> {{(cover.address.totalSumAssured ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                        <td id="FireSubTemplate_TotalSumInsured" colspan="2" class="text-center text-nowrap "
+                            rowspan="3"> <span><app-currency [maximumFractionDigits]="0"
+                                    [value]="(cover.address.totalSumAssured ?? 0)"></app-currency></span></td>
+                        <!-- <td id="FireSubTemplate_BasePremium" class="text-center text-black text-nowrap currency" rowspan="3">{{(cover.address.premium ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                        <td id="FireSubTemplate_BasePremium" class="text-center text-black text-nowrap " rowspan="3"><span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="(cover.address.premium ?? 0)"></app-currency></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-black text-center" *ngFor="let header of cover.address.locationDetailHeaders"
+                            id="FireSubTemplate_Location_Header"> {{header}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-nowrap" *ngFor="let locationDetail of cover.address.locationDetail" id="FireSubTemplate_Location_Details"> <span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="locationDetail"></app-currency></span></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class=" tblz01-pdf mt-4">
+            <table class="static-table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="text-black" id="FireSubTemplate_RiskDescription_Header">Risk Description</td>
+                </tr>
+                <tr>
+                    <td id="FireSubTemplate_RiskDescription">
+                        <p class="mb-3">All real and personal property other than what is excluded under the policy
+                            belonging to th einsured or property held in trust care, custody and/or control of insured,
+                        </p>
+                        <p class="mb-3">comprising or consisting of but not limited to Superstructure, Furnitures,
+                            Fixtures, Fitting, Domestic Appliances, Utensils, Personal Effects, Etc. Located at the risk
+                            location</p>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td class="">
+                        <p class="text-black">Material damage Section *</p>
+                        <div class="flex mb-3 justify-content-between">
+                            <p class="">Building</p>
+                            <p class="">{{(500000).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</p>
+                        </div>
+
+                    </td>
+                </tr> -->
+            </table>
+            <div>
+                <p-treeTable [value]="cover.riskDescription" id="FireSubTemplate_CoverDescription_Header">
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                        <tr class="border" [ttRow]="rowNode">
+                            <td>
+                                <!-- <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler> -->
+                                <div [class]="Object.values(rowData)?.length == 1 ? 'font-weight-bold' : ''">
+                                    {{rowData['key']}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="Object.values(rowData).length != 1" class="text-right"
+                                    id="FireSubTemplate_CoverDescription_Location">
+                                    <!-- {{(rowData[cover.quoteLocationOccupancy] ?? 0).toLocaleString('en-IN',{style: 'currency', currency: 'INR'})}} -->
+                                    <span><app-currency [maximumFractionDigits]="0"
+                                            [value]="(rowData[cover.quoteLocationOccupancy] ?? 0)"></app-currency></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- <tr [ttRow]="rowNode">
+                        <td>
+                            <span [style.font-weight]="rowNode.leaf ? 'normal' : 'bold'">{{ rowData['key'] }}</span>
+                        </td>
+                        <th *ngFor="let location of quoteLocationOccupancies">{{rowData[location]}}</th>
+                    </tr> -->
+
+                    </ng-template>
+                </p-treeTable>
+            </div>
+
+        </div>
+        <div class=" tblz01-pdf mt-4">
+            <table class="static-table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="text-black" id="FireSubTemplate_DeletedPerils_Header">Covers Opted for {{cover.quoteLocationOccupancy}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_STFI_Label">Strom, Tempest, Flood & Inundation (STFI)</p>
+                            <p class="" id="FireSubTemplate_STFI_">{{cover.perilsToBeDeleted.stfi ? 'Yes' : 'No'}}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_Earthquake_Label">Earthquake</p>
+                            <p class="" id="FireSubTemplate_Earthquake">{{cover.perilsToBeDeleted.earthquake ? 'Yes' :
+                                'No'}}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_Terrorism_Label">Terrorism</p>
+                            <p class="" id="FireSubTemplate_Terrorism">{{cover.perilsToBeDeleted.terrorism ? 'Yes' :
+                                'No'}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- .tblz01-pdf .p-datatable .p-datatable-tbody>tr>td -->
+        <div class=" tblz01-pdf mt-4">
+            <table class="static-table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="text-black">
+                        <div class="flex mb-3 justify-content-between">
+                            <p>
+                                Covers | Property Damage
+                            </p>
+                            <p>
+                                Sum Insured in INR
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div *ngFor="let clause of cover.clauses" class="flex mb-3 justify-content-between">
+                            <p class="" id="FireSubTemplate_ClauseLabel">{{clause.label}}</p>
+                            <p class="" id="FireSubTemplate_Clause">{{clause.sumInsured == 0 ? 'Covered' :
+                                clause.sumInsured.toLocaleString('en-IN')}}</p>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+        <div *ngIf="this.expireDetails?.length">
+            <div class=" tblz01-pdf mt-4">
+                <table class="static-table" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="text-black" id="FireSubTemplate_DeletedPerils_Header">Expire Details</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex mb-1 justify-content-between">
+                                <p class="" id="FireSubTemplate_STFI_Label">Expiring Insurance Name</p>
+                                <p class="" id="FireSubTemplate_STFI_">{{ expireDetails[0]?.expiringIsurenceName }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex mb-1 justify-content-between">
+                                <p class="" id="FireSubTemplate_Earthquake_Label">Expiring Insurance Office</p>
+                                <p class="" id="FireSubTemplate_Earthquake">{{ expireDetails[0]?.expiringIsurenceOffice }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex mb-1 justify-content-between">
+                                <p class="" id="FireSubTemplate_Terrorism_Label">Policy Number</p>
+                                <p class="" id="FireSubTemplate_Terrorism">{{ expireDetails[0]?.expiringPolicyNumber }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex mb-1 justify-content-between">
+                                <p class="" id="FireSubTemplate_Terrorism_Label">Policy Period</p>
+                                <p class="" id="FireSubTemplate_Terrorism">{{ expireDetails[0]?.expiringPolicyPeriod }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr style="border-top: dashed 3px;border-color : #0462BC">
+    </div>
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-black" id="FireSubTemplate_CoInsuranceClause_Header">Co-Insurance Clause : Co-insurance
+                    Clause 2014 will be applicable with amendments as below:</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="clause__point">
+                        Waiver of clause no. - 3.6, 3.7, 3.8 and 3.10
+                    </div>
+                    <div class="clause__point">
+                        Any alterations and /or amendments and/or adjustments agreed upon the terms of leading
+                        insurer's agreement shall
+                        be automatically binding on the participating co-insurers hereon who agree to waive advice
+                        hereunder.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-black" id="FireSubTemplate_FurtherTerms_Header">Further following terms are also agreed:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="clause__point">
+                        In accordance with co-insurance agreement 2014, the Lead IFnsurer shall receive premium on
+                        behalf of all co-insurers and settle the premium with coinsurers
+                        within 21 days of receipt of premium. In the case of Bank Guarantee, the Insurer shall remit to
+                        the co-insurer/s their share of premium within 21 days from the date of
+                        receipt of premium under Bank Guarantee or invoking of Bank Guarantee, whichever is earlier.
+                    </div>
+                    <div class="clause__point">
+                        For all claims beyond Rs 5 crores in magnitude for which the cash
+                        call would be raised by lead Insurer, the co-insurers would respond to the cash call immediately
+                        and pay their share of proportionate loss within 5 working days from
+                        the date the cash call is raised.
+                    </div>
+                    <div class="clause__point">
+                        The coinsurance premium and / or cash call will not be kept
+                        pending for settlement/set off against any previous/pending cases and
+                        would be responded within the aforesaid timelines.
+                    </div>
+                    <!-- <p class="mb-3" id="FireSubTemplate_FurtherTerms">
+                        1) In accordance with co-insurance agreement 2014, the Lead IFnsurer shall receive premium on
+                        behalf of all co-insurers and settle the premium with coinsurers
+                        within 21 days of receipt of premium. In the case of Bank Guarantee, the Insurer shall remit to
+                        the co-insurer/s their share of premium within 21 days from the date of
+                        receipt of premium under Bank Guarantee or invoking of Bank Guarantee, whichever is earlier. 2)
+                        For all claims beyond Rs 5 crores in magnitude for which the cash
+                        call would be raised by lead Insurer, the co-insurers would respond to the cash call immediately
+                        and pay their share of proportionate loss within 5 working days from
+                        the date the cash call is raised. 3) The coinsurance premium and / or cash call will not be kept
+                        pending for settlement/set off against any previous/pending cases and
+                        would be responded within the aforesaid timelines.</p> -->
+                </td>
+            </tr>
+            <tr>
+                <td class="text-black" id="FireSubTemplate_CoInsuranceClause_Header">COINSURANCE CLAUSE 2014</td>
+            </tr>
+            <tr>
+                <td id="FireSubTemplate_CoInsuranceClause">
+                    <div class="clause__point">
+                        During the currency of the policy, if there are any material changes in risk or as changes
+                        in original terms and conditions such as variation in Sum Insured,
+                        changes in premium charged, extension of policy period, etc., the same shall be communicated by
+                        the insured or his authorised representative giving sufficient
+                        advance notice of 7 days to the leader as well as all other participating co-insurers listed in
+                        the co-insurance schedule under paragraph 2 above and procure
+                        confirmation thereon. The endorsement to this effect shall be executed by the lead insurer under
+                        advice to all other participating co-insurers.
+                    </div>
+                    <div class="clause__point">
+                        The liability of the insurers shall in no case exceed in respect of each item of the sum
+                        expressed in the set schedule to be insured thereon or in the all, the total
+                        sum insured hereby or sums as may be substituted thereof by endorsement.
+                    </div>
+                    <div class="clause__point">
+                        In the event of any of the Coinsurers chosen by the Insured as per Paragraph 3.1 above and
+                        listed in coinsurance schedule, wishes to withdraw from participation in
+                        this Policy at any time during currency, may do so after giving notice of 14 days (from date of
+                        intimation of changes in risk by Insured/ Intermediary) only in the event
+                        of following contingencies:
+                    </div>
+                    <div class="clause__point">
+                        Increase in Sum Insured beyond the agreed and accepted amount including escalation in Sum
+                        Insured, as recorded in the underwriting slip
+                    </div>
+                    <div class="clause__point">
+                        Change in Terms and conditions of Cover as agreed and accepted in the Underwriting Slip. In
+                        the event of withdrawal as above by any Insurer from Coinsurance
+                        participation under the policy, the Insured shall arrange for an alternative Insurer to take
+                        care of the full share of risk vacated by the existing Insurer. In the event of
+                        Insured failing to do so, the Insured shall be considered as his own Insurer for such share of
+                        risk or part there of which is not taken up by such alternative Co- Insurer.
+                    </div>
+                    <div class="clause__point">
+                        In the event of a claim under this policy, the insured shall give notice of its occurrence
+                        to the Lead Insurer with a copy to all the insurers as listed in clause 2
+                        above.
+                    </div>
+                    <div class="clause__point">
+                        In the event of any claim being value of more than Rs. 5 crores, the lead insurer can
+                        immediately demand and the following co-insurer shall pay the cash call of
+                        their proportionate share of loss.
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="this.warranties?.length > 0">
+                <td class="text-black">Warranties</td>
+            </tr>
+            <tr *ngIf="this.warranties?.length > 0">
+                <td>
+                    <p class="mb-3" *ngFor="let item of this.warranties">
+                        <!-- {{item?.warranty_dict?.name}} -->
+                        {{item?.warranty_dict?.name == 'Other' ? item?.warranty_dict?.others :
+                        item?.warranty_dict?.name}}
+
+                    </p>
+                </td>
+            </tr>
+            <tr *ngIf="this.subjectivities?.length > 0">
+                <td class="text-black">Subjectivities</td>
+            </tr>
+            <tr *ngIf="this.subjectivities?.length > 0">
+                <td>
+                    <p class="mb-3" *ngFor="let item of this.subjectivities">
+                        <!-- {{item?.subjectivity_dict?.name}} -->
+                        {{item?.subjectivity_dict?.name == 'Other' ? item?.subjectivity_dict?.others :
+                        item?.subjectivity_dict?.name}}
+                    </p>
+                </td>
+            </tr>
+            <tr *ngIf="this.exclusions?.length > 0">
+                <td class="text-black">Exclusions</td>
+            </tr>
+            <tr *ngIf="this.exclusions?.length > 0">
+                <td>
+                    <p class="mb-3" *ngFor="let item of this.exclusions">
+                        <!-- {{item?.exclusion_dict?.name}}  -->
+                        {{item?.exclusion_dict?.name == 'Other' ? item?.exclusion_dict?.others :
+                        item?.exclusion_dict?.name}}
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- <div class=" tblz01-pdf mt-4" *ngIf="this.quote && this.quote?.quoteType == 'existing'"> -->
+    <!-- <div class=" tblz01-pdf mt-4" *ngIf="this.quote">
+        <table class="p-datatable p-datatable-striped" style="border-collapse: collapse;width:100%">
+            <tbody class="p-datatable-tbody">
+
+                <tr>
+                    <td colspan="6" class="text-black" id="FireSubTemplate_ClaimExperience_Header">Claim Experience</td>
+                </tr>
+
+                <tr>
+                    <td id="FireSubTemplate_Year_Header">Year</td>
+                    <td id="FireSubTemplate_Year" *ngFor="let claim of this.claimExperiences">{{claim['year']-1}} -
+                        {{claim['year']}} </td>
+                </tr>
+                <tr>
+                    <td id="FireSubTemplate_PremiumPaid_Header">Premium Paid </td> -->
+                    <!-- <td id="FireSubTemplate_PremiumPaid" *ngFor="let claim of this.claimExperiences">{{(claim.premiumPaid ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                    <!-- <td id="FireSubTemplate_PremiumPaid" class="text-right" *ngFor="let claim of this.claimExperiences"><span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="(claim.premiumPaid ?? 0)"></app-currency></span></td>
+                </tr>
+                <tr>
+                    <td id="FireSubTemplate_ClaimAmount_Header">claim Amount </td> -->
+                    <!-- <td id="FireSubTemplate_ClaimAmount" *ngFor="let claim of this.claimExperiences">{{(claim.claimAmount ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                    <!-- <td id="FireSubTemplate_ClaimAmount" class="text-right" *ngFor="let claim of this.claimExperiences"><span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="(claim.claimAmount ?? 0)"></app-currency></span></td>
+                </tr>
+                <tr>
+                    <td id="FireSubTemplate_NoOfClaims_Header">No. of claims</td>
+                    <td id="FireSubTemplate_NoOfClaims" class="text-right" *ngFor="let claim of this.claimExperiences">
+                        {{claim.numberOfClaims ?? 0}}</td>
+                </tr>
+                <tr>
+                    <td id="FireSubTemplate_NatureOfClaim_Header">Nature of claim</td>
+                    <td id="FireSubTemplate_NatureOfClaim" *ngFor="let claim of this.claimExperiences">
+                        {{(claim.natureOfClaim ?? 'N/A')}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div> -->
+
+    <p class="p-3 mt-3" id="FIRESubTemplate_QuoteValidNote">
+        Quotation is valid for 15 days from the date of quotation
+    </p>
+    <p class="p-3 mb-8" id="FIRESubTemplate_ClientNameAndLocation"
+        *ngIf="this.quote?.otpVerifiedAt || this.quote?.offlineVerificationFormUrl">
+        Signed for and on behalf of the {{this.quote.clientId['name']}} <br>
+        <span>
+            {{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ? 'at : ' : 'URL :'}}
+        </span>
+        <a *ngIf="!this.quote?.otpVerifiedAt" [href]="this.quote.offlineVerificationFormUrl" target="_blank">
+            {{this.quote.offlineVerificationFormUrl}}
+        </a>
+        <span *ngIf="this.quote?.otpVerifiedAt">
+            <b>{{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ?? ''}}</b>
+        </span>
+    </p>
+
+    <!-- <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-black">Annexure I - Location-wise Sum Insured</td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </div> -->
+
+</div>

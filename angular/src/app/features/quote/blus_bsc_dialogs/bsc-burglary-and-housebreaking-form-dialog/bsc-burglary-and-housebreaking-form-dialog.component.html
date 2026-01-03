@@ -1,0 +1,120 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="burglaryForm" (ngSubmit)="submitted = true;this.submitBurglaryForm()">
+        <div class="grid br-b">
+            <div class="col-12 mb-2">
+                <div class="pp-dropdown-cb">
+                    <label for="" class="form-label">Risk Location</label>
+                    <div>
+                        <p-autoComplete class="custom-dropdown" id="burglaryDialog_Location" [disabled]="true"
+                            [(ngModel)]="this.selectedQuoteLocationOccpancy" [forceSelection]="true" [dropdown]="true"
+                            [suggestions]="this.optionsQuoteLocationOccupancies" field="label"
+                            (completeMethod)="this.searchOptionsQuoteLocationOccpancies()"
+                            [ngModelOptions]="{standalone: true}"></p-autoComplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid mb-1 md:mb-5">
+            <!-- <div class="col-6 mb-2">
+                <label id="burglaryDialog_FirstLoss_label" for="" class="form-label">First Loss %</label>
+                <input id="burglaryDialog_FirstLoss" formControlName="firstLoss" *ngIf="this.permissions.includes('update')" type="number" [min]="0" [max]="100" maxlength="3" pInputText required>
+                <input id="burglaryDialog_FirstLoss"formControlName="firstLoss" *ngIf="!this.permissions.includes('update')" disabled type="number" [min]="0" [max]="100" maxlength="3" pInputText required>
+                <small id="burglaryDialog_FirstLoss_ValidationError1" class="ng-dirty ng-invalid" *ngIf="burglaryForm.controls['firstLoss']?.errors?.required">First Loss is required.</small>
+                <small id="burglaryDialog_FirstLoss_ValidationError2" class="ng-dirty ng-invalid" *ngIf="burglaryForm.controls['firstLoss']?.errors?.min">First Loss should be more than 0</small>
+                <small id="burglaryDialog_FirstLoss_ValidationError3" class="ng-dirty ng-invalid" *ngIf="burglaryForm.controls['firstLoss']?.errors?.max">First Loss can not be more than 100.</small>
+            </div> -->
+            <div class="col-12 md:col-6 mb-1 md:mb-5" tooltipPosition="bottom"
+                pTooltip="{{burglaryForm.controls['otherContents'].value && this.toWords.convert((burglaryForm.controls['otherContents'].value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">
+                <label id="burglaryDialog_Other_Contents_label" for="" class="form-label">Other Contents</label>
+                <p-inputNumber id="moneyInSafe_Dialog_MoneyInTillCounter_Label" mode="decimal" locale="en-IN"
+                    prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="otherContents"
+                    [disabled]="true" maxlength="21">
+                </p-inputNumber>
+                <small id="burglaryDialog_Other_Contents_ValidationError" class="ng-dirty ng-invalid"
+                    *ngIf="submitted && burglaryForm.controls['otherContents']?.errors?.required">other Contents is
+                    required.</small>
+            </div>
+            <div class="md:col-6"></div>
+            <div class="col-12 md:col-6 mb-1 md:mb-5">
+                <div class="flex">
+                    <label id="burglaryDialog_FirstLoss_label" for="" class="form-label">First Loss %</label>
+                    <p-checkbox class="mx-3" name="isFirstLossRequired" id="SelectBrokers_BrokerWiseQuote_checkBox"
+                    [readonly]="!this.permissions.includes('update')"
+                        [value]="true" [(ngModel)]="isFirstLossRequired" inputId="isFirstLossRequired"
+                        [ngModelOptions]="{standalone: true}" (onChange)="firstLossCalculation()"></p-checkbox>
+                </div>
+                <p-autoComplete class="custom-dropdown" id="PortableEquipments_Dialog_BaggageTypeId"
+                    [readonly]="!this.permissions.includes('update')" [disabled]="!isFirstLossRequired[0] ?? true"
+                    [dropdown]="this.permissions.includes('update') ? true : false"
+                    [suggestions]="this.optionsBurgularyType" field="label" formControlName="burglaryTypeId"
+                    (completeMethod)="this.searchOptionsBurgularyTypes($event)" placeholder="Select Burglary Percentage"
+                    [forceSelection]="true" [showEmptyMessage]="true" (onSelect)="compute($event)"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && burglaryForm.controls['burglaryTypeId']?.errors}">
+                </p-autoComplete>
+            </div>
+            <!-- <div class="col-6 mb-2" tooltipPosition="bottom" pTooltip="{{burglaryForm.controls['stocks'].value && this.toWords.convert((burglaryForm.controls['stocks'].value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">
+                <label id="burglaryDialog_Stocks_label" for="" class="form-label">Stocks</label>
+                <p-inputNumber id="moneyInSafe_Dialog_MoneyInTillCounter_Label" mode="decimal" locale="en-IN" prefix="₹ "
+                    [minFractionDigits]="0" placeholder="0" formControlName="stocks" [disabled]="true" maxlength="21">
+                </p-inputNumber>
+                <small id="burglaryDialog_Stocks_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && burglaryForm.controls['stocks']?.errors?.required">Stocks is required.</small>
+            </div> -->
+            <div class="col-12 md:col-6 mb-1 md:mb-5" tooltipPosition="bottom"
+                pTooltip="{{burglaryForm.controls['firstLossSumInsured'].value && this.toWords.convert((burglaryForm.controls['firstLossSumInsured'].value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">
+                <label for="" id="burglaryDialog_firstLossSumInsured_label" class="form-label">Other Content</label>
+                <div class="pp-dropdown-c">
+                    <!-- <input pInputText disabled="true" id="burglaryDialog_firstLossSumInsured" formControlName="firstLossSumInsured" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1"> -->
+                    <p-inputNumber id="moneyInSafe_Dialog_MoneyInTillCounter_Label" mode="decimal" locale="en-IN"
+                        prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="firstLossSumInsured"
+                        [disabled]="true" maxlength="21">
+                    </p-inputNumber>
+                    <small id="burglaryDialog_firstLossSumInsured_ValidationError" class="ng-dirty ng-invalid"
+                        *ngIf="submitted && burglaryForm.controls['firstLossSumInsured']?.errors?.required">First Loss
+                        Sum Insured is required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 mb-1 md:mb-5">
+                <label for="" class="form-label" id="burglaryDialog_RSMD_label">RSMD</label>
+                <div class="pp-dropdown-c">
+                    <p-dropdown [disabled]="true" id="burglaryDialog_RSMD" class="custom-dropdown"
+                        [options]="this.optionsRsmdDefault" placeholder="Select RSMD" optionLabel="label"
+                        optionValue="value" formControlName="rsmd"></p-dropdown>
+                    <small id="burglaryDialog_RSMD_ValidationError" class="ng-dirty ng-invalid"
+                        *ngIf="submitted && burglaryForm.controls['rsmd']?.errors?.required">RSMD is required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 mb-1 md:mb-5">
+                <label for="" id="burglaryDialog_Theft_label" class="form-label">Theft</label>
+                <div class="pp-dropdown-c">
+                    <p-dropdown [disabled]="true" id="burglaryDialog_Theft" class="custom-dropdown"
+                        [options]="this.optionsTheftDefault" placeholder="Select Theft" optionLabel="label"
+                        optionValue="value" formControlName="theft"></p-dropdown>
+                    <small id="burglaryDialog_Theft_ValidationError" class="ng-dirty ng-invalid"
+                        *ngIf="submitted && burglaryForm.controls['theft']?.errors?.required">Theft is required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 mb-1 md:mb-5" *ngIf="!burglaryForm.value['fileInput'] || (burglaryForm.value['fileInput'] && isFile(burglaryForm.value['fileInput']))">
+                <label for="" id="PortableEquipments_Dialog_SumInsured_label" class="form-label">File</label>
+                <input style="display: none;" type="text" formControlName="fileInput">
+                <p-fileUpload mode="advanced" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light"
+                    chooseIcon="pi pi-paperclip" chooseLabel="Upload Document" accept=""
+                    (onSelect)="onBasicUpload($event)"></p-fileUpload>
+                <small style="font-style: italic;">**Allowed File Types XLX/XLSX.</small>
+            </div>
+            <div class="col-12 md:col-4 mb-1 md:mb-5 max-h-full min-h-full flex align-items-center" *ngIf="burglaryForm.value['fileInput'] && !isFile(burglaryForm.value['fileInput'])">
+                <a (click)="downloadFile()"  class="mr-2">
+                    <i class="pi pi-download mr-1" style="font-size: 1rem"></i> Download File
+                </a>
+                <i *ngIf="burglaryForm.value['fileInput'] && this.permissions.includes('update')" class="pi pi-trash" style="font-size: 1.5rem" (click)="deletefile($e)"></i>   
+            </div>
+            <div class="col-12 mt-3">
+                <div class="flex justify-content-end">
+                    <button class="btn btn-success mr-4" id="burglaryDialog_Save" [disabled]="this.burglaryForm.invalid"
+                        type="submit" *ngIf="this.permissions.includes('update')">Save</button>
+                    <button class="btn btn-outline-light" id="burglaryDialog_Cancel" type="button"
+                        (click)="cancel()">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

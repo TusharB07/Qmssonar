@@ -1,0 +1,36 @@
+<div class="login-body">
+    <div class="login-image" id="AppLogin_Image">
+        <img [src]="'assets/layout/images/pages/login-'+ (app.colorScheme === 'dark' ? 'ondark' : 'onlight') + '.png'" alt="inexchange">
+    </div>
+    <div class="login-panel p-fluid">
+        <div class="flex flex-column">
+            <div class="flex align-items-center mb-6 logo-container" id="AppLogin_LayoutImage">
+                <img [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="login-logo" />
+                <!-- <img [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="login-appname" /> -->
+            </div>
+            <div class="form-container">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-envelope" id="AppLogin_EmailIcon"></i>
+                    <input type="text"  id="AppLogin_Email" autocomplete="off" pInputText placeholder="Email">
+                </span>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-key" id="AppLogin_PasswordIcon"></i>
+                    <input type="password" autocomplete="off" id="AppLogin_Password" pInputText placeholder="Password">
+                </span>
+                <a href="#" class="flex" id="AppLogin_ForgotPassword">Forgot your password?</a>
+            </div>
+            <div class="button-container">
+                <button type="button" id="AppLogin_cancel" pButton label="Login" [routerLink]="['/']"></button>
+                <span id="AppLogin_SignUp">Don't have an account?<a>Sign-up here</a></span>
+            </div>
+        </div>
+
+        <div class="login-footer flex align-items-center">
+            <div class="flex align-items-center login-footer-logo-container" id="AppLogin_FootrLogo">
+                <img src="assets/layout/images/logo-gray.png" class="login-footer-logo" />
+                <!-- <img src="assets/layout/images/appname-gray.png" class="login-footer-appname" /> -->
+            </div>
+            <span id="AppLogin_CopyRightNote">Copyright 2021</span>
+        </div>
+    </div>
+</div>

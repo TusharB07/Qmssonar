@@ -1,0 +1,661 @@
+<div class="mb-3" *ngIf="this.quote">
+    <div [ngClass]="{'overlay': quickView}" (click)="this.quickView = false"></div>
+    <div class="grid">
+        <div class="col-2 sidebar" style="max-width: 360px">
+            <div class="p-3" data-aos="fade-left">
+
+                <div class="text-center mb-3" id="QuoteComparisoReview_StepsImage">
+                    <img src="/assets/step3-pic.png" width="80px" alt="">
+                </div>
+                <div class="px-3">
+                    <h4 id="QuoteComparisoReview_QuoteNo">Quote Id: {{this.quote.quoteNo}}</h4>
+                    <p id="QuoteComparisoReview_ProductType">
+                        {{this.quote.productId.type}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="" data-aos="fade-up">
+
+                <div class="p-3 ">
+                    <ul>
+                        <!-- <li [class]="'tab-item ' + (index == i ? 'active' : '') " *ngFor="let tab of this.tabs; let i = index" (click)="setIndex(i)">
+                            <div class="flex align-items-start p-3">
+                                <i [class]="'pi pi-chevron-right mt-1 mr-3' "></i> <span>{{tab.label}}</span>
+                            </div>
+
+                        </li> -->
+
+                        <li *ngFor="let tab of this.tabs"
+                            [class]="'tab-item ' + (selectedTabId === tab.id ? 'active' : '')"
+                            (click)="this.selectTab(tab)" id="QuoteComparisoReview_SelectTab">
+                            <div class="flex align-items-start p-3">
+                                <i [class]="'pi pi-chevron-right mt-1 mr-3' "></i> <span>{{tab.label}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="p-3">
+                <div class="edit-quote-link-container mb-3">
+                    <div class="flex align-items-center justify-content-between custom-detail-header py-3 px-5">
+                        <div class="mb-3" data-aos="fade-right">
+                            <strong>
+                                <a style="color: blue;"> <i class="pi pi-chart-bar mr-3" style="font-size: 1.5rem"
+                                        id="QuoteComparisoReview_ViewAnalytics"></i> Quote Comparison Report (QCR)</a>
+                            </strong>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <p-dropdown [options]="versionOptions" [(ngModel)]="selectedVersion"
+                                placeholder="Select Version" (onChange)="onVersionChange($event)"></p-dropdown>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+
+
+                            <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download"
+                                (click)="ViewUploadAttachments()">
+                                <i class="pi pi-file"></i> Attachments
+                            </button>
+
+                            <button style="color:green" class="btn btn-info mr-4" id="SidSumInsured_Split_Download"
+                                (click)="downloadExcelNew()">
+                                <i class="pi pi-file-excel"></i>
+                            </button>
+                            <!-- <button style="color:red" class="btn btn-info mr-4" id="SidSumInsured_Split_Download"
+                                (click)="downloadPdf()">
+                                <i class="pi pi-file-pdf"></i>
+                            </button> -->
+                            <!-- <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="pushBack()">
+                                Push Back
+                            </button> -->
+
+                            <div
+                                *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && !this.quote.qcrApproved && this.quote?.qcrApprovedRequested">
+                                <!-- <i class="pi pi-comments mr-3 button" style="font-size: 2rem;color : blue"
+                                (click)="visible()" position="right"></i> -->
+                                <button class="mr-3 btn btn-lg btn btn-primary" (click)="this.pushBackTo()">Push
+                                    Back</button>
+                                <!-- <button class="btn btn-lg btn-primary mr-2" type="button"
+                                    (click)="sendQuoteForApprovalbymaker()">Approve</button> -->
+                            </div>
+
+                            <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download"
+                                (click)="toggleQuickView()">
+                                Quick QCR View
+                            </button>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <form [formGroup]="sendLinkForm" (ngSubmit)="onSubmit()" class="flex-form"
+                                    style="display: flex; align-items: center;">
+                                    <input pInputText type="text" formControlName="email"
+                                        style="width: 207px; margin-right: 10px;" placeholder="Please enter your email">
+                                    <button class="btn btn-primary" type="submit">Send Link</button>
+                                </form>
+                            </div>
+                            <!-- <button style="width: 100px; margin-left:8px;" class="btn btn-sm btn-primary"
+                         (click)="generateqcrEdit(quote.quoteNo)">Edit
+                            QCR</button> -->
+                            <div class="ml-3">
+                                <button class="mr-3 btn btn-lg btn btn-primary"
+                                    *ngIf="this.user._id == this.quote.assignedToPlacementMakerId && !this.quote.qcrApproved"
+                                    (click)="this.qcrEdit()">QCR Edit</button>
+                            </div>
+
+                            <!-- <button style="width: 100px; margin-left:8px;" class="btn btn-sm btn-primary"
+                                (click)="generateqcrVersion(quote.quoteId)">QCR
+                                Version</button> -->
+                            <!-- <button style="color:green" class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="downloadExcel()">
+                                <i class="pi pi-file-excel"></i>
+                            </button>
+                          
+                            <i class="pi pi-comments mr-3 button" style="font-size: 2rem;color : blue"
+                                (click)="visible()" position="right"></i>
+                        </div>
+                       <div class="mb-3">
+                        <button id="broker" class="btn btn-primary" style="border-top-right-radius: unset; border-bottom-right-radius: unset;" (click)="navigateToBrokerComp()">Broker-wise Comparison</button>
+                        <button class="btn btn-outline-blue" style="border-top-left-radius: unset; border-bottom-left-radius: unset;" (click)="navigateToYearComp()">Yearly Comparison</button>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" (click)="navigateToRequestApproval()">Next</button>
+                    </div> -->
+                        </div>
+                        <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                            <div *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId">
+                                <div *ngIf="this.quote.qcrApprovedRequested == false">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button"
+                                        (click)="sendQuoteForApproval()">Send for
+                                        approval</button>
+                                </div>
+                            </div>
+                            <div
+                                *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId && this.quote?.qcrApprovedRequested && this.quote?.qcrApproved">
+                                <button class="btn btn-lg btn-primary mr-2" type="button" disabled
+                                    style="background-color: blue !important;color: white !important;">QCR Approved by
+                                    Checker</button>
+                            </div>
+                            <div
+                                *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && !this.quote.qcrApproved">
+                                <i class="pi pi-comments mr-3 button" style="font-size: 2rem;color : blue"
+                                    (click)="visible()" position="right"></i>
+                                <button class="btn btn-lg btn-primary mr-2" type="button"
+                                    (click)="sendQuoteForApproval()">Approve</button>
+                            </div>
+                            <div
+                                *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && this.quote.qcrApprovedRequested && this.quote.qcrApproved">
+                                <button class="btn btn-lg btn-primary mr-2" type="button" disabled>QCR Approved</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-3  s">
+                        <div class="quote-comparision-table  comparasionTable" *ngIf="this.selectedTabId">
+                            <table *ngIf="questionAnswerListToBind.length > 0" style="font-size: 11px;">
+                                <tbody>
+                                    <tr style="border: 1px solid #0064BB;">
+                                        <td [attr.colspan]="ques.colspan"
+                                            style="border: 1px solid #0064BB;text-align: center;"
+                                            *ngFor="let ques of qcrHeadersLst">
+                                            {{ques.label}}
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 1px solid #0064BB;">
+                                        <td *ngFor="let quest of qcrHeaderTwoLst" [attr.colspan]="quest.colspan"
+                                            style="border: 1px solid #0064BB;text-align: center;">
+                                            <b>{{quest.label}}</b>
+                                        </td>
+
+                                    </tr>
+                                    <tr style="border: 1px solid #0064BB;">
+                                        <td *ngFor="let quest of qcrHeaderTwoLst"
+                                            style="border: 1px solid #0064BB; text-align: center;">
+                                            <span *ngIf="quest.quoteId!=''">
+                                                <!-- <button class="btn btn-sm btn-primary  p-0 px-2"
+                                                *ngIf="quest.quoteFor!='IC'" (click)="openQuoteSlip()">View
+                                                Quote</button> -->
+                                                <button style="width: 145px;" class="btn btn-sm btn-success"
+                                                    *ngIf="(quest.quoteFor=='IC' && this.quote.qcrApproved != null && this.quote.placementApproved == null)"
+                                                    (click)="generatePlacementSlip(quest.quoteId,quest.optionId)"
+                                                    [disabled]="quest.bankName ==''">
+                                                    Placement Slip</button>
+
+                                                <button style="width: 160px;" class="btn btn-sm btn-success"
+                                                    *ngIf="quest.quoteFor=='IC' && this.quote.placementApproved != null"
+                                                    (click)="generatePlacementSlip(quest.quoteId,quest.optionId)">
+                                                    Placement Slip</button>
+
+                                                <button style="width: 160px;" class="btn btn-sm btn-success"
+                                                *ngIf="(quest.quoteFor=='IC' && this.quote.qcrApproved != null && this.quote.placementApproved == null)"
+                                                    (click)="createQuoteOptionQCRVersioning(quest.optionId)">
+                                                    QCR Version</button>
+
+
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td *ngFor="let quest of qcrHeaderTwoLst"
+                                            style="border: 1px solid #0064BB;text-align: center;">
+                                            <p class="btn btn-sm btn-info  p-0 px-2"
+                                                *ngIf="quest.quoteId!='' && quest.quoteFor=='IC' && quest.indicativePremium>0">
+                                                {{quest.indicativePremium | currency:'INR'}}</p>
+                                        </td>
+
+                                    </tr>
+                                    <tr *ngFor="let ques of questionAnswerListToBind"
+                                        style="border: 1px solid #0064BB;">
+                                        <td style="border: 1px solid #0064BB;" [attr.colspan]="ques.colspan">
+                                            <span *ngIf="ques.isSubHeader">
+                                                <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                                                    &nbsp;&nbsp;{{ques.question}}</h5>
+
+                                            </span>
+                                            <!-- <span *ngIf="ques.isHeader" style="padding-left: 5px;">
+                                            <h3>{{ques.question}}</h3>
+                                        </span> -->
+                                            <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                                                    style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                                        </td>
+                                        <td *ngFor="let ans of ques.answer"
+                                            style="border: 1px solid #0064BB;text-wrap: auto; width:300px; ">
+                                            <span [ngClass]="{'redText': ans.isChanged === true}"> {{ans.answer}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 1px solid #0064BB;">
+                                        <td *ngFor="let quest of qcrHeaderTwoLst"
+                                            style="border: 1px solid #0064BB; text-align: center;">
+                                            <span *ngIf="quest.quoteId!=''">
+                                                <button style="width: 145px;" class="btn btn-sm btn-success"
+                                                    *ngIf="quest.quoteFor=='IC' && this.quote.qcrApproved != null"
+                                                    (click)="submitBankDetails(quest.quoteId,quest.optionId)">Submit
+                                                    Bank Details</button>
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                    <tr style="border: 1px solid #0064BB;">
+                                        <td *ngFor="let quest of qcrHeaderTwoLst"
+                                            style="border: 1px solid #0064BB; text-align: center;">
+                                            <span *ngIf="quest.quoteId!=''">
+                                                <button style="width: 145px;" class="btn btn-sm btn-success"
+                                                    *ngIf="quest.quoteFor=='IC' && this.quote.qcrApproved != null"
+                                                    (click)="submitCoinsurerDetails(quest.quoteId,quest.optionId)">Submit
+                                                    Co-insurer Details</button>
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div [hidden]="!showTableForExcel">
+                                <table id="execeltbl" *ngIf="questionAnswerList.length > 0" style="font-size: 11px;">
+                                    <tbody>
+                                        <tr style="border: 1px solid #0064BB;">
+                                            <td [attr.colspan]="ques.colspan"
+                                                style="border: 1px solid #0064BB;text-align: center; font-weight: 900;"
+                                                *ngFor="let ques of qcrHeadersLst">
+                                                {{ques.label}}
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid #0064BB; font-weight: 900;">
+                                            <td *ngFor="let quest of qcrHeaderTwoLst" [attr.colspan]="quest.colspan"
+                                                style="border: 1px solid #0064BB;text-align: center; font-weight: 900; width: 70px;">
+                                                <b>{{quest.label}}</b>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid #0064BB; font-weight: 900;">
+                                            <td *ngFor="let quest of qcrHeaderTwoLst"
+                                                style="border: 1px solid #0064BB; text-align: center; font-weight: 900;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td *ngFor="let quest of qcrHeaderTwoLst"
+                                                style="border: 1px solid #0064BB;text-align: center; font-weight: 900;">
+                                                <p class="btn btn-sm btn-info  p-0 px-2"
+                                                    *ngIf="quest.quoteId!='' && quest.quoteFor=='IC' && quest.indicativePremium>0">
+                                                    {{quest.indicativePremium | currency:'INR'}}</p>
+                                            </td>
+
+                                        </tr>
+                                        <tr *ngFor="let ques of questionAnswerList" style="border: 1px solid #0064BB;">
+
+                                            <td style="border: 1px solid #0064BB;width: 70px;text-wrap: initial;"
+                                                [attr.colspan]="ques.colspan">
+                                                <span *ngIf="ques.isSubHeader">
+                                                    <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                                                        &nbsp;&nbsp;{{ques.question}}</h5>
+
+                                                </span>
+                                                <!-- <span *ngIf="ques.isHeader" style="padding-left: 5px;">
+                                                <h3>{{ques.question}}</h3>
+                                            </span> -->
+                                                <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                                                        style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                                            </td>
+                                            <td *ngFor="let ans of ques.answer"
+                                                style="border: 1px solid #0064BB; width: 50px;text-wrap: auto;">
+                                                <span [ngClass]="{'redText': ans.isChanged === true}">
+                                                    {{ans.answer}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+                        <div>
+                            <p-card class="" *ngIf="selectedTabId=='employee_details'">
+                                <h4>Employee Details</h4>
+                                <div class="content">
+                                    <div class="grid">
+                                        <div class="col-12 md:col-12 mb-5">
+                                            <div class="col-12"> <button type="button" id="download_member_summary"
+                                                    pButton pRipple label="Download" icon="pi pi-download"
+                                                    class="btn btn-primary btn-sm"
+                                                    (click)="downloadEmployeeDemographyExcel()"></button>
+                                                <!-- <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="downloadExcel()">
+                                                    <i class="pi pi-file-excel"></i>
+                                                </button>
+                                                <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="downloadExcel()">
+                                                    <i class="pi pi-file-pdf"></i>
+                                                </button>
+                                                <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="downloadExcel()">
+                                                    <i class="pi pi-print"></i>
+                                                </button> -->
+                                                <p-table #dt [value]="this.employeeInfo" id="empInfo" class="mt-4"
+                                                    responsiveLayout="scroll" dataKey="_id">
+                                                    <ng-template pTemplate="header">
+                                                        <tr style="border: 2px solid #0064BB;color: white;">
+                                                            <th
+                                                                style="width: 8rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_AgeBand"> Age Band </span>
+                                                                </div>
+                                                            </th>
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_Self"> Self</span>
+                                                                </div>
+                                                            </th>
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_Spouse"> Spouse </span>
+                                                                </div>
+                                                            </th>
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_Child"> Child </span>
+                                                                </div>
+                                                            </th>
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_Parent"> Parent </span>
+                                                                </div>
+                                                            </th>
+                                                            <!-- <th style="width: 4rem">
+                                                            <div class="flex justify-content-between align-items-center">
+                                                                <span id="Emp_ParentinLaw"> Parent in Law </span>
+                                                            </div>
+                                                        </th> -->
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_Siblings"> Siblings
+                                                                    </span>
+                                                                </div>
+                                                            </th>
+                                                            <th
+                                                                style="width: 3rem;border: 2px solid white;background-color:#0064BB;color: white;">
+                                                                <div
+                                                                    class="flex justify-content-between align-items-center">
+                                                                    <span id="Emp_GrandTotal"> Grand Total
+                                                                    </span>
+                                                                </div>
+                                                            </th>
+
+                                                        </tr>
+                                                    </ng-template>
+
+                                                    <ng-template pTemplate="body" let-empRecord>
+                                                        <tr style="border: 2px solid #0064BB;">
+                                                            <td id="Emp_ageBand"
+                                                                style="width: 8rem;border: 2px solid #0064BB;">{{
+                                                                empRecord.ageBand }}</td>
+                                                            <td id="Emp_selfCount"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.selfCount== 0 ?'-': empRecord.selfCount }}
+                                                            </td>
+                                                            <td id="Emp_spouseCount"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.spouseCount== 0 ?'-': empRecord.spouseCount }}
+                                                            </td>
+                                                            <td id="Emp_childCount"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.childCount== 0 ?'-': empRecord.childCount}}
+                                                            </td>
+                                                            <td id="Emp_parentCount"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.parentCount== 0 ?'-': empRecord.parentCount }}
+                                                            </td>
+                                                            <!-- <td id="Emp_ParentinLawCount" style="width: 4rem">{{ empRecord.ParentinLawCount }}</td> -->
+                                                            <td id="Emp_siblingsCount"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.siblingsCount== 0 ?'-':
+                                                                empRecord.siblingsCount }}
+                                                            </td>
+                                                            <td id="Emp_grandTotal"
+                                                                style="width: 3rem;border: 2px solid #0064BB;text-align: right;">
+                                                                {{
+                                                                empRecord.grandTotal== 0 ?'-': empRecord.grandTotal }}
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-card>
+                            <p-card *ngIf="selectedTabId=='final_rater'">
+                                <table class="static-table" cellpadding="0" cellspacing="0">
+                                    <ng-container *ngFor="let option of selectedQuoteTemplate;let k = index">
+                                        <hr style="padding: -80%; width: calc(100% + 24px); margin-left: -12px;" />
+                                        <tr *ngIf="this.quote.quoteType != 'new' && k==0"
+                                            style="border: 2px solid #0064BB;">
+                                            <td>
+                                                <ng-container>
+                                                    <div class="mb-4">
+                                                        <h4><b><u>Final Rater</u></b></h4>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Premium Paid Till Date
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.premiumPaidTillDate | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Claims as on Date
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.claimAsOnDate | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Claims Paid + Outstanding
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.claimsPaidOutStanding | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                One Time Claims
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.oneTimeClaims | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Covid Claims
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.covidClaims | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Claims due to Death of Employee
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.claimsDuetoDeathOfEmployee |
+                                                            currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Adjustment % for increase in life
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.adjustmentpercentage}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                IBNR (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.ibnr}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Medical Inflation (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.medicalInflation}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                TPA Loading (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.tpaLoading}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Brokerage (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.brokerage}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Insurer Margin (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.insurerMargin}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Investment Income (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.investmentIncome}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                Overall Loading discount (%)
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.overAllLoadingDiscount}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid ml-4">
+                                                        <div class="col-10">
+                                                            <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                                                <b>Total Premium</b>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{option.finalRater.grandTotalAmount | currency:"INR"}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+
+                                    </ng-container>
+                                </table>
+                            </p-card>
+                            <app-gmc-basic-details *ngIf="selectedTabId=='basic_details'"></app-gmc-basic-details>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Quick View Toggler -->
+    <div class="p-3 quickView" *ngIf="this.quickView">
+        <div class="quote-comparision-table">
+            <table *ngIf="mappingQCRArr.length > 0" style="font-size: 11px;">
+                <thead>
+                    <tr style="border: 1px solid #0064BB;" class="header">
+                    </tr>
+
+                    <tr style="border: 1px solid #0064BB;" class="header">
+                        <th [attr.colspan]="ques.colspan" style="border: 1px solid #0064BB;text-align: center;"
+                            *ngFor="let ques of quickQcrHeadersLst">
+                            {{ques.label}}
+                        </th>
+                    </tr>
+                    <tr style="border: 1px solid #0064BB;" class="header">
+                    </tr>
+
+                    <tr style="border: 1px solid #0064BB;" class="header">
+                        <th *ngFor="let quest of quickQCRHeaderTwoLst" [attr.colspan]="quest.colspan"
+                            style="border: 1px solid #0064BB;text-align: center;">
+                            <b>{{quest.label}}</b>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ques of mappingQCRArr" style="border: 1px solid #0064BB;">
+
+                        <td style="border: 1px solid #0064BB;" [attr.colspan]="ques.colspan"
+                            [ngClass]="{ 'quickViewHeaderWrapper': ques.isHeader }">
+                            <span *ngIf="ques.isHeader" class="quickViewHeader">
+                                {{ques.question}}
+                            </span>
+                            <span *ngIf="ques.isSubHeader">
+                                <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                                    &nbsp;&nbsp;{{ques.question}}</h5>
+
+                            </span>
+
+                            <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                                    style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                        </td>
+                        <td *ngFor="let ans of ques.answer" style="border: 1px solid #0064BB;">
+                            <span [ngClass]="{'redText': ans.isChanged === true}"> {{ ans.showEmpty ? "" : ans.answer }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

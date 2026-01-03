@@ -1,0 +1,76 @@
+<div class="py-5">
+    <!-- Old_Quote -->
+    <!-- <app-quote-location-breakup [quote]="this.quote" [selectedLocation]="this.selectedLocation" (onSaved)="this.onSaved()"></app-quote-location-breakup> -->
+
+    <!-- New_Quote_Option -->
+    <app-quote-location-breakup [quote]="this.quote" [quoteOptionData]="this.quoteOptionData"
+        [selectedLocation]="this.selectedLocation" (onSaved)="this.onSaved()"></app-quote-location-breakup>
+
+
+    <!-- <div class="modal-container" *ngIf="this.isLockton == true">
+        <h3>Edit Sum Insured Split</h3>
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th *ngFor="let location of quoteLocationOccupancy">
+                            <div class="location-header flex justify-content-center">
+                                <div class="mr-3">
+                                    <i class="pi pi-info-circle info-icon mt-1"></i>
+                                </div>
+                                <div>
+                                    <p class="location-name">
+                                        {{ location.locationName.split(",")[0] }} - {{
+                                        location.locationName.split(",")[5] }}
+                                    </p>
+                                    <p class="location-amount">₹ {{ location.sumAssured | number }}</p>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of splitData">
+                        <ng-container *ngIf="item.isHeader; else editableRow">
+                            <td colspan="{{ quoteLocationOccupancy.length + 1 }}" class="header-row">
+                                {{ item.description }}
+                            </td>
+                        </ng-container>
+
+                        <ng-template #editableRow>
+                            <td>
+                                <input *ngIf="!item.isHeader" type="text" class="description-input"
+                                    [(ngModel)]="item.lovKey" [readonly]="item.isHeader" hidden />
+                                <input *ngIf="!item.isHeader" type="text" class="description-input"
+                                    [(ngModel)]="item.description" [readonly]="item.isHeader"
+                                    placeholder="Enter description" />
+                            </td>
+                            <td *ngFor="let location of quoteLocationOccupancy; let i = index">
+                                <p-inputNumber *ngIf="!item.isHeader" type="number" class="amount-input"
+                                    [(ngModel)]="item.amounts[i]" placeholder="Enter amount" (input)="updateTotals()">
+                                </p-inputNumber>
+                            </td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td *ngFor="let total of totals; let i = index"
+                            [class.error]="total !== quoteLocationOccupancy[i].sumAssured">
+                            <strong>₹ {{ total | number }}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="action-buttons">
+            <button class="save-btn" (click)="saveData()">Save</button>
+        </div>
+    </div> -->
+
+
+
+</div>

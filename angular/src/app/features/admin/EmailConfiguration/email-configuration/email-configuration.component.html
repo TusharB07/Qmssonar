@@ -1,0 +1,153 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="EmailConfiguration_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                            rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                        <button id="EmailConfiguration_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete"
+                            icon="pi pi-trash" class="p-button-danger mr-2"
+                            (click)="this.openDeleteSelectedRecordsConfirmationDialog()"
+                            [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button>
+                        <button id="EmailConfiguration_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="EmailConfiguration_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" id="EmailConfiguration_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [paginator]="true" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" responsiveLayout="scroll" dataKey="_id"
+                [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                [globalFilterFields]="['name', 'action','subject']" [value]="emailConfiguration"
+                [selection]="this.selectedRecords">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="EmailConfigurationList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+                        <div class="flex justify-content-between align-items-center">
+                            <span> Id </span>
+                        </div>
+                    </th> -->
+
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="EmailConfigurationList_TypeHeader"> Name </span>
+                                <div>
+                                    <p-columnFilter id="EmailConfigurationList_TypeColumnFilter" type="text"
+                                        field="name" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by type"></p-columnFilter>
+                                    <p-sortIcon id="EmailConfigurationList_TypeSortIcon" field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="action">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="EmailConfigurationList_ShortNameHeader">Action</span>
+                                <div>
+                                    <p-columnFilter id="EmailConfigurationList_ShortNameColumnFilter" type="text"
+                                        field="action" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by Short Name"></p-columnFilter>
+                                    <p-sortIcon id="EmailConfigurationList_ShortNameSortIcon"
+                                        field="action"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="subject">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap"
+                                    id="EmailConfigurationList_emailConfigurationTemplateHeader">
+                                    Subject
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <!-- <p-columnFilter type="text" field="emailConfigurationTemplate" display="menu" placeholder="Search by to SI"></p-columnFilter> -->
+                                    <p-sortIcon field="subject"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="body">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="EmailConfigurationList_IsOTCHeader">Body</span>
+                                <div>
+                                    <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                    <p-sortIcon field="body"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="active">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="EmailConfiguration_ActiveHeader">
+                                    Active
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-sortIcon id="UserList_ActiveSortIcon" field="active"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-emailConfiguration>
+                    <tr (click)="this.editRecord(emailConfiguration)">
+                        <td>
+                            <p-tableCheckbox [value]="emailConfiguration"
+                                id="EmailConfigurationList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+
+                        <td id="EmailConfigurationList_Name">
+                            {{ emailConfiguration.name }}
+                        </td>
+                        <td id="EmailConfigurationList_Action">
+                            {{ emailConfiguration.action }}
+                        </td>
+
+                        <td id="EmailConfigurationList_subject">
+                            {{ emailConfiguration.subject }}
+                        </td>
+                        <td id="EmailConfigurationList_body">
+                            {{ emailConfiguration.body}}
+                        </td>
+                        <td id="EmailConfigurationList_active">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': emailConfiguration.active, 'false-icon pi-times-circle': !emailConfiguration.active}"></i>
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="EmailConfigurationList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(emailConfiguration)"></button>
+                                </div>
+                            </td> -->
+                    </tr>
+                    <!-- <button id="EmailConfigurationList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="
+                            this.openDeleteRecordConfirmationDialog(emailConfiguration)
+                        "></button> -->
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

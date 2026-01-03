@@ -1,0 +1,50 @@
+
+::ng-deep .task-dialog .p-dialog-header,
+::ng-deep .task-dialog .p-dialog-content {
+    background-color: #ffffff;
+}
+
+::ng-deep .task-dialog .p-dialog-content {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+::ng-deep .task-dialog .p-dialog-header .p-dialog-title {
+    font: normal normal 16px/22px OpenSans-Bold;
+    letter-spacing: 0px;
+    color: #5143ce;
+}
+
+::ng-deep .task-dialog .task-dailog-header {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+::ng-deep .task-dialog .flex {
+    align-items: center !important;
+    margin: 10px 0;
+}
+
+.task-dailog-body {
+    margin-top: 30px;
+}
+
+.broker-name {
+    font: normal normal 16px/22px OpenSans-bold;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+.role {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+.quote-status {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+    text-transform: capitalize;
+}

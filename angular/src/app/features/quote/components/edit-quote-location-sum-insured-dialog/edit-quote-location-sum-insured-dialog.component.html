@@ -1,0 +1,35 @@
+<div class="m-5">
+    <div class="flex justify-content-center align-items-center">
+        <span class="w-3" id="quoteLocation_Label">Client Location : </span>
+        <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+        <span class="w-auto" id="AppIndicativeQuote_SumInsured">
+            <input type="text" id="quoteLocation_input" pInputText [value]="this.selectedLocation?.clientLocationId.locationName" [disabled]="true">
+        </span>
+    </div>
+    <div class="flex justify-content-center align-items-center mt-2">
+        <span class="w-3" id="occupancy_Label">Occupancy Type : </span>
+        <span class="w-auto">
+            <input type="text" id="occupancy_input" pInputText [value]="this.selectedLocation?.occupancyId?.occupancyType" [disabled]="true">
+        </span>
+    </div>
+    <div class="flex justify-content-center align-items-center mt-2">
+        <span class="w-3" id="subOccupancy_Label">Shop Name : </span>
+        <span class="w-auto">
+            <input type="text" id="subOccupancy_input" pInputText [value]="this.selectedLocation?.occupancyId?.shopName ?? '-'" [disabled]="true">
+        </span>
+    </div>
+    <div class="flex justify-content-center align-items-center mt-2">
+        <span class="w-3" id="sumInsuredum Insured"> Sum Insured : </span>
+        <span class="w-auto">
+            <p-inputNumber type="number" id="sumInsured_input" [(ngModel)]="this.sumAssured" (ngModelChange)="setSumAssured()" [pTooltip]="this.tooltipSumAssured"  mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0" placeholder="0"></p-inputNumber>
+        </span>
+    </div>
+    <div class="flex justify-content-center align-items-center mt-3">
+        <button class="btn btn-primary" (click)="this.updateSumAssured()">Save</button>
+    </div>
+</div>
+
+
+
+<!-- clientLocationId.locationName -->
+<!-- occupancyId.occupancyType -->

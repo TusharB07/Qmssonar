@@ -1,0 +1,516 @@
+<p-card class="card-height-100" *ngIf="this.quoteOptionData && this.permissions.includes('read')" [style]="{ 'min-height': isMobile ? '320px' : '400px' }">
+  <ng-template pTemplate="header">
+    <!-- Old_Quote -->
+    <!-- <h5 id="Risk_Inspection_Status" class="mb-3 mt-3">Risk Inspection Status :
+            {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}} -
+            {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[5]}}
+        </h5> -->
+    <!-- New_Quote_Option -->
+    <h5 id="Risk_Inspection_Status" class="mb-3 mt-3">
+      Additional Risk Details 
+      <!-- : {{ this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.locationName.split(",")[0] }} -
+      {{ this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.locationName.split(",")[5] }} -->
+    </h5>
+  </ng-template>
+  <div class="h-100">
+    <div class="grid mb-4">
+      <div class="col-12">
+        <!-- <div class="custom-file"> -->
+        <!-- <label for="customFile" class="custom-file-label"> Upload Files
+                        <p-fileUpload #fubauto mode="basic" name="demo[]" url="./" accept="image/*" maxFileSize="1000000" (onUpload)="onUpload($event)" [auto]="true" chooseLabel=""></p-fileUpload>
+                    </label> -->
+        <!-- <input type="file" class="custom-file-input" name="risk_inspection_report" (onUpload)="onRiskInspectionReportUpload($event)" accept="application/pdf"> -->
+
+        <!-- <label class="custom-file-label" for="customFile">Upload here</label> -->
+        <!-- <p-fileUpload mode="basic" choooseLabel="Upload Document" name="risk_inspection_report" url="./upload.php"></p-fileUpload> -->
+
+        <div>
+          <p class="head">Risk inspection report</p>
+          <!-- Old_Quote -->
+          <!-- <div *ngIf="this.quote.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath" -->
+          <!-- New_Quote_Option -->
+          <div
+            *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath"
+            class="done-upload-outline-light flex justify-content-between"
+            id="RiskInspectionCard_RiskInspectionReport"
+          >
+            <a class="" pRipple (click)="this.downloadRiskInspectionReport()">View Risk Inspection Report</a>
+ 
+            <div class="flex" *ngIf="this.permissions.includes('update')">
+              <a class="red-link" (click)="this.deleteRiskInspectionReport()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+              >
+            </div>
+          </div>
+          <!-- Old_Quote -->
+          <!-- <div *ngIf="!this.quote.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath" -->
+          <!-- New_Quote_Option -->
+          <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No Risk Inspection Report Found</p>
+          </div>
+ 
+          <div *ngIf="this.permissions.includes('update')">
+            <p-fileUpload
+              #fileUpload
+              *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath"
+              id="RiskInspectionCard_RiskInspectionReport_Upload"
+              [auto]="true"
+              (onUpload)="this.onUploadRiskInspectionReport()"
+              name="risk_location_report"
+              url="{{ this.uploadRiskInspectionReportUrl }}"
+              accept=""
+              maxFileSize="10000000"
+              chooseIcon="pi pi-paperclip"
+              chooseLabel="Upload inspection Report"
+              [headers]="this.uploadHttpHeaders"
+              method="post"
+            >
+            </p-fileUpload>
+          </div>
+        </div>
+
+        <div *ngIf="['MEGA', 'IAR'].includes(this.quote.productId['shortName'])">
+          <div class="mt-3">
+                        <div><p class="head" *ngIf="this.permissions.includes('update')">layout upload</p>
+                          <div
+                          *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+                          class="done-upload-outline-light flex justify-content-between"
+                          id="RiskInspectionCard_RiskInspectionReport"
+                        >
+                          <a class="" pRipple (click)="this.downloadlayout()">View layout upload</a>
+                
+                          <div class="flex" *ngIf="this.permissions.includes('update')">
+                            <a class="red-link" (click)="this.deletelayout()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                              ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                            >
+                          </div>
+                        </div>
+                
+                        <div
+                        *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+                        class="done-upload-outline-light flex justify-content-between"
+                        style="padding-bottom: unset"
+                      >
+                        <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No layout Found</p>
+                      </div>
+                    </div>
+
+
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+                #fileUpload
+                *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+                id="RiskInspectionCard_RiskInspectionReport_Upload"
+                [auto]="true"
+                (onUpload)="this.onUploadlayoutReport()"
+                name="riskLayoutUploadPath_Upload"
+                url="{{ this.uploadlayoutReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload Layout Attachment"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+          </div>
+          <div class="mt-3">
+            <!-- <p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p> -->
+            <div><p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadOtherAttachment()">View Other Attachment upload</a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deleteOtherAttachment()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No Other Attachment Found</p>
+          </div>
+        </div>
+
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+                #fileUpload
+                *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+                id="riskOtherAttachement_UploadPath"
+                [auto]="true"
+                (onUpload)="this.onUploadOtheAttachementReport()"
+                name="riskOtherAttachement_UploadPath"
+                url="{{ this.uploadRiskotherattachementReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload other Attactments"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!['MEGA', 'IAR'].includes(this.quote.productId['shortName'])">
+          <div class="mt-3">
+            <!-- <p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p> -->
+            <div><p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadOtherAttachment()">View Other Attachment upload</a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deleteOtherAttachment()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No Other Attachment Found</p>
+          </div>
+        </div>
+
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+                #fileUpload
+                *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+                id="riskOtherAttachement_UploadPath"
+                [auto]="true"
+                (onUpload)="this.onUploadOtheAttachementReport()"
+                name="riskOtherAttachement_UploadPath"
+                url="{{ this.uploadRiskotherattachementReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload other Attactments"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="['CAR', 'EAR'].includes(this.quote.productId['shortName'])">
+          <div class="mt-3">
+            <div><p class="head" *ngIf="this.permissions.includes('update')">layout upload</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadlayout()">View layout upload</a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deletelayout()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No layout Found</p>
+          </div>
+        </div>
+
+
+<div *ngIf="this.permissions.includes('update')">
+  <p-fileUpload
+    #fileUpload
+    *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.layoutUploadPath"
+    id="RiskInspectionCard_RiskInspectionReport_Upload"
+    [auto]="true"
+    (onUpload)="this.onUploadlayoutReport()"
+    name="riskLayoutUploadPath_Upload"
+    url="{{ this.uploadlayoutReportUrl }}"
+    accept=""
+    maxFileSize="10000000"
+    chooseIcon="pi pi-paperclip"
+    chooseLabel="Upload Layout Attachment"
+    [headers]="this.uploadHttpHeaders"
+    method="post"
+  >
+  </p-fileUpload>
+</div>
+</div>
+          <div class="mt-3">
+            <div><p class="head" *ngIf="this.permissions.includes('update')">bar chart upload</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBarGraphChartUpload"
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadbarChart()">View bar chart </a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deletelbarchart()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBarGraphChartUpload"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No bar chart Found</p>
+          </div>
+        </div>
+        
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+                #fileUpload
+                *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBarGraphChartUpload"
+                id="RiskInspectionCard_RiskInspectionReport_Upload"
+                [auto]="true"
+                (onUpload)="this.onUploadOtheAttachementReport()"
+                name="barGraphChart_UploadPath"
+                url="{{ this.uploadbarchartReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload bar chart"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+
+            
+          </div>
+
+          <div class="mt-3">
+
+            <div><p class="head" *ngIf="this.permissions.includes('update')">BOQ Attachment upload</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBoqUpload
+ "
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadBoqAttachment()">View BOQ Attachment </a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deleteBoq()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBoqUpload"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No BOQ Attachment Found</p>
+          </div>
+        </div>
+        
+
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+              *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskBoqUpload"
+                #fileUpload
+                id="RiskInspectionCard_RiskInspectionReport_Upload"
+                [auto]="true"
+                (onUpload)="this.onUploadOtheAttachementReport()"
+                name="boqAttachment_UploadPath"
+                url="{{ this.uploadboqReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload BOQ Attachment"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+          </div>
+          <div class="mt-3">
+            <!-- <p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p> -->
+            <div><p class="head" *ngIf="this.permissions.includes('update')">Other Attachment</p>
+              <div
+              *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+              class="done-upload-outline-light flex justify-content-between"
+              id="RiskInspectionCard_RiskInspectionReport"
+            >
+              <a class="" pRipple (click)="this.downloadOtherAttachment()">View Other Attachment upload</a>
+    
+              <div class="flex" *ngIf="this.permissions.includes('update')">
+                <a class="red-link" (click)="this.deleteOtherAttachment()" style="color: red" [disabled]="quote.quoteState == 'Rejected'"
+                  ><i class="pi pi-trash" id="RiskInspectionCard_Delete_RiskInspectionReport"></i> Delete</a
+                >
+              </div>
+            </div>
+    
+            <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_RiskInspectionReport_NotFound">No Other Attachment Found</p>
+          </div>
+        </div>
+
+            <div *ngIf="this.permissions.includes('update')">
+              <p-fileUpload
+                #fileUpload
+                *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.riskOtherAttachmentUpload"
+                id="riskOtherAttachement_UploadPath"
+                [auto]="true"
+                (onUpload)="this.onUploadOtheAttachementReport()"
+                name="riskOtherAttachement_UploadPath"
+                url="{{ this.uploadRiskotherattachementReportUrl }}"
+                accept=""
+                maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip"
+                chooseLabel="Upload other Attactments"
+                [headers]="this.uploadHttpHeaders"
+                method="post"
+              >
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+
+        <!-- </div> -->
+      </div>
+    </div>
+    <div class="grid mb-3" *ngIf="this.permissions.includes('read')">
+      <div class="col-12" *ngIf="['FIRE', 'MEGA', 'BGRP', 'BLUSP', 'BSUSP'].includes(this.quote.productId.shortName)">
+        <p class="head" id="RiskInspectionCard_LocationPhotographs_Lable">Location Photographs</p>
+        <div class="custom-file">
+          <div *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.locationPhotographs?.length">
+            <!-- <label for="customFile" class="custom-file-label"> Upload Photos -->
+            <!-- <p-fileUpload #fubauto mode="basic" name="demo[]" url="./" accept="image/*" maxFileSize="1000000" (onUpload)="onUpload($event)" [auto]="true" chooseLabel=""></p-fileUpload> -->
+            <!-- </label> -->
+            <!-- <input type="file" class="custom-file-input" id="customFile" name="filename" (onUpload)="onUpload($event)" accept="image/*"> -->
+            <!-- <label class="custom-file-label" for="customFile">Upload here</label> -->
+            <div class="" *ngFor="let locationPhotograph of this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy?.locationPhotographs; let i = index">
+              <div class="p-3 flex justify-content-between">
+                <div class="">
+                  <a class="" id="RiskInspectionCard_LocationPhotographs_Download" (click)="this.downloadLocationPhotograph(locationPhotograph.imagePath)" pRipple
+                    >View Location Photograph {{ i + 1 }}</a
+                  >
+
+                  <p-button class="p-3" icon="pi pi-bell" [rounded]="true" [text]="true" [raised]="true" severity="warning" (click)="opendialog()"> </p-button>
+                </div>
+                <p-dialog header="Data Summary" [(visible)]="Summarytable" [style]="{ 'max-height': 'unset' }">
+                  <div class="dialog-content">
+                    <p class="subtitle">This Summary data is generated by AI</p>
+                    <p-table [value]="summarrydata" [paginator]="true" [rows]="10" [responsive]="true">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>Name</th>
+                          <th>Value</th>
+                          <th>Justification</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData>
+                        <tr>
+                          <td>{{ rowData.name }}</td>
+                          <td>{{ rowData.value }}</td>
+                          <td>{{ rowData.justification }}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-dialog>
+
+                <div class="flex" *ngIf="this.permissions.includes('delete')">
+                  <!-- <a class="mr-3" style="color: green;"><i class="pi pi-save"></i> Save</a> -->
+                  <a
+                    class="red-link"
+                    style="color: red"
+                    id="RiskInspectionCard_LocationPhotographs_Delete"
+                    (click)="this.deleteLocationPhotograph(locationPhotograph.imagePath)"
+                    [disabled]="quote.quoteState == 'Rejected'"
+                    ><i class="pi pi-trash"></i> Delete</a
+                  >
+                </div>
+              </div>
+              <div class="" *ngIf="this.permissions.includes('update')">
+                <textarea
+                  maxlength="255"
+                  class="form-control"
+                  pInputText
+                  [value]="locationPhotograph.description ?? ''"
+                  id="RiskInspectionCard_LocationPhotographs_Update"
+                  (blur)="this.updateLocationPhotograph(locationPhotograph.imagePath, $event.target.value)"
+                  rows="1"
+                  placeholder="Enter Description"
+                ></textarea>
+              </div>
+              <div class="" *ngIf="!this.permissions.includes('update')">
+                <p class="px-3" id="RiskInspectionCard_LocationPhotographs_description">
+                  {{ locationPhotograph.description }}
+                </p>
+              </div>
+              <hr />
+            </div>
+          </div>
+
+          <div
+            *ngIf="!this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.locationPhotographs?.length"
+            class="done-upload-outline-light flex justify-content-between"
+            style="padding-bottom: unset"
+          >
+            <p class="red-link" id="RiskInspectionCard_LocationPhotographs_NotFound">No Location Photographs Found</p>
+          </div>
+
+          <div class="" *ngIf="this.permissions.includes('update')">
+            <p-fileUpload
+              #photoupload
+              [auto]="true"
+              (onUpload)="this.onUploadLocationPhotographs()"
+              id="RiskInspectionCard_LocationPhotographs"
+              [multiple]="false"
+              styleClass="upload-outline-light mt-3"
+              name="location_photographs"
+              mode="advanced"
+              url="{{ this.uploadLocationPhotographsUrl }}"
+              accept="image/*"
+              [maxFileSize]="1000 * 1000"
+              chooseIcon="pi pi-paperclip"
+              chooseLabel="Upload Location Photographs"
+              [headers]="this.uploadHttpHeaders"
+              method="post"
+            ></p-fileUpload>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!this.permissions.includes('update')">
+      <button class="btn btn-primary" (click)="openAIDialog()" *ngIf="!this.isLockton">AI</button>
+    </div>
+  </div>
+</p-card>

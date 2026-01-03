@@ -1,0 +1,218 @@
+<!-- Old_Quote -->
+<!-- <div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width:500px">
+        <p-card class="no-class">
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="RiskInspectionStatusTab_TotalIndicativeQuote">Total Indicative Quote</h6>
+                        <p class="sub-head" id="RiskInspectionStatusTab_ProductType">{{this.quote.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="RiskInspectionStatusTab_TotalPremium_Label">Total Premium</p> -->
+<!-- <p class="premium-price" id="RiskInspectionStatusTab_TotalPremium">{{(this.quote?.totalIndictiveQuoteAmt).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</p> -->
+<!-- <p class="premium-price" id="RiskInspectionStatusTab_TotalPremium"><span><app-currency [value]="this.quote?.totalIndictiveQuoteAmt"></app-currency></span></p> -->
+<!-- <p class="premium-price">{{this.quote?.totalIndictiveQuoteAmt | currency: 'INR'}}</p> -->
+<!-- </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div> -->
+
+<!-- <div class="grid risk-parameters-container" *ngIf="this.quote && !isMobile">
+    <div class="mx-3" style="width:500px"> -->
+<!-- <div class="mx-3" style="width:500px" *ngIf="this.quote?.productId?.shortName !== 'FIPR'"> -->
+<!-- <div class="grid">
+            <div class="col-12">
+                <app-risk-inspection-card [quote]="this.quote" id="RiskInspectionStatusTab_RiskInspectionCard"
+                    [permissions]="['read','update']"></app-risk-inspection-card>
+
+            </div> -->
+<!-- </div> -->
+
+<!-- </div>
+    <div style="width:420px" class="mx-3 combined-quote-wrapped" id="BSC_Total_Indicative">
+        <app-total-indicative-quote-covers-opted-card
+            [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+
+    </div> -->
+<!-- <div class="mx-3 w-100 col-6" *ngIf="this.quote && this.quote.quoteType == 'existing'"> -->
+<!-- <div class="mx-3 w-100 col-6" *ngIf="this.quote">
+        <div class="grid">
+            <div class="col-12">
+
+                <app-claim-experience id="RiskInspectionStatusTab_ClaimExperience" [quote]="this.quote"
+                    [permissions]="['read','update']"></app-claim-experience>
+            </div>
+        </div>
+    </div>
+    <div class="col-5" *ngIf="this.quote?.productId?.shortName === 'FIPR'" style="display:none ;">
+        <div class="grid">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="RiskInspectionStatusTab_IndustryAverage_Header">Industry Average Quote</h5>
+                    <p class="sub-heading" id="RiskInspectionStatusTab_IndustryAverage_ProductType">
+                        {{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p id="RiskInspectionStatusTab_IndustryAverage_AvgPremiumLabel">Avg. Premium </p> -->
+<!-- <p class="price" id="RiskInspectionStatusTab_IndustryAverage_AvgPremium"> {{(this.quote?.totalIndictiveQuoteAmt)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+<!-- <p class="price" id="RiskInspectionStatusTab_IndustryAverage_AvgPremium"><span><app-currency
+                                    [value]="this.quote?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                    </div>
+                    <div class="sum-assured" id="RiskInspectionStatusTab_IndustryAverage_SumInssured"> -->
+<!-- <span class="icon" ></span> Sum Assured:  {{(this.quote?.totalSumAssured)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }} - {{this.toWord.convert(this.quote?.totalSumAssured ?? 0)}} -->
+<!-- <span class="icon"></span> Sum Assured: <span><app-currency [maximumFractionDigits]="0"
+                                [value]="this.quote?.totalSumAssured"></app-currency></span> -
+                        {{this.toWord.convert(this.quote?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit"
+                            id="RiskInspectionStatusTab_IndustryAverage_ViewBreakup">View Breakup</button>
+                    </div>
+                    <div class="info" id="RiskInspectionStatusTab_IndustryAverage_SourcrName"><i
+                            class="pi pi-info-circle"></i> This information is been fetched
+                        from: source name</div> -->
+<!-- </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- New_Quote_Option -->
+<div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width:500px">
+        <p-card class="no-class">
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="RiskInspectionStatusTab_TotalIndicativeQuote">Total Indicative Quote</h6>
+                        <p class="sub-head" id="RiskInspectionStatusTab_ProductType">{{this.quote.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right" *ngIf="this.quote?.partnerId['isRate'] == 'true'">
+                        <p class="premium" id="RiskInspectionStatusTab_TotalPremium_Label">Total Premium</p>
+                        <!-- <p class="premium-price" id="RiskInspectionStatusTab_TotalPremium">{{(this.quote?.totalIndictiveQuoteAmt).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</p> -->
+                        <p class="premium-price" id="RiskInspectionStatusTab_TotalPremium"><span><app-currency
+                                    [value]="this.quoteOptionData?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                        <!-- <p class="premium-price">{{this.quote?.totalIndictiveQuoteAmt | currency: 'INR'}}</p> -->
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>
+
+<div class="grid risk-parameters-container" *ngIf="this.quoteOptionData && !isMobile">
+    <div class="mx-3" style="width:500px">
+        <!-- <div class="mx-3" style="width:500px" *ngIf="this.quote?.productId?.shortName !== 'FIPR'"> -->
+        <div class="grid">
+            <div class="col-12">
+                <app-risk-inspection-card [quoteOptionData]="this.quoteOptionData"
+                    id="RiskInspectionStatusTab_RiskInspectionCard"
+                    [permissions]="['read','update']"></app-risk-inspection-card>
+
+            </div>
+        </div>
+
+    </div>
+    <div style="width:420px" class="mx-3 combined-quote-wrapped" id="BSC_Total_Indicative">
+        <app-total-indicative-quote-covers-opted-card
+            [quoteOptionData]="this.quoteOptionData"></app-total-indicative-quote-covers-opted-card>
+
+    </div>
+    <!-- <div class="mx-3 w-100 col-6" *ngIf="this.quote && this.quote.quoteType == 'existing'"> -->
+    <div *ngIf="this.user.partnerId['brokerModeStatus'] == false">
+        <div class="mx-3 w-100 col-6" *ngIf="this.quote">
+            <div class="grid">
+                <div class="col-12">
+    
+                    <app-claim-experience id="RiskInspectionStatusTab_ClaimExperience" [quote]="this.quote"
+                        [quoteOptionData]="this.quoteOptionData" [permissions]="['read','update']"></app-claim-experience>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5" *ngIf="this.quote?.productId?.shortName === 'FIPR'" style="display:none ;">
+        <div class="grid">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="RiskInspectionStatusTab_IndustryAverage_Header">Industry Average Quote</h5>
+                    <p class="sub-heading" id="RiskInspectionStatusTab_IndustryAverage_ProductType">
+                        {{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p id="RiskInspectionStatusTab_IndustryAverage_AvgPremiumLabel">Avg. Premium </p>
+                        <!-- <p class="price" id="RiskInspectionStatusTab_IndustryAverage_AvgPremium"> {{(this.quote?.totalIndictiveQuoteAmt)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+                        <p class="price" id="RiskInspectionStatusTab_IndustryAverage_AvgPremium"><span><app-currency
+                                    [value]="this.quoteOptionData?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                    </div>
+                    <div class="sum-assured" id="RiskInspectionStatusTab_IndustryAverage_SumInssured">
+                        <!-- <span class="icon" ></span> Sum Assured:  {{(this.quote?.totalSumAssured)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }} - {{this.toWord.convert(this.quote?.totalSumAssured ?? 0)}} -->
+                        <span class="icon"></span> Sum Assured: <span><app-currency [maximumFractionDigits]="0"
+                                [value]="this.quoteOptionData?.totalSumAssured"></app-currency></span> -
+                        {{this.toWord.convert(this.quoteOptionData?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit"
+                            id="RiskInspectionStatusTab_IndustryAverage_ViewBreakup">View Breakup</button>
+                    </div>
+                    <div class="info" id="RiskInspectionStatusTab_IndustryAverage_SourcrName"><i
+                            class="pi pi-info-circle"></i> This information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-card [style]="{ width: '510px', height: '250px' }" >
+    <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <div class="grid">
+            <div class="col-12">
+                <p-fileUpload [auto]="true" mode="advanced"
+                                [multiple]="false"
+                                styleClass="upload-outline-light mt-3"
+                                accept="image/*" [maxFileSize]="1000 * 1000"
+                                chooseIcon="pi pi-paperclip" chooseLabel="Upload file"></p-fileUpload>
+            </div>
+        </div>
+        <div style="margin-left: 10px;">
+                <div class="flex justify-content-center">
+                    <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="this.downloadSampleFile()"><i
+                            class="pi pi-download"></i> Download Sample File</button>
+                    <div>
+                        <p-fileUpload #fileUpload id="SidSumInsured_Split_Upload" styleClass="btn btn-primary"
+                            [name]="this.quoteLocationBreakupBulkImportProps.name"
+                            [mode]="this.quoteLocationBreakupBulkImportProps.mode"
+                            [url]="this.quoteLocationBreakupBulkImportProps.url"
+                            [method]="this.quoteLocationBreakupBulkImportProps.method"
+                            (onUpload)="this.quoteLocationBreakupBulkImportProps.onUpload($event.originalEvent.body)"
+                            (onError)="this.errorHandler($event, fileUpload)"
+                            [headers]="this.quoteLocationBreakupBulkImportProps.headers" [showCancelButton]="true"
+                            [auto]="this.quoteLocationBreakupBulkImportProps.auto"
+                            [uploadLabel]="this.quoteLocationBreakupBulkImportProps.uploadLabel"
+                            [chooseLabel]="this.quoteLocationBreakupBulkImportProps.chooseLabel"></p-fileUpload>
+                    </div>
+                </div>
+        </div>
+    </div>
+</p-card>
+
+<div class="grid risk-parameters-container" *ngIf="this.quote && isMobile">
+    <div class="mx-3" style="width:500px" *ngIf="this.quote?.productId?.shortName !== 'FIPR'">
+        <div class="grid">
+            <div class="col-12">
+                <app-risk-inspection-card [quote]="this.quote" id="RiskInspectionStatusTab_RiskInspectionCard"
+                    [permissions]="['read','update']"></app-risk-inspection-card>
+            </div>
+        </div>
+    </div>
+    <div class="mx-3" *ngIf="this.quote" style="min-width: 90vw;">
+        <div class="grid">
+            <div class="col-12">
+                <app-claim-experience id="RiskInspectionStatusTab_ClaimExperience" [quote]="this.quote"
+                    [permissions]="['read','update']"></app-claim-experience>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<!--TODO: Add Datatable-->
+<div class="card">
+
+
+  <div class="row">
+    <div class="content">
+      <div class="grid">
+        <div class="col-6 md:col-12 mb-5">
+          <label for="" class="form-label" id="title_label">Title</label>
+          <h4><strong class="premium-price">Sum Insured : <app-currency
+                [value]="(quote.totalSumAssured)"></app-currency> *(Incl. Taxes)</strong></h4>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Estimated" class="form-label">Estimated Turnover</label>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber id="estimatedTurnOver" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+            placeholder="0" [(ngModel)]="marineSIData.marineSISplit.estimatedTurnOver" name="estimatedTurnOver"
+            #estimatedTurnOver="ngModel" maxlength="21">
+          </p-inputNumber>
+
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Invoice" class="form-label">As Per Invoice/STA </label>
+          <p>(W/O Taxes)</p>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber id="asPerInvoiceSta" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+            placeholder="0" [(ngModel)]="marineSIData.marineSISplit.asPerInvoiceSta" name="asPerInvoiceSta"
+            #asPerInvoiceSta="ngModel" maxlength="21">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Frieght" class="form-label">Frieght</label>
+          <p>If not included in invoice</p>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber id="frieght" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+            [(ngModel)]="marineSIData.marineSISplit.frieght" name="frieght" #frieght="ngModel" maxlength="21">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Additional" class="form-label">Additional 10% Uplift</label>
+        </div>
+        <div class="col-6 mb-5">
+          <p-checkbox name="additionalUplift" id="additionalUplift" value="marineSIData.marineSISplit.additionalUplift"
+            [binary]="true" [(ngModel)]="marineSIData.marineSISplit.additionalUplift"
+            inputId="additionalUplift"></p-checkbox>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Custom" class="form-label">Custom Duty</label>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber id="customDuty" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+            placeholder="0" [(ngModel)]="marineSIData.marineSISplit.customDuty" name="customDuty" #customDuty="ngModel"
+            maxlength="21">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="GST/Other" class="form-label">GST/Other Taxes</label>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber id="gstOtherTaxes" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+            placeholder="0" [(ngModel)]="marineSIData.marineSISplit.gstOtherTaxes" name="gstOtherTaxes"
+            #gstOtherTaxes="ngModel" maxlength="21">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Total" class="form-label">Total</label>
+        </div>
+        <div class="col-6 mb-5">
+          <p-inputNumber readonly id="total" mode="decimal" locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+            [(ngModel)]="marineSIData.marineSISplit.total" name="total" #total="ngModel" maxlength="21">
+          </p-inputNumber>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4 mb-5">
+          <label for="name" id="Description" class="form-label">Description</label>
+        </div>
+        <div class="col-6 mb-5">
+          <textarea pInputText id="description" [(ngModel)]="marineSIData.marineSISplit.description" name="description"
+            #description="ngModel" type="text" class="p-inputtext1 text-left"></textarea>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12" style="text-align: right;">
+          <button type="button" (click)="SaveSITabSplit()" id="save_Split" pButton pRipple label="Save"
+            icon="pi pi-check" class="btn p-button-success mr-2"></button>
+
+          <!-- <p-button id="cancel_Split" type="button" (click)="close()" 
+        >Cancel</p-button> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

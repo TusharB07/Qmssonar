@@ -1,0 +1,42 @@
+# On local 
+# Logout of the docker account from CLI
+docker logout
+
+# Login to the docker hub account from CLI 
+cat ./dockerhubpwd.txt | docker login --username aditya@alwrite.com --password-stdin
+
+# Create new build of the docker image, make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+# Also make sure you have the correct branch (main) checked out on your local machine
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+docker-compose -f docker-compose.yml -f docker-compose.prod.fgi.yml build
+
+# Push the build to docker hub repo, make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
+docker-compose -f docker-compose.yml -f docker-compose.prod.fgi.yml push
+
+
+
+# On environment
+# Logout of the docker account from CLI
+docker logout 
+
+# Login to the docker hub account from CLI 
+cat ./dockerhubpwd.txt | docker login --username aditya@alwrite.com --password-stdin
+
+# Pull latest docker image, make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+
+# Shutdown all running containers, make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+
+# Start all containers again using latest image, make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale inexchg-node-app=16
+docker exec -it quote-fe-inexchg-angular-app-1 vi /etc/nginx/conf.d/default.conf
+docker exec -it quote-fe-inexchg-angular-app-1 ls -litr /usr/share/nginx/html
+docker logs quote-fe-inexchg-angular-app-1 -f
+
+# Logs 
+# make sure you are in the folder containing docker-compose.yml & docker-compose.prod.yml
+# change the date time string in the log file as per your need
+tail -100f logs/inexchg-node-app-2023-09-16.log 

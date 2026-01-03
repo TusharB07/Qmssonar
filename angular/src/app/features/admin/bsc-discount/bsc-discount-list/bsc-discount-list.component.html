@@ -1,0 +1,193 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="this.createRecord()"></button>
+                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel=""
+                        class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Product Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="productId" display="menu"
+                                        placeholder="Search by product type"></p-columnFilter>
+                                    <p-sortIcon field="productId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    BSC Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="name" display="menu"
+                                        placeholder="Search by name"></p-columnFilter>
+                                    <p-sortIcon field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fromSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    From SI
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="fromSI" display="menu"
+                                        placeholder="Search by from SI"></p-columnFilter>
+                                    <p-sortIcon field="fromSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="toSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    To SI
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="toSI" display="menu"
+                                        placeholder="Search by to SI"></p-columnFilter>
+                                    <p-sortIcon field="toSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="ratePerMile">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Rate per Mile
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="ratePerMile" display="menu"
+                                        placeholder="Search by ratePerMile"></p-columnFilter>
+                                    <p-sortIcon field="ratePerMile"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="applicable_from">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Applicable from
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="applicable_from" display="menu" placeholder="Search by applicable_from"></p-columnFilter>
+                                    <p-sortIcon field="applicable_from"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="applicable_to">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Applicable to
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="applicable_to" display="menu" placeholder="Search by applicable_to"></p-columnFilter>
+                                    <p-sortIcon field="applicable_to"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-bscDiscount>
+                    <tr (click)="this.editRecord(bscDiscount)">
+                        <td>
+                            <p-tableCheckbox [value]="bscDiscount"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            <a
+                                routerLink="/backend/admin/products/{{bscDiscount.productId._id}}">{{bscDiscount.productId.type}}</a>
+                        </td>
+                        <td>
+                            {{bscDiscount.bscType}}
+                        </td>
+                        <td>
+                            {{bscDiscount.fromSI}}
+                        </td>
+                        <td>
+                            {{bscDiscount.toSI}}
+                        </td>
+                        <td>
+                            {{bscDiscount.ratePerMile}}
+                        </td>
+                        <!-- <td>
+                            {{bscDiscount.applicable_from | date: "yyyy-MM-dd"}}
+                        </td>
+                        <td>
+                            {{bscDiscount.applicable_to | date: "yyyy-MM-dd"}}
+                        </td> -->
+                        <!-- <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(bscDiscount)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(bscDiscount)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="this.selectedRecord">Are you sure you want to delete
+                    <b>{{selectedRecord.bscType}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="this.deleteRecordDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="this.deleteManyRecordsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,307 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2">
+                            <button id="ProductList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="ProductList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="
+                            this.openDeleteSelectedRecordsConfirmationDialog()
+                        " [disabled]="
+                            !this.selectedRecords ||
+                            !this.selectedRecords.length
+                        "></button> -->
+                            <button id="ProductList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="ProductList_FilterGlobal" (input)="
+                                dt.filterGlobal(
+                                    $event.target.value,
+                                    'contains'
+                                )
+                            " placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="ProductList_FileUpload" accept="image/*" [maxFileSize]="1000000"
+                            label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                        <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                    </ng-template>
+                </p-toolbar>
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name', 'email']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="ProductList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+                            <!-- <th pSortableColumn="_id">
+                        <div class="flex justify-content-between align-items-center">
+                            <span> Id </span>
+                        </div>
+                    </th> -->
+
+                            <th pSortableColumn="type">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_TypeHeader"> Type </span>
+                                    <div>
+                                        <p-columnFilter id="ProductList_TypeColumnFilter" type="text" field="type"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="contains" operator="or"
+                                            placeholder="Search by type"></p-columnFilter>
+                                        <p-sortIcon id="ProductList_TypeSortIcon" field="type"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="shortName">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_ShortNameHeader">Short Name </span>
+                                    <div>
+                                        <p-columnFilter id="ProductList_ShortNameColumnFilter" type="text"
+                                            field="shortName" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by Short Name"></p-columnFilter>
+                                        <p-sortIcon id="ProductList_ShortNameSortIcon" field="category"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th pSortableColumn="category">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span> Category </span>
+                                    <div>
+                                        <p-columnFilter type="text" field="category" display="menu" placeholder="Search by category"></p-columnFilter>
+                                        <p-sortIcon field="category"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <!-- <th pSortableColumn="fromSI">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">
+                                        From SI
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter type="text" field="fromSI" display="menu" placeholder="Search by from SI"></p-columnFilter>
+                                        <p-sortIcon field="fromSI"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <!-- <th pSortableColumn="toSI">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">
+                                        To SI
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter type="text" field="toSI" display="menu" placeholder="Search by to SI"></p-columnFilter>
+                                        <p-sortIcon field="toSI"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <th pSortableColumn="productTemplate">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="ProductList_ProductTemplateHeader">
+                                        Product Template
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-columnFilter type="text" field="productTemplate" display="menu" placeholder="Search by to SI"></p-columnFilter> -->
+                                        <p-sortIcon field="productTemplate"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isOtc">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="ProductList_IsOTCHeader"> Is OTC </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="isOtc"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="is_validation_check">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_is_validation_checkHeader"> Validation Check </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="is_validation_check"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isFire">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_isFireHeader"> Fire </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="isFire"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isSTFI">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_isSTFIHeader"> STFI </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="isSTFI"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isTerrorism">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_isTerrorismHeader"> Terrorism </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="isTerrorism"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isEarthQuake">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_isEarthQuakeHeader"> EarthQuake </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="isEarthQuake"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+
+                            <th pSortableColumn="status">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductList_StatusHeader"> Status </span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                        <p-sortIcon field="status"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <!-- <th></th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product>
+                        <tr (click)="this.editRecord(product)">
+                            <td>
+                                <p-tableCheckbox [value]="product" id="ProductList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <!-- <td style="width: 14%; min-width: 10rem">
+                        <span class="p-column-title">Id</span>
+                        {{ product._id }}
+                    </td> -->
+                            <td id="ProductList_Type">
+                                {{ product.type }}
+                            </td>
+                            <td id="ProductList_ShortName">
+                                {{ product.shortName }}
+                            </td>
+                            <!-- <td>
+                                {{ product.category }}
+                            </td> -->
+                            <!-- <td>
+                                <div class="text-nowrap">₹ {{(product.fromSI ?? 0)?.toLocaleString('en-IN') }}</div>
+                            </td> -->
+                            <!-- <td>
+                                <div class="text-nowrap">₹ {{(product.toSI ?? 0)?.toLocaleString('en-IN') }}</div>
+                            </td> -->
+                            <td id="ProductList_ProductTemplate">
+                                {{ product.productTemplate }}
+                            </td>
+                            <td id="ProductList_IsOTC">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.isOtc, 'false-icon pi-times-circle': !product.isOtc}"></i>
+
+                            </td>
+                            <td id="ProductList_is_validation_check">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.is_validation_check, 'false-icon pi-times-circle': !product.is_validation_check}"></i>
+
+                            </td>
+                            <td id="ProductList_isFire">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.isFire, 'false-icon pi-times-circle': !product.isFire}"></i>
+
+                            </td>
+                            <td id="ProductList_isSTFI">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.isSTFI, 'false-icon pi-times-circle': !product.isSTFI}"></i>
+
+                            </td>
+                            <td id="ProductList_isTerrorism">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.isTerrorism, 'false-icon pi-times-circle': !product.isTerrorism}"></i>
+
+                            </td>
+                            <td id="ProductList_isEarthQuake">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.isEarthQuake, 'false-icon pi-times-circle': !product.isEarthQuake}"></i>
+
+                            </td>
+                            <td id="ProductList_Status">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': product.status, 'false-icon pi-times-circle': !product.status}"></i>
+
+                            </td>
+
+
+                            <!-- <td>
+                                <div class="flex">
+                                    <button id="ProductList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(product)"></button>
+                                    </div>
+                                </td> -->
+                            <!-- <button id="ProductList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="
+                                this.openDeleteRecordConfirmationDialog(product)
+                            "></button> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="ProductList_DeleteRecordConfirmationIcon"></i>
+                <span id="ProductList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to
+                    delete
+                    <b>{{ selectedRecord.name }}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ProductList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ProductList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{ width: '450px' }">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ProductList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ProductList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ProductList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ProductList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

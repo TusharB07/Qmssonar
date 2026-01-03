@@ -1,0 +1,54 @@
+<form class="p-3" [formGroup]="this.recordForm" (ngSubmit)="this.saveRecord();" id="FireFloaterCoverDialog_Form">
+
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_LocationHeadet">Location</h5>
+                </th>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_StocksHeadet" class="text-right">Machinery/Electrical SI</h5>
+                </th>
+                <th *ngIf="this.quote.productId['shortName'] == 'PAR'">
+                    <h5 id="FireFloaterCoverDialog_StocksHeadet" class="text-right">Reduce %</h5>
+                </th>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_StocksHeadet" class="text-right">Reduced BreakDown SI</h5>
+                </th>
+
+            </tr>
+            <tr>
+                <td class="pt-3" id="FireFloaterCoverDialog_LocationName"></td>
+                <!-- <td class="pt-3 " id="FireFloaterCoverDialog_SumInsured"></td> -->
+
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container formArrayName="formArray" *ngFor="let form of this.formArray.controls; let i = index">
+                <ng-container [formGroupName]="i">
+                    <tr>
+                        <td>{{this.form.controls['locationName'].value}}</td>
+                        <td style="text-align: right"><app-currency
+                                [value]="this.form.controls['stock'].value"></app-currency></td>
+                        <td class="flex justify-content-end" *ngIf="this.quote.productId['shortName'] == 'PAR'">
+                            <p-inputNumber class="w-4 text-right" formControlName="machineryPercentage" [maxlength]="3"
+                                [min]="0" [max]="100"></p-inputNumber>
+                        </td>
+                        <td style="text-align: right"><app-currency
+                                [value]="this.form.controls['sumInsured'].value"></app-currency></td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+
+        </tbody>
+    </table>
+    <div class="buttons col-12" style="display: grid; place-items: end;">
+        <div class="">
+            <button class="btn btn-success mr-4" type="submit" id="FireFloaterCoverDialog_Save">Save</button>
+
+            <button class="btn btn-outline-light mt-1" type="button" (click)="cancel()"
+                id="FireFloaterCoverDialog_Close">Close</button>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,229 @@
+<div class="grid p-5" *ngIf="isShowForm">
+    <div class="col-12">
+        <form [formGroup]="this.queryForm" (ngSubmit)="this.saveRecord();">
+            <div class="m-2 py-2">
+                <h5 class="mb-2">Query Header</h5>
+                <input type="text" pInputText formControlName="queryHeader">
+            </div>
+            <div class="m-2 py-2">
+                <h5 class="mb-2">Query Type</h5>
+                <p-selectButton [options]="stateOptions" formControlName="queryType" #selectedState></p-selectButton>
+            </div>
+            <div class="m-2 py-2" *ngIf="selectedState.value == 'Internal'">
+                <h5 class="mb-2">Assigned To</h5>
+                <p-dropdown [options]="this.userOptions" [(ngModel)]="this.selectedUsers" placeholder="Select User"
+                    optionLabel="name" formControlName="assignedTo" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="m-2 py-2">
+                <h5 class="mb-2">Description</h5>
+                <textarea style="width: 100%;" rows="3" pInputTextarea formControlName="comment"></textarea>
+            </div>
+            <div class="m-2 py-2">
+                <p-fileUpload name="demo[]" name="location_photographs" chooseIcon="pi pi-paperclip" chooseLabel=" "
+                    [headers]="this.uploadHttpHeaders" (onSelect)="querySelected=query;onUpload($event)" fileLimit="1"
+                    accept="" maxFileSize="10000000" (onRemove)="this.uploadedFiles = []">
+                </p-fileUpload>
+            </div>
+            <div class="py-2 pt-3 flex justify-content-end">
+                <button type="submit" pButton pRipple label="Create Query" icon="pi pi-check"
+                    class="p-button-success mr-2"></button>
+                <button type="button" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2"
+                    (click)="cancelQuery()"></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="m-2 p-2" *ngIf="!isShowForm">
+    <div *ngIf="this.user.partnerId['brokerModeStatus'] == false">
+                   <div>
+                <h3 class="ml-3">Queries</h3>
+            </div>
+        <div class="flex align-items-center mr-2 py-4 justify-content-between">
+            <div
+                *ngIf="this.user?.partnerId?.partnerType != 'broker' &&  !this.quote.quoteState.includes(AllowedQuoteStates.QCR_FROM_UNDERWRITTER) && showCreateButton">
+                <button (click)="this.CreateQuery()" type="button" class="btn btn-primary ml-3"><i
+                        class="pi pi-plus pt-1 mr-2" id="QuoteKanban_CreateQuery"></i>
+                    Create Query
+                </button>
+            </div>
+            <div class="flex align-items-center mr-2 py-4" *ngIf="this.user?.partnerId?.partnerType == 'broker'">
+                <p-multiSelect [options]="this.partnerNames" [(ngModel)]="this.selectedPartner"
+                    (ngModelChange)="this.icWiseQuotes($event)" defaultLabel="Select Partner" optionLabel="name"
+                    optionValue="id"></p-multiSelect>
+            </div>
+            <div class="flex">
+                <div *ngFor="let category of categories" class="field-checkbox mr-2 ml-3">
+                    <p-radioButton [inputId]="category.key" name="category" [value]="category"
+                        [(ngModel)]="selectedCategory" (onClick)="filterQueries()"></p-radioButton>
+                    <label [for]="category.key">{{category.name}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <div>
+            <h3 class="ml-3">Queries</h3>
+        </div>
+        <div class="flex align-items-center mr-2 py-4 justify-content-between">
+            <div>
+                <button (click)="this.CreateQuery()" type="button" class="btn btn-primary ml-3"><i
+                    class="pi pi-plus pt-1 mr-2" id="QuoteKanban_CreateQuery"></i>
+                    Create Query
+                </button>
+            </div>
+            <div *ngIf="this.user.roleId['name'] != 'sales_creator_and_approver'">
+                <button class="mr-3 btn btn-lg btn btn-primary" (click)="this.pushBackTo()">Push Back</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-2 p-2" *ngFor="let query of filteredData">
+        <p-accordion expandIcon="pi" collapseIcon="pi">
+            <p-accordionTab>
+                <ng-template pTemplate="header">
+                    <div class="min-w-full p-2" [ngClass]="query.state == 'Open' ? 'customheader' : ''">
+                        <div class="flex no-wrap justify-content-between">
+                            <div class="">
+                                <strong>
+                                    <h5>{{query?.queryHeader}}</h5>
+                                </strong>
+                                <small class="mt-1">
+                                    <em>Initiated by </em>
+                                    <strong>
+                                        {{query?.isPartnerTypeVisible ? query.createdById?.partnerId?.name :
+                                        (query?.createdById?._id == this.user._id ? 'You' : query?.createdById?.name)}}
+                                        <p-badge [value]="query?.queryType" severity="success" styleClass="mx-1">
+                                        </p-badge>
+                                    </strong>
+                                </small>
+
+                            </div>
+                            <div class="text-center">
+                                <strong>
+                                    <h5>Assigned To</h5>
+                                </strong>
+                                <small class="mt-1">
+                                    <strong>
+                                        {{query?.assignedTo?._id == this.user._id ? 'You' :
+                                        (query?.queryType == 'External' ? query.assignedTo?.partnerId?.name :
+                                        query?.assignedTo?.name)}}
+                                        <p-badge *ngIf="query.state == 'Open' && query.assignedTo?._id == this.user._id"
+                                            severity="danger" value="1"></p-badge>
+                                    </strong>
+                                </small>
+                            </div>
+                            <div class="text-right">
+                                <div class="">
+                                    {{query?.createdAt |  date:'MMM d, y h:mm a'}}
+                                </div>
+                                <em>{{query?.state}}</em>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <div class="chat-content">
+                        <div class="mt-2">
+                            <div class="flex align-items-center justify-content-between">
+                                <div class="flex align-items-center justify-content-between">
+                                    <div class="p-2 mr-2">
+                                        <img width="35px" height="35px" id="Profile_Photo"
+                                            src="https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg"
+                                            style="border-radius: 50%;">
+                                    </div>
+                                    <div class="">
+                                        <strong>
+                                            {{query?.isPartnerTypeVisible ? query.createdById?.partnerId?.name :
+                                            (query?.createdById?._id == this.user._id ? 'You' :
+                                            query?.createdById?.name)}}
+                                        </strong>
+                                        <br>
+                                        {{query?.updatedAt | date |  date:'MMM d, y h:mm a'}}
+                                    </div>
+                                </div>
+                                <div class="flex"
+                                    *ngIf="this.user?._id == query?.createdById?._id && query.state == 'Open'">
+                                    <div>
+                                        <i class="pi pi-ellipsis-h" style="font-size: 2rem; position: relative;"
+                                            (click)="menu.toggle($event); querySelected = query._id"></i>
+                                    </div>
+                                    <div class="custom-menu-position">
+                                        <p-menu #menu [popup]="true"
+                                            [model]="query?.state == 'Open' ? openItems : closedItems">
+                                        </p-menu>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="mt-2" style="width: 95%;">
+                                <p style="word-wrap: break-word;">{{query?.comment}}</p>
+                            </div>
+                            <div class=" mt-1" *ngIf="query?.locationPhotographs" (click)="this.downloadDocument(query._id,query.locationPhotographs[0].imagePath)" 
+                            style="color:blue;"> Download document
+                                <i class="pi pi-download" style="font-size: 1rem"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-content" *ngFor="let reply of query.replies">
+                        <div class="mt-2">
+                            <div class="flex align-items-center justify-content-between">
+                                <div class="flex align-items-center justify-content-between">
+                                    <div class="p-2 mr-2">
+                                        <img width="35px" height="35px" id="Profile_Photo"
+                                            src="https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg"
+                                            style="border-radius: 50%;">
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            {{reply?.isPartnerTypeVisible ? reply.createdById?.partnerId?.name :
+                                            (reply?.createdById?._id == this.user._id ? 'You' :
+                                            reply?.createdById?.name)}}
+                                        </strong>
+                                        <br>
+                                        {{reply?.updatedAt | date}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="mt-2" style="width: 95%;">
+                                <p style="word-wrap: break-word;">{{reply?.comment}}</p>
+                            </div>
+                            <div class="mt-1" *ngIf="reply?.locationPhotographs?.length > 0" style="color:blue;" 
+                                (click)="this.downloadDocument(reply._id,reply.locationPhotographs[0].imagePath)">
+                                Download document <i class="pi pi-eye" style="font-size: 0.9rem"
+                                    ></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reply-box pt-3" *ngIf="query.assignedTo._id == this.user._id && query.state == 'Open'"
+                        [ngStyle]="{'padding-left': (query?.replies?.length > 0) ? '30px' : '0px'}">
+                        <h5>
+                            <strong class="text-color-secondary my-2"
+                                (click)="query.isReplyBoxVisibleBoxVisible = true;">Reply
+                            </strong>
+                        </h5>
+                    </div>
+                    <div *ngIf="query.isReplyBoxVisibleBoxVisible"
+                        [ngStyle]="{'padding-left': (query?.replies?.length > 0) ? '30px' : '0px'}">
+                        <textarea style="width: 100%;" rows="5" pInputTextarea [(ngModel)]="newComment"></textarea>
+                        <p-fileUpload name="demo[]" name="location_photographs" chooseIcon="pi pi-paperclip"
+                            chooseLabel=" " [headers]="this.uploadHttpHeaders"
+                            (onSelect)="querySelected=query;onUpload($event)" fileLimit="1" accept="image/*"
+                            maxFileSize="10000000" (onRemove)="this.uploadedFiles = []">
+                        </p-fileUpload>
+
+                        <div class="text-right mt-2">
+                            <button pButton type="button" label="Cancel" class="mr-2"
+                                (click)="query.isReplyBoxVisibleBoxVisible = false;this.uploadedFiles = []"></button>
+                            <button pButton type="button" label="Submit" class="p-button-secondary"
+                                (click)="query.isReplyBoxVisibleBoxVisible = false; addComment(query)"></button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+</div>
+<p-toast></p-toast>

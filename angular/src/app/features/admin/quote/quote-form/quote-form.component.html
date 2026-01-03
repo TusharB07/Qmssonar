@@ -1,0 +1,231 @@
+<p-tabView [scrollable]="true">
+    <p-tabPanel header="Quote Details">
+        <form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+            <div class="form-container">
+                <div class="grid">
+
+                    <div class="col-12">
+                        <div class="card p-fluid">
+                            <p-toast></p-toast>
+                            <p-toolbar styleClass="">
+                                <ng-template pTemplate="left">
+                                    <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                                </ng-template>
+                                <ng-template pTemplate="right">
+                                    <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                                </ng-template>
+                            </p-toolbar>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="grid">
+                            <div class="col-12 md:col-6">
+
+                                <div class="card p-fluid">
+                                    <h5>General Information</h5>
+
+                                    <!-- <div class="field">
+                                <label for="quoteNo">Quote No</label>
+                                <input class="form-control" type="text" pInputText id="quoteNo" formControlName="quoteNo"
+                                    required autofocus
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['quoteNo']}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['quoteNo']">Quote No is
+                                    required.</small>
+                            </div> -->
+                                    <div class="field">
+                                        <label for="quoteType">Quote Type</label>
+                                        <p-dropdown class="form-control" [options]="this.optionsQuoteType" placeholder="Select a Quote Type" optionLabel="label" optionValue="value" [showClear]="true" formControlName="quoteType" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteType'].valid}"></p-dropdown>
+
+                                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['quoteType']">Quote Type is required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label for="clientId">Client</label>
+                                        <!-- <input class="form-control" type="text" pInputText id="clientId" formControlName="clientId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['clientId']}" /> -->
+                                        <p-autoComplete [dropdown]="true" field="label" formControlName="clientId" [suggestions]="this.optionsClients" (completeMethod)="this.searchOptionsClients($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['clientId'].valid}"></p-autoComplete>
+                                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['clientId']">Client is required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label for="sectorId">Sector</label>
+                                        <!-- <input class="form-control" type="text" pInputText id="sectorId" formControlName="sectorId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sectorId']}" /> -->
+                                        <p-autoComplete [dropdown]="true" field="label" formControlName="sectorId" [suggestions]="this.optionsSectors" (completeMethod)="this.searchOptionsSectors($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['sectorId'].valid}"></p-autoComplete>
+
+                                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sectorId']">Sector is required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label for="renewalPolicyPeriod">Renewal Policy Period</label>
+                                        <input class="form-control" type="text" pInputText id="renewalPolicyPeriod" formControlName="renewalPolicyPeriod" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="insurredBusiness">Insurred Business</label>
+                                        <input class="form-control" type="text" pInputText id="insurredBusiness" formControlName="insurredBusiness" />
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="clientAddress">Client Address</label>
+                                        <input class="form-control" type="text" pInputText id="clientAddress" formControlName="clientAddress" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="totalIndictiveQuoteAmt">Total Indictive Quote Amount</label>
+                                        <input class="form-control" type="text" pInputText id="totalIndictiveQuoteAmt" formControlName="totalIndictiveQuoteAmt" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="brokerages">Brokerages</label>
+                                        <input class="form-control" type="text" pInputText id="brokerages" formControlName="brokerages" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="targetPremium">Target Premium</label>
+                                        <input class="form-control" type="text" pInputText id="targetPremium" formControlName="targetPremium" />
+                                    </div>
+
+
+                                    <div class="field">
+                                        <label for="quoteSubmissionDate">Quote Submission Date</label>
+                                        <input class="form-control" type="text" pInputText id="quoteSubmissionDate" formControlName="quoteSubmissionDate" />
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="approvedBy">ApprovedBy</label>
+                                        <input class="form-control" type="text" pInputText id="approvedBy" formControlName="approvedBy" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="approvedOn">ApprovedOn</label>
+                                        <input class="form-control" type="text" pInputText id="approvedOn" formControlName="approvedOn" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="createdBy">Created By</label>
+                                        <input class="form-control" type="text" pInputText id="createdBy" formControlName="createdBy" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="createdOn">Created On</label>
+                                        <input class="form-control" type="text" pInputText id="createdOn" formControlName="createdOn" />
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="status">Status</label>
+                                        <p-toggleButton class="form-control" formControlName="status" [onLabel]="'Status active'" [offLabel]="'Status inactive'" [onIcon]="'pi pi-check'" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="card p-fluid">
+                                    <h5>Claim Details</h5>
+
+                                    <div class="field">
+                                        <label for="claim1NoOfClaims">Claim 1 No Of Claims</label>
+                                        <input class="form-control" type="text" pInputText id="claim1NoOfClaims" formControlName="claim1NoOfClaims" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="claim1Nature">Claim 1 Nature</label>
+                                        <input class="form-control" type="text" pInputText id="claim1Nature" formControlName="claim1Nature" />
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="claimYear1">Claim Year 1</label>
+                                        <input class="form-control" type="text" pInputText id="claimYear1" formControlName="claimYear1" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="claimToYear1">Claim To Year 1</label>
+                                        <input class="form-control" type="text" pInputText id="claimToYear1" formControlName="claimToYear1" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="claim1PremiumPaid">Claim 1 Premium Paid</label>
+                                        <input class="form-control" type="text" pInputText id="claim1PremiumPaid" formControlName="claim1PremiumPaid" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="claim1ClaimAmount">Claim 1 Claim Amount</label>
+                                        <input class="form-control" type="text" pInputText id="claim1ClaimAmount" formControlName="claim1ClaimAmount" />
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="revNo">Rev No</label>
+                                        <input class="form-control" type="text" pInputText id="revNo" formControlName="revNo" />
+                                    </div>
+
+                                </div>
+                                <div class="card p-fluid">
+                                    <h5>Addon</h5>
+
+                                    <div class="field">
+                                        <label for="productId">Product</label>
+                                        <!-- <input class="form-control" type="text" pInputText id="productId" formControlName="productId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['productId']}" /> -->
+                                        <p-autoComplete [dropdown]="true" field="label" formControlName="productId" [suggestions]="this.optionsProducts" (completeMethod)="this.searchOptionsProducts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['productId']">Product is required.</small>
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="sameAsPremium">Same As Premium</label>
+                                        <p-toggleButton class="form-control" formControlName="sameAsPremium" [onLabel]="'Same as Premium'" [offLabel]="'Not Same as Premium'" [onIcon]="'pi pi-check'" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="deductiblesExcess">Deductibles Excess</label>
+                                        <input class="form-control" type="text" pInputText id="deductiblesExcess" formControlName="deductiblesExcess" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="existingBrokerCurrentYear">Existing Broker Current Year</label>
+                                        <input class="form-control" type="text" pInputText id="existingBrokerCurrentYear" formControlName="existingBrokerCurrentYear" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="otherTerms">Other Terms</label>
+                                        <input class="form-control" type="text" pInputText id="otherTerms" formControlName="otherTerms" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="additionalInfo">Additional Info</label>
+                                        <input class="form-control" type="text" pInputText id="additionalInfo" formControlName="additionalInfo" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9 md:col-3" *ngIf="this.id != 'new'">
+
+                        <div class="card p-fluid">
+                            <app-audit-trail [entityId]="this.id" [entityResourcePrefix]="'quotes'"></app-audit-trail>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Quote Location Addon">
+        <app-quote-location-addon-list></app-quote-location-addon-list>
+    </p-tabPanel>
+    <p-tabPanel header="Quote Location Occupancy">
+        <app-quote-location-occupancy-list></app-quote-location-occupancy-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Burglary and Housebreakings">
+        <app-bsc-burglary-and-housebreaking-list></app-bsc-burglary-and-housebreaking-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Electronic Equipments">
+        <app-bsc-electronic-equipment-list></app-bsc-electronic-equipment-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Fire Loss of Profits">
+        <app-bsc-fire-loss-of-profit-list></app-bsc-fire-loss-of-profit-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Money Safe Till Cover">
+        <app-bsc-money-safe-till-list></app-bsc-money-safe-till-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Money Transits">
+        <app-bsc-money-transit-list></app-bsc-money-transit-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Signage Cover">
+        <app-bsc-signage-list></app-bsc-signage-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Liability Section Cover">
+        <app-bsc-liability-list></app-bsc-liability-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Fidelity Guarantee Cover">
+        <app-bsc-fidelity-gurantee-list></app-bsc-fidelity-gurantee-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Accompanied Baggage Cover">
+        <app-bsc-accompanied-baggage-list></app-bsc-accompanied-baggage-list>
+    </p-tabPanel>
+    <p-tabPanel header="BSC Portable Equipments Cover">
+        <app-bsc-portable-equipments-list></app-bsc-portable-equipments-list>
+    </p-tabPanel>
+
+</p-tabView>

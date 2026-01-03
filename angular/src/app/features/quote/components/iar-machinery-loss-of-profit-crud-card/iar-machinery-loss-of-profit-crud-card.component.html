@@ -1,0 +1,109 @@
+<p-card *ngIf="this.permissions.includes('read')" >
+    <form [formGroup]="this.machineryLossOfProfitForm" (ngSubmit)="this.submitMachineryLossOfProfitCover(); submitted= true;">
+
+        <div class="pt-3">
+            <ul>
+                <li class="list-group-item">
+                    <div class="flex flex-column">
+                        <div class="flex-nowrap">
+                            <div class="flex">
+                                <div class="w-2rem">
+                                    <h5 id="SubTemplateIar_BusinessInterruption_Machinery"><b>(B)</b></h5>
+                                </div>
+                                <div class="" id="BSC_Tab_covers">
+                                    <h5 id="SubTemplateIar_BusinessInterruption_Machinery"><b>Machinery Loss Of Profit
+                                            <br>(MBLOP)<span style="color: blue;">*</span></b></h5>
+                                </div>
+                                <div class="flex-grow-1 text-right">
+                                    <h4 id="SubTemplateIar_BusinessInterruption_MachineryProfit"><span><app-currency
+                                                [value]="(this.machineryLossOfProfit?.grossProfit ?? 0)"
+                                                [maximumFractionDigits]="0"></app-currency></span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="pt-2">
+            <ul>
+                <li class="list-group-item">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="flex">
+                                <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                    <div class="pt-2 p-3">
+                                        <h6 id="SubTemplateIar_BusinessInterruption_GrossProfitLabel"><i
+                                                class="pi pi-angle-right"
+                                                style="    margin-left: -18px;padding: 5px;"></i>Gross Profit</h6>
+                                    </div>
+                                    <div class="pt-2 p-3">
+                                        <h6 id="SubTemplateIar_BusinessInterruption_IndmenityPeriodLabel"> <i
+                                                class="pi pi-angle-right"
+                                                style="    margin-left: -18px;padding: 5px;"></i>Indemnity Period</h6>
+                                    </div>
+                                    <!-- <div class="pt-2 p-3">
+                                        <h6 id="SubTemplateIar_BusinessInterruption_TerrorismLabel"> <i
+                                                class="pi pi-angle-right"
+                                                style="    margin-left: -18px;padding: 5px;"></i>Terrorism</h6>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                            <div class="pt-2 p-3">
+                                <!-- <input maxlength="11" formControlName="grossProfit"
+                                    *ngIf="this.permissions.includes('update')"
+                                    id="SubTemplateIar_BusinessInterruption_GrossProfit" type="text" currencyMask
+                                    [options]="{ prefix: '₹ ' , precision:0 }" placeholder="0" pInputText />
+                                <input maxlength="11" formControlName="grossProfit"
+                                    *ngIf="!this.permissions.includes('update')" disabled
+                                    id="SubTemplateIar_BusinessInterruption_GrossProfit" type="text" currencyMask
+                                    [options]="{ prefix: '₹ ' , precision:0 }" placeholder="0" pInputText /> -->
+                                <p-inputNumber maxlength="21" formControlName="grossProfit" mode="decimal"
+                                    locale="en-IN" *ngIf="this.permissions.includes('update')"
+                                    id="SubTemplateIar_BusinessInterruption_GrossProfit" prefix="₹ "
+                                    [minFractionDigits]="0" placeholder="0"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && machineryLossOfProfitForm.controls['grossProfit']?.errors}">
+                                </p-inputNumber>
+                                <p-inputNumber maxlength="21" formControlName="grossProfit" mode="decimal"
+                                    locale="en-IN" *ngIf="!this.permissions.includes('update')" disabled
+                                    id="SubTemplateIar_BusinessInterruption_GrossProfit" prefix="₹ "
+                                    [minFractionDigits]="0" placeholder="0">
+                                </p-inputNumber>
+                            </div>
+                            <div class="pt-2 p-3">
+                                <p-dropdown formControlName="indmenityPeriod"
+                                    *ngIf="this.permissions.includes('update')" id="machinaryDialog_IndmenityPeriod"
+                                    id="SubTemplateIar_BusinessInterruption_IndmenityPeriod" class="custom-dropdown"
+                                    [options]="this.optionsIndmenityPeriod" placeholder="Select Indmenity Period"
+                                    optionLabel="label" optionValue="value"></p-dropdown>
+                                <p-dropdown formControlName="indmenityPeriod"
+                                    *ngIf="!this.permissions.includes('update')" [disabled]="true"
+                                    id="machinaryDialog_IndmenityPeriod"
+                                    id="SubTemplateIar_BusinessInterruption_IndmenityPeriod" class="custom-dropdown"
+                                    [options]="this.optionsIndmenityPeriod" placeholder="Select Indmenity Period"
+                                    optionLabel="label" optionValue="value"></p-dropdown>
+                            </div>
+                            <!-- <div class="pt-2 terrorismValid p-3 text-right">
+                            <h6 id="SubTemplateIar_BusinessInterruption_TerrorismValue"> <span class="pl"
+                                        style="font-size: 12px;"><b>
+                                            {{this.machineryLossOfProfitForm.controls['terrorism'].value ? 'Yes' :
+                                            'No'}}
+                                        </b></span></h6>
+                            </div> -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flex justify-content-end my-3">
+            <!-- <h4 style="font-weight: 900;" id="SubTemplateIar_BusinessInterruption_Header"><b>Section <span>&#8545;</span>: Business Interruption (BI)</b></h4> -->
+            <button *ngIf="this.permissions.includes('update')" class="btn btn-sm btn-success"
+                id="SubTemplateIar_BusinessInterruption_Save" pRipple
+                [disabled]="">Save</button>
+
+        </div>
+    </form>
+
+</p-card>

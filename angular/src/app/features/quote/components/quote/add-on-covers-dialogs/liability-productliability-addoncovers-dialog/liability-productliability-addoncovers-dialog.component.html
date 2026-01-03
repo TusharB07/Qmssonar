@@ -1,0 +1,68 @@
+<div class="covers py-3 px-6">
+    <p-table [value]="covers" responsiveLayout="scroll">
+        <ng-template pTemplate="body" let-rowData let-i="index">
+            <tr style="border-top: 1px solid #dee2e6;">
+                <td style="width: 2%;" id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                    <i class="pi pi-info-circle custom-info" [pTooltip]="rowData?.toolTipDescription"
+                        tooltipPosition="top"></i>
+                </td>
+                <!-- <td style="width: 5%;">
+                    <p-checkbox class="mr-2" name="conditionalFree_{{rowData.id}}" value="{{rowData.isSelected}}"
+                        id="conditionalFree_{{rowData.id}}" [(ngModel)]="rowData.isSelected" [binary]="true"
+                        (onChange)="onCheckboxChange(rowData, $event)">
+                    </p-checkbox>
+                </td> -->
+                <td style="width: 40%;" id="conditionalFreeAddOnDialog_CoverIdName">
+                    <div *ngIf="!rowData.isExternal">{{rowData?.name}}</div>
+                    <div *ngIf="rowData.isExternal">
+                        <input pInputText type="text" placeholder="Cover Name" [(ngModel)]="rowData.name"
+                            maxlength="255" autocomplete="off" #coverName_{{i}}="ngModel" id="coverName_{{i}}"
+                            name="coverName_{{i}}" />
+                    </div>
+                </td>
+                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                    <div *ngIf="rowData.options.length==0">
+                        <p-dropdown (onChange)="onDropdownChange(rowData)" class="form-control"
+                            [options]="this.optionCovers" placeholder="Select" name="optionSelected_{{rowData.id}}"
+                            id="optionSelected_{{rowData.id}}" optionLabel="label" optionValue="value"
+                            [(ngModel)]="rowData.optionSelected" appendTo="body"></p-dropdown>
+                    </div>
+                    <div *ngIf="rowData.options.length>0">
+                        <p-dropdown (onChange)="onDropdownChange(rowData)" class="form-control"
+                            [options]="rowData.options" placeholder="Select" name="optionSelectedDynamic_{{rowData.id}}"
+                            id="optionSelectedDynamic_{{rowData.id}}" optionLabel="label" optionValue="label"
+                            [(ngModel)]="rowData.optionSelected" appendTo="body"></p-dropdown>
+                    </div>
+                </td>
+                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                    <input [(ngModel)]="rowData.description" type="text" id="" maxlength="255" pInputText
+                        id="description{{rowData.id}}" name="description{{rowData.id}}">
+                </td>
+                <td style="text-align: center;" *ngIf="rowData.isExternal">
+                    <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                        (click)="deleteAddOnsCovers(rowData.id)" title="Delete"></i>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="col-12">
+        <div class="flex justify-content-end">
+            <button class="btn btn-info add-button" (click)="addmoreAddOns()">
+                + Add More
+            </button>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="flex justify-content-end">
+
+            <button type="button" class="btn btn-success mr-4" (click)="saveModal()" id="btn_save">Save</button>
+            <!-- <button class="btn btn-outline-light" type="button" id="btn_Close" (click)="cancel()">Close</button>-->
+
+        </div>
+    </div>
+</div>
+<div style="position: absolute; top: 30px; right: 30px; cursor: pointer;">
+    <i class="pi pi-times" style="font-size: 25px; color: white;" (click)="cancel()" title="Close"></i>
+</div>

@@ -1,0 +1,44 @@
+:host ::ng-deep .p-menu.p-menu-overlay {
+    position: absolute;
+    left: -160px !important;
+    top: 20px !important;
+}
+
+.custom-menu-position {
+    position: relative;
+}
+
+.chat-content:not(:first-child) {
+    padding-left: 30px;
+}
+
+:host ::ng-deep p-button.p-element.ng-star-inserted {
+    display: none;
+}
+
+textarea{
+    font-family: sans-serif;
+    color: #495057;
+}
+
+// :host ::ng-deep .p-accordion .p-accordion-header:hover  {
+//     border: unset;
+// }
+// :host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+//     padding: unset;
+//     border: unset;
+//     left: -7px;
+// }
+
+// :host ::ng-deep .p-accordion .p-accordin-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+//     background: unset;
+// }
+
+// .customheader {
+//     background-color: lightgreen;
+// }
+
+// :host ::ng-deep .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+//     background: unset;
+//     border-color: unset;
+// }

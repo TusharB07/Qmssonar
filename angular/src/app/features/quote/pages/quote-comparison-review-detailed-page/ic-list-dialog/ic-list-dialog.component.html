@@ -1,0 +1,15 @@
+<p-toast></p-toast>
+<div>
+    <div class="field-checkbox" *ngFor="let ic of this.icList">
+        <label for="icList" class="py-3 flex align-items-center">
+            <p-checkbox class="mr-3" name="" [value]="ic.icId" inputId="{{ic.name}}" [(ngModel)]="selectedIds"></p-checkbox>
+
+            <div>
+                <h5>{{ic.name}}</h5>
+            </div>
+        </label>
+    </div>
+    <div class="mb-5">
+        <button class="btn btn-primary" (click)="save($event)" [disabled]="!isAnySelected()">Save</button>
+    </div>
+</div>

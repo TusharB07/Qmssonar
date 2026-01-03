@@ -1,0 +1,76 @@
+{
+    "data": [
+      {
+        "name": "Age of Building",
+        "nd": "5 Years",
+        "ch": "7 Years",
+        "mu": "7 Years",
+        "am": "6 Years",
+        "hy": "8 Years",
+        "total": "NA"
+      },
+      {
+        "name": "Construction Type",
+        "nd": "Pucca",
+        "ch": "Kaccha",
+        "mu": "Pucca",
+        "am": "Kaccha",
+        "hy": "Pucca",
+        "total": "NA"
+      },
+      {
+        "name": "3 Year Loss History",
+        "nd": "Less than 55%",
+        "ch": "Less than 55%",
+        "mu": "Less than 55%",
+        "am": "Less than 55%",
+        "hy": "Less than 55%",
+        "total": "- 25%"
+      },
+      {
+        "name": "Fire Protection",
+        "nd": "At least 2 available",
+        "ch": "1 protection available",
+        "mu": "No fire protection",
+        "am": "At least 2 available",
+        "hy": "At least 2 available",
+        "total": "7 protection available"
+      },
+      {
+        "name": "Whether AMC for the Fire Protection Appliances is in force",
+        "nd": "Yes",
+        "ch": "Yes",
+        "mu": "No",
+        "am": "Yes",
+        "hy": "No",
+        "total": "NA"
+      },
+      {
+        "name": "Distance between the risk to be covered and nearest Fire Brigade",
+        "nd": "Beyond 5 Km",
+        "ch": "Within 5 km",
+        "mu": "Beyond 5 Km",
+        "am": "Within 5 km",
+        "hy": "Beyond 5 Km",
+        "total": "NA"
+      },
+      {
+        "name": "Premises Basement/Ground/Above Ground",
+        "nd": "Ground Floor",
+        "ch": "Above Ground Floor",
+        "mu": "Ground Floor",
+        "am": "Above Ground Floor",
+        "hy": "Ground Floor",
+        "total": "NA"
+      },
+      {
+        "name": "LGI Renewal ?",
+        "nd": "NA",
+        "ch": "NA",
+        "mu": "NA",
+        "am": "NA",
+        "hy": "NA",
+        "total": "NA"
+      }
+    ]
+  }

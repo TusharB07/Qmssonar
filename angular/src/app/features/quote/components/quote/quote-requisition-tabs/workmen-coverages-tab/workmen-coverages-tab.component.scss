@@ -1,0 +1,27 @@
+:host ::ng-deep .p-highlight.p-togglebutton, 
+:host ::ng-deep .p-highlight.p-togglebutton:hover { 
+    background: green; 
+    border: none; 
+    color: white; 
+} 
+  
+:host ::ng-deep .p-togglebutton:focus { 
+    box-shadow: 0 0 0 0.2rem #07c700fb; 
+}
+
+.custom-button {
+    width: 100%; 
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.p-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

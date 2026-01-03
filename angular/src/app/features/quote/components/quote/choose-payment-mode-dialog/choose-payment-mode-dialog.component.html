@@ -1,0 +1,38 @@
+<div class="" style="overflow: hidden;height: 175px;">
+    <p-toast></p-toast>
+    <h4 class="ml-2 text-black mt-4 mb-3">Payment Link</h4>
+    <div class="mb-5">
+
+        <div class="">
+            <div class="mb-3">
+                <!-- <p-radioButton [(ngModel)]="this.paymentMode" value="online" label="Online" id="ChoosePaymentModeDialog_Online"></p-radioButton> -->
+                <!-- <div class="pl-3 pr-3" *ngIf="this.paymentMode == 'online'"> -->
+                <div class=" pr-3" *ngIf="this.paymentMode == 'online'">
+                    <input class="ml-2 mt-2" type="text" pInputText [(ngModel)]="email" (ngModelChange)="this.errorCheck()" placeholder="Enter a email" [ngClass]="{'ng-invalid ng-dirty':this.error}">
+                    <small class="ml-2" *ngIf="this.error" style="color : red;">Enter a valid email Id</small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <!-- <p-radioButton [(ngModel)]="this.paymentMode" value="offline" label="Offline" [disabled]="true" id="ChoosePaymentModeDialog_Offline"></p-radioButton> -->
+            </div>
+        </div>
+    </div>
+    <div class="mb-5">
+
+        <!-- <div class="flex" *ngIf="this.paymentMode == 'online'"> -->
+        <div class="flex">
+            <button class="btn btn-primary" pButton pRipple id="ChoosePaymentModeDialog_ProceedWithOnlinePayment" [disabled]="isLinkSent"  (click)="proceedWithOnlinePayment()"><i class="pi pi-link mr-1" style="font-size: 2rem" id="ChoosePaymentModeDialog_SendLinkTOCustomer"></i>Send Link</button>
+            <!-- <div class="ml-3" >
+                <a href=""><i class="pi pi-link" style="font-size: 2rem" id="ChoosePaymentModeDialog_SendLinkTOCustomer"></i>Send Link to Customer</a>
+            </div> -->
+        </div>
+        <small *ngIf="isLinkSent">You can resend link again after 1 mins</small>
+        <!-- <small>You can resend link again after 10 mins</small> -->
+        <button class="btn btn-primary" *ngIf="this.paymentMode == 'offline'" id="ChoosePaymentModeDialog_ProceedWithOfflinePayment" (click)="proceedWithOfflinePayment()">Next</button>
+    </div>
+<!-- <div class="" *ngIf="this.quote" style="background-color: transparent !important;" [hidden]="true" id="QuoteSlipPDFPreview" #QuoteSlipPDFPreview> -->
+    <!-- <div class="" *ngIf="this.quote" style="background-color: transparent !important;margin-top: 50px;" id="QuoteSlipPDFPreview" #QuoteSlipPDFPreview>
+        <app-quote-slip-template-one [quote]="this.quote" id="QuoteSlipPDFview" #QuoteSlipPDFview></app-quote-slip-template-one>
+    </div> -->
+</div>
+

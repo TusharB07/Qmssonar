@@ -1,0 +1,700 @@
+<form #recordForm="ngForm" (ngSubmit)="saveRecord()">
+  <div class="form-container">
+    <div class="grid">
+      <div class="col-12">
+        <div class="card p-fluid">
+          <p-card>
+            <p-table [value]="gmcTemplateLst" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Parent Tab Name</th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-template>
+                <tr>
+                  <td>{{ template.parentTabName }}</td>
+                  <td>
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-danger"
+                      (click)="confirmDelete(template._id, template.parentTabName)">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <div class="p-fluid">
+          <p-card>
+            <p-toast></p-toast>
+            <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+            <p-toolbar styleClass="">
+              <ng-template pTemplate="left">
+                <h3 class="mb-0">{{ this.recordSingularName }}</h3>
+              </ng-template>
+              <ng-template pTemplate="right">
+                <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                  class="p-button-success mr-2"></button>
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                  (click)="this.onCancel()"></button>
+              </ng-template>
+            </p-toolbar>
+          </p-card>
+          <!-- <p-toolbar styleClass="">
+                <ng-template pTemplate="right">
+                  <button pButton pRipple label="Copy GMC" icon="pi pi-check" class="p-button-success mr-2" (click)="this.copyGMC()"></button>
+                </ng-template>
+              </p-toolbar> -->
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-12">
+          <div class="card p-fluid">
+            <p-card>
+              <div class="col-3">
+                <div class="field">
+                  <label for="partnerId">Partner Id</label>
+                  <p-dropdown [disabled]="this.mode == 'edit'" placeholder="Select Partner"
+                    [options]="this.optionsPratnerId" optionLabel="label" optionValue="value" [(ngModel)]="partnerId"
+                    id="partnerId" name="partnerId">
+                  </p-dropdown>
+                </div>
+                <div class="field">
+                  <label id="ListOfValueForm_ProductIdLabel" for="productId">Product</label>
+                  <p-dropdown [disabled]="this.mode == 'edit'" placeholder="Select Product"
+                    [options]="this.optionsProducts" optionLabel="label" optionValue="value" [(ngModel)]="productId"
+                    id="productId" name="productId">
+                  </p-dropdown>
+                </div>
+              </div>
+
+              <br />
+              <h4 class="mb-3">Add/Edit Level 2 Tab</h4>
+              <label class="label" for="parentTabName">Select Level 1 Tab</label>
+              <div class="grid">
+                <div class="col-6">
+                  <div class="grid">
+                    <div class="col-4">
+                      <p-dropdown class="form-control" [options]="this.optionsGMCParentTab"
+                        placeholder="--Select Level 1 Tab--" optionLabel="label" optionValue="value" id="parentTabName"
+                        [(ngModel)]="this.gmcParentTabName" name="parentTabName" #parentTabName="ngModel"
+                        (onChange)="onParentTabChange($event.value)"></p-dropdown>
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && !parentTabName.valid">Level 1 Tab
+                        is
+                        required.</small>
+                    </div>
+                    <!-- <div class="col-3">
+                              <p-checkbox name="gmcIsAllowOverwrite" id="gmcIsAllowOverwrite" value="gmcIsAllowOverwrite"
+                                [binary]="true" [(ngModel)]="this.gmcIsAllowOverwrite"
+                                inputId="gmcIsAllowOverwrite"></p-checkbox>
+                              &nbsp;&nbsp;<label for="ny" id="gmcIsAllowOverwrite">Is Allow Over write?</label>
+                            </div> -->
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="this.isParentTabSelected">
+                <label class="label" for="gmcSubTabAdded">Add Level 2 Tab</label>
+                <div class="grid">
+                  <div class="col-4">
+                    <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcSubTabAdded" maxlength="255"
+                      name="gmcSubTabAdded" #name="ngModel" autofocus
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && !gmcSubTab.valid }" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted">Level 2 Tab is required.</small>
+                  </div>
+                  <!-- <div class="col-2">
+                              <p-checkbox name="isSubTabActive" id="isSubTabActive" value="isSubTabActive"
+                                [binary]="true" [(ngModel)]="this.isSubTabActive" inputId="isSubTabActive"></p-checkbox>
+                              &nbsp;&nbsp;<label for="ny" id="">Is Active?</label>
+                            </div> -->
+                </div>
+                <div class="col-2 mt-3">
+                  <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text" label="Add Level 2 Tab"
+                    class="p-button-success mr-2 pr-3" (click)="this.addSubTab()"
+                    style="text-align: center;width: 150px;"></button>
+                </div>
+              </div>
+              <hr />
+              <div *ngIf="this.gmcSubTabAll != undefined">
+                <div *ngIf="this.gmcSubTabAll.length > 0">
+                  <p-table #dt [value]="this.gmcSubTabAll" [lazy]="true" responsiveLayout="scroll"
+                    [totalRecords]="totalRecords" [loading]="loading" [tableStyle]="{ 'min-width': '50rem' }"
+                    styleClass="p-datatable-gridlines">
+                    <ng-template pTemplate="header">
+                      <th align="left" style="background-color: #5143CE;color: white;">Level 2 Tab</th>
+                      <!-- <th>Active</th> -->
+                      <th style="background-color: #5143CE;color: white;">Action</th>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-gmcSubTabAllValue>
+                      <tr>
+                        <td>
+                          {{ gmcSubTabAllValue.subTabName }}
+                        </td>
+                        <!-- <td>
+                                  <p-checkbox name="gmcSubTabAllValueIsActive" id="gmcSubTabAllValueIsActive"
+                                    value="{{ gmcSubTabAllValue.isActive }}" [binary]="true"
+                                    [(ngModel)]="gmcSubTabAllValue.isActive" inputId="gmcSubTabAllValueIsActive"
+                                    (onChange)="onSubTabCheckBoxChange()"></p-checkbox>
+                                </td> -->
+                        <td style="width: 20px;">
+                          <button type="button" icon="pi pi-plus" pButton pRipple label="Remove" icon="pi pi-times"
+                            class="p-button-danger mr-2 pr-3"
+                            (click)="this.removeSubTab(gmcSubTabAllValue, gmcSubTabAllValue._id)"></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-card>
+
+
+            <br />
+            <p-card class="">
+              <h4 class="mb-3">Add/Edit Coverage Heading</h4>
+              <div class="field col-6" *ngIf="this.gmcSubTabAll.length > 0">
+                <label class="label" for="subTabName">Select Level 2 Tab</label>
+                <p-dropdown class="form-control" [options]="this.gmcSubTabAll" placeholder="--Select Level 2 Tab--"
+                  optionLabel="subTabName" optionValue="_id" id="subTabName" [(ngModel)]="this.gmcSelectedSubTab"
+                  name="gmcSelectedSubTab" #name="ngModel" (onChange)="onSubTabChange()"></p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !name.valid">Level 2 Tab is
+                  required.</small>
+              </div>
+              <div class="field col-7" *ngIf="this.issubTabSelected">
+                <label class="label" for="GMCSubTabLabel">Add Coverage Heading Label</label>
+                <div class="col">
+                  <div class="grid">
+                    <div class="col-6">
+                      <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcSubTabLabel"
+                        maxlength="255" name="gmcSubTabLabel" #name="ngModel" autofocus
+                        [ngClass]="{ 'ng-invalid ng-dirty': submitted && !gmcSubTabLabel.valid }" />
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted">Coverage Heading Label is
+                        required.</small>
+                    </div>
+                    <!-- <div class="col-3">
+                            <p-checkbox name="isLabelActive" id="isLabelActive" value="isLabelActive" [binary]="true"
+                              [(ngModel)]="this.isLabelActive" inputId="isLabelActive"></p-checkbox>
+                            &nbsp;&nbsp;<label for="ny" id="">Is Active?</label>
+                          </div> -->
+                  </div>
+                </div>
+                <br />
+                <button type="button" icon="pi pi-plus" pButton pRipple label="Add Coverage Heading"
+                  class="p-button-success mr-2 pr-3" (click)="this.addSubTabLabel()" style="width: 50%;"></button>
+              </div>
+              <br /><br />
+              <div *ngIf="this.gmcLabelForSubTabAll != undefined">
+                <div *ngIf="this.gmcLabelForSubTabAll.length > 0">
+                  <p-table #dt [value]="this.gmcLabelForSubTabAll" [lazy]="true" responsiveLayout="scroll"
+                    [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalRecords"
+                    [loading]="loading" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-gridlines">
+                    <ng-template pTemplate="header">
+                      <th align="left" style="background-color: #5143CE;color: white;">Coverage Heading Label</th>
+                      <!-- <th>Active</th> -->
+                      <th style="background-color: #5143CE;color: white;">Action</th>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-gmcLabelForSubTabAllValue let-i="rowIndex">
+                      <tr>
+                        <td>
+                          <input class="form-control" type="text" pInputText
+                            [(ngModel)]=" gmcLabelForSubTabAllValue.labelName" maxlength="255"
+                            name="gmcLabelForSubTabAllValue_{{i}}" #name="ngModel" autofocus />
+                        </td>
+                        <!-- <td>
+                                <p-checkbox name="gmcLabelForSubTabAllValueIsActive"
+                                  id="gmcLabelForSubTabAllValueIsActive" value="{{ gmcLabelForSubTabAllValue.isActive }}"
+                                  [binary]="true" [(ngModel)]="gmcLabelForSubTabAllValue.isActive"
+                                  inputId="gmcLabelForSubTabAllValueIsActive"
+                                  (onChange)="onLabelCheckBoxChange()"></p-checkbox>
+                              </td> -->
+                        <td>
+                          <button type="button" icon="pi pi-plus" pButton pRipple label="Remove" icon="pi pi-times"
+                            class="p-button-danger mr-2 pr-3" style="width: 100px"
+                            (click)="this.removeLabel(gmcLabelForSubTabAllValue, gmcLabelForSubTabAllValue._id)"></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-card>
+
+
+            <br />
+            <p-card class="">
+              <h4 class="mb-3">Coverage Elements</h4>
+              <div *ngIf="this.gmcLabelForSubTabAll != undefined">
+                <div class="grid">
+                  <div class="col-6">
+                    <div class="field" *ngIf="this.gmcLabelForSubTabAll.length > 0">
+                      <label class="label" for="gmcSubTabNameLabel">Select Coverage Heading</label>
+                      <p-dropdown class="form-control" [options]="this.gmcLabelForSubTabAll"
+                        placeholder="--Select Coverage Heading--" optionLabel="labelName" optionValue="_id"
+                        id="gmcSubTabNameLabel" [(ngModel)]="this.gmcSubTabNameLabel" name="gmcSubTabNameLabel"
+                        #name="ngModel" (onChange)="onSubTabLabelChange()"></p-dropdown>
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && !name.valid">Coverage Heading is
+                        required.</small>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field" *ngIf="this.issubTabLabelSelected">
+                <label class="label" for="GMCSubTabLabel">Add Coverage question</label>
+                <div class="col">
+                  <div class="grid">
+                    <div class="col-6">
+                      <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcSubTabLabelQuestion"
+                        maxlength="255" name="gmcSubTabLabelQuestion" #name="ngModel" autofocus
+                        [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted">Coverage question is required.</small>
+                    </div>
+                    <div class="col-2">
+                      <p-checkbox name="gmcFreeText" id="gmcFreeText" value="gmcFreeText" [binary]="true"
+                        [(ngModel)]="this.gmcFreeText" inputId="gmcFreeText"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="AddBroker_Broker_Label">Is Free Text
+                        Applicable?</label>
+                    </div>
+                    <div class="col-1">
+                      <p-checkbox name="isQuestionActive" id="isQuestionActive" value="isQuestionActive" [binary]="true"
+                        [(ngModel)]="this.isQuestionActive" inputId="isQuestionActive"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Active?</label>
+                    </div>
+                    <div class="col-1">
+                      <p-checkbox name="isQuestionRequired" id="isQuestionRequired" value="isQuestionRequired"
+                        [binary]="true" [(ngModel)]="this.isQuestionRequired" inputId="isQuestionRequired"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Required?</label>
+                    </div>
+                    <div class="col-2">
+                      <p-checkbox name="gmcIsInRenewal" id="gmcIsInRenewal" value="gmcIsInRenewal" [binary]="true"
+                        [(ngModel)]="this.gmcIsInRenewal" inputId="gmcIsInRenewal"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is In Renewal?</label>
+                    </div>
+                    <div class="col-6">
+                      <label class="label" for="ny" id="">Select question type</label>
+                      <p-dropdown class="form-control" [options]="this.optionsinputControlsSet"
+                        placeholder="--Select input element for answer--" optionLabel="label" optionValue="value"
+                        id="gmcInputControlsSet" [(ngModel)]="this.gmcInputControlsSet" name="gmcInputControlsSet"
+                        #name="ngModel" (onChange)="onInputControlChange()"></p-dropdown>
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && !name.valid">Question type is
+                        required.</small>
+                      <br />
+                    </div>
+                    <div class="col-4">
+                      <label class="label" for="ny" id="">Select dependant question</label> {{this.gmcParentQuestion}}
+                      <p-dropdown class="form-control" [options]="this.gmcQuestionAnswersAll"
+                        placeholder="--Select Parent Coverage Question--" optionLabel="question" optionValue="_id"
+                        [showClear]="true" id="gmcParentQuestion" [(ngModel)]="this.gmcParentQuestion"
+                        name="gmcParentQuestion" #name="ngModel"></p-dropdown>
+                      <br />
+                    </div>
+                    <div class="col-2 mt-4">
+                      <p-checkbox name="isShowInList" id="isShowInList" value="isShowInList" [binary]="true"
+                        [(ngModel)]="this.isShowInList" inputId="isShowInList"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Show In List?</label>
+                    </div>
+                    <br />
+                    <div class="col-6" *ngIf="this.gmcInputControlsSelection == 1">
+                      <div class="col">
+                        <div class="grid">
+                          <div class="col-6">
+                            <label class="label" for="ny" id="">Answer</label>
+                            <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcAnswer"
+                              maxlength="255" name="gmcAnswer" #name="ngModel" autofocus
+                              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                          </div>
+                          <div class="col-2">
+                            <label class="label" for="ny" id="">Premium %</label>
+                            <input class="form-control" type="text" pInputText [(ngModel)]="this.premiumPercentage"
+                              maxlength="255" name="premiumPercentage" #name="ngModel" autofocus
+                              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                            &nbsp;&nbsp;
+                          </div>
+                          <div class="col-2">
+                            <label class="label" for="ny" id="">Data Type</label>
+                            <p-dropdown class="form-control" [options]="this.optionsDataType"
+                              placeholder="Select DataType" optionLabel="label" optionValue="value" id="optionsDataType"
+                              [(ngModel)]="this.ansDataType" name="optionsDataType" #name="ngModel"></p-dropdown>
+                            &nbsp;&nbsp;
+                          </div>
+                          <!-- <div class="col-2 mt-4">
+                            <p-checkbox name="isAnswerActive" id="isAnswerActive" value="isAnswerActive" [binary]="true"
+                              [(ngModel)]="this.isAnswerActive" inputId="isAnswerActive"></p-checkbox>
+                            &nbsp;&nbsp;<label class="label" for="ny" id="">Is Active?</label>
+                          </div> -->
+                        </div>
+                      </div>
+                      <br />
+                      <button style="width: 150px;" type="button" icon="pi pi-plus" pButton pRipple label="Add Answer"
+                        class="p-button-success mr-2 pr-3" (click)="this.addAnswer()"></button>
+                    </div>
+                    <div class="col-6" *ngIf="this.gmcInputControlsSelection == 2">
+                      <div class="col">
+                        <div class="grid">
+                          <div class="col-8">
+                            <label class="label" for="ny" id="">Answer</label>
+                            <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcAnswer"
+                              maxlength="255" name="gmcAnswer" #name="ngModel" autofocus
+                              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }"
+                              [disabled]="this.gmcAnswerSet.length >= 2" />
+                          </div>
+                          <div class="col-4 mt-4">
+                            <p-checkbox name="isAnswerActive" id="isAnswerActive" value="isAnswerActive" [binary]="true"
+                              [(ngModel)]="this.isAnswerActive" inputId="isAnswerActive"></p-checkbox>
+                            &nbsp;&nbsp;<label class="label" for="ny" id="">Is Active?</label>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <button type="button" icon="pi pi-plus" pButton pRipple label="Add Answer" style="width: 150px;"
+                        class="p-button-success mr-2 pr-3" (click)="this.addAnswer()"
+                        [disabled]="this.gmcAnswerSet.length >= 2"></button>
+                    </div>
+                    <div class="col-6" *ngIf="this.gmcInputControlsSelection == 3">
+                      <div class="col">
+                        <div class="grid">
+                          <div class="col-8">
+                            <label class="label" for="ny" id="">Answer</label>
+                            <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcAnswer"
+                              maxlength="255" name="gmcAnswer" #name="ngModel" autofocus
+                              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }"
+                              [disabled]="this.gmcAnswerSet.length >= 1" />
+                          </div>
+
+                        </div>
+                      </div>
+                      <br />
+                      <button type="button" icon="pi pi-plus" pButton pRipple label="Add Answer" style="width: 150px;"
+                        class="p-button-success mr-2 pr-3" (click)="this.addAnswer()"
+                        [disabled]="this.gmcAnswerSet.length >= 1"></button>
+                    </div>
+                    <div class="col-6" *ngIf="this.gmcInputControlsSelection == 4">
+                      <div class="col">
+                        <div class="grid">
+                          <div class="col-8" *ngIf="this.gmcInputControlsSet == 'textarea'">
+                            <input class="form-control" type="text" pInputText [(ngModel)]="this.gmcAnswer"
+                              maxlength="255" name="gmcAnswer" #name="ngModel" autofocus
+                              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }"
+                              [disabled]="this.gmcAnswerSet.length >= 1" />
+                          </div>
+                          <div class="col-4">
+                            <p-checkbox name="isAnswerActive" id="isAnswerActive" value="isAnswerActive" [binary]="true"
+                              [(ngModel)]="this.isAnswerActive" inputId="isAnswerActive"></p-checkbox>
+                            &nbsp;&nbsp;<label class="label" for="ny" id="">Is Active?</label>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <button type="button" icon="pi pi-plus" pButton pRipple label="Add Answer" style="width: 150px;"
+                        class="p-button-success mr-2 pr-3" (click)="this.addAnswer()"
+                        [disabled]="this.gmcAnswerSet.length >= 1"></button>
+                    </div>
+                    <br />
+                    <div class="col-1 mt-4">
+                      <p-checkbox name="isAnswerActive" id="isAnswerActive" value="isAnswerActive" [binary]="true"
+                        [(ngModel)]="this.isAnswerActive" inputId="isAnswerActive"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Active?</label>
+                    </div>
+                    <div class="col-1 mt-4" *ngIf="
+                              this.gmcInputControlsSelection == 1 ||
+                              this.gmcInputControlsSelection == 2 ||
+                              this.gmcInputControlsSelection == 3 ||
+                              this.gmcInputControlsSelection == 4
+                            ">
+                      <p-checkbox name="isPositive" id="isPositive" value="isPositive" [binary]="true"
+                        [(ngModel)]="this.isPositive" inputId="isPositive"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Positive?</label>
+                    </div>
+                    <div class="col-2 mt-4" *ngIf="
+                              this.gmcInputControlsSelection == 1 ||
+                              this.gmcInputControlsSelection == 2 ||
+                              this.gmcInputControlsSelection == 3 ||
+                              this.gmcInputControlsSelection == 4
+                            ">
+                      <p-checkbox name="isDefaultAnswer" id="isDefaultAnswer" value="isDefaultAnswer" [binary]="true"
+                        [(ngModel)]="this.isDefaultAnswer" inputId="isDefaultAnswer"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Is Default Answer?</label>
+                    </div>
+                    <div class="col-2 mt-4" *ngIf="
+                              this.gmcInputControlsSelection == 1 ||
+                              this.gmcInputControlsSelection == 2 ||
+                              this.gmcInputControlsSelection == 3 ||
+                              this.gmcInputControlsSelection == 4
+                            ">
+                      <p-checkbox name="showAnsinList" id="showAnsinList" value="showAnsinList" [binary]="true"
+                        [(ngModel)]="this.showAnsinList" inputId="showAnsinList"></p-checkbox>
+                      &nbsp;&nbsp;<label class="label" for="ny" id="">Show Answer in List?</label>
+                    </div>
+                    <div class="col-12" *ngIf="this.gmcAnswerSet.length > 0">
+                      <p-table #dt [value]="this.gmcAnswerSet" [lazy]="true" responsiveLayout="scroll"
+                        [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalRecords"
+                        [loading]="loading">
+                        <ng-template pTemplate="header">
+                          <th class="thRow" pSortableColumn="gmcAnswerSet">Answers</th>
+                          <th class="thRow">Is Positive?</th>
+                          <th class="thRow">Is Default?</th>
+                          <th class="thRow">Is Ans in List?</th>
+                          <th class="thRow">Action</th>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-gmcAnswerSet>
+                          <tr>
+                            <td>
+                              {{ gmcAnswerSet.answer }}
+                            </td>
+                            <td>
+                              {{ gmcAnswerSet.isPositive == true ? "Yes" : "No" }}
+                            </td>
+                            <td>
+                              {{ gmcAnswerSet.isDefaultAnswer == true ? "Yes" : "No" }}
+                            </td>
+                            <td>
+                              {{ gmcAnswerSet.showAnsinList == true ? "Yes" : "No" }}
+                            </td>
+                            <td>
+                              <button type="button" icon="pi pi-plus" pButton pRipple label="Remove" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.removeAnswer(gmcAnswerSet)"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <!-- Add new answer row -->
+                    <!-- <div class="col-12">
+                      <button type="button" pButton pRipple label="Add New Row" icon="pi pi-plus"
+                        class="p-button-success" (click)="addNewAnswer()"></button>
+                    </div> -->
+                    <br />
+                    <button type="button" icon="pi pi-plus" pButton pRipple label="Add Question"
+                      class="p-button-success mr-2 pr-3" (click)="this.addQuestion()" style="width:120px"
+                      [disabled]="this.gmcAnswerSet.length < 1"></button>
+                    <br /><br />
+                    <div class="col-12" *ngIf="this.gmcQuestionAnswersAll !== undefined">
+                      <div *ngIf="this.gmcQuestionAnswersAll.length > 0">
+                        <p-table #dt [value]="this.gmcQuestionAnswersAll" [lazy]="true" responsiveLayout="scroll"
+                          [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [rows]="20"
+                          [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-gridlines">
+                          <ng-template pTemplate="header">
+                            <th class="thRow">Questions</th>
+                            <th class="thRow">Free Text</th>
+                            <th class="thRow">Input Control</th>
+                            <th class="thRow">Answers</th>
+                            <th class="thRow">Active</th>
+                            <th class="thRow">Parent</th>
+                            <th class="thRow">Renewal</th>
+                            <th class="thRow">Selecteion Option</th>
+                            <th class="thRow">Action</th>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-gmcQuestionAnswersValue let-i="rowIndex">
+                            <tr style="border-bottom: 3px solid black !important;">
+                              <td>
+                                <p-checkbox name="isQuestionRequired"
+                                  value="{{ gmcQuestionAnswersValue.isQuestionRequired }}" [binary]="true"
+                                  [(ngModel)]="gmcQuestionAnswersValue.isQuestionRequired" inputId="isPositive"
+                                  id="isQuestionRequired{{i}}" name="isQuestionRequired{{i}}"
+                                  #name="ngModel"></p-checkbox>Is Required<span style="color:red">*</span>
+
+                                <textarea class="form-control" type="text" pInputText maxlength="255"
+                                  [(ngModel)]="gmcQuestionAnswersValue.question"
+                                  [value]="gmcQuestionAnswersValue.question" id="question{{i}}" name="question{{i}}"
+                                  #name="ngModel"
+                                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }"></textarea>
+
+                              </td>
+                              <td>
+                                {{ gmcQuestionAnswersValue.freeText == true ? "Yes" : "No" }}
+                                <textarea class="form-control" type="text" pInputText maxlength="255"
+                                  [(ngModel)]="gmcQuestionAnswersValue.freeTextValue"
+                                  [value]="gmcQuestionAnswersValue.freeTextValue" id="freeTextValue{{i}}"
+                                  name="freeTextValue{{i}}" #name="ngModel"
+                                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }"></textarea>
+
+                              </td>
+                              <td>
+                                <ng-container [ngSwitch]="true">
+                                  <ng-container
+                                    *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'dropdown'">Dropdown</ng-container>
+                                  <ng-container
+                                    *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'radiobutton'">Radio
+                                    Button</ng-container>
+                                  <ng-container
+                                    *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'checkbox'">Checkbox</ng-container>
+                                  <ng-container
+                                    *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'textbox'">Textbox</ng-container>
+                                  <ng-container
+                                    *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'date'">Date</ng-container>
+                                  <ng-container *ngSwitchCase="gmcQuestionAnswersValue.inputControl === 'textarea'">Text
+                                    Area</ng-container>
+                                  <ng-container *ngSwitchDefault></ng-container>
+                                </ng-container>
+                              </td>
+                              <td>
+                                <div class="d-flex justify-content-end mb-3" style="text-align: right;">
+                                  <button type="button" pButton icon="pi pi-plus" label="Add" style="width:80px"
+                                    class="p-button-primary" (click)="addAnswerInternal(gmcQuestionAnswersValue)">
+                                  </button>
+                                </div>
+                                <p-table #dt [value]="gmcQuestionAnswersValue.answer" [lazy]="true"
+                                  responsiveLayout="scroll" [loading]="loading">
+                                  <ng-template pTemplate="header">
+                              <th class="thRow">Order</th>
+                              <th class="thRow">Ans</th>
+                              <th class="thRow">Premium %</th>
+                              <th class="thRow">DataType</th>
+                              <th class="thRow">Active</th>
+                              <th class="thRow">Is Positive?</th>
+                              <th class="thRow">Default Ans</th>
+                              <th class="thRow">Show Link</th>
+                              <th class="thRow">Action</th> <!-- New column for actions -->
+                          </ng-template>
+                          <ng-template pTemplate="body" let-gmcAnswerValue let-j="rowIndex">
+                            <tr>
+                              <td style="width: 70px;">
+                                <input class="form-control" type="text" pInputText maxlength="100"
+                                  [(ngModel)]="gmcAnswerValue.order" [value]="gmcAnswerValue.order"
+                                  id="gmcAnswerValueid{{i}}{{j}}" name="gmcAnswerValueid{{i}}{{j}}" #name="ngModel"
+                                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                              </td>
+                              <td>
+                                <!-- {{ gmcAnswerValue.answer }} -->
+                                <input class="form-control" type="text" pInputText maxlength="255"
+                                  [(ngModel)]="gmcAnswerValue.answer" [value]="gmcAnswerValue.answer"
+                                  id="gmcAnswerValue{{i}}{{j}}" name="gmcAnswerValue{{i}}{{j}}" #name="ngModel"
+                                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                              </td>
+                              <td>
+                                <input class="form-control" type="text" pInputText maxlength="255"
+                                  [(ngModel)]="gmcAnswerValue.premiumPercentage"
+                                  [value]="gmcAnswerValue.premiumPercentage" id="premiumPercentage{{i}}{{j}}"
+                                  name="premiumPercentage{{i}}{{j}}" #name="ngModel"
+                                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !name.valid }" />
+                              </td>
+                              <td>
+                                <p-dropdown class="form-control" [options]="this.optionsDataType"
+                                  placeholder="Select DataType" optionLabel="label" optionValue="value"
+                                  [(ngModel)]="gmcAnswerValue.ansDataType" id="optionsDataType{{i}}{{j}}"
+                                  name="optionsDataType{{i}}{{j}}" #name="ngModel" appendTo="body"></p-dropdown>
+                              </td>
+                              <td>
+                                <p-checkbox name="gmcAnswerValueIsActive" value="{{ gmcAnswerValue.isActive }}"
+                                  [binary]="true" [(ngModel)]="gmcAnswerValue.isActive" inputId="gmcAnswerValueIsActive"
+                                  (onChange)="onQuestionAndAnswerCheckBoxChange()" id="gmcAnswerValueIsActive{{i}}{{j}}"
+                                  name="gmcAnswerValueIsActive{{i}}{{j}}" #name="ngModel"></p-checkbox>
+                              </td>
+                              <td>
+                                <p-checkbox name="isPositive" value="{{ gmcAnswerValue.isActive }}" [binary]="true"
+                                  [(ngModel)]="gmcAnswerValue.isPositive" inputId="isPositive"
+                                  (onChange)="onQuestionAndAnswerCheckBoxChange()" id="isPositive{{i}}{{j}}"
+                                  name="isPositive{{i}}{{j}}" #name="ngModel"></p-checkbox>
+                              </td>
+                              <td>
+                                <!-- {{gmcAnswerValue.isDefaultAnswer}} -->
+                                <p-checkbox [binary]="true" [(ngModel)]="gmcAnswerValue.isDefaultAnswer"
+                                  name="gmcAnswerValueisDefaultAnswer" #gmcAnswerValueisDefaultAnswer="ngModel"
+                                  inputId="gmcAnswerValueisDefaultAnswer" id="gmcAnswerValueisDefaultAnswer{{i}}{{j}}"
+                                  name="gmcAnswerValueisDefaultAnswer{{i}}{{j}}" #name="ngModel"
+                                  (click)="setSelecetedAnswer(gmcAnswerValue,gmcQuestionAnswersValue);onQuestionAndAnswerCheckBoxChange()"></p-checkbox>
+                              </td>
+                              <td>
+                                <p-checkbox name="isShowInList" [binary]="true"
+                                  [(ngModel)]="gmcAnswerValue.isShowInList" inputId="isShowInList"
+                                  (onChange)="onQuestionAndAnswerCheckBoxChange()" id="isShowInList{{i}}{{j}}"
+                                  name="isShowInList{{i}}{{j}}" #name="ngModel"></p-checkbox>
+                              </td>
+                              <td>
+                                <!-- Action button for removing the answer -->
+                                <button type="button" icon="pi pi-trash" pButton pRipple label=""
+                                  class="p-button-danger"
+                                  (click)="removeAnswerInternal(gmcAnswerValue, gmcQuestionAnswersValue)"></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                        </td>
+                        <td>
+                          <p-checkbox name="gmcQuestionAnswersValueIsActive"
+                            value="{{ gmcQuestionAnswersValue.isActive }}" [binary]="true"
+                            [(ngModel)]="gmcQuestionAnswersValue.isActive" inputId="gmcQuestionAnswersValueIsActive"
+                            (onChange)="onQuestionAndAnswerCheckBoxChange()"
+                            id="gmcQuestionAnswersValueIsActive{{i}}{{j}}"
+                            name="gmcQuestionAnswersValueIsActive{{i}}{{j}}" #name="ngModel"></p-checkbox>
+                        </td>
+                        <td>
+                          {{ gmcQuestionAnswersValue.parentQuestionId }}
+                          <p-dropdown class="form-control" [options]="this.gmcQuestionAnswersAll" [showClear]="true"
+                            placeholder="--Select Parent Coverage Question--" optionLabel="question" optionValue="_id"
+                            id="gmcParentQuestion{{i}}{{j}}" [(ngModel)]="gmcQuestionAnswersValue.parentQuestionId"
+                            name="gmcParentQuestion{{i}}{{j}}" #name="ngModel"></p-dropdown>
+                        </td>
+                        <td> <p-checkbox name="isInRenewal{{i}}{{j}}" id="isInRenewal{{i}}{{j}}"
+                            value="{{ gmcQuestionAnswersValue.isInRenewal }}" [binary]="true"
+                            [(ngModel)]="gmcQuestionAnswersValue.isInRenewal" inputId="isInRenewal"
+                            (onChange)="onQuestionAndAnswerCheckBoxChange()"></p-checkbox></td>
+                        <td>{{gmcQuestionAnswersValue.selectedAnswer}}</td>
+                        <td>
+                          <button type="button" icon="pi pi-plus" pButton pRipple label="" icon="pi pi-times"
+                            class="p-button-danger mr-2 pr-3"
+                            (click)="this.removeQuestion(gmcQuestionAnswersValue)"></button>
+                        </td>
+                        </tr>
+                        </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </p-card>
+
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card p-fluid">
+            <h4 style="margin-left: 10px;" class="mb-3">Coverages List </h4>
+            <p-card class="">
+              <h2>
+                <u>{{ this.gmcSelectedParentTabName }}</u>
+              </h2>
+              <br />
+              <p-table [value]="this.gmcSubTabAll" [tableStyle]="{ 'min-width': '50rem' }"
+                styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="body" let-gmcSubTabAll>
+                  <tr>
+                    <td>
+                      <h4>{{ gmcSubTabAll.subTabName }}</h4>
+                    </td>
+                    <td>
+                      <ng-container *ngFor="let gmcLabelForSubTab of gmcSubTabAll.gmcLabelForSubTab">
+                        <h5>{{ gmcLabelForSubTab.labelName }}</h5>
+                        <br />
+                        <ng-container *ngFor="let gmcQuestionAnswers of gmcLabelForSubTab.gmcQuestionAnswers">
+                          <h6>{{ gmcQuestionAnswers.question }}</h6>
+                          <br />
+                          <ng-container *ngFor="let answer of gmcQuestionAnswers.answer">
+                            {{ answer.answer }}
+                            <br />
+                          </ng-container>
+                          <br />
+                        </ng-container>
+                        <hr style="width: 50%; text-align: left; margin-left: 0" />
+                        <br />
+                        <hr style="width: 50%; text-align: left; margin-left: 0" />
+                      </ng-container>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

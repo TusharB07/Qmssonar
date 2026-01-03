@@ -1,0 +1,120 @@
+<div class="" *ngIf="this.quote" id="QuoteComparisoReviewPage">
+    <div class="grid ml-5 mr-5">
+        <div class="col-12">
+            <div class="compare-quote-container">
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-12 lg:col-10">
+                            <h3 id="QuoteComparisoReviewPage_Header">Compare Quotes from insurers</h3>
+                            <p id="QuoteComparisoReviewPage_QuoteNo">Reference No : {{this.quote.quoteNo}}</p>
+                        </div>
+                        <div class="col-12 lg:col-2 text-end">
+                            <!-- <button class="btn btn-primary" (click)="quotefromgeneralinsurance()">Edit Placement Slip</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid ml-5 mr-5">
+        <div class="col-12 lg:col-3">
+            <div class="quote-status">
+                <div class="" id="QuoteComparisoReviewPage_QuoteStatusImage"><img src="./../assets/quote-status.png" alt=""></div>
+                <div class="quote-status-for">
+                    <div class="text" id="QuoteComparisoReviewPage_QuoteStatus">Quote Status for </div>
+                    <div class="name" id="QuoteComparisoReviewPage_ManavInvestments">{{this.quote?.clientId['name']}}</div>
+                </div>
+                <div class="stepProgress-container">
+                    <ul class="StepProgress" id="QuoteComparisoReviewPage_QuoteProgress">
+                        <li id="QuoteComparisoReviewPage_QuoteSlipCreation" class="StepProgress-item is-done"><strong>Quote Slip Creation</strong></li>
+                        <li id="QuoteComparisoReviewPage_QuoteSlipApproval" class="StepProgress-item is-done"><strong>Quote Slip Approval</strong></li>
+                        <li id="QuoteComparisoReviewPage_QuotePlacement" class="StepProgress-item current"><strong>Quote Placement</strong></li>
+                        <!-- <li class="StepProgress-item"><strong>Placement</strong></li> -->
+                        <!-- <li class="StepProgress-item"><strong>Risk Binder</strong></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-2">
+            <div class="compare-quote-box">
+                <div class="head" id="QuoteComparisoReviewPage_ParticularsHeader">Particulars</div>
+                <ul class="details" id="QuoteComparisoReviewPage_ParticularsList">
+                    <li id="QuoteComparisoReviewPage_InsuranceCompanies">Intermediate</li>
+                    <!-- <li id="QuoteComparisoReviewPage_InsuredName">Insured Name: <span class="name">Manav Investments &amp; Trading Company</span></li> -->
+                    <li id="QuoteComparisoReviewPage_PolicyType">Policy Type</li>
+                    <li id="QuoteComparisoReviewPage_RiskType">Risk Type</li>
+                    <li id="QuoteComparisoReviewPage_PolicyPeriod">Policy Period</li>
+                    <li id="QuoteComparisoReviewPage_Fire">Fire</li>
+                    <li id="QuoteComparisoReviewPage_STFI">STFI</li>
+                    <li id="QuoteComparisoReviewPage_Earthquake">Earthquake</li>
+                    <li id="QuoteComparisoReviewPage_Terrorism">Terrorism</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-2">
+            <div class="compare-quote-box text-center">
+                <div class="head" id="QuoteComparisoReviewPage_QuoteDetailsHeader">Quote Details</div>
+                <ul class="details" id="QuoteComparisoReviewPage_QuoteDetailsList">
+                    <li id="QuoteComparisoReviewPage_originalIntermediateName">{{this.quote.originalIntermediateName}}</li>
+                    <!-- <li id="QuoteComparisoReviewPage_ClientName">{{this.quote.clientId?.name}}</li> -->
+                    <li id="QuoteComparisoReviewPage_ProductType">{{this.quote.productId?.type}}</li>
+                    <li id="QuoteComparisoReviewPage_QuoteType">{{this.quote.quoteType}}</li>
+                    <li id="QuoteComparisoReviewPage_12months">12 months</li>
+                    <li id="QuoteComparisoReviewPage_Yes">Yes</li>
+                    <li id="QuoteComparisoReviewPage_Yes">Yes</li>
+                    <li id="QuoteComparisoReviewPage_Yes">Yes</li>
+                    <li id="QuoteComparisoReviewPage_Yes">Yes</li>
+                    <li id="QuoteComparisoReviewPage_OpenQuoteslipDialog"><button class="btn btn-primary" (click)="this.openQuoteslipDialog(this.quote)">View Quote</button></li>
+                    <!-- <li><button class="btn-primary" (click)="this.generatePlacementSlip(this.quote)">Generate Placement Slip</button></li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-5" *ngIf="this.insurerProcessedQuotes">
+            <div class="compare-quote-box dashed">
+                <div class="head" id="QuoteComparisoReviewPage_InsurerQuotes_Header">Insurer Quotes</div>
+                <ul class="details" id="QuoteComparisoReviewPage_InsurerQuotes_List">
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_InsuranceCompanyName">{{quote.partnerId['name']}}</div>
+                    </li>
+                    <!-- <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_NA">{{'NA'}}</div>
+                    </li> -->
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_ProductType">{{quote.productId?.type}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_QuoteType">{{quote.quoteType}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_12months">{{'12 months'}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_Yes">{{'Yes'}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_Yes">{{'Yes'}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_Yes">{{'Yes'}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes" id="QuoteComparisoReviewPage_Yes">{{'Yes'}}</div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes">
+
+                            <button class="btn btn-primary" (click)="this.openQuoteslipDialog(quote)" id="QuoteComparisoReviewPage_ViewQuote">View Quote</button>
+                        </div>
+                    </li>
+                    <li class="flex justify-content-between">
+                        <div *ngFor="let quote of this.insurerProcessedQuotes">
+
+                            <button class="btn btn-success" (click)="this.generatePlacementSlip(quote)" id="QuoteComparisoReviewPage_GeneratePlacementSlip">Generate Placement Slip</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,203 @@
+.custom-step-header {
+    height: 93vh;
+    position: fixed;
+}
+
+.custom-step-content {
+    position: relative;
+    left: 320px;
+}
+
+:host ::ng-deep .p-steps-item {
+    padding-bottom: 15px;
+    justify-content: unset !important;
+}
+
+:host ::ng-deep .p-steps ul {
+    display: block;
+}
+
+:host ::ng-deep .p-steps ul li a {
+    display: inline;
+    font-family: 'OpenSans-Regular';
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-number {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-title {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps .p-steps-item:before {
+    content: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:focus {
+    color: #0064bb;
+}
+
+.custom-anchor-index {
+    background-color: #0064bb;
+    color: #fff;
+    min-height: 20px;
+    min-width: 20px;
+    border-radius: 10px;
+}
+
+ul.edit-quote-links li {
+    display: inline-block;
+    margin: 0 50px;
+    position: relative;
+}
+
+ul.edit-quote-links li:first-child {
+    margin-left: 0px !important;
+}
+
+ul.edit-quote-links li:last-child {
+    margin-right: 0 !important;
+}
+
+ul.edit-quote-links li a {
+    font: normal normal bold 1.188rem/26px OpenSans-Bold;
+    color: #6c7888;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+ul.edit-quote-links li a .number {
+    border: 2px dashed #6c7888;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 30px;
+    font: normal normal bold 0.875rem/19px OpenSans-Bold;
+    color: #6c7888;
+    text-align: center;
+    padding-top: 3px;
+    margin-right: 7px;
+}
+
+ul.edit-quote-links li.p-highlight a .number {
+    background: #2156c2;
+    border: 2px solid #2156c2;
+    color: #ffffff;
+}
+
+ul.edit-quote-links li.p-highlight a,
+ul.edit-quote-links li.p-highlight a,
+li a:not(.p-highlight):not(.p-disabled):hover {
+    color: #2156c2;
+    // border-bottom: 3px solid #2156C2;
+}
+
+ul.edit-quote-links li:not(:last-child):after {
+    content: "";
+    position: absolute;
+    right: -95px;
+    top: 50%;
+    width: 80px;
+    border: 2px dashed #6c7888;
+    transform: translateY(-50%);
+    border-top: 0;
+}
+
+ul.edit-quote-links {
+    padding: 10px 0;
+}
+
+.edit-quote-link-container .flex {
+    justify-content: space-between;
+}
+
+.action .button {
+    border: 1px solid #ececec;
+    border-radius: 4px 0px 0px 4px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.action .button .taskcount {
+    margin: 0 10px;
+    font: normal normal 600 18px/24px OpenSans-bold;
+}
+
+.action .status-button {
+    min-height: 54px;
+}
+
+.action .status-button img {
+    margin-left: -15px;
+}
+
+.action .status-button img:first-child {
+    margin-left: 0;
+}
+
+::ng-deep .task-dialog .p-dialog-header,
+::ng-deep .task-dialog .p-dialog-content {
+    background-color: #ffffff;
+}
+
+::ng-deep .task-dialog .p-dialog-content {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+::ng-deep .task-dialog .p-dialog-header .p-dialog-title {
+    font: normal normal 16px/22px OpenSans-Bold;
+    letter-spacing: 0px;
+    color: #5143ce;
+}
+
+::ng-deep .task-dialog .task-dailog-header {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+::ng-deep .task-dialog .flex {
+    align-items: center !important;
+    margin: 10px 0;
+}
+
+.task-dailog-body {
+    margin-top: 30px;
+}
+
+.broker-name {
+    font: normal normal 16px/22px OpenSans-bold;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+.role {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+.quote-status {
+    font: normal normal 12px/17px OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #262629;
+}
+
+@media only screen and (min-width:1681px){
+    :host ::ng-deep .p-steps ul li a{
+        // font-size: 2.2rem;
+    }
+}
+

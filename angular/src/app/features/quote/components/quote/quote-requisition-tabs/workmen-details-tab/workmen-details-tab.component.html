@@ -1,0 +1,425 @@
+<div class="grid">
+    <!-- <div class="col-9 mx-0"> -->
+    <div class="col-10 mx-0">
+        <p-card class="card">
+            <div class="card-title">
+                <div class="grid">
+                    <div class="col-6">
+                        <h4>Employee/Worker Details</h4>
+                    </div>
+                    <!-- <div class="col-6"><h4>Adjusted Premium:<span style="font-weight: bold;color: #4CB70F;"><app-currency [value]="wcTemplateModel.adjustedPremium"></app-currency></span></h4></div> -->
+                </div>
+                <div class="grid">
+                    <div class="flex justify-content-start flex-wrap col-6">
+                        <div class="flex align-items-center justify-content-center m-2 ">
+                            <!-- <button type="button" (click)="save()" id="empDemoraphic_Save" pButton pRipple label="Save"
+                            icon="pi pi-check" class="btn btn-success mr-4"></button> -->
+                        </div>
+                    </div>
+                    <div class="flex justify-content-end flex-wrap col-6">
+                        <div *ngIf="!this.quote.wcRatesDataId || wcDetails.length==0"
+                            class="flex align-items-end justify-content-center m-2">
+                            <p-dropdown class="form-control" [options]="this.tableType" placeholder="Select Type"
+                                [(ngModel)]="selectedTableType" #tableTypeddl="ngModel" id="tableTypeddl"
+                                name="tableTypeddl" appendTo="body" (onChange)="this.onTableTypeChange($event)">
+                            </p-dropdown>
+                        </div>
+                        <!-- <div class="flex align-items-end justify-content-center m-2">
+                            <p-selectButton id="QuoteViewPage_ChangeView" [options]="this.optionsViewTypes"
+                                style="height: 50px;" (ngModelChange)="this.changeView($event)"
+                                [(ngModel)]="this.selectedView" optionValue="code" optionLabel="icon"
+                                optionLabel="label" style="font-size: 20px;"></p-selectButton>
+                        </div> -->
+                        <div class="flex align-items-end justify-content-center m-2">
+                            <button type="button" (click)="createRecord()" id="empDemoraphic_New" pButton pRipple
+                                label="New" icon="pi pi-plus" class="btn btn-success mr-4"></button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedView=='flip'">
+                    <div class="grid" *ngFor="let wcrates of wcDetails">
+                        <div class="col-10">
+                            <div class="cardCustom" [class.flipped]="wcrates.isFlipped">
+                                <div class="cardCustom-inner">
+                                    <div class="cardCustom-face">
+                                        <p-card class="">
+                                            <div class="grid">
+                                                <div class="col-10">
+                                                    <h4 id="RiskManagementsFeatures_Label" class="mb-3">
+                                                        Employee Details
+                                                    </h4>
+                                                </div>
+                                                <div class="col-2">
+                                                    <!-- <button id="WC_flip" pButton pRipple label="Flip Card"
+                                                        class="p-button-success mr-2"
+                                                        (click)="flipCard(wcrates, $event)"></button> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 20px;">Nature of
+                                                        Work</p-label>
+                                                    <p-dropdown appendTo="body" id="businessTypeId"
+                                                        class="custom-dropdown" [options]="natureOfWorks"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        name="businessTypeId" #businessTypeId="ngModel"
+                                                        [(ngModel)]="wcrates.businessTypeId"
+                                                        (onChange)="onNatureOfWorkChange(wcrates)"></p-dropdown>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 5px;">No Of
+                                                        Employees</p-label>
+                                                    <p-inputNumber class="text-right" id="noOfEmployees" placeholder="0"
+                                                        [(ngModel)]="wcrates.noOfEmployees" #noOfEmployees="ngModel"
+                                                        name="noOfEmployees" [maxlength]="20"></p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 5px;">Monthly Wages
+                                                        per employee</p-label>
+                                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0"
+                                                        id="salaryPerMonth" locale="en-IN"
+                                                        [ngModel]="wcrates.salaryPerMonth" name="salaryPerMonth"
+                                                        #salaryPerMonth="ngModel" [minFractionDigits]="0"
+                                                        (onInput)="this.setEmployeeSalary(wcrates,$event.value)"></p-inputNumber>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 5px;">Periods in
+                                                        Month</p-label>
+                                                    <p-dropdown appendTo="body" id="PeriodCoveredInMonths"
+                                                        class="custom-dropdown" [options]="periodsinMonth"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        name="PeriodCoveredInMonths" #PeriodCoveredInMonths="ngModel"
+                                                        [(ngModel)]="wcrates.PeriodCoveredInMonths"></p-dropdown>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 15px;">Types of
+                                                        Employees</p-label>
+                                                    <p-dropdown appendTo="body" id="typeOfEmployees"
+                                                        class="custom-dropdown" [options]="typesofEmployees"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        name="typeOfEmployees" #typeOfEmployees="ngModel"
+                                                        [(ngModel)]="wcrates.typeOfEmployeeId"
+                                                        (onChange)="onTypeOfEmployeeChange(wcrates)">
+                                                    </p-dropdown>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label style="font-weight: bold;margin-bottom: 5px;">Description
+                                                        of Employees</p-label>
+                                                    <!-- <p-dropdown appendTo="body" id="descriptionOfEmployees"
+                                                        class="custom-dropdown" [options]="descriptionEmployees"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        name="descriptionOfEmployees" #descriptionOfEmployees="ngModel"
+                                                        [(ngModel)]="wcrates.descOfEmployeeId"
+                                                        (onChange)="onDescOfEmployeeChange(wcrates)"></p-dropdown> -->
+
+                                                    <input maxlength="250" id="descriptionOfEmployees" pInputText
+                                                        #descriptionOfEmployees="ngModel"
+                                                        [(ngModel)]="wcrates.descriptionOfEmployees"
+                                                        placeholder="Enter description">
+
+                                                </div>
+                                            </div>
+
+                                            <button pButton pRipple label="" icon="pi pi-trash"
+                                                class="p-button-danger mr-2"
+                                                (click)="this.deleteRecord(wcrates)"></button>
+
+                                        </p-card>
+                                    </div>
+                                    <div class="cardCustom-face back">
+                                        <p-card class="">
+                                            <div class="grid">
+                                                <div class="col-10">
+                                                    <h4 id="RiskManagementsFeatures_Label" class="mb-3">
+                                                        Employee Details
+                                                    </h4>
+                                                </div>
+                                                <div class="col-2">
+                                                    <!-- <button id="WC_flip" pButton pRipple label="Flip Card"
+                                                        class="p-button-success mr-2"
+                                                        (click)="flipCard(wcrates, $event)"></button> -->
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label>Total Salary :</p-label>
+                                                    {{wcrates.totalSalary}}
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label>Total Salary Upto 15000 :</p-label>
+                                                    {{wcrates.totalSalaryUptoFT}}
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label>Total Salary above 15000 :</p-label>
+                                                    {{wcrates.totalSalaryAboveFT}}
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label>Rate Upto 15000 :</p-label>
+                                                    {{wcrates.rateUptoFT}}
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label>Rate Above 15000 :</p-label>
+                                                    {{wcrates.rateAboveFT}}
+                                                </div>
+                                                <div class="col-6">
+                                                    <p-label>Net Premium :</p-label>
+                                                    {{wcrates.netPremium}}
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-6">
+                                                    <p-label>Total Premium :</p-label>
+                                                    {{wcrates.totalPremiumAmt}}
+                                                </div>
+                                                <div class="col-6">
+
+                                                </div>
+                                            </div>
+                                        </p-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <style *ngIf="isNamed">
+                    .common-column-width {
+                        width: 200px;
+                    }
+                </style>
+                <style *ngIf="!isNamed">
+                    .common-column-width {
+                        width: 300px;
+                    }
+                </style>
+
+                <div *ngIf="selectedView=='table'">
+                    <p-table #dt [value]="wcDetails" [lazy]="true" [responsive]="true" responsiveLayout="scroll"
+                        [paginator]="false" [tableStyle]="{ 'min-width': '100rem', 'table-layout': 'fixed' }"
+                        styleClass="p-datatable-gridlines">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;"
+                                    *ngIf="isNamed">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap ">Name</span>
+                                    </div>
+                                </th>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;"
+                                    *ngIf="isNamed">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap ">Age</span>
+                                    </div>
+                                </th>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap ">Type of Industry</span>
+                                    </div>
+                                </th>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap">Occupation of Employees</span>
+                                    </div>
+                                </th>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;"
+                                    *ngIf="!isNamed">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap">Total Number of Employees</span>
+                                    </div>
+                                </th>
+                                <th class="common-column-width" style="background-color: #5143CE; color: white;">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span style="white-space: nowrap">Total Earnings</span>
+                                    </div>
+                                </th>
+                                <th style="background-color: #5143CE; color: white;">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-wcrates>
+                            <tr>
+                                <td class="common-column-width" *ngIf="isNamed">
+                                    <input maxlength="250" id="descriptionOfEmployees" pInputText [maxlength]="255"
+                                        #descriptionOfEmployees="ngModel" [(ngModel)]="wcrates.name"
+                                        placeholder="Enter Name">
+                                </td>
+                                <td class="common-column-width" *ngIf="isNamed">
+                                    <p-inputNumber class="text-right" id="ageOfEmployee" placeholder="0"
+                                        [(ngModel)]="wcrates.age" #noOfEmployees="ngModel" name="noOfEmployees"
+                                        [maxlength]="3"></p-inputNumber>
+                                </td>
+                                <td class="common-column-width">
+                                    <p-dropdown appendTo="body" id="businessTypeId" class="custom-dropdown"
+                                        [filter]="true" filterBy="label" [showClear]="false" [options]="natureOfWorks"
+                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                        name="businessTypeId" #businessTypeId="ngModel"
+                                        [(ngModel)]="wcrates.businessTypeId"
+                                        (onChange)="onNatureOfWorkChange(wcrates)"></p-dropdown>
+                                </td>
+                                <td class="common-column-width">
+                                    <p-dropdown appendTo="body" id="typeOfEmployees" class="custom-dropdown"
+                                        [options]="typesofEmployees" placeholder="Select" optionLabel="label"
+                                        optionValue="value" name="typeOfEmployees" #typeOfEmployees="ngModel"
+                                        [(ngModel)]="wcrates.typeOfEmployeeId"
+                                        (onChange)="onTypeOfEmployeeChange(wcrates)">
+                                    </p-dropdown>
+                                </td>
+                                <td class="common-column-width" *ngIf="!isNamed">
+                                    <p-inputNumber class="text-right" id="noOfEmployees" placeholder="0"
+                                        [(ngModel)]="wcrates.noOfEmployees" #noOfEmployees="ngModel"
+                                        name="noOfEmployees" [maxlength]="20"></p-inputNumber>
+                                </td>
+                                <td class="common-column-width">
+                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="salaryPerMonth"
+                                        locale="en-IN" [ngModel]="wcrates.salaryPerMonth" name="salaryPerMonth"
+                                        #salaryPerMonth="ngModel" [minFractionDigits]="0"
+                                        (onInput)="setEmployeeSalary(wcrates, $event.value)"></p-inputNumber>
+                                </td>
+                                <td>
+                                    <button pButton pRipple label="" icon="pi pi-trash" class="p-button-danger mr-2"
+                                        (click)="deleteRecord(wcrates)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td class="text-center text-right text-nowrap" [attr.colspan]="isNamed ? 3 : 2">
+                                    <span style="font-size:1rem;font-weight: bold;color: black;">Total: </span>
+                                </td>
+                                <td class="text-center text-right text-nowrap" *ngIf="!isNamed">
+                                    <span style="font-weight: bold;color: black;">{{ getTotalEmployee() }}</span>
+                                </td>
+                                <td *ngIf="isNamed"></td>
+                                <td class="text-center text-right text-nowrap">
+                                    <span style="font-weight: bold;color: black;">
+                                        <app-currency [value]="(getTotalSalary() ?? 0)"></app-currency>
+                                    </span>
+                                </td>
+                                <td [attr.colspan]="isNamed ? 4 : 5"></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+
+            </div>
+            <div class="button-container" style="margin-top: 25px;">
+                <button type="button" (click)="save()" id="empDemoraphic_Save" pButton pRipple label="Save"
+                    icon="pi pi-check" class="btn btn-success mr-4"></button>
+            </div>
+        </p-card>
+    </div>
+    <div class="col-2">
+        <p-card class="card">
+            <div class="grid mt-4">
+                <div class="col-12 mb-5">
+                    <label for="name" id="Description" class="form-label">Safety Measures</label>
+                    <textarea pInputText id="description" [(ngModel)]="this.wcTemplateModel.safetyMeasures"
+                        name="description" #description="ngModel" type="text" class="p-inputtext1 text-left"></textarea>
+                </div>
+            </div>
+        </p-card>
+    </div>
+    <div class="col-6">
+        <p-card>
+            <div class="grid">
+                <div class="col-8">
+                    <h3 style="font-size: medium; font-weight: bold;">Upload Attachments</h3>
+                </div>
+            </div>
+            <!-- <h4 class="mb-2" id="basicdetails_uploadAttachments">Upload Attachments</h4> -->
+            <div class="grid">
+                <div class="col-12">
+                    <!-- <p-dropdown class="form-control" [options]="this.optionAttachmentTypes" placeholder="Select Type"
+                        [(ngModel)]="selectedAttachment" #uploadAttachmentddl="ngModel" [group]="true"
+                        id="uploadAttachmentddl" name="uploadAttachmentddl" appendTo="body"
+                        (onChange)="onAttachmentTypeChange($event)">
+                        <ng-template let-group pTemplate="group">
+                            <div class="flex align-items-center">
+                                <span class="separator"
+                                    style="display: inline-block; font-weight: bold;">{{group.value}}</span>
+                                <span style="display: inline-block; font-weight: bold;margin-right: 20px;">{{
+                                    group.label }}</span>
+                            </div>
+                        </ng-template>
+                    </p-dropdown> -->
+                    <p-dropdown class="form-control"
+                        [options]="this.optionAttachmentTypes"
+                        placeholder="Select Type" optionLabel="label" optionValue="value"
+                        [(ngModel)]="selectedAttachment" #uploadAttachmentddl="ngModel" id="uploadAttachmentddl"
+                        name="uploadAttachmentddl" appendTo="body"
+                        (onChange)="onAttachmentTypeChange($event)"></p-dropdown>
+
+                    <div class="col-8 text-left mt-1" *ngIf="selectedAttachment=='Others'">
+                        <div class="ml-auto">
+                            <input maxlength="255" pInputText id="attachemntTypeOther" autocomplete="off"
+                                [(ngModel)]="attachemntTypeOther" name="attachemntTypeOther" type="text"
+                                placeholder="Type here" class="p-inputtext1 text-left mt-1"
+                                (focusout)="onOtherAttachmentInputFocusOut()" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <p-fileUpload #fileUpload *ngIf="checkIfFileUploadVisible()"
+                            id="basicDeatilscard_Attachments_Upload" [auto]="true"
+                            (onUpload)="this.onUploadBasicDetailsAttachmentUpload()" styleClass="upload-outline-light"
+                            (onError)="this.errorHandler($event, fileUpload)" name="basic_deatils_WC_files_upload"
+                            mode="advanced" url="{{this.uploadbasicDetailsAttachmentUrl}}" accept=""
+                            maxFileSize="10000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload Attachment"
+                            [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <div *ngIf="savedBasicDetailsAttachment.length>0">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">Attachment Type</th>
+                                    <th style="text-align: center;">File Name</th>
+                                    <th style="text-align: center;">View</th>
+                                    <th style="text-align: center;">Download</th>
+                                    <th style="text-align: center;">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let attachment of savedBasicDetailsAttachment">
+                                    <td>{{ attachment.attachmentSubType + ' - ' +
+                                        attachment.attachmentType }}</td>
+                                    <td>{{ attachment.fileName }}</td>
+                                    <td style="text-align: center;">
+                                        <i class="pi pi-eye" style="cursor: pointer; color: blue; font-size: 18px;"
+                                            (click)="downloadBasicDetailsAttachmentsDetails(attachment.id)"
+                                            title="View"></i>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <i class="pi pi-download" style="cursor: pointer; color: blue; font-size: 18px;"
+                                            (click)="downloadBasicDetailsAttachmentsDetailsfile(attachment.id)"
+                                            title="Download"></i>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                                            (click)="deleteBasicDetailsAttachmentsDetails(attachment.id)"
+                                            title="Delete"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="">
+    <h4 class="mb-3">List of Uploaded documents</h4>
+
+
+    <p class="text-muted p-5" *ngIf="this.documents.length ==0">No Documents Found</p>
+    <div class="grid">
+        <div *ngFor="let document of documents" class="col-4">
+            <div class="document-card">
+                <div class="">
+                    <h6 class="" id="documentUpload_Name"><i class="pi pi-file"></i> {{document['name']}}</h6>
+                    <small class="" id="documentUpload_Description">{{document['desciption']}}</small>
+                </div>
+                <button *ngIf="document['name'].includes('Risk Inspection Report')" id="documentUpload_View" (click)="openUploadedPdfDocument(document['quoteLocationOccupancyId'],document['src'])" target="_blank" class="btn btn-outline-primary">View</button>
+                <button *ngIf="document['name'].includes('Location Photograph')" id="documentUpload_View" (click)="openUploadedPhotoGrephDocument(document['quoteLocationOccupancyId'],document['src'])" target="_blank" class="btn btn-outline-primary">View</button>
+                <!-- {{document['name'].includes('Location Photograph')}} -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<form [formGroup]="this.recordForm"  (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-12">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+
+                    <div class="field">
+                        <label for="addOnCoverId">Addon Cover </label>
+                        <p-autoComplete  [disabled]="this.addOnCoverId" [dropdown]="true" [suggestions]="this.optionsAddonCovers" field="label" formControlName="addOnCoverId" (completeMethod)="this.searchOptionsAddonCover($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['addOnCoverId'].valid}"></p-autoComplete>
+                    </div>
+                    <div class="field">
+                        <label for="sectorId">Sector</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsSectors" field="label" formControlName="sectorId" (completeMethod)="this.searchOptionsSector($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['sectorId'].valid}"></p-autoComplete>
+                    </div>
+                    <div class="field">
+                        <p-checkbox label="Applicable" [formControl]="recordForm.controls['isApplicable']" [binary]="true"></p-checkbox>
+                    </div>
+                    <div class="field">
+                        <p-toggleButton class="form-control" formControlName="status" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+                    <!-- <div class="field">
+                        <label for="name">Applicable</label>
+                        <input class="form-control" type="text" pInputText id="isApplicable" formControlName="isApplicable" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['isApplicable']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['isApplicable']">isApplicable is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="name">Status</label>
+                        <input class="form-control" type="text" pInputText id="status" formControlName="status" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['status']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['status']">status is
+                            required.</small>
+                    </div> -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

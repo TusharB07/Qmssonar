@@ -1,0 +1,222 @@
+<div class="grid">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2 flex">
+                            <button id="RiskManagementFeatureList_CreateRecord" pButton pRipple label="New"
+                                icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="RiskManagementFeatureList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="RiskManagementFeatureList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                            <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                                    icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+
+                            <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode"
+                                          [url]="this.uploadProps.url" [method]="this.uploadProps.method"
+                                          (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                                          [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                                          [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                                          [uploadLabel]="this.uploadProps.uploadLabel"
+                                          [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"
+                                          id="uploadLocationDetails_Excel"></p-fileUpload>
+                        </div>
+                    </ng-template>
+
+                    <!-- <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="RiskManagementFeatureList_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+                    </ng-template> -->
+                </p-toolbar>
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name','email']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="intermediatePartnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="SubOccupancy_TacHeader">
+                                        Intermediate Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter field="intermediatePartnerId" display="menu"
+                                            [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                            [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">Intermediate filter</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                                <p-autoComplete [(ngModel)]="selectedInterPartners"
+                                                    [suggestions]="optionsInterPartners"
+                                                    (completeMethod)="getOptionsIntermediateId($event)"
+                                                    field="intermediatePartnerId" [dropdown]="true" [multiple]="true"
+                                                    (onSelect)="IntermediateIdHandleFilter($event)"
+                                                    (onUnselect)="IntermediateIdHandleFilter($event)">
+                                                    <ng-template let-group pTemplate="item">
+                                                        <div class="country-item">
+                                                            <div>{{group.label}}</div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template let-group pTemplate="selectedItem">
+                                                        <span style="font-size:18px">{{group.label}}</span>
+                                                    </ng-template>
+                                                </p-autoComplete>
+                                            </ng-template>
+                                        </p-columnFilter>
+                                        <p-sortIcon id="SubOccupancy_partnerIdSortIcon" field="partnerId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="partnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="SubOccupancy_TacHeader">
+                                        Partner
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter field="partnerId" display="menu" [showClearButton]="false"
+                                            [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                            [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">partnerId filter</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                                <p-autoComplete [(ngModel)]="selectedPartners"
+                                                    [suggestions]="optionsPartners"
+                                                    (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                                    [dropdown]="true" [multiple]="true"
+                                                    (onSelect)="partnerIdHandleFilter($event)"
+                                                    (onUnselect)="partnerIdHandleFilter($event)">
+                                                    <ng-template let-group pTemplate="item">
+                                                        <div class="country-item">
+                                                            <div>{{group.label}}</div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template let-group pTemplate="selectedItem">
+                                                        <span style="font-size:18px">{{group.label}}</span>
+                                                    </ng-template>
+                                                </p-autoComplete>
+                                            </ng-template>
+                                        </p-columnFilter>
+                                        <p-sortIcon id="SubOccupancy_partnerIdSortIcon" field="partnerId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="rmUserId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="SubOccupancy_TacHeader">
+                                        Rm User
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter field="rmUserId" display="menu" [showClearButton]="false"
+                                            [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                            [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">partnerId filter</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                                <p-autoComplete [(ngModel)]="selectedUsers" [suggestions]="optionUser"
+                                                    (completeMethod)="getOptionsUserId($event)" field="rmUserId"
+                                                    [dropdown]="true" [multiple]="true"
+                                                    (onSelect)="userHandleFilter($event)"
+                                                    (onUnselect)="userHandleFilter($event)">
+                                                    <ng-template let-group pTemplate="item">
+                                                        <div class="country-item">
+                                                            <div>{{group.label}}</div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template let-group pTemplate="selectedItem">
+                                                        <span style="font-size:18px">{{group.label}}</span>
+                                                    </ng-template>
+                                                </p-autoComplete>
+                                            </ng-template>
+                                        </p-columnFilter>
+                                        <p-sortIcon id="SubOccupancy_partnerIdSortIcon" field="partnerId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="rmEmail">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="SubOccupancy_shopNameHeader">
+                                        Rm Email
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="SubOccupancy_FlexaiibColumnFilter" type="text"
+                                            field="rmEmail" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by Shop Name"></p-columnFilter>
+                                        <p-sortIcon id="SubOccupancy_shopNameSortIcon" field="shopName"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="active">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_ActiveHeader">
+                                        Active
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_ActiveColumnFilter" matchMode="equals"
+                                            type="boolean" field="active" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" operator="and"
+                                            placeholder="Search by active"></p-columnFilter>
+                                        <p-sortIcon id="UserList_ActiveSortIcon" field="active"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th>
+                            <!-- <th></th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rmMappedData>
+                        <tr (click)="this.editRecord(rmMappedData)">
+                            <!-- <td>
+                        <p-tableCheckbox [value]="riskManagement"
+                            id="RiskManagementFeatureList_ItemCheckBox"></p-tableCheckbox>
+                    </td> -->
+                            <td id="RiskManagementFeatureList_Name">
+                                {{rmMappedData?.intermediatePartnerId?.name}}
+                            </td>
+                            <td id="RiskManagementFeatureList_Name">
+                                {{rmMappedData?.partnerId?.name}}
+                            </td>
+                            <td id="RiskManagementFeatureList_Name">
+                                {{rmMappedData?.rmUserId?.name}}
+                            </td>
+                            <td id="RiskManagementFeatureList_Name">
+                                {{rmMappedData?.rmEmail}}
+                            </td>
+                            <td id="UserList_UserActive">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-times-circle': !rmMappedData.active, 'false-icon  pi-check-circle': rmMappedData.active}"></i>
+                            </td>
+                            <!-- <td>
+                        <div class="flex">
+                            <button id="RiskManagementFeatureList_editRecord" pButton pRipple
+                                icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                (click)="this.editRecord(rmMappedData)"></button>
+                        </div>
+                    </td> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+    </div>
+</div>

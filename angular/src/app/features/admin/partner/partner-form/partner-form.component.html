@@ -1,0 +1,543 @@
+<!-- <app-product-partner-configuration-form></app-product-partner-configuration-form> -->
+<p-tabView>
+    <p-tabPanel header="Partner Details">
+        <form [formGroup]="this.recordForm" (ngSubmit)="submitted = true; this.saveRecord()">
+            <div class="form-container pt-3 px-3">
+                <div class="grid">
+                    <div class="col-12">
+                        <p-card class="">
+                            <p-toast></p-toast>
+                            <p-toolbar>
+                                <ng-template pTemplate="left">
+                                    <h3 class="mb-0" id="PartnerFormRecordName">{{ this.recordSingularName }}</h3>
+                                </ng-template>
+                                <ng-template pTemplate="right">
+                                    <button id="PartnerForm_SaveButton" type="submit"
+                                        [disabled]="this.recordForm.invalid" pButton pRipple label="Save"
+                                        icon="pi pi-check" class="p-button-success mr-2"></button>
+                                    <button id="PartnerForm_CancelButton" pButton pRipple label="Cancel"
+                                        icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                        (click)="this.onCancel()"></button>
+                                </ng-template>
+                            </p-toolbar>
+                        </p-card>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <p-card>
+                                <div class="card p-fluid">
+                                    <h5 id="PartnerForm_GeneralInformationHeader">General Information</h5>
+
+                                    <div class="field">
+                                        <label id="PartnerForm_GeneralNameLabel" for="name">Name*</label>
+                                        <input maxlength="100" id="PartnerForm_GeneralName" class="form-control"
+                                            type="text" pInputText id="name" formControlName="name" required autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['name'] }" />
+                                        <small id="PartnerForm_GeneralName_ValidationError"
+                                            *ngIf="this.recordForm?.controls['name'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                        <!-- <small id="PartnerForm_GeneralName_ValidationError" *ngIf="this.recordForm?.controls['name'].errors?.maxlength" class="ng-invalid">Name cannot be more than 100 Characters.</small> -->
+
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_ShortNameLabel" for="shortName">Short Name*</label>
+                                        <input maxlength="10" id="PartnerForm_ShortName" class="form-control"
+                                            type="text" pInputText id="shortName" formControlName="shortName" required
+                                            autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['shortName'] }" />
+                                        <small id="PartnerForm_ShortName_ValidationError"
+                                            *ngIf="this.recordForm.controls['shortName'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                        <!-- <small id="PartnerForm_ShortName_ValidationError" *ngIf="this.recordForm.controls['shortName'].errors?.maxlength" class="ng-invalid">Short Name cannot be more than 10 Characters.</small> -->
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_PartnerTypeLabel" for="partnerType">Partner Type*</label>
+                                        <p-dropdown id="PartnerForm_PartnerType" [options]="this.optionsPartnerType"
+                                            placeholder="Select Partner Type" optionLabel="label" optionValue="value"
+                                            [showClear]="true" formControlName="partnerType"
+                                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerType'].valid}"></p-dropdown>
+                                        <small id="PartnerForm_PartnerType_ValidationError"
+                                            *ngIf="this.recordForm.controls['partnerType'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+
+                                    </div>
+                                    <div class="field" *ngIf="this.recordForm.controls['partnerType'].value == 'insurer'" >
+                                        <label id="underwriterMappingFlag_ActiveLabel" for="underwriterMappingFlag">Underwriter Mapping</label>
+                                        <p-toggleButton id="underwriterMappingFlag" class="form-control" id="underwriterMappingFlag"
+                                                        formControlName="underwriterMappingFlag" onLabel="{{ 'Mapping ON' }}"
+                                                        offLabel="{{ 'Mapping OFF' }}" onIcon="{{ 'pi pi-check' }}"
+                                                        offIcon="pi pi-times" iconPos="right" ></p-toggleButton>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_vendorNameLabel" for="vendorName">Vendor Name</label>
+                                        <input id="PartnerForm_vendorName" class="form-control" type="text" pInputText
+                                            id="vendorName" formControlName="vendorName" />
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_vendorCodeLabel" for="vendorCode">Vendor Code</label>
+                                        <input id="PartnerForm_vendorCode" class="form-control" type="text" pInputText
+                                            id="vendorCode" formControlName="vendorCode" />
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_agentCodeLabel" for="agentCode">Agent
+                                            <Code></Code></label>
+                                        <input id="PartnerForm_agentCode" class="form-control" type="text" pInputText
+                                            id="agentCode" formControlName="agentCode" />
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_locationCountLabel" for="locationCount">Location Count</label>
+                                        <input id="PartnerForm_locationCount" class="form-control" type="number" pInputText
+                                            id="locationCount" formControlName="locationCount"/>
+                                    </div>
+                                    <div class="field">
+                                        <label id="isRate" for="active">Is Rate</label>
+                                        <p-toggleButton id="isRate" class="form-control"
+                                            formControlName="isRate" onLabel="{{ 'Is Rate' }}"
+                                            offLabel="{{ 'Is Rate' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_ActiveLabel" for="active">Active</label>
+                                        <p-toggleButton id="PartnerForm_Active" class="form-control" id="status"
+                                            formControlName="status" onLabel="{{ 'Partner active' }}"
+                                            offLabel="{{ 'Partner inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>
+                                    <div class="field" *ngIf="this.recordForm.controls['partnerType'].value == 'insurer'">
+                                        <label id="PartnerForm_isAutoAssignActiveLabel" for="active">Is Auto</label>
+                                        <p-toggleButton id="PartnerForm_isAutoAssignActive" class="form-control" id="status"
+                                            formControlName="isAutoAssignActive" onLabel="{{ 'isAutoAssignActive' }}"
+                                            offLabel="{{ 'isAutoAssignInActive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                        <small id="PartnerForm_PartnerType_ValidationError"
+                                            *ngIf="this.recordForm.controls['isAutoAssignActive'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_concurrentSesssionLabel" for="concurrentSesssion">Concurrent Session</label>
+                                        <p-toggleButton id="PartnerForm_concurrentSesssion" class="form-control" id="concurrentSesssion"
+                                            formControlName="concurrentSesssion" onLabel="{{ 'Concurrent Sesssion Active' }}"
+                                            offLabel="{{ 'Concurrent Sesssion Inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                    </div>
+                                    <!-- <div class="field" *ngIf="this.recordForm?.controls['partnerType']?.value !== 'insurer'">
+                                        <label id="PartnerForm_BrokerActiveLabel" for="active">Broker Mode Status</label>
+                                        <p-toggleButton id="PartnerForm_BrokerActive" class="form-control" id="brokerModeStatus"
+                                            formControlName="brokerModeStatus" onLabel="{{ 'Broker active' }}"
+                                            offLabel="{{ 'Broker inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div> -->
+                                    <div class="field" *ngIf="this.recordForm?.controls['partnerType']?.value !== 'insurer'">
+                                        <label id="PartnerForm_BrokerActiveLabel" for="active">Broker Mode Status</label>
+                                        <p-toggleButton id="PartnerForm_BrokerActive" class="form-control" id="brokerModeStatus"
+                                            formControlName="brokerModeStatus" onLabel="{{ 'Broker active' }}"
+                                            offLabel="{{ 'Broker inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>
+                                    <div class="field">
+                                        <label id="riskInspection" for="active">Risk Inspection</label>
+                                        <p-toggleButton id="riskInspection" class="form-control" id="riskInspection"
+                                            formControlName="isRiskInspection" onLabel="{{ 'RiskInspection Active' }}"
+                                            offLabel="{{ 'RiskInspection Inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>
+                                    <div class="field" *ngIf="this.recordForm?.controls['partnerType']?.value == 'insurer'">
+                                        <label id="PartnerForm_AutoActiveLabel" for="active">Broker Auto Flow Status</label>
+                                        <p-toggleButton id="PartnerForm_AutoActive" class="form-control" id="brokerAutoFlowStatus"
+                                            formControlName="brokerAutoFlowStatus" onLabel="{{ 'Broker auto flow active' }}"
+                                            offLabel="{{ 'Broker auto flow inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>     
+                                    <div class="field">
+                                        <label id="riskInspection" for="active">isBrokerMappedFromMaster</label>
+                                        <p-toggleButton id="riskInspection" class="form-control" id="riskInspection"
+                                            formControlName="isBrokerMappedFromMaster" onLabel="{{ 'isBrokerMappedFromMaster Active' }}"
+                                            offLabel="{{ 'isBrokerMappedFromMaster Inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                            offIcon="pi pi-times" iconPos="right" required></p-toggleButton>
+                                    </div>                               
+                                    <div class="field"
+                                        *ngIf="!this.logoImagelocal">
+                                        <label for="" id="PortableEquipments_Dialog_SumInsured_label">Logo</label>
+                                        <input style="display: none;" type="text" formControlName="logo">
+                                        <p-fileUpload mode="advanced" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light" [style]="{'width':'100%'}"
+                                            chooseIcon="pi pi-paperclip" chooseLabel="Upload Logo" (onSelect)="onBasicUpload($event)" (onClear)="clear()"></p-fileUpload>
+                                    </div>
+                                    <div *ngIf="this.logoImagelocal">
+                                        <label for="" id="PortableEquipments_Dialog_SumInsured_label">Logo :</label>
+                                        <div class="flex mt-1">
+                                            <div class="mr-4">
+                                                <a [href]="recordForm.value['logo']" class="rt-hr"><i class="pi pi-eye"> View</i></a>
+                                            </div>
+                                            <div>
+                                                <i class="pi pi-trash" style="font-size: 1rem;color:red" (click)="deletefile()"> Delete</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                </div>
+                            </p-card>
+
+
+
+                            <p-card>
+                                <div class="card p-fluid">
+                                    <h5 id="PartnerForm_AddressInformation">Address Information</h5>
+
+                                    
+                                    <div class="grid">
+                                        <div class="field col-4">
+                                            <label id="PartnerForm_PinCodeLabel" for="name">Pincode*</label>
+                                            <p-autoComplete id="PartnerForm_PinCode" [dropdown]="true" field="label"
+                                                formControlName="pincodeId" [suggestions]="this.optionsPincodes"
+                                                (completeMethod)="this.searchOptionsPincodes($event)"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                                            <small id="PartnerForm_PinCode_ValidationError"
+                                                *ngIf="this.recordForm.controls['pincodeId'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label id="PartnerForm_CityLabel" for="name">City*</label>
+                                            <p-autoComplete id="PartnerForm_City" [dropdown]="true" field="label"
+                                                formControlName="cityId" [suggestions]="this.optionsCities"
+                                                (completeMethod)="this.searchOptionsCities($event)"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+                                            <small id="PartnerForm_City_ValidationError"
+                                                *ngIf="this.recordForm.controls['cityId'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+
+                                        </div>
+
+                                        <div class="field col-4">
+                                            <label id="PartnerForm_DistrictLabel" for="name">District*</label>
+                                            <p-autoComplete id="PartnerForm_District" [dropdown]="true" field="label"
+                                                formControlName="districtId" [suggestions]="this.optionsDistricts"
+                                                (completeMethod)="this.searchOptionsDistricts($event)"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid }"></p-autoComplete>
+                                            <small id="PartnerForm_District_ValidationError"
+                                                *ngIf="this.recordForm.controls['districtId'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="field col-12">
+                                            <label id="PartnerForm_AddressLabel" for="address">Address*</label>
+                                            <input maxlength="255" id="PartnerForm_Address" class="form-control"
+                                                type="text" pInputText id="address" formControlName="address" required
+                                                autofocus
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['address'] }" />
+                                            <small id="PartnerForm_Address_ValidationError"
+                                                *ngIf="this.recordForm.controls['address'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+                                            <!-- <small id="PartnerForm_ShortName_ValidationError" *ngIf="this.recordForm.controls['address'].errors?.maxlength" class="ng-invalid">Address cannot be more than 255 Characters.</small> -->
+
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="field col-6">
+                                            <label id="PartnerForm_CountryLabel" for="name">Country*</label>
+                                            <p-autoComplete id="PartnerForm_Country" [dropdown]="true" field="label"
+                                                formControlName="countryId" [suggestions]="this.optionsCountries"
+                                                (completeMethod)="this.searchOptionsCountries($event)"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }"></p-autoComplete>
+                                            <small id="PartnerForm_Country_ValidationError"
+                                                *ngIf="this.recordForm.controls['countryId'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+
+                                        </div>
+
+                                        <div class="field col-6">
+                                            <label id="PartnerForm_StateLabel" for="name">State*</label>
+                                            <p-autoComplete id="PartnerForm_State" [dropdown]="true" field="label"
+                                                formControlName="stateId" [suggestions]="this.optionsStates"
+                                                (completeMethod)="this.searchOptionsStates($event)"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+                                            <small id="PartnerForm_State_ValidationError"
+                                                *ngIf="this.recordForm.controls['stateId'].errors?.required"
+                                                class="ng-invalid">This field Required.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-card>
+                        </div>
+
+                        <div class="col-12 md:col-6">
+
+                            <p-card>
+                                <div class="card p-fluid">
+                                    <h5 id="PartnerForm_KYCInformation">KYC Information</h5>
+
+                                    <div class="field">
+                                        <label id="PartnerForm_PANLabel" for="pan">PAN*</label>
+                                        <input id="PartnerForm_PAN" class="form-control" type="text" pInputText id="pan"
+                                            formControlName="pan" required autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['pan'] }"
+                                            oninput="this.value = this.value.toUpperCase()" />
+                                        <small id="PartnerForm_PAN_ValidationError1"
+                                            *ngIf="this.recordForm.controls['pan'].errors?.required"
+                                            class="ng-invalid">This field Required. </small>
+                                        <small id="PartnerForm_PAN_ValidationError2"
+                                            *ngIf="this.recordForm.controls['pan'].errors?.invalidPAN"
+                                            class="ng-invalid">Invalid PAN Number.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_GSTINLabel" for="gstin">GSTIN*</label>
+                                        <input id="PartnerForm_GSTIN" class="form-control" type="text" pInputText
+                                            id="gstin" formControlName="gstin" required autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['gstin'] }"
+                                            oninput="this.value = this.value.toUpperCase()" />
+                                        <small id="PartnerForm_GSTIN_ValidationError1"
+                                            *ngIf="this.recordForm.controls['gstin'].errors?.required"
+                                            class="ng-invalid">This field Required. </small>
+                                        <small id="PartnerForm_GSTIN_ValidationError2"
+                                            *ngIf="this.recordForm.controls['gstin'].errors?.invalidCIN"
+                                            class="ng-invalid">Invalid GSTIN Number.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_CINLabel" for="cin">CIN*</label>
+                                        <input id="PartnerForm_CIN" class="form-control" type="text" pInputText id="cin"
+                                            formControlName="cin" required autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['cin'] }"
+                                            oninput="this.value = this.value.toUpperCase()" />
+                                        <small id="PartnerForm_CIN_ValidationError1"
+                                            *ngIf="this.recordForm.controls['cin'].errors?.required"
+                                            class="ng-invalid">This field Required. </small>
+                                        <small id="PartnerForm_CIN_ValidationError1"
+                                            *ngIf="this.recordForm.controls['cin'].errors?.invalidCIN"
+                                            class="ng-invalid">Invalid CIN Number.</small>
+                                    </div>
+                                    <!-- <div class="field"
+                                        *ngIf="!recordForm.value['logo'] || (recordForm.value['logo'] && isFile(recordForm.value['logo']))">
+                                        <label for="" id="PortableEquipments_Dialog_SumInsured_label">Logo</label>
+                                        <input style="display: none;" type="text" formControlName="logo">
+                                        <p-fileUpload mode="basic" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light" [style]="{'width':'100%'}"
+                                            chooseIcon="pi pi-paperclip" chooseLabel="Upload Logo" (onSelect)="onBasicUpload($event)"></p-fileUpload>
+                                    </div>
+                                    <div class="" *ngIf="recordForm.value['logo'] && !isFile(recordForm.value['logo'])">
+                                        <a [href]="form.value['logo']" target="_blank">
+                                            <i class="pi pi-download" style="font-size: 2rem"></i>
+                                        </a>
+                                    </div> -->
+                                </div>
+                            </p-card>
+                            <!-- <small id="PartnerForm_Name_ValidationError1" *ngIf="this.recordForm.controls['contactPerson'].errors?.maxlength" class="ng-invalid">Contact Person cannot be more than 126 Characters.</small> -->
+                            <!-- <small id="PartnerForm_Name_ValidationError1" *ngIf="this.recordForm.controls['designation'].errors?.maxlength" class="ng-invalid">Designation cannot be more than 126 Characters.</small> -->
+                            <!-- <p-card>
+                                <div class="card p-fluid">
+
+                                    <h5 id="PartnerForm_ContactPerson">Contact Person</h5>
+
+                                    <div class="field">
+                                        <label id="PartnerForm_NameLabel" for="contactPerson">Name</label>
+                                        <input maxlength="100" id="PartnerForm_Name" class="form-control" type="text"
+                                            pInputText id="contactPerson" formControlName="contactPerson" required
+                                            autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['contactPerson'] }" />
+                                        <small id="PartnerForm_Name_ValidationError1"
+                                            *ngIf="this.recordForm.controls['contactPerson'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_DesignationLabel" for="designation">Designation</label>
+                                        <input maxlength="100" id="PartnerForm_Designation" class="form-control"
+                                            type="text" pInputText id="designation" formControlName="designation"
+                                            required autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['designation'] }" />
+                                        <small id="PartnerForm_Designation_ValidationError1"
+                                            *ngIf="this.recordForm.controls['designation'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="PartnerForm_MobileNumberLabel" for="mobileNumber">Mobile
+                                            Number</label>
+                                        <input id="PartnerForm_MobileNumber" class="form-control" type="number"
+                                            pInputText id="mobileNumber" formControlName="mobileNumber" required
+                                            autofocus
+                                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['mobileNumber'] }" />
+                                        <small id="PartnerForm_MobileNumber_ValidationError1"
+                                            *ngIf="this.recordForm.controls['mobileNumber'].errors?.required"
+                                            class="ng-invalid">This field Required.</small>
+                                        <small id="PartnerForm_MobileNumber_ValidationError2"
+                                            *ngIf="this.recordForm.controls['mobileNumber'].errors?.pattern"
+                                            class="ng-invalid">Invalid Mobile Number.</small>
+                                    </div>
+                                </div>
+                            </p-card> -->
+                            <p-card
+                                *ngIf="this.recordForm.controls['partnerType'].value == 'broker' || this.recordForm.controls['partnerType'].value == 'agent' || this.recordForm.controls['partnerType'].value == 'banca'">
+                                <div class="card p-fluid">
+                                    <div class="flex justify-content-between">
+                                        <h5 id="PartnerForm_InsuranceCompanyMaping">Insurance company maping</h5>
+                                        <div>
+                                            <!-- <button pButton pRipple type="button" style="max-width: 6rem;" class="p-button-rounded" (click)="this.onAddICMappingRow()">Add More</button> -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div
+                                                    class="sign-in-head flex align-items-center justify-content-between">
+                                                    <!-- <h4 class="head5">IC Name {{ i + 1 }}</h4> -->
+                                                    <!-- <a class="red-link" (click)="this.onDeleteICMappingRow(i)">Delete</a> -->
+                                                </div>
+                                                <div class="">
+                                                    <div class="field">
+                                                        <label for="name"
+                                                            id="PartnerForm_InsuranceCompanyMaping_NameLabel">Name</label>
+                                                        <p-multiSelect id="PartnerForm_InsuranceCompanyMaping_Name"
+                                                            placeholder="Select Insurer" [dropdown]="true"
+                                                            [options]="this.optionsInsurerPartnerId" optionValue="value"
+                                                            formControlName="mappedIcNames"></p-multiSelect>
+                                                    </div>
+                                                    <!-- <div class="field">
+                                                        <label for="mappedRmEmails">Mapped RM Email</label>
+                                                        <p-chips class="form-control" type="text" id="mappedRmEmails" [formControlName]="'mappedRmEmails'" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !mappedIcNamesForm.value['mappedRmEmails'] }"></p-chips>
+                                                    </div> -->
+                                                </div>
+
+                                                <!-- <div> -->
+                                                <!-- <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded" (click)="this.onAddRmEmailRow()"></button> -->
+                                                <!-- </div> -->
+                                                <!-- <div formArrayName="rmEmailArray" *ngFor="let rmEmailArrayForm of this.rmEmailArray.controls; let j = index"> -->
+                                                <!-- <div class="" [formGroupName]='j'> -->
+
+                                                <!-- </div> -->
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                            </p-card>
+
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                    <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+                        <p-card>
+                            <div class="card p-fluid">
+                                <app-audit-trail [entityId]="this.id" id="PartnerForm_AuditTrail"
+                                    [entityResourcePrefix]="'partners'"></app-audit-trail>
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-tabPanel>
+
+
+
+
+    <p-tabPanel header="Product Partners" *ngIf="this.id != 'new' && this.partnerDetail?.partnerType != 'insurer'">
+        <app-product-partner-configuration-list [partnerId]="this.id"></app-product-partner-configuration-list>
+        <!-- <div class="grid px-3">
+        <div class="col-12">
+            <p-card>
+
+                <div class="card">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="mb-4">
+                        <ng-template pTemplate="left">
+                            <div class="my-2">
+                                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button>
+                                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="right">
+                            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                                </span>
+                            </div>
+
+                            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                        </ng-template>
+                    </p-toolbar>
+
+
+                    <p-table #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+
+                                <th style="width: 700px;" pSortableColumn="partnerId">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span>
+                                            Partner
+                                        </span>
+                                        <div>
+                                            <p-columnFilter type="text" field="partnerId" display="menu" placeholder="Search by partnerId"></p-columnFilter>
+                                            <p-sortIcon field="partnerId"></p-sortIcon>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th style="width: 700px;" pSortableColumn="productId">
+                                    <div class="flex justify-content-between align-items-center">
+                                        <span>
+                                            Product
+                                        </span>
+                                        <div>
+                                            <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by productId"></p-columnFilter>
+                                            <p-sortIcon field="productId"></p-sortIcon>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-product>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                </td>
+                                <td >
+                                    <a routerLink="/backend/admin/partners/{{product?.partnerId?._id}}">{{product.partnerId?.name}}</a>
+                                </td>
+                                <td >
+                                    <a routerLink="/backend/admin/products/{{product?.productId?._id}}">{{product.productId?.type}}</a>
+                                </td>
+                                <td>
+                                    <div class="flex">
+                                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(product)"></button>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(product)"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-card>
+
+            <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span>Are you sure you want to delete selected records?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div> -->
+    </p-tabPanel>
+</p-tabView>

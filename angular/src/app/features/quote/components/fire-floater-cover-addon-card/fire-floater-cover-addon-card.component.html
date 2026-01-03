@@ -1,0 +1,69 @@
+<!-- <h1 [style.color]="backgroundColor">hello</h1> -->
+<!-- <div [style.color]="backgroundColor"> -->
+<!-- <p-card [style]="this.checked || !this.permissions.includes('update') ? {'background': '#fff'}: {'background': 'rgb(236, 236, 236)'}"> -->
+<p-card [style]="this.checked ? {'background': '#fff'}: {'background': 'rgb(236, 236, 236)'}" id="FireFloaterCaverCard">
+    <ng-template pTemplate="header">
+        <div class="grid p-2">
+            <div class="col-8">
+                <h2 class="mb-2">
+                    <div class="flex">
+
+                        <p-checkbox id="FireFloaterCaverCard_Header" *ngIf="this.permissions.includes('update')"
+                            class=" mr-2" [(ngModel)]="checked" [value]="this.checked" [binary]="true" #activity
+                            inputId="binary" (onChange)="enable()"></p-checkbox>
+                        <p-checkbox id="FireFloaterCaverCard_Header" [disabled]="!this.permissions.includes('update')"
+                            *ngIf="!this.permissions.includes('update')" class=" mr-2" [(ngModel)]="checked"
+                            [value]="this.checked" [binary]="true" #activity inputId="binary"></p-checkbox>
+                        Floater Cover AddOn
+                    </div>
+                </h2>
+                <p class="sub-head">{{this.quote?.productId?.type}}</p>
+            </div>
+            <div class="col-4 text-right">
+                <p class="premium" id="FireFloaterCaverCard_TotalPremium_Label">Total Premium</p>
+                <!-- <p class="premium-price" id="FireFloaterCaverCard_TotalPremium" pTooltip="{{this.toWord.convert(!checked ? 0: (this.quote?.locationBasedCovers?.fireFloaterCoverAddOnCover?.total ?? 0))}}">
+                    {{(!checked ? 0: (this.quote?.locationBasedCovers?.fireFloaterCoverAddOnCover?.total ?? 0)).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}
+                </p> -->
+                <p class="premium-price" id="FireFloaterCaverCard_TotalPremium">
+                    <!-- Old_Quote -->
+                    <!-- <span><app-currency [value]="(!checked ? 0 : (this.quote?.locationBasedCovers?.fireFloaterCoverAddOnCover?.total ?? 0))"></app-currency></span> -->
+
+                    <!-- New_Quote_Option -->
+                    <span><app-currency
+                            [value]="(!checked ? 0 : (this.quoteOptionData?.locationBasedCovers?.fireFloaterCoverAddOnCover?.total ?? 0))"></app-currency></span>
+                </p>
+            </div>
+        </div>
+        <div class="field-checkbox">
+        </div>
+    </ng-template>
+    <div class="view-breakup h-100">
+        <div class="grid mb-2">
+        </div>
+        <div class="grid mb-3">
+            <div class="col-8">
+                <span class="name" id="FireFloaterCaverCard_SumInsured_Label">Sum Insured:</span>
+                <span class="price" id="FireFloaterCaverCard_SumInsured">
+                    <!-- Old_Quote -->
+                    <!-- <app-currency [maximumFractionDigits]="0"
+                        [value]="(!checked ? 0: (this.quote?.locationBasedCovers?.fireFloaterCoverAddOnCover?.sumInsured ?? 0))"></app-currency> -->
+
+                    <!-- New_Quote_Option -->
+                    <app-currency [maximumFractionDigits]="0"
+                        [value]="(!checked ? 0: (this.quoteOptionData?.locationBasedCovers?.fireFloaterCoverAddOnCover?.sumInsured ?? 0))"></app-currency>
+                </span>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-8">
+                <!-- <button (click)="this.openFireFloaterCoverAddOnDialog()" [disabled]="(this.checked == false)" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button> -->
+                <button (click)="this.openFireFloaterCoverAddOnDialog()"
+                    [disabled]="(this.checked == false) && this.permissions.includes('update')"
+                    label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93=""
+                        class="pi pi-pencil mr-1" id="FireFloaterCaverCard_SumInsuredSplit_Button"></i> Sum Insured
+                    Split</button>
+            </div>
+        </div>
+    </div>
+</p-card>
+<!-- </div> -->

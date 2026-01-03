@@ -1,0 +1,53 @@
+.mobile-quote-create {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    z-index:10;
+    background:inherit;
+}
+
+.mobile-quote-create-button {
+    width: 100%;
+    height: 50px;
+    border-radius: unset;
+}
+
+.custom-calendar-icon {
+    background-color: #2156c2;
+    color: #fff;
+    border-radius: 5px;
+}
+
+:host ::ng-deep .custom-dropdown .p-dropdown-items-wrapper {
+    max-height: 50px !important;
+}
+
+:host ::ng-deep .custom-multiselect .p-multiselect {
+    border: 1px solid #DBDBDB;
+}
+
+:host ::ng-deep .custom-dialog .p-dialog{
+    border-radius: 20px 20px 0px 0px;
+}
+
+:host ::ng-deep .custom-dialog .p-dialog .p-dialog-content {
+    background: #fff;
+}
+
+:host ::ng-deep .custom-dialog .p-dialog .p-dialog-content:last-of-type {
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+}
+
+:host ::ng-deep .custom-dialog .p-dialog .p-dialog-header {
+    background: #fff;
+}
+
+:host ::ng-deep .custom-calendar .p-calendar {
+    display: unset;
+}
+
+:host ::ng-deep .hide-indicators .p-carousel .p-carousel-indicators {
+    display: none;
+}

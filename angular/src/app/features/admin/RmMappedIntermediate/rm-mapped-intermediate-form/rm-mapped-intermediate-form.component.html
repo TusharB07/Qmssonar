@@ -1,0 +1,91 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="RmMappedIntermediateFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="RmMappedIntermediateForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="RmMappedIntermediateForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="RmMappedIntermediateForm_GeneralInformation">General Information</h5>
+                    <!-- <div class="field" *ngIf="this.role?.name == AllowedRoles.ADMIN"> -->
+                    <div class="field">
+                        <label id="RmMappedIntermediateForm_PartnerLabel" for="intermediatePartnerId">Intermediary :</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="RmMappedIntermediateForm_intermediatePartnerId" [dropdown]="true"
+                            field="label" formControlName="intermediatePartnerId"
+                            [suggestions]="this.optionsIntermediate" (completeMethod)="this.searchOptionsIntermediates($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['intermediatePartnerId'].valid}"></p-autoComplete>
+                        <small id="RmMappedIntermediateForm_Partner_ValidationError"
+                            *ngIf="submitted && this.recordForm.controls['intermediatePartnerId'].errors?.required"
+                            class="ng-invalid">This field Required.</small>
+                    </div>
+
+                    
+                    <div class="field">
+                        <label id="RmMappedIntermediateForm_PartnerLabel" for="partnerId">Partner</label>
+                        <!-- <p-autoComplete [disabled]="this.mode == 'edit'" id="RmMappedIntermediateForm_Partner" [dropdown]="true"
+                             field="label" formControlName="partnerId"
+                            [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete> -->
+                        <input pInputText [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}" formControlName="partnerId" [value]="optionsPartners[0]?.label" [attr.disabled]="true" (completeMethod)="this.searchOptionsPartners($event)"/>
+                        <small id="RmMappedIntermediateForm_Partner_ValidationError"
+                            *ngIf="submitted && this.recordForm.controls['partnerId'].errors?.required"
+                            class="ng-invalid">This field Required.</small>
+                    </div>
+                    
+                    <div class="field">
+                        <label id="RmMappedIntermediateForm_OccupancyLabel" for="rmUserId">Rm Users : </label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="RmMappedIntermediateForm_Occupancy"
+                            [dropdown]="true" field="label" formControlName="rmUserId"
+                            [suggestions]="this.optionsPartnerBasedUsers" (completeMethod)="this.searchOptionsPartnerBasedUsers($event)" (onSelect)="setRmEmail($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['rmUserId'].valid}"></p-autoComplete>
+                        <small id="RmMappedIntermediateForm_Partner_ValidationError"
+                            *ngIf="submitted && this.recordForm.controls['rmUserId'].errors?.required"
+                            class="ng-invalid">This field is Required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="RmMappedIntermediateForm_rmEmailLabel" for="rmEmail">Rm Email</label>
+                        <input id="RmMappedIntermediateForm_rmEmail" class="form-control" type="text" pInputText id="occupancy"
+                            formControlName="rmEmail" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rmEmail']}" />
+                        <small id="RmMappedIntermediateForm_rmEmail_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rmEmail']">This field is
+                            required.</small>
+                    </div>
+                    
+                    <div class="field">
+                        <label id="RmMappedIntermediateForm_ActiveLabel" for="configMenuType">Active?</label>
+                        <p-toggleButton id="RmMappedIntermediateForm_Active" class="form-control" formControlName="active"
+                            [onLabel]="'Active'" [offLabel]="'Inactive'" [onIcon]="'pi pi-check'"
+                            offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" id="RmMappedIntermediateForm_AuditTrail"
+                        [entityResourcePrefix]="'occupancy'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

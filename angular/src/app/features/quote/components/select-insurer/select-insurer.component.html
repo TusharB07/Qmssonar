@@ -1,0 +1,138 @@
+<p-toast></p-toast>
+<p-card>
+    <h5 class="fs-20-eb">Select Insurers</h5>
+    <div class="mb-4">
+        <input value="" id="RequisitionReview_Search_Insurer" placeholder="Search Insurer"
+            [(ngModel)]="this.filterInsurerInput" type="text" class="form-control form-control1"
+            (ngModelChange)="this.filterInsurers($event)">
+    </div>
+    <!-- Broker Module -->
+
+    <!-- <div *ngIf="this.quote.partnerId['brokerModeStatus'] == true">
+        <div class="" *ngIf="this.selectedInsurers?.length == 0">
+            <h6 class="text-center">
+                No Broker Insurers Found
+            </h6>
+        </div>
+        <div *ngFor="let brokerInsurer of this.selectedInsurers; let index">
+            <label [for]="brokerInsurer.name" class="block p-3" pRipple role="link">
+                <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox1" [inputId]="brokerInsurer.name"
+                    [name]="brokerInsurer.name" [value]="brokerInsurer.name" [label]="brokerInsurer.name"
+                    [(ngModel)]="this.selectInsurances" (ngModelChange)="this.selectInsurance($event)"
+                    (click)="openSendMailDialog(); checkboxValue(this.brokerInsurer)">
+                </p-checkbox>
+            </label>
+        </div>
+    </div> -->
+    <!-- <div *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.GMC">
+        <div *ngFor="let brokerInsurer of this.optionsInsurer; let index">
+            <label [for]="brokerInsurer.name" class="block p-3" pRipple role="link">
+                <h3 *ngIf="this.brokerInsurer.name !='Expired Term'">
+                    <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox1" [inputId]="brokerInsurer.name"
+                        [name]="brokerInsurer.name" [value]="brokerInsurer.name" [label]="brokerInsurer.name"
+                        [(ngModel)]="this.selectInsurances" (ngModelChange)="this.selectInsurance($event)"
+                        (click)="openSendMailDialog(); checkboxValue(this.brokerInsurer)">
+                    </p-checkbox>
+                </h3>
+            </label>
+        </div>
+    </div> -->
+
+    <!-- <div *ngIf="this.quote.productId['productTemplate'] != AllowedProductTemplate.GMC">
+        <div *ngFor="let brokerInsurer of this.selectedInsurers; let index">
+            <label [for]="brokerInsurer.name" class="block p-3" pRipple role="link">
+                <h3 *ngIf="this.brokerInsurer.name !='Expired Term'">
+                    <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox1" [inputId]="brokerInsurer.name"
+                        [name]="brokerInsurer.name" [value]="brokerInsurer.name" [label]="brokerInsurer.name"
+                        [(ngModel)]="this.selectInsurances" (ngModelChange)="this.selectInsurance($event)"
+                        (click)="openSendMailDialog(); checkboxValue(this.brokerInsurer)">
+                    </p-checkbox>
+                </h3>
+            </label>
+        </div>
+    </div> -->
+
+    <!-- <div *ngIf="this.quote.partnerId['brokerModeStatus'] == false"> -->
+
+    <div class="" *ngIf="this.optionsInsurer?.length == 0">
+        <h6 class="text-center">
+            No Insurers Found
+        </h6>
+    </div>
+
+    <!-- <div *ngIf="this.quote.partnerId['brokerModeStatus'] == false"> -->
+    <!-- <div *ngFor="let insurer of this.optionsInsurer; let index">
+            <label [for]="insurer.name" class="block p-3" pRipple role="link">
+                <h3>
+                    <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox" [inputId]="insurer.name"
+                        [name]="insurer.name" [value]="insurer.name" [label]="insurer.name"
+                        [(ngModel)]="this.selectedInsurers" (ngModelChange)="this.selectInsurer($event)" >
+                    </p-checkbox>
+                </h3>
+            </label> -->
+
+    <div *ngFor="let insurer of this.optionsInsurer; let index">
+        <div class="optionsInsurer_parent">
+            <div>
+                <label [for]="insurer.name" class="block p-3" pRipple role="link"
+                    *ngIf="!this.user.partnerId.hasOwnProperty('brokerModeStatus') || this.user.partnerId['brokerModeStatus'] == false">
+                    <h3>
+                        <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox" [inputId]="insurer.name"
+                            [name]="insurer.name" [value]="insurer.name" [label]="insurer.name"
+                            [(ngModel)]="this.selectedInsurers" (ngModelChange)="this.selectInsurer($event,insurer)">
+                        </p-checkbox>
+                    </h3>
+                </label>
+                <label [for]="insurer.name" class="block p-3" pRipple role="link"
+                    *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                    <h3>
+                        <p-checkbox class="" id="RequisitionReview_InsurerList_checkbox1" [inputId]="insurer.name"
+                            [name]="insurer.name" [value]="insurer.name" [label]="insurer.name"
+                            [(ngModel)]="this.selectedInsurers" (ngModelChange)="this.selectInsurer($event,insurer)"
+                            [disabled]="insurer.brokerAutoFlowStatus">
+                        </p-checkbox>
+                    </h3>
+                </label>
+            </div>
+            <div *ngIf="this.user.partnerId['brokerModeStatus'] == true && insurer.hideSendMailButton">
+                <button class="btn btn-primary popMail" (click)="openSendMailDialog()"
+                    [disabled]=insurer.brokerAutoFlowStatus>Send Mail</button>
+            </div>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="ml-3" *ngIf="this.selectedInsurersWithEmail[insurer.name] != null"> -->
+        <div class="px-3 ">
+            <div *ngFor="let item of insurer.mappedRmEmails">
+                <div class=" " *ngIf="item.toShow">
+                    <label [for]="insurer.name + '_' +item.email">
+                        <h6>
+                            <p-radioButton class="mb-2" [label]="item.email" id="RequisitionReview_InsurerList_Emails"
+                                [value]="item.email" [(ngModel)]="this.selectedInsurersWithEmail[insurer.name]"
+                                [inputId]="insurer.name + '_'+item.email" (ngModelChange)="this.rmEmailChanged($event)"
+                                [disabled]="this.isDisabledRmEmail(insurer.name)">
+                            </p-radioButton>
+                        </h6>
+
+                        <!-- <p-checkbox 
+                                    class="" 
+                                    [name]="item.email" 
+                                    [label]="item.email" 
+                                    id="RequisitionReview_InsurerList_Emails" 
+                                    [value]="item" 
+                                    [(ngModel)]="selectedRMEmails" 
+                                    [inputId]="item.email" >
+                                </p-checkbox> -->
+                        <!-- (onChange)="childChange($event,insurer.name,index)"> -->
+                        <!-- [disabled]="disable(insurer.name)"  -->
+
+
+
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+
+
+</p-card>

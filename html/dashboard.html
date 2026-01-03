@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <title>QMS</title>
+</head>
+
+<body>
+    <main>
+        <header class="py-3 header-container" id="header">
+            <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+                <div class="dropdown">
+                    <a href="#" class="align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none ">
+                        <img src="assets/images/logos/new-india-assurance-co-ltd.png">
+                    </a>
+                    <span class="navbar navbar-light">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </span>
+                    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                      </button> -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Link</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!-- <a href="" class="navbar navbar-light">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                </a> -->
+                </div>
+
+                <div class="d-flex justify-content-end align-items-center">
+                    <a class="rt-hr">
+                        <img src="assets/images/profile/user.png" width="32" height="32" class="rounded-circle pro-pic">
+                        <span class="name">Akshay Mehta</span>
+                    </a>
+                    <a href="" class="rt-hr"><img src="assets/images/icons/notifications.svg" alt=""></a>
+                    <div class="flex-shrink-0 dropdown rt-hr">
+
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+        <section class="main-container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card card-height-100">
+                            <div class="card-header">
+                                <div class="row flex-between-center">
+                                    <div class="col-auto">
+                                        <h6 class="mb-0">Monthly Average Quote</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body h-100">
+                                <img class="img-fluid w-100" src="assets/images/dashboard/monthly-average-quote.png"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card card-height-100">
+                            <div class="card-body h-100 upcoming-scheduled">
+                                <span class="cal-icon"><img src="assets/images/icons/graph.svg" alt=""></span>
+                                <input class="flatpickr" type="text" placeholder="Select a Date in January"
+                                    style="width: 14em; visibility: hidden;">
+                                <!-- <img class="img-fluid w-100" src="assets/images/dashboard/calender.png" alt=""> -->
+                            </div>
+                            <div class="card-footer">
+                                <p class="f12">This information is been fetched from: source name</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3">
+                        <div class="card card-height-100">
+                            <div class="card-header blue">
+                                <div class="row flex-between-center">
+                                    <div class="col-auto">
+                                        <h6 class="mb-0">Completed Tasks</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body h-100 text-center">
+                                <img src="assets/images/dashboard/completed-tasks.png" alt="">
+                            </div>
+                            <div class="card-footer rt-view">
+                                <a href="" class="view">View</a> <i class="arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="card card-height-100">
+                            <div class="card-header blue">
+                                <div class="row flex-between-center">
+                                    <div class="col-auto">
+                                        <h6 class="mb-0">Tasks List</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body h-100">
+                                <div class="progress-bar-container">
+                                    <p class="mb-1">UX Research </p>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="75"></div>
+                                    </div>
+
+                                    <p class="mt-3 mb-1">UX Research </p>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 47%"
+                                            aria-valuenow="47" aria-valuemin="0" aria-valuemax="47"></div>
+                                    </div>
+
+                                    <p class="mt-3 mb-1">Journey Map </p>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 82%"
+                                            aria-valuenow="82" aria-valuemin="0" aria-valuemax="82"></div>
+                                    </div>
+                                    <p class="mt-3 mb-1">Prototype </p>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 82%"
+                                            aria-valuenow="82" aria-valuemin="0" aria-valuemax="82"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer rt-view">
+                                <a href="" class="view">View</a> <i class="arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card card-height-100">
+                            <div class="card-header blue">
+                                <div class="row flex-between-center">
+                                    <div class="col-auto">
+                                        <h6 class="mb-0">Upcoming Tasks</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body h-100">
+                                <div class="upcoming-task-container">
+                                    <ul>
+                                        <li>
+                                            <h3>Industry Average Quote</h3>
+                                            <p>Fire Insurance Policy - Retail</p>
+                                        </li>
+                                        <li>
+                                            <h3>Total Indicative Quote</h3>
+                                            <p>Fire Insurance Policy - Retail</p>
+                                        </li>
+                                        <li>
+                                            <h3>Industry Average Quote</h3>
+                                            <p>Fire Insurance Policy - Retail</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer rt-view">
+                                <a href="" class="view">View</a> <i class="arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+    <script>
+        flatpickr('.flatpickr', {
+            inline: true,
+            minDate: '2021-12-01',
+            dafaultDate: '2021-12-25',
+            showMonths: 1,
+        });
+        var c, currentScrollTop = 0,
+        navbar = $('#header');
+
+    $(window).scroll(function () {
+        var a = $(window).scrollTop();
+        var b = navbar.height();
+        
+        currentScrollTop = a;
+        
+        if (c < currentScrollTop && a > b + b) {
+            navbar.addClass("scrollUp");
+        } else if (c > currentScrollTop && !(a <= b)) {
+            navbar.removeClass("scrollUp");
+        }
+        c = currentScrollTop;
+    });
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>

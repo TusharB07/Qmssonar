@@ -1,0 +1,405 @@
+<p-card >
+    <div class="container" *ngIf="['FIPR'].includes(this.quote?.productId?.shortName)">
+        <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+        <p-table styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+            <ng-template pTemplate="header">
+                <tr class="custom-header" style=" background-color: #4c5eaf ;color: white;">
+                    <th>Location wise Sum Insured <br>(PD+BI)</th>
+                    <th style="width: 60%; border-right: 1px solid #ccc;">
+                        <!-- <input  class="input-with-border" type="number" [(ngModel)]="claimPercentage"  (input)="validateClaimPercentage($event)"  (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                            [style.width.px]="50" max="100"/>  -->
+                            <span>&nbsp;</span>
+                            <span>&nbsp;</span>% of claim amt subject to a min. of: </th>
+                    <th>SFSP Product</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-i="rowIndex">
+                <tr >
+                    <td >{{ row.locationWiseSumInsured }}</td>
+                    <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                       
+                         <span>&nbsp;</span>
+                         <span>&nbsp;</span>
+                         <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage"  (input)="validateClaimPercentage($event)"  (focusout)="updateRow(row)" [ngClass]="'no-border'"
+                         [style.width.px]="50" max="100"/>  <span>&nbsp;</span>
+                         <span>&nbsp;</span>% of claim amt subject to a min. of: 
+                         INR
+                         <span>&nbsp;</span>
+                         <span>&nbsp;</span>
+                        <p-inputNumber 
+                        class="input-with-border"
+                            [(ngModel)]="row.claimAmountMin" 
+                            mode="decimal" 
+                            locale="en-IN" 
+                            [useGrouping]="true" 
+                            currency="INR"
+                            (focusout)="updateRow(row)"
+                            [ngClass]="'no-border'"
+                            [style.width.px]="100"  
+                            [style.fontSize.px]="12">
+                        </p-inputNumber>
+                    </td>
+                    <td>{{ row.sfspProduct }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="container" *ngIf="['EAR'].includes(this.quote?.productId?.shortName)">
+      <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+      <p-table styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data">
+          <ng-template pTemplate="header">
+              <tr class="custom-header" style=" background-color: #4c5eaf ;color: white;">
+                  <th>Excess/deductibles</th>
+                  <th>Amount</th>
+              </tr>
+          </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr>
+            <td>{{ row.productHeader }}</td>
+            <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #1d1b1b;">
+              <!-- Conditionally render either p-inputNumber or p tag -->
+              <ng-container *ngIf="i !== data.length - 1; else lastRow">
+                <p-inputNumber
+                  class="input-with-border"
+                  style="margin-right: 5px;"
+                  [(ngModel)]="row.claimPercentage"
+                  mode="decimal"
+                  locale="en-IN"
+                  [useGrouping]="true"
+                  currency="INR"
+                  (input)="validateClaimPercentage($event)"
+                  (focusout)="updateRow(row)"
+                  [ngClass]="'no-border'"
+                  [style.width.px]="80"
+                  [style.fontSize.px]="12">
+                </p-inputNumber>
+                <P style="margin-right: 5px;"> % {{ row.productValue }}</P>
+                <p-inputNumber
+                  [(ngModel)]="row.claimAmountMin"
+                  class="input-with-border"
+                  mode="decimal"
+                  locale="en-IN"
+                  [useGrouping]="true"
+                  currency="INR"
+                  (focusout)="updateRow(row)"
+                  [ngClass]="'no-border'"
+                  [style.width.px]="80"
+                  [style.fontSize.px]="12">
+                </p-inputNumber>
+              </ng-container>
+    
+              <!-- This is the template for the last row -->
+              <ng-template #lastRow>
+                <P>{{ row.productValue }}</P>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="container" *ngIf="['CAR'].includes(this.quote?.productId?.shortName)">
+      <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+      <p-table styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data">
+          <ng-template pTemplate="header">
+              <tr class="custom-header" style=" background-color: #4c5eaf ;color: white;">
+                  <th style="width: 40%;">Excess/deductibles</th>
+                  <th style="width: 100%;"></th>
+              </tr>
+          </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr>
+            <td>{{ row.productHeader }}</td>
+            <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #1d1b1b;">
+              <!-- Conditionally render either p-inputNumber or p tag -->
+              <ng-container *ngIf="i !== data.length - 1; else lastRow">
+                <p-inputNumber
+                  class="input-with-border"
+                  style="margin-right: 5px;"
+                  [(ngModel)]="row.claimPercentage"
+                  mode="decimal"
+                  locale="en-IN"
+                  (input)="validateClaimPercentage($event)"
+                  [useGrouping]="true"
+                  currency="INR"
+                  (focusout)="updateRow(row)"
+                  [ngClass]="'no-border'"
+                  [style.width.px]="80"
+                  [style.fontSize.px]="12">
+                </p-inputNumber>
+                <P style="margin-right: 5px;width: 120%;">% {{ row.productValue }}</P>
+                <p-inputNumber
+                  [(ngModel)]="row.claimAmountMin"
+                  class="input-with-border"
+                  mode="decimal"
+                  locale="en-IN"
+                  [useGrouping]="true"
+                  currency="INR"
+                  (focusout)="updateRow(row)"
+                  [ngClass]="'no-border'"
+                  [style.width.px]="100"
+                  [style.fontSize.px]="12">
+                </p-inputNumber>
+              </ng-container>
+    
+              <!-- This is the template for the last row -->
+              <ng-template #lastRow>
+                <P>{{ row.productValue }}</P>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="container" *ngIf="['IAR'].includes(this.quote?.productId?.shortName)">
+     <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+     <p-table   styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+         <ng-template pTemplate="header">
+          <tr>
+              <th colspan="4" style="text-align: center; font-weight: bold; font-size: 16px; background-color: #f4f4f4;">
+                  DEDUCTIBLE UNDER SECTION I & II
+              </th>
+          </tr>
+             <tr class="custom-header" >
+                 <th style="width: 30%;">Location wise Sum Insured (Property Damage + Business Interruption)</th>
+                 <th style="width: 50%; border-right: 1px solid #ccc;">
+                  Property Damage/Machinery Breakdown 
+                     <!-- <input  class="input-with-border" type="number" [(ngModel)]="claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                         [style.width.px]="50" max="100" /> -->
+                          <span>&nbsp;</span>
+                         <span>&nbsp;</span>% of claim amt subject to a min. of: </th>
+                 <th style="width: 30%;">Property Damage Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+                 <th style="width: 30%;">Machinery Breakdown Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+             </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-row let-i="rowIndex">
+             <tr >
+                 <td >{{ row.locationWiseSumInsured }}</td>
+                 <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                     <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                     [style.width.px]="50" max="100" /> <span>&nbsp;</span>
+                     <span>&nbsp;</span>% of claim amt subject to a min. of:
+                  Rs
+                  <span>&nbsp;</span>
+                  <span>&nbsp;</span>
+                     <p-inputNumber 
+                     class="input-with-border"
+                         [(ngModel)]="row.propertyDamageBreakdown" 
+                         mode="decimal" 
+                         locale="en-IN" 
+                         [useGrouping]="true" 
+                         currency="INR"
+                         (input)="validatePropertyDamageBreakdown(row)"
+                         (focusout)="updateRow(row)"
+                         [ngClass]="'no-border'"
+                         [style.width.px]="80"  
+                         [style.fontSize.px]="12">
+                     </p-inputNumber>
+                     Lakhs
+                 </td>
+                 <td>{{ row.propertyDamageBusiness }} Days</td>
+                 <td>{{ row.machineryBreakdownInterruption }} Days</td>
+             </tr>
+         </ng-template>
+     </p-table>
+  
+    </div>
+    <div class="container" *ngIf="['PAR'].includes(this.quote?.productId?.shortName)">
+      <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+      <p-table   styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+          <ng-template pTemplate="header">
+              <tr>
+                  <th colspan="4" style="text-align: center; font-weight: bold; font-size: 16px; background-color: #f4f4f4;">
+                      DEDUCTIBLE UNDER SECTION I & II
+                  </th>
+              </tr>
+              <tr class="custom-header" >
+                  <th style="width: 30%;">Location wise Sum Insured (Property Damage + Business Interruption)</th>
+                  <th style="width: 50%; border-right: 1px solid #ccc;">
+                   Property Damage/Machinery Breakdown 
+                      <!-- <input  class="input-with-border" type="number" [(ngModel)]="claimPercentage" (input)="validateClaimPercentage($event)"  (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                          [style.width.px]="50" max="100" /> -->
+                           <span>&nbsp;</span>
+                          <span>&nbsp;</span>% of claim amt subject to a min. of: </th>
+                  <th style="width: 30%;">Property Damage Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+                  <th style="width: 30%;">Machinery Breakdown Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row let-i="rowIndex">
+              <tr >
+                  <td >{{ row.locationWiseSumInsured }}</td>
+                  <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                    <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                     [style.width.px]="50" max="100" /> <span>&nbsp;</span>
+                     <span>&nbsp;</span>% of claim amt subject to a min. of:
+                   Rs
+                   <span>&nbsp;</span>
+                   <span>&nbsp;</span>
+                      <p-inputNumber 
+                      class="input-with-border"
+                          [(ngModel)]="row.propertyDamageBreakdown" 
+                          mode="decimal" 
+                          locale="en-IN" 
+                          [useGrouping]="true" 
+                          currency="INR"
+                          (input)="validatePropertyDamageBreakdown(row)"
+                          (focusout)="updateRow(row)"
+                          [ngClass]="'no-border'"
+                          [style.width.px]="80"  
+                          [style.fontSize.px]="12">
+                      </p-inputNumber>
+                      Lakhs
+                  </td>
+                  <td>{{ row.propertyDamageBusiness }} Days</td>
+                  <td>{{ row.machineryBreakdownInterruption }} Days</td>
+              </tr>
+          </ng-template>
+      </p-table>
+   
+     </div>
+    <div class="container" *ngIf="['MEGA'].includes(this.quote?.productId?.shortName)">
+      <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+      <p-table   styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+          <ng-template pTemplate="header">
+              <tr>
+                  <th colspan="4" style="text-align: center; font-weight: bold; font-size: 16px; background-color: #f4f4f4;">
+                      DEDUCTIBLE UNDER SECTION I & II
+                  </th>
+              </tr>
+              <tr class="custom-header">
+                  <th style="align-items: center" >Location wise Sum Insured (Property Damage + Business Interruption)</th>
+                  <th style=" border-right: 1px solid #ccc;">
+                   Property Damage/Machinery Breakdown 
+                      <!-- <input  class="input-with-border" type="number" [(ngModel)]="claimPercentage"  (input)="validateClaimPercentage($event)"  (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                          [style.width.px]="50"  max="100" /> -->
+                           <span>&nbsp;</span>
+                          <span>&nbsp;</span>% of claim amt subject to a min. of: </th>
+                  <th style="align-items: center">Property Damage Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+                  <th style="align-items: center">Machinery Breakdown Business Interruption (Standard Gross Profit of affected production line/unit)</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row let-i="rowIndex">
+              <tr >
+                  <td style="align-items: center" >{{ row.locationWiseSumInsured }}</td>
+                  <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                    <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                     [style.width.px]="50" max="100" /> <span>&nbsp;</span>
+                     <span>&nbsp;</span>% of claim amt subject to a min. of:
+                   Rs
+                   <span>&nbsp;</span>
+                   <span>&nbsp;</span>
+                      <p-inputNumber 
+                      class="input-with-border"
+                          [(ngModel)]="row.propertyDamageBreakdown" 
+                          mode="decimal" 
+                          locale="en-IN" 
+                          [useGrouping]="true" 
+                          currency="INR"
+                          (input)="validatePropertyDamageBreakdown(row)"
+                          (focusout)="updateRow(row)"
+                          [ngClass]="'no-border'"
+                          [style.width.px]="80"  
+                          [style.fontSize.px]="12">
+                      </p-inputNumber>
+                      Lakhs
+                  </td>
+                  <td >{{ row.propertyDamageBusiness }} Days</td>
+                  <td>{{ row.machineryBreakdownInterruption }} Days</td>
+              </tr>
+          </ng-template>
+      </p-table>
+   
+     </div>
+    <div class="container" *ngIf="['BLUSP'].includes(this.quote?.productId?.shortName)">
+          <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+          <p-table   styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th colspan="3" style="text-align: center; font-weight: bold; font-size: 16px; background-color: #f4f4f4;">
+                          DEDUCTIBLE UNDER SECTION I & II
+                      </th>
+                  </tr>
+                  <tr class="custom-header" >
+                      <th style="width: 30%; border-right: 1px solid #ccc;"></th>
+                      <th style="width: 80%; border-right: 1px solid #ccc;">
+                          <!-- <input  class="input-with-border" type="number" [(ngModel)]="claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="onClaimPercentageChange()" [ngClass]="'no-border'"
+                              [style.width.px]="50" max="100" /> -->
+                              % of claim amt subject to a min. of:
+                            </th>
+                      <th style="width: 80%;">Product Laghu</th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-row let-i="rowIndex">
+                  <tr >
+                      <td style="width: 30%;">Policy Type: BLUSP</td>
+                      <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                          
+                           <span>&nbsp;</span>
+                           <span>&nbsp;</span>
+                           <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage" (input)="validateClaimPercentage($event)" (focusout)="updateRow(row)" [ngClass]="'no-border'"
+                           [style.width.px]="50" max="100" />% of claim amt subject to a min. of:
+                           INR
+                          <p-inputNumber 
+                              [(ngModel)]="row.claimAmountMin" 
+                              class="input-with-border"
+                              mode="decimal" 
+                              locale="en-IN" 
+                              [useGrouping]="true" 
+                              currency="INR"
+                              (focusout)="updateRow(row)"
+                              [ngClass]="'no-border'"
+                              [style.width.px]="80"  
+                              [style.fontSize.px]="12">
+                          </p-inputNumber> 
+                      </td>
+                      <td>Fixed</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+    </div>
+    <div class="container" *ngIf="['BSUSP'].includes(this.quote?.productId?.shortName)">
+          <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductibles/Excess</b></h4>
+          <p-table   styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" [tableStyle]="{ 'min-width': auto }" [value]="data" >
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th colspan="3" style="text-align: center; font-weight: bold; font-size: 16px; background-color: #f4f4f4;">
+                          DEDUCTIBLE UNDER SECTION I & II
+                      </th>
+                  </tr>
+                  <tr class="custom-header">
+                      <th style="width: 30%; border-right: 1px solid #ccc;"></th>
+                      <th ></th>
+                      <th style="width: 30%; border-right: 1px solid #ccc;">Product Sukshma</th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-row let-i="rowIndex">
+                  <tr >
+                      <td >policyType: BSUSP</td>
+                      <td style="display: flex; justify-content: center; align-items: center; border-right: 1px solid #ccc;">
+                          <input  class="input-with-border" type="number" [(ngModel)]="row.claimPercentage" (input)="validateClaimPercentage($event)"   (focusout)="updateRow(row)" [ngClass]="'no-border'"
+                          [style.width.px]="50" max="100" />% of claim amt subject to a min. of:
+                          INR
+                          <span>&nbsp;</span>
+                          <p-inputNumber 
+                              [(ngModel)]="row.claimAmountMin1" 
+                              class="input-with-border"
+                              mode="decimal" 
+                              locale="en-IN" 
+                              [useGrouping]="true" 
+                              currency="INR"
+                              (focusout)="updateRow(row)"
+                              [ngClass]="'no-border'"
+                              [style.width.px]="80"  
+                              [style.fontSize.px]="12">
+                          </p-inputNumber> 
+                      </td>
+                      <td>Fixed</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+    </div>
+    <div class="container" *ngIf="['BGRP'].includes(this.quote?.productId?.shortName)">
+      <h4 id="AppIndicativeQuote_Header" class="mb-2"><b> Deductibles/Excess – NIL 
+      </b></h4>
+  </div>
+  </p-card>
+  

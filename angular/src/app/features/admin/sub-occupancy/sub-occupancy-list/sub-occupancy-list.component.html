@@ -1,0 +1,216 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button *ngIf="this.user?.partnerId?.partnerType == 'self'" id="SubOccupancy_CreateRecord"
+                            pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="this.createRecord()"></button>
+                        <button id="SubOccupancy_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        <!-- <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action" [(ngModel)]="this.selectedOption"
+                            optionLabel="name" (onChange)="selectAction($event)" (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown> -->
+                        <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action" [(ngModel)]="this.selectedOption"
+                            optionLabel="name" (onChange)="selectAction($event)" (onblur)="this.selectedOption = null"
+                            [showClear]="false"></p-dropdown>
+                    </div>
+                </ng-template>
+
+                <!-- <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="SubOccupancy_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+                </ng-template> -->
+            </p-toolbar>
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="SubOccupancy_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center" >
+                                <span style="white-space: nowrap">
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+
+
+                        <th pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="SubOccupancy_OccupancyTypeHeader">
+                                    Occupancy
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="partnerId" display="menu" [showClearButton]="false"
+                                        [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                        [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">OccupancyId filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedOccupancyId"
+                                                [suggestions]="optionsOccupancyId"
+                                                (completeMethod)="getOptionOccupancyId($event)" field="occupancyId"
+                                                [dropdown]="true" [multiple]="true"
+                                                (onSelect)="occupancyHandleFilter($event)"
+                                                (onUnselect)="occupancyHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon id="SubOccupancy_OccupancyTypeSortIcon"
+                                        field="occupancyId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="productId" display="menu" [showClearButton]="false"
+                                        [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                        [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Product filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedProductId"
+                                                [suggestions]="optionsProductId"
+                                                (completeMethod)="getOptionsProductId($event)" field="productId"
+                                                [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                                (onUnselect)="handleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon id="SubOccupancy_productIdSortIcon" field="productId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="SubOccupancy_TacHeader">
+                                    Partner
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="partnerId" display="menu" [showClearButton]="false"
+                                        [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                        [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">partnerId filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedPartners"
+                                                [suggestions]="optionsPartners"
+                                                (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                                [dropdown]="true" [multiple]="true"
+                                                (onSelect)="partnerIdHandleFilter($event)"
+                                                (onUnselect)="partnerIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon id="SubOccupancy_partnerIdSortIcon" field="partnerId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="shopName">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="SubOccupancy_shopNameHeader">
+                                    Shop Name
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="SubOccupancy_FlexaiibColumnFilter" type="text" field="shopName"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="contains"
+                                        operator="or" placeholder="Search by Shop Name"></p-columnFilter>
+                                    <p-sortIcon id="SubOccupancy_shopNameSortIcon" field="shopName"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th>Task Status</th>
+                        <th>Failed Reason</th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-suboccupancyRate>
+                    <tr (click)="this.editRecord(suboccupancyRate)">
+                        <td>
+                            <p-tableCheckbox [value]="suboccupancyRate"
+                                id="SubOccupancy_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td}
+                        </td> -->
+                        <td id="SubOccupancy_OccupancyType">
+                            {{suboccupancyRate?.occupancyId?.occupancyType}}
+                        </td>
+                        <td>
+                            {{suboccupancyRate?.productId?.type}}
+                        </td>
+                        <td id="SubOccupancy_RiskCode">
+                            {{suboccupancyRate?.partnerId?.name}}
+                        </td>
+                        <td id="SubOccupancy_RateCode">
+                            {{suboccupancyRate?.shopName}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{suboccupancyRate?.taskStatus ?? '-'}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{suboccupancyRate?.failedMessage ??
+                            '-'}}</td>
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="SubOccupancy_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(suboccupancyRate)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="SubOccupancy_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(occupancyRate)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+</div>

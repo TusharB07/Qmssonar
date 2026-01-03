@@ -1,0 +1,55 @@
+<ngx-spinner type="square-jelly-box" size="default" id="Main_NgxSpinnner"
+[template]="logo">
+    <!-- <h6>Loading...</h6> -->
+</ngx-spinner>
+
+<p-toast key="error" (onClose)="onViewErrorReject()" [baseZIndex]="5000" [style]="{'font-size' : '15px','font-weight': 'bold'}">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <h6 class="mb-3" id="Main_Summury">{{message.summary}}</h6>
+            <div [innerHTML]="message.detail"></div>
+        </div>
+    </ng-template>
+</p-toast>
+
+<div class="layout-wrapper" (click)="onLayoutClick()" [ngClass]="{'layout-static': app.menuMode === 'static',
+                'layout-overlay': app.menuMode === 'overlay',
+                'layout-slim': app.menuMode === 'slim',
+                'layout-horizontal': app.menuMode === 'horizontal',
+                'layout-sidebar': app.menuMode === 'sidebar',
+                'layout-sidebar-static': app.menuMode === 'sidebar' && sidebarStatic,
+                'layout-overlay-active': overlayMenuActive,
+                'layout-mobile-active': staticMenuMobileActive,
+                'layout-static-inactive': staticMenuDesktopInactive && app.menuMode === 'static',
+                 'p-ripple-disabled': !app.ripple}"
+                 id="Main_LayOut">
+
+    <div class="layout-main">
+
+        <app-topbar  id="Main_TopBar" *ngIf="isMobile() || isOverlay() || isHorizontal()"></app-topbar>
+
+        <!-- <app-menu *ngIf="!isMobile() && (isStatic() || isSlim() || isSidebar())"></app-menu> -->
+
+        <!-- <app-breadcrumb></app-breadcrumb> -->
+        <!--
+        <p-sidebar [(visible)]="progressSpinnerVisible" [fullScreen]="true" [baseZIndex]="10000" [showCloseIcon]="true" [modal]="true" [style]="{'opacity': 0.75}">
+
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+
+        </p-sidebar>
+        -->
+
+        <div class="layout-main-content quote-layout">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!-- <app-footer></app-footer> -->
+    </div>
+
+    <!-- <app-rightmenu></app-rightmenu> -->
+
+    <!-- <app-config></app-config> -->
+
+</div>

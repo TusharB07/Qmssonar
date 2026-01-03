@@ -1,0 +1,10 @@
+version: "3"
+services:
+  inexchg-angular-app:
+    platform: linux/amd64
+    build: 
+      context: .
+      args:
+        - NODE_ENV=production
+        - SERVER_NAME=https://ivision.fggeneral.in
+    image: adityal1/fgi-angular

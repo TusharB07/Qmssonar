@@ -1,0 +1,81 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+  <div class="form-container">
+    <div class="grid">
+      <div class="col-12">
+        <div class="card p-fluid">
+          <p-toast></p-toast>
+          <p-toolbar styleClass="">
+            <ng-template pTemplate="left">
+              <h3 class="mb-0" id="PinCodeFormRecordName">{{this.recordSingularName}}</h3>
+            </ng-template>
+            <ng-template pTemplate="right">
+              <button id="PinCodeForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+              <button id="PinCodeForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+            </ng-template>
+          </p-toolbar>
+        </div>
+      </div>
+      <div class="col">
+
+        <div class="card p-fluid">
+          <h5 id="PinCodeForm_GeneralInformation_Header">General Information</h5>
+
+
+          <div class="field">
+            <label id="PinCodeForm_NameLabel" for="name" >Name</label>
+            <input id="PinCodeForm_Name" class="form-control" type="text" pInputText id="name" formControlName="name" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['name']}" />
+            <small id="PinCodeForm_NameValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['name']">Name is
+              required.</small>
+          </div>
+
+
+          <div class="field">
+            <label id="PinCodeForm_DistrictLabel" for="name">District</label>
+            <p-autoComplete id="PinCodeForm_District" [dropdown]="true" field="label" formControlName="districtId" [suggestions]="this.optionsDistricts" (completeMethod)="this.searchOptionsDistricts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid}"></p-autoComplete>
+            <small id="PinCodeForm_DistrictValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['districtId']?.errors?.required">City is
+              required.</small>
+          </div>
+          <div class="field">
+            <label id="PinCodeForm_CityLabel" for="cityId">City</label>
+            <p-autoComplete id="PinCodeForm_City" [dropdown]="true" [suggestions]="this.optionsCities" field="label" formControlName="cityId" (completeMethod)="this.searchOptionsCities($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid}"></p-autoComplete>
+            <small id="PinCodeForm_CityValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['cityId']">City is
+              required.</small>
+          </div>
+          <div class="field">
+            <label id="PinCodeForm_StateLabel" for="stateId">State</label>
+            <p-autoComplete id="PinCodeForm_State" [dropdown]="true" [suggestions]="this.optionsStates" field="label" formControlName="stateId" (completeMethod)="this.searchOptionsStates($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid}"></p-autoComplete>
+            <small id="PinCodeForm_StateValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['stateId']">State is
+              required.</small>
+          </div>
+          <div class="field">
+            <label id="PinCodeForm_CountryLabel" for="name">Country</label>
+            <p-autoComplete id="PinCodeForm_Country" [dropdown]="true" field="label" formControlName="countryId" [suggestions]="this.optionsCountries" (completeMethod)="this.searchOptionsCountries($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid}"></p-autoComplete>
+            <small id="PinCodeForm_CountryValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['countryId']?.errors?.required">City is
+              required.</small>
+          </div>
+
+          <div class="field">
+            <label id="PinCodeForm_EarthquakeZoneLabel" for="earthquakeZone">Earthquake Zone</label>
+            <p-dropdown id="PinCodeForm_EarthquakeZone" class="form-control" [options]="this.optionsEarthquakeZones" placeholder="Select a Earthquake Zone" optionLabel="label" optionValue="value" [showClear]="true" formControlName="earthquakeZone" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['earthquakeZone'].valid}"></p-dropdown>
+            <small id="PinCodeForm_EarthquakeZoneValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['earthquakeZone']?.errors?.required">Earthquake Zone is required.</small>
+          </div>
+
+          <div class="field">
+            <label id="PinCodeForm_ActiveLabel" for="PinCodeForm_Active">Active?</label>
+            <p-toggleButton id="PinCodeForm_Active" class="form-control" formControlName="active"
+              [onLabel]="'Pincode active'" [offLabel]="'Pincode inactive'" [onIcon]="'pi pi-check'"
+              offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+        <div class="card p-fluid">
+            <app-audit-trail id="PinCodeForm_AuditTrail" [entityId]="this.id" [entityResourcePrefix]="'pincodes'"></app-audit-trail>
+        </div>
+
+    </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,172 @@
+<div class="review-quote-details" *ngIf="this.quote">
+    <div class="pdf-inner">
+        <div class="header-section mb-5">
+            <div>
+                <div class="header-section-inner darkLayout">
+                    <div class="grid" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
+                        <div class="col-6" style="text-align: center;">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <h6 style="font-size: 24px; font-weight: 800 !important; width: max-content; margin: 0 auto;">
+                                        {{this.slipName}}
+                                    </h6>
+                                </div>
+                                <div class="col-12">
+                                    <h4 class="mt-3" id="QuoteSlip_ProductType" style="margin: 0;">
+                                        {{this.quote?.productId?.type}}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <img [src]="this.user.partnerId.logo" alt="" width="150px" height="60px" style="margin: auto;">
+                    </div>
+                    
+                    <div class="grid p-3" style="font-size: 10px !important;">
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_QuoteNo_label">Reference No</h6>
+                            </div>
+                            <div id="QuoteSlip_QuoteNo">{{this.quote.quoteNo}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_PolicyType_label">Policy Type</h6>
+                            </div>
+                            <div class="text-capitalize" id="QuoteSlip_PolicyType">{{this.quote.quoteType}}</div>
+                        </div>
+                        <!-- <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_IMD_label">IMD</h6>
+                            </div>
+                            <div id="QuoteSlip_IMD">{{this.quote?.originalIntermediateName}}</div>
+                        </div> -->
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_ProposerName_label">Proposer Name</h6>
+                            </div>
+                            <div id="QuoteSlip_ProposerName">{{this.quote?.clientId?.name}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_Policy_Inception_Date_label">Policy Inception Date</h6>
+                            </div>
+                            <div id="QuoteSlip_Policy_Inception_Date">{{this.quote?.riskStartDate | date}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_PolicyPeriod_label">Policy Period</h6>
+                            </div>
+                            <div id="QuoteSlip_PolicyPeriod">{{ this.monthoryears }} from the Inception
+                                Date</div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_QuoteDate_label">Quotation issued</h6>
+                            </div>
+                            <div id="QuoteSlip_QuoteDate">{{this.quote?.createdAt | date}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_Branch_Name_label">Branch Name</h6>
+                            </div>
+                            <div id="QuoteSlip_Branch_Name"> - </div>
+                        </div>
+                        <!-- <div class="col-4"> -->
+                            <!-- <div>
+                                <h6 id="QuoteSlip_Commission/Brokerage_label">Commission/Brokerage</h6>
+                            </div>
+                            <div id="QuoteSlip_Commission/Brokerage">as per IRDA</div> -->
+                        <!-- </div> -->
+                        <div class="col-4"
+                            *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.GMC">
+                            <div>
+                                <h6 id="QuoteSlip_PolicyPeriod_label">Policy Start Date</h6>
+                            </div>
+                            <div id="QuoteSlip_PolicyPeriod">{{selectedOpt?.policyStartDate}}</div>
+                        </div>
+                        <div class="col-4"
+                            *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.GMC">
+                            <div>
+                                <h6 id="QuoteSlip_PolicyPeriod_label">Policy End Date</h6>
+                            </div>
+                            <div id="QuoteSlip_PolicyPeriod">{{selectedOpt?.policyEndDate}}</div>
+                        </div>
+                        <!-- <div class="col-4"
+                            *ngIf="this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC">
+                            <div>
+                                <h6 id="QuoteSlip_NumberOfLocations_label">Number of Locations</h6>
+                            </div> -->
+                            <!-- Old_Quote -->
+                            <!-- <div id="QuoteSlip_NumberOfLocations"> {{
+                                this.quote?.allCoversArray?.quoteLocationOccupancies?.length }}</div> -->
+
+                            <!-- New_Quote_option -->
+                            <!-- <div id="QuoteSlip_NumberOfLocations"> {{
+                                this.quoteOption?.allCoversArray?.quoteLocationOccupancies?.length }}</div>
+                        </div> -->
+                        <div class="col-4">
+
+                        </div>
+                        <!-- <div class="col-2"
+                            *ngIf="this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC">
+                            <div>
+                                <h6 id="QuoteSlip_Hypothication_label">Hypothecation</h6>
+                            </div> -->
+                        <!-- Old_Quote -->
+                        <!-- <div id="QuoteSlip_Hypothication">{{this.quote?.hypothication ?? '-' }} </div> -->
+
+                        <!-- New_Quote_option -->
+                        <!-- <div id="QuoteSlip_Hypothication">{{this.quoteOption?.hypothication ?? '-' }} </div>
+                        </div> -->
+                        <!-- <div class="col-4">
+                            <div>
+                                <h6 id="QuoteSlip_Correspondence_Address_label">Correspondence Address</h6>
+                            </div>
+                            <div id="QuoteSlip_Correspondence_Address">{{this.quote?.clientAddress}}</div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [lazy]="true" (onLazyLoad)="loadCustomers($event)" -->
+
+        <app-sub-template-blus id="QuoteSlip_Template_Blus"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.BLUS" [quote]="this.quote"
+            [quoteOption]="this.quoteOption"></app-sub-template-blus>
+        <app-sub-template-fire id="QuoteSlip_Template_Fire"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.FIRE"
+            [quoteOption]="this.quoteOption" [quote]="this.quote"></app-sub-template-fire>
+        <app-sub-template-iar id="QuoteSlip_Template_Iar"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.IAR"
+            [quoteOption]="this.quoteOption" [quote]="this.quote"></app-sub-template-iar>
+        <app-sub-template-gmc id="QuoteSlip_Template_mc"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.GMC"></app-sub-template-gmc>
+        <app-sub-template-marine id="QuoteSlip_Template_marine"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.MARINE"
+            [quote]="this.quote"></app-sub-template-marine>
+
+        <app-sub-template-workmenpolicy id="QuoteSlip_Template_WORKMENSCOMPENSATION"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.WORKMENSCOMPENSATION"
+            [quote]="this.quote"></app-sub-template-workmenpolicy>
+
+        <app-sub-template-liability id="QuoteSlip_Template_liability"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY || this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_CRIME"
+            [quote]="this.quote"></app-sub-template-liability>
+
+        <app-sub-template-liability-eando id="QuoteSlip_Template_liability_eando"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_EANDO"
+            [quote]="this.quote"></app-sub-template-liability-eando>
+
+        <app-sub-template-liability-cgl id="QuoteSlip_Template_liability_cgl"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_CGL || this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_PUBLIC"
+            [quote]="this.quote">
+        </app-sub-template-liability-cgl>
+
+        <app-sub-template-liability-pl id="QuoteSlip_Template_liability_productliability"
+            *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_PRODUCT || this.quote.productId['productTemplate'] == AllowedProductTemplate.LIABILITY_CYBER"
+            [quote]="this.quote">
+        </app-sub-template-liability-pl>
+    </div>
+</div>

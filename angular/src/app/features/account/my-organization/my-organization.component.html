@@ -1,0 +1,193 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted = true; this.saveRecord()" id="MyOrganization_Form">
+    <div class="form-container pt-3 px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card class="">
+                    <p-toast></p-toast>
+                    
+                    <p-toolbar>
+                        <ng-template pTemplate="left">
+                            <button routerLink="/backend" class="btn btn-primary mr-4" [style]="{'font-size':'16px'}"><i class="pi pi-angle-left" style="font-size: 0.95rem"
+                                id="QuoteViewPage_BackToDashbaord"></i> Back</button>    
+                            <!-- <button pButton pRipple type="button" label="Back" icon="pi pi-arrow-left" id="MyOrganization_back" class="p-button-secondary mr-2 pr-3" (click)="this.onBack()"></button> -->
+                            <h3 class="mb-0">{{ this.recordSingularName }}</h3>
+                        </ng-template>
+                        <!-- <ng-template pTemplate="right">
+                            <button type="submit" [disabled]="this.recordForm.invalid" id="MyOrganization_FormSubmit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" id="MyOrganization_Cancel" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template> -->
+                    </p-toolbar>
+                </p-card>
+            </div>
+
+            <div class="col">
+                <div class="grid">
+                    <div class="col-12 md:col-6">
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="MyOrganization_GeneralInformation">General Information</h5>
+                                <div class="field">
+                                    <label for="name" id="MyOrganization_Name_Label">Name</label>
+                                    <input maxlength="100" class="form-control" type="text" id="MyOrganization_Name" pInputText id="name" formControlName="name"  />
+                                    <!-- <small *ngIf="recordForm.controls['name'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                                </div>
+                                <div class="field">
+                                    <label for="shortName" id="MyOrganization_ShortName_Label">Short Name</label>
+                                    <input class="form-control" type="text" pInputText id="shortName" id="MyOrganization_ShortName" formControlName="shortName"  >
+                                </div>
+                                <div class="field">
+                                    <label for="partnerType" id="MyOrganization_PartnerType_Label">Partner Type</label>
+                                    <input maxlength="255" placeholder="Select Partner Type" optionLabel="label" id="MyOrganization_PartnerType" pInputText optionValue="value"  formControlName="partnerType"  disabled>
+                                    <!-- <small *ngIf="recordForm.controls['partnerType'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+
+                                    <!-- <p-dropdown  placeholder="Select Partner Type" optionLabel="label" optionValue="value" formControlName="partnerType" ></p-dropdown> -->
+
+
+                                    <!-- <p-dropdown  placeholder="Select Partner Type" optionLabel="label" optionValue="value"  formControlName="partnerType"  [disabled]="true"></p-dropdown> -->
+
+                                </div>
+                                <div class="field">
+                                    <label for="active" id="MyOrganization_Active_Label">Active</label>
+                                    <p-toggleButton class="form-control" id="status" id="MyOrganization_Active" formControlName="status" onLabel="{{ 'Partner Active' }}" offLabel="{{ 'Partner Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right" ></p-toggleButton>
+                                </div>
+                            </div>
+                        </p-card>
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="MyOrganization_AddressInformation_Label">Address Information</h5>
+
+                                <div class="field">
+                                    <label for="name" id="MyOrganizationAddress_PinCode_Label">Pincode</label>
+                                    <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_PinCode" formControlName="pincodeId" [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                                </div>
+                                <div class="field">
+                                    <label for="address" id="MyOrganizationAddress_Address_Label">Address</label>
+                                    <input maxlength="255" class="form-control" type="text" pInputText id="address" id="MyOrganizationAddress_Address" formControlName="address" required autofocus  />
+                                    <!-- <small *ngIf="recordForm.controls['address'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name" id="MyOrganizationAddress_City_Label">City</label>
+                                    <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_City" formControlName="cityId" [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name" id="MyOrganizationAddress_District_Label">District</label>
+                                    <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_District" formControlName="districtId" [suggestions]="this.optionsDistricts" (completeMethod)="this.searchOptionsDistricts($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid }"></p-autoComplete>
+                                </div>
+
+                                <div class="field">
+                                    <label for="name" id="MyOrganizationAddress_State_Label">State</label>
+                                    <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_State" formControlName="stateId" [suggestions]="this.optionsStates" (completeMethod)="this.searchOptionsStates($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+
+                                </div>
+                                <div class="field">
+                                    <label for="name" id="MyOrganizationAddress_Country_Label">Country</label>
+                                    <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_Country" formControlName="countryId" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }" ></p-autoComplete>
+
+                                </div>
+
+                            </div>
+                        </p-card>
+
+
+
+                    </div>
+
+                    <div class="col-12 md:col-6">
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="MyOrganizationKYC_Information">KYC Information</h5>
+
+                                <div class="field" >
+                                    <label for="pan" id="MyOrganizationKYC_PANLabel">PAN</label>
+                                    <input class="form-control" type="text" id="MyOrganizationKYC_PAN" pInputText id="pan" formControlName="pan"  autofocus oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                                <div class="field">
+                                    <label for="gstin" id="MyOrganizationKYC_GSTIN_Label">GSTIN</label>
+                                    <input class="form-control" type="text" pInputText id="MyOrganizationKYC_GSTIN" id="gstin" formControlName="gstin"  autofocus oninput="this.value = this.value.toUpperCase()"/>
+                                </div>
+                                <div class="field">
+                                    <label for="cin" id="MyOrganizationKYC_CIN_Label">CIN</label>
+                                    <input class="form-control" type="text" pInputText id="MyOrganizationKYC_CIN" id="cin" formControlName="cin"  autofocus oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                            </div>
+                        </p-card>
+                        <p-card>
+                            <div class="card p-fluid" style="display: flex;">
+                                <span class="dark">Dark Theme </span>
+                                <label class="switch">
+                                    <input type="checkbox" (click)="toggleDarkMode()" [checked]="isDarkTheme">
+                                    <span class="slider round"></span>
+                                  </label>
+                            </div>
+                        </p-card>
+                        <!-- <small *ngIf="recordForm.controls['contactPerson'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                        <!-- <small *ngIf="recordForm.controls['designation'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                        <!-- <p-card>
+                            <div class="card p-fluid">
+
+                                <h5 id="MyOrganizationKYC_ContactPerson">Contact Person</h5>
+
+                                <div class="field">
+                                    <label for="contactPerson" id="MyOrganizationContactPerson_Name_Label">Name</label>
+                                    <input maxlength="255" class="form-control" type="text" pInputText id="contactPerson" id="MyOrganizationContactPerson_Name" formControlName="contactPerson"   />
+
+                                </div>
+                                <div class="field">
+                                    <label for="designation" id="MyOrganizationContactPerson_Designation_Label">Designation</label>
+                                    <input maxlength="255" class="form-control" type="text" pInputText id="designation" id="MyOrganizationContactPerson_Designation" formControlName="designation"  />
+
+                                </div>
+                                <div class="field">
+                                    <label for="mobileNumber" id="MyOrganizationContactPerson_MobileNumber_Label">Mobile Number</label>
+                                    <input class="form-control" type="text" pInputText id="mobileNumber" id="MyOrganizationContactPerson_MobileNumber" formControlName="mobileNumber"  >
+                                </div>
+                            </div>
+                        </p-card> -->
+                        <!-- <p-card *ngIf="this.recordForm.controls['partnerType'].value == 'broker'" id="MyOrganizationContactPerson_RecordForm">
+                            <div class="card p-fluid">
+                                <div class="flex justify-content-between">
+                                    <h5 id="MyOrganization_InsuranceCompanyMaping">Insurance company maping</h5>
+                                    <div>
+                                        <button pButton pRipple type="button"  id="MyOrganization_AddICMapping" style="max-width: 6rem;" class="p-button-rounded" (click)="this.onAddICMappingRow()">Add More</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div formArrayName="mappedIcNames" *ngFor="let mappedIcNamesForm of this.mappedIcNames?.controls; let i = index" id="MyOrganization_MappedNames">
+                                        <div class="" [formGroupName]="i">
+                                            <div class="sign-in-head flex align-items-center justify-content-between">
+                                                <h4 class="head5" id="MyOrganization_ICName">IC Name {{ i + 1 }}</h4>
+                                                <a class="red-link" id="MyOrganization_DeleteICMapping" (click)="this.onDeleteICMappingRow(i)">Delete</a>
+                                            </div>
+                                            <div class="">
+                                                <div class="field">
+                                                    <label for="name" id="MyOrganization_ICMAPName_Label">Name</label>
+                                                    <input class="form-control" type="text" id="MyOrganization_ICMAPName" pInputText id="name" formControlName="name" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submitted && !mappedIcNamesForm.value['name'] }" placeholder="{{this.user?.partnerId?.mappedIcNames?.name}}"/>
+                                                </div>
+                                                <div class="field">
+                                                    <label for="mappedRmEmails" id="MyOrganization_MappedRMMail_Label">Mapped RM Email</label>
+                                                    <p-chips class="form-control" type="text" id="mappedRmEmails" id="MyOrganization_MappedRMMail" [formControlName]="'mappedRmEmails'" required [ngClass]="{ 'ng-invalid ng-dirty': submitted && !mappedIcNamesForm.value['mappedRmEmails'] }"  placeholder="{{this.user?.partnerId?.mappedIcNames?.name}}" ></p-chips>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </p-card> -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

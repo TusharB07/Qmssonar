@@ -1,0 +1,18 @@
+<p-card class="">
+        <div class="add-more-detail" [style.width]="isMobile ? '100%' : '325px'">
+            <h5 class="fs-24-eb" id="otherDetails_Hypothecation_Detail">Declaration Clause</h5>
+
+            <p-dropdown [options]="declarationClause" optionLabel="label" optionValue="value"
+                placeholder="Declaration Clause" [(ngModel)]="selectedDeclarationClause"
+                (onChange)="handleClauseDropdownChange($event)"></p-dropdown>
+            <br/>
+            <br/>
+
+            <span class="fs-24-eb below-dropdown" id="otherDetails_Hypothecation_Detail" 
+            *ngIf="selectedDeclarationClause == true">Select Declaration Clause</span>
+            <p-dropdown [options]="declarationDropdown" optionLabel="label" optionValue="value"
+                placeholder="Select Declaration DropDown" [(ngModel)]="selectedDeclarationDropDown"
+                (onChange)="handleDropdownChange($event)" *ngIf="selectedDeclarationClause == true"></p-dropdown>
+
+        </div>
+</p-card>

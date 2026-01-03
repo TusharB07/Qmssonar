@@ -1,0 +1,126 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+                    <div class="field">
+                        <label for="name">Partner</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" [dropdown]="true" optionValue="value"
+                            field="label" formControlName="partnerId" [suggestions]="this.optionsPartners"
+                            (completeMethod)="this.searchOptionsPartners($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        <small *ngIf="submitted &&  this.recordForm.controls['partnerId'].errors?.required"
+                            class="ng-invalid">This field Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="type">Type</label>
+                        <p-dropdown class="form-control" [options]="this.optionsTypes" [disabled]="this.mode == 'edit'"
+                            placeholder="Select a Type" formControlName="type" field="label" [showClear]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['type'].valid}"></p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['type']">Type is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="productId">Product</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" [dropdown]="true"
+                            [suggestions]="this.optionsProducts" field="label" formControlName="productId"
+                            (completeMethod)="this.searchOptionsProducts($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}">
+                        </p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['productId']">Product
+                            is required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="section">Section Name</label>
+                        <input class="form-control" type="text" pInputText formControlName="section" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['section']}" />
+                    </div>
+
+                    <div class="field">
+                        <label for="description">Description</label>
+                        <p-editor formControlName="description" [style]="{'height':'320px'}">
+                            <p-header>
+                                <span class="ql-formats">
+                                    <select class="ql-header" tabindex="-1">
+                                        <option value="1" tabindex="-1">Heading</option>
+                                        <option value="2" tabindex="-1">Subheading</option>
+                                        <option selected tabindex="-1">Normal</option>
+                                    </select>
+                                    <select class="ql-font" tabindex="-1">
+                                        <option selected tabindex="-1">Sans Serif</option>
+                                        <option value="serif" tabindex="-1">Serif</option>
+                                        <option value="monospace" tabindex="-1">Monospace</option>
+                                    </select>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-bold" aria-label="Bold" tabindex="-1"></button>
+                                    <button class="ql-italic" aria-label="Italic" tabindex="-1"></button>
+                                    <button class="ql-underline" aria-label="Underline" tabindex="-1"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <select class="ql-color" tabindex="-1"></select>
+                                    <select class="ql-background" tabindex="-1"></select>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-list" value="ordered" aria-label="Ordered List"
+                                        tabindex="-1"></button>
+                                    <button class="ql-list" value="bullet" aria-label="Unordered List"
+                                        tabindex="-1"></button>
+                                    <select class="ql-align" tabindex="-1">
+                                        <option selected tabindex="-1"></option>
+                                        <option value="center" tabindex="-1"></option>
+                                        <option value="right" tabindex="-1"></option>
+                                        <option value="justify" tabindex="-1"></option>
+                                    </select>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-link" aria-label="Insert Link" tabindex="-1"></button>
+                                    <button class="ql-image" aria-label="Insert Image" tabindex="-1"></button>
+                                    <button class="ql-code-block" aria-label="Insert Code Block" tabindex="-1"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-clean" aria-label="Remove Styles" tabindex="-1"></button>
+                                </span>
+                            </p-header>
+                        </p-editor>
+                        <!-- <input id="DynamicClauseForm_rmEmail" class="form-control" type="text" pInputText
+                            id="description" formControlName="description" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['description']}" /> -->
+                        <small id="DynamicClauseForm_rmEmail_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['description']">This field is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="DynamicClauseForm_ActiveLabel" for="configMenuType">Active?</label>
+                        <p-toggleButton id="DynamicClauseForm_Active" class="form-control" formControlName="active"
+                            [onLabel]="'Active'" [offLabel]="'Inactive'" [onIcon]="'pi pi-check'" offIcon="pi pi-times"
+                            iconPos="right"></p-toggleButton>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

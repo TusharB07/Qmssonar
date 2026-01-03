@@ -1,0 +1,173 @@
+<div class="grid p-fluid">
+    <div class="col-12">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_Header">MenuBar</h5>
+            <p-menubar [model]="tieredItems">
+                <ng-template pTemplate="end">
+                    <span class="p-input-icon-right">
+                        <input type="text" pInputText id="MenusBar_Search" placeholder="Search">
+                        <i class="pi pi-search"></i>
+                    </span>
+                </ng-template>
+            </p-menubar>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_Breadcrumb_Label">Breadcrumb</h5>
+            <p-breadcrumb id="MenusBar_Breadcrumb" [model]="breadcrumbItems" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card card-w-title flex flex-wrap">
+            <div class="col-12 md:col-8 h-full">
+                <h5 id="MenusBar_TabMenu_Label" >TabMenu</h5>
+                <p-tabMenu id="MenusBar_TabMenu" styleClass="mb-5" [model]="routeItems"></p-tabMenu>
+
+                <h5 id="MenusBar_Steps_Label">Steps</h5>
+                <p-steps id="MenusBar_Steps" [model]="routeItems" styleClass="mt-5" [readonly]="false"></p-steps>
+            </div>
+            <div class="col-12 md:col-4 mt-5 md:mt-0">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_TieredMenu_Label">TieredMenu</h5>
+            <p-tieredMenu id="MenusBar_TieredMenu" [model]="tieredItems"></p-tieredMenu>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_PalinMenu_Label">Plain Menu</h5>
+            <p-menu id="MenusBar_PalinMenu" [model]="plainMenuItems"></p-menu>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-4">
+
+        <div class="card card-w-title">
+            <h5 id="MenusBar_OverlayMenu_Label">Overlay Menu</h5>
+
+            <p-menu id="MenusBar_OverlayMenu" #menu [popup]="true" [model]="menuItems"></p-menu>
+            <button id="MenusBar_OverlayMenu_Toggle" type="button" pButton icon="pi pi-chevron-down" label="Options" (click)="menu.toggle($event)" style="width:auto"></button>
+        </div>
+
+        <div class="card card-w-title" #anchor>
+            <h5 id="MenusBar_ContextMenu_Label">ContextMenu</h5>
+            Right click to display.
+            <p-contextMenu id="MenusBar_ContextMenu" [target]="anchor" [model]="menuItems"></p-contextMenu>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_MegaMenuHorizontal_Label">MegaMenu - Horizontal</h5>
+            <p-megaMenu id="MenusBar_MegaMenuHorizontal" [model]="megaMenuItems"></p-megaMenu>
+
+            <h5 id="MenusBar_MegaMenuVertical_Label">MegaMenu - Vertical</h5>
+            <p-megaMenu id="MenusBar_MegaMenuVertical" [model]="megaMenuItems" orientation="vertical" [style]="{'width':'200px'}"></p-megaMenu>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-6">
+        <div class="card card-w-title">
+            <h5 id="MenusBar_PanelMenu_Label">PanelMenu</h5>
+            <p-panelMenu id="MenusBar_PanelMenu" [model]="panelMenuItems"></p-panelMenu>
+        </div>
+    </div>
+
+
+    <div class="col-6 md:col-6">
+
+        <div class="flex flex-column">
+            <form>
+                <div class="form-container">
+                    <div class="field">
+                        <label id="MenusBar_Name_Label" for="name">Name</label>
+                        <!-- <input class="form-control" type="text" pInputText id="name" formControlName="name" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !userForm.value['name']}" /> -->
+                        <input id="MenusBar_Name" class="form-control" type="text" pInputText id="name" required autofocus />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !userForm.value['name']">Name is required.</small> -->
+                    </div>
+                    <div class="field">
+                        <label id="MenusBar_Email_Label" for="name">Email</label>
+                        <!-- <input class="form-control" type="text" pInputText id="email" formControlName="email" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !userForm.value['email']}" /> -->
+                        <input id="MenusBar_Email" class="form-control" type="text" pInputText id="email" required autofocus />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !userForm.value['email']">Email is required.</small> -->
+                    </div>
+
+                    <!-- <div class="field">
+                        <label for="configMenuType">Config: Menu Type</label>
+                        <p-dropdown class="form-control" [options]="[]" placeholder="Select a menu type" optionLabel="name" [showClear]="true"></p-dropdown>
+                    </div> -->
+
+                    <div class="field">
+                        <label class="mb-3" id="MenusBar_ColorScheme_Label">Config: Color Scheme</label>
+                        <div class="formgrid grid">
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton class="form-control" id="MenusBar_Accessories" id="light" name="configColorScheme" value="light"></p-radioButton>
+                                <label for="light" id="MenusBar_Accessories_Label">Accessories</label>
+                            </div>
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton class="form-control" id="dark" id="MenusBar_Accessories" name="configColorScheme" value="dark"></p-radioButton>
+                                <label for="dark" id="MenusBar_Accessories_Label">Clothing</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login-footer flex align-items-center">
+                    <button id="MenusBar_Cancel" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"></button>
+                    <button id="MenusBar_Save" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" type="submit"></button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="col-12 md:col-6">
+        <div class="login-body">
+            <div class="login-image">
+                <!-- <img [src]="'assets/layout/images/pages/login-'+ (app.colorScheme === 'dark' ? 'ondark' : 'onlight') + '.png'" alt="inexchange"> -->
+            </div>
+            <div class="login-panel p-fluid">
+                <div class="flex flex-column">
+                    <!-- <div class="flex align-items-center mb-6 logo-container">
+                    <img [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="login-logo" />
+                    <img [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="login-appname" />
+                </div> -->
+                    <form>
+                        <div class="form-container">
+                            <span class="p-input-icon-left">
+                            <i class="pi pi-envelope"></i>
+                            <input type="email" autocomplete="off" id="MenusBar_Email" class="form-control" pInputText placeholder="name@example.com" />
+                        </span>
+                            <span class="p-input-icon-left">
+                            <i class="pi pi-key"></i>
+                            <input type="password" autocomplete="off" id="MenusBar_Password" class="form-control" placeholder="Password" pInputText  />
+                        </span>
+                            <!-- <a href="#" class="flex">Forgot your password?</a> -->
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" id="MenusBar_Login" pButton label="Login"></button>
+                            <span>Don't have an account?<a routerLink="/account/register" id="MenusBar_Signuphere">Sign-up here</a></span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="login-footer flex align-items-center">
+                    <div class="flex align-items-center login-footer-logo-container" id="MenusBar_LoginFooter">
+                        <img src="assets/layout/images/logo-gray.png" class="login-footer-logo" />
+                        <!-- <img src="assets/layout/images/appname-gray.png" class="login-footer-appname" /> -->
+                    </div>
+                    <span>Copyright 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

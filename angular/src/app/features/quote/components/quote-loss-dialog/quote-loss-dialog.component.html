@@ -1,0 +1,30 @@
+
+<div class="px-4 mt-5">
+    <h2 class="text-black" id="ProceedWithOfflinePaymentDialog_Header">Reason for Loss Quote</h2><br>
+
+    <div class="mb-4">
+        <p-dropdown [options]="dropdownOptions" class="mb-1" [(ngModel)]="selectedReason"
+            placeholder="Select Reason for Loss Quote">
+        </p-dropdown>
+        <small class="text-danger" *ngIf="!selectedReason" style="color: red; font-size: 12px;">
+            Please select a reason for the loss quote.
+        </small>
+    </div>
+
+    <div class="p-fluid mb-5">
+        <h5 for="tooltipDescription" class="mb-1">Description :-</h5>
+        <textarea id="tooltipDescription" class="mb-1" rows="4" cols="90" pInputTextarea placeholder="Enter Description"
+            [(ngModel)]="description">
+        </textarea>
+        <small class="text-danger" *ngIf="!description || !description.trim().length"
+            style="color: red; font-size: 12px;">
+            Please enter a valid description.
+        </small>
+    </div>
+
+    <div class="mb-5">
+        <button pButton pRipple label="Save" class="p-button-success mr-2" (click)="lossQuote()"
+            style="font-size: 15px;">
+        </button>
+    </div>
+</div>

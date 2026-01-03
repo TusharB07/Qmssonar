@@ -1,0 +1,18 @@
+.clause__point {
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 12px;
+    line-height: 1.5;
+    border-left: 3px solid #3498db;;
+    /* Optional accent line for points */
+    padding-left: 0.6rem;
+}
+
+.clause__container {
+    border: 1.4px solid #3498db;;
+    padding: 1rem;
+    border-radius: 0.6rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}

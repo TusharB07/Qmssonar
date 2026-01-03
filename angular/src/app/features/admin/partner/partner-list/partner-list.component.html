@@ -1,0 +1,413 @@
+<div class="px-3">
+    <div class="grid">
+        <div class="col-12">
+            <p-card>
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2 flex">
+                            <button id="PartnerList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="PartnerList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="PartnerList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+
+                            <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                                icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                            <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode"
+                                [url]="this.uploadProps.url" [method]="this.uploadProps.method"
+                                (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                                [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                                [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                                [uploadLabel]="this.uploadProps.uploadLabel"
+                                [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"
+                                id="uploadLocationDetails_Excel"></p-fileUpload>
+
+                           <button pButton label="Download Bulk Product partner Import Sample" class="p-button-outlined mx-2"
+                                icon="pi pi-download" (click)="this.bulkproductImportGenerateSample(dt)"></button>
+                            <p-fileUpload [name]="this.productuploadProps.name" [mode]="this.productuploadProps.mode"
+                                [url]="this.productuploadProps.url" [method]="this.productuploadProps.method"
+                                (onUpload)="this.productuploadProps.onUpload($event.originalEvent.body)"
+                                [headers]="this.productuploadProps.headers" [accept]="this.productuploadProps.accept.toString()"
+                                [showCancelButton]="true" [auto]="this.productuploadProps.auto" chooseIcon="pi pi-upload"
+                                [uploadLabel]="this.productuploadProps.uploadLabel"
+                                [chooseLabel]="this.productuploadProps.chooseLabel" styleClass="p-button-outlined"
+                                id="uploadLocationDetails_Excel"></p-fileUpload>
+
+
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="PartnerList_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                    </ng-template>
+                </p-toolbar>
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name','email']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="PartnerList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+                            <!-- <th pSortableColumn="_id">
+
+                                <div class="flex justify-content-between align-items-center">
+                                    <span  style="white-space: nowrap">
+                                        Id
+                                    </span>
+                                </div>
+
+                            </th> -->
+                            <th pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_NameHeader">
+                                        Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_NameColumnFilter" type="text" field="name"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="contains" operator="or"
+                                            placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_NameSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="parterType">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_PartnerTypeHeader">
+                                        Partner Type
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_PartnerTypeColumnFilter" type="text"
+                                            field="partnerType" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by partner type"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_PartnerTypeSortIcon"
+                                            field="partnerType"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="shortName">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_ShortNameHeader">
+                                        Short Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_ShortNameColumnFilter" type="text"
+                                            field="shortName" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by short name"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_ShortNameSortIcon" field="shortName"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="contactPerson">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_ContactPersonHeader">
+                                        Contact Person
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_ContactPersonColumnFilter" type="text"
+                                            field="contactPerson" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by contact person"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_ContactPersonSortIcon"
+                                            field="contactPerson"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="designation">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_DesignationHeader">
+                                        Designation
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_DesignationColumnFilter" type="text"
+                                            field="designation" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by designation"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_DesignationSortIcon"
+                                            field="designation"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="mobileNumber">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_MobileNumberHeader">
+                                        Mobile Number
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_MobileNumberColumnFilter" type="text"
+                                            field="mobileNumber" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by mobile number"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_MobileNumberSortIcon"
+                                            field="mobileNumber"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th pSortableColumn="pan">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_PANHeader">
+                                        PAN
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_PANColumnFilter" type="text" field="pan"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="in" operator="and" placeholder="Search by pan"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_PANSortIcon" field="pan"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="gstin">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_GSTHeader">
+                                        GST
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_GSTColumnFilter" type="text" field="gstin"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="in" operator="and" placeholder="Search by GST"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_GSTSortIcon" field="gstin"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="cin">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_CINHeader">
+                                        CIN
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_CINColumnFilter" type="text" field="cin"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="in" operator="and" placeholder="Search by CIN"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_CINSortIcon" field="cin"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+
+                            <th pSortableColumn="cityId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_CityHeader">
+                                        City Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-sortIcon field="cityId"></p-sortIcon> -->
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="districtId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_DistrictHeader">
+                                        District Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-sortIcon field="districtId"></p-sortIcon> -->
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="stateId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_StateNameHeader">
+                                        State Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-sortIcon field="stateId"></p-sortIcon> -->
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="pincodeId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_PincodeHeader">
+                                        Pincode
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-sortIcon field="pincodeId"></p-sortIcon> -->
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="countryId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_CountryNameHeader">
+                                        Country Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-sortIcon field="countryId"></p-sortIcon> -->
+                                    </div>
+                                </div>
+                            </th>
+
+
+                            <th pSortableColumn="status">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="PartnerList_StatusHeader">
+                                        Status
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="PartnerList_StatusColumnFilter" type="boolean"
+                                            field="status" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="equals" operator="and"
+                                            placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon id="PartnerList_StatusSortIcon" field="status"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th></th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-partner>
+                        <tr (click)="this.editRecord(partner)">
+                            <td>
+                                <p-tableCheckbox [value]="partner" id="PartnerList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <!-- <td ><span class="p-column-title">Id</span> {{partner._id}}
+                            </td> -->
+                            <td id="PartnerList_Name">
+                                {{partner.name}}
+                            </td>
+                            <td id="PartnerList_PartnerType">
+                                {{partner.partnerType}}
+                            </td>
+                            <td id="PartnerList_ShortName">
+                                {{partner.shortName}}
+                            </td>
+                            <td id="PartnerList_ContactPerson">
+                                {{partner.contactPerson}}
+                            </td>
+                            <td id="PartnerList_Designation">
+                                {{partner.designation}}
+                            </td>
+                            <td id="PartnerList_MobileNumber">
+                                {{partner.mobileNumber}}
+                            </td>
+                            <!-- <td id="PartnerList_PAN">
+                                {{partner.pan}}
+                            </td>
+                            <td id="PartnerList_GST">
+                                {{partner.gstin}}
+                            </td>
+                            <td id="PartnerList_CIN">
+                                {{partner.cin}}
+                            </td> -->
+                            <td id="PartnerList_City">
+                                {{partner.cityId.name}}
+                                <!-- <a routerLink="/backend/admin/cities/{{partner.cityId._id}}">{{partner.cityId.name}}</a> -->
+                            </td>
+                            <td id="PartnerList_District">
+                                {{partner.districtId.name}}
+                                <!-- <a routerLink="/backend/admin/districts/{{partner.districtId._id}}">{{partner.districtId.name}}</a> -->
+                            </td>
+                            <td id="PartnerList_State">
+                                {{partner.stateId.name}}
+                                <!-- <a routerLink="/backend/admin/states/{{partner.stateId._id}}">{{partner.stateId.name}}</a> -->
+                            </td>
+                            <td id="PartnerList_Pincode">
+                                {{partner.pincodeId.name}}
+                                <!-- <a routerLink="/backend/admin/pincodes/{{partner.pincodeId._id}}">{{partner.pincodeId.name}}</a> -->
+                            </td>
+                            <td id="PartnerList_Country">
+                                {{partner.countryId.name}}
+                                <!-- <a routerLink="/backend/admin/countries/{{partner.countryId._id}}">{{partner.countryId.name}}</a> -->
+                            </td>
+                            <td id="PartnerList_PAN">
+
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': partner.status, 'false-icon pi-times-circle': !partner.status}"></i>
+
+                            </td>
+                            <!-- <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                (click)="this.copyRates(partner,'copyOccupancyRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: Occupancy </button>
+                                    <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyEarthQuakeRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: EarthQuake </button>
+                                    <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyTerrorismRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: Terrorism </button>
+                                    <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyBscCoverRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: BscCover </button>
+                                            <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyAddOnCoverRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: AddOnCover </button>
+                                            <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyAddOnCoverSectorRates')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: AddOnCoverSector </button>
+                                    <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyLOVMaster')"><i
+                                            class="pi pi-copy mr-1"></i> Copy Rates: LOVMaster </button>
+                                    <button id="PartnerList_CopyRight" style="min-width: 100px;" pButton pRipple
+                                        class="p-button-primary mr-2" [style]="{whiteSpace: 'nowrap'}"
+                                        (click)="this.copyRates(partner,'copyGMCMaster')"><i
+                                        class="pi pi-copy mr-1"></i> Copy Rates: GMC Master </button> -->
+                            <!-- <button id="PartnerList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(partner)"></button> -->
+
+
+                            <!-- <td>
+                                            <div class="flex">
+                                    <button id="PartnerList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(partner)"></button>
+                                </div>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+
+            <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                        id="PartnerList_DeleteRecordConfirmationIcon"></i>
+                    <span id="PartnerList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want
+                        to delete <b>{{selectedRecord.name}}</b>?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button id="PartnerList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                        label="No" (click)="this.deleteRecordDialog = false"></button>
+                    <button id="PartnerList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                        label="Yes" (click)="this.deleteRecord()"></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+                [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i id="PartnerList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                        style="font-size: 2rem"></i>
+                    <span id="PartnerList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                        records?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button id="PartnerList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                        class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                    <button id="PartnerList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                        class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div>
+</div>

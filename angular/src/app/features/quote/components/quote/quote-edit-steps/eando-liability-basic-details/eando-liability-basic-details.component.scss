@@ -1,0 +1,29 @@
+.button-container {
+    align-items: center; 
+  }
+  .view-link {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 1rem;
+  }

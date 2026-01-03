@@ -1,0 +1,85 @@
+.covers {
+    border: 1px solid blue;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+td {
+    height: 50px;
+}
+
+.broder-row {
+    padding: 25px;
+    margin-top: 15px;
+}
+
+//  .p-datatable-wrapper {
+//     overflow-x: hidden;
+//     overflow-y: scroll;
+// }
+.p-datatable-responsive-scroll>.p-datatable-wrapper {
+    overflow-x: initial !important;
+    /* Set overflow-x to initial */
+}
+
+h4 {
+    background: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+    color: white;
+    line-height: 27px;
+}
+
+h4 p {
+    margin-left: 10px;
+}
+
+.p-fluid {
+    margin-top: 10px;
+}
+
+button {
+    margin-right: 10px;
+}
+
+
+/* General Button Styling */
+button {
+    font-size: 14px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Disabled Button Styling */
+button:disabled {
+    cursor: not-allowed;
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+}
+
+/* Status-Specific Button Styling */
+.btn-pending {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.btn-approved {
+    background-color: #28a745 !important;
+    color: #fff !important;
+}
+
+.btn-rejected {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+.btn-default {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Hover Effects */
+button:not(:disabled):hover {
+    opacity: 0.8;
+}

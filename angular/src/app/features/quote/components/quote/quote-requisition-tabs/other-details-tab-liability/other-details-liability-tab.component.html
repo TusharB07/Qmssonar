@@ -1,0 +1,80 @@
+<div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width:500px">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" style="font-size: large; font-weight: bold;"
+                            id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h6>
+                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                            {{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium</p>
+                        <p class="premium-price"
+                            *ngIf="this.quote.wcTemplateDataId && [AllowedProductTemplate.WORKMENSCOMPENSATION].includes(this.quote?.productId['productTemplate'])">
+                            <span><app-currency
+                                    [value]="(this.quote.wcTemplateDataId['indicativePremium'] ?? 0)"></app-currency>
+                            </span>
+                        </p>
+                        <p class="premium-price"
+                            *ngIf="[AllowedProductTemplate.LIABILITY].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CRIME].includes(this.quote?.productId['productTemplate'])">
+                            <span>
+                                <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                    [value]="this.quote.liabilityTemplateDataId['totalPremiumAmt'] ?? 0"></app-currency-dollar-repee>
+                            </span>
+                        </p>
+
+                        <p class="premium-price"
+                            *ngIf="[AllowedProductTemplate.LIABILITY_EANDO].includes(this.quote?.productId['productTemplate']) && this.quote.liabilityEandOTemplateDataId">
+                            <span>
+                                <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                    [value]="this.quote.liabilityEandOTemplateDataId['totalPremiumAmt'] ?? 0"></app-currency-dollar-repee>
+                            </span>
+                        </p>
+
+                        <p class="premium-price"
+                            *ngIf="[AllowedProductTemplate.LIABILITY_CGL].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_PUBLIC].includes(this.quote?.productId['productTemplate'])">
+                            <span>
+                                <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                    [value]="this.quote.liabilityCGLTemplateDataId['totalPremiumAmt'] ?? 0"></app-currency-dollar-repee>
+                            </span>
+                        </p>
+                        <p class="premium-price"
+                            *ngIf="[AllowedProductTemplate.LIABILITY_PRODUCT].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CYBER].includes(this.quote?.productId['productTemplate'])">
+                            <span>
+                                <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                    [value]="this.quote.liabilityProductTemplateDataId['totalPremiumAmt'] ?? 0"></app-currency-dollar-repee>
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width:500px" *ngIf="this.quote.otcType !=='OTC'">
+        <div class="grid">
+
+            <div class="col-12" *ngIf="showLiabilityCrudView">
+                <app-other-details-liability-crud-card [quote]="this.quote"></app-other-details-liability-crud-card>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="mx-3">
+
+
+        <div class="claim-exp-location">
+            <app-hypothication-details-crud-card *ngIf="this.quote"
+                [quote]="this.quote"></app-hypothication-details-crud-card>
+        </div>
+    </div> -->
+
+</div>

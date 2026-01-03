@@ -1,0 +1,74 @@
+@import url('../basic-details/basic-details.component.scss');
+
+.column-header {
+    min-height: 50px;
+    max-height: 50px;
+    // margin: 10px 10px;
+}
+
+.btn-outline-blue-next {
+    font: normal normal bold 14px/19px OpenSans-Bold;
+    background: rgb(229, 232, 248);
+    color: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+    opacity: 1;
+    border-color: #0064BB;
+    padding: 0.75rem 1rem
+}
+
+li {
+    min-height: 50px;
+    max-height: 50px;
+    font-size: 12px;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header {
+    min-height: 60px;
+    max-height: 60px;
+    border: none;
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+    border: none;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    background-color: unset;
+    background: unset;
+    color: #0064BB;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+    border: none;
+}
+
+.custom-background {
+    font-size: 2rem;
+    color: #fff;
+    background: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+    border-radius: 13px;
+}
+
+.add-broker {
+    border: 1px dotted;
+    border-color: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+    ;
+}
+
+.placeBetween {
+    position: relative;
+    top: -390px;
+}
+
+.placeBelow {
+    position: relative;
+    top: -300px;
+    // bottom: calc(60%);
+}
+
+/* .placeAbove{
+  position: relative; 
+  top: -1100px;
+  bottom: 30px;
+} */

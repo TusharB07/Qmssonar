@@ -1,0 +1,447 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+
+            <p-table #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="quoteNo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="QuoteList_QuoteNo_Header">
+                                    Quote No
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="quoteNo" display="menu" placeholder="Search by Quote No"></p-columnFilter>
+                                    <p-sortIcon field="quoteNo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="quoteType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="QuoteList_QuoteType_Header">
+                                    Quote Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="quoteType" display="menu" placeholder="Search by Quote Type"></p-columnFilter>
+                                    <p-sortIcon field="quoteType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sectorId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="QuoteList_Sector_Header">
+                                    Sector
+                                </span>
+                                <!-- <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="sectorId" display="menu" placeholder="Search by Sector"></p-columnFilter>
+                                    <p-sortIcon field="sectorId"></p-sortIcon>
+                                </div> -->
+                            </div>
+                        </th>
+                        <th pSortableColumn="clientId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="QuoteList_Client_Header">
+                                    Client
+                                </span>
+                                <!-- <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="clientId" display="menu" placeholder="Search by Client"></p-columnFilter>
+                                    <p-sortIcon field="clientId"></p-sortIcon>
+                                </div> -->
+                            </div>
+                        </th>
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="QuoteList_Product_Header">
+                                    Product
+                                </span>
+                                <!-- <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by Product"></p-columnFilter>
+                                    <p-sortIcon field="productId"></p-sortIcon>
+                                </div> -->
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="renewalPolicyPeriod">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Renewal Policy Period
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="renewalPolicyPeriod" display="menu" placeholder="Search by Renewal Policy Period"></p-columnFilter>
+                                    <p-sortIcon field="renewalPolicyPeriod"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="insurredBusiness">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Insurred Business
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="insurredBusiness" display="menu" placeholder="Search by Insurred Business"></p-columnFilter>
+                                    <p-sortIcon field="insurredBusiness"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="deductiblesExcess">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Deductibles Excess
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="deductiblesExcess" display="menu" placeholder="Search by Deductibles Excess"></p-columnFilter>
+                                    <p-sortIcon field="deductiblesExcess"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="existingBrokerCurrentYear">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Existing Broker Current Year
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="existingBrokerCurrentYear" display="menu" placeholder="Search by Existing Broker Current Year"></p-columnFilter>
+                                    <p-sortIcon field="existingBrokerCurrentYear"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="otherTerms">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Other Terms
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="otherTerms" display="menu" placeholder="Search by Other Terms"></p-columnFilter>
+                                    <p-sortIcon field="otherTerms"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="additionalInfo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Additional Info
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="additionalInfo" display="menu" placeholder="Search by Additional Info"></p-columnFilter>
+                                    <p-sortIcon field="additionalInfo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="claim1NoOfClaims">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim 1 No Of Claims
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claim1NoOfClaims" display="menu" placeholder="Search by Claim 1 No Of Claims"></p-columnFilter>
+                                    <p-sortIcon field="claim1NoOfClaims"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="claim1Nature">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim 1 Nature
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claim1Nature" display="menu" placeholder="Search by Claim 1 Nature"></p-columnFilter>
+                                    <p-sortIcon field="claim1Nature"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="approvedBy">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    ApprovedBy
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="approvedBy" display="menu" placeholder="Search by ApprovedBy"></p-columnFilter>
+                                    <p-sortIcon field="approvedBy"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="approvedOn">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    ApprovedOn
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="approvedOn" display="menu" placeholder="Search by ApprovedOn"></p-columnFilter>
+                                    <p-sortIcon field="approvedOn"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createdBy">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Created By
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="createdBy" display="menu" placeholder="Search by Created By"></p-columnFilter>
+                                    <p-sortIcon field="createdBy"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="createdOn">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Created On
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="createdOn" display="menu" placeholder="Search by Created On"></p-columnFilter>
+                                    <p-sortIcon field="createdOn"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="clientAddress">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Client Address
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="clientAddress" display="menu" placeholder="Search by Client Address"></p-columnFilter>
+                                    <p-sortIcon field="clientAddress"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="totalIndictiveQuoteAmt">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Total Indictive Quote Amount
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="totalIndictiveQuoteAmt" display="menu" placeholder="Search by Total Indictive Quote Amount"></p-columnFilter>
+                                    <p-sortIcon field="totalIndictiveQuoteAmt"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="brokerages">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Brokerages
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="brokerages" display="menu" placeholder="Search by Brokerages"></p-columnFilter>
+                                    <p-sortIcon field="brokerages"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="targetPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Target Premium
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="targetPremium" display="menu" placeholder="Search by Target Premium"></p-columnFilter>
+                                    <p-sortIcon field="targetPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="claimYear1">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim Year 1
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claimYear1" display="menu" placeholder="Search by Claim Year 1"></p-columnFilter>
+                                    <p-sortIcon field="claimYear1"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="claimToYear1">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim To Year 1
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claimToYear1" display="menu" placeholder="Search by Claim To Year 1"></p-columnFilter>
+                                    <p-sortIcon field="claimToYear1"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="claim1PremiumPaid">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim 1 Premium Paid
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claim1PremiumPaid" display="menu" placeholder="Search by Claim 1 Premium Paid"></p-columnFilter>
+                                    <p-sortIcon field="claim1PremiumPaid"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="claim1ClaimAmount">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim 1 Claim Amount
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claim1ClaimAmount" display="menu" placeholder="Search by Claim 1 Claim Amount"></p-columnFilter>
+                                    <p-sortIcon field="claim1ClaimAmount"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="revNo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Rev No
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="revNo" display="menu" placeholder="Search by Rev No"></p-columnFilter>
+                                    <p-sortIcon field="revNo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sameAsPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Same As Premium
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="sameAsPremium" display="menu" placeholder="Search by Same As Premium"></p-columnFilter>
+                                    <p-sortIcon field="sameAsPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="quoteSubmissionDate">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Quote Submission Date
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="quoteSubmissionDate" display="menu" placeholder="Search by Quote Submission Date"></p-columnFilter>
+                                    <p-sortIcon field="quoteSubmissionDate"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Status
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="status" display="menu" placeholder="Search by Status"></p-columnFilter>
+                                    <p-sortIcon field="status"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <td id="QuoteList_QuoteNo">
+                            {{item.quoteNo}}
+                        </td>
+                        <td id="QuoteList_QuoteType">
+                            {{item.quoteType}}
+                        </td>
+                        <td id="QuoteList_SectorName">
+                            <!-- <a routerLink="/backend/sectors/{{item.sectorId?._id}}">{{item.sectorId?.name}}</a> -->
+                            {{item.sectorId?.name}}
+                        </td>
+                        <td id="QuoteList_ClientName">
+                            <!-- <a routerLink="/backend/clients/{{item.clientId?._id}}">{{item.clientId?.name}}</a> -->
+                            {{item.clientId?.name}}
+                        </td>
+                        <td style="width: 10%;min-width: 300px" id="QuoteList_ProductType">
+                            <!-- <a routerLink="/backend/products/{{item.productId?._id}}">{{item.productId?.type}}</a> -->
+                            {{item.productId?.type}}
+                        </td>
+                        <!-- <td>
+                            {{item.renewalPolicyPeriod}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.insurredBusiness}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.deductiblesExcess}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.existingBrokerCurrentYear}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.otherTerms}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.additionalInfo}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.claim1NoOfClaims}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.claim1Nature}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.approvedBy}}
+                        </td>
+                        <td>
+                            {{item.approvedOn}}
+                        </td>
+                        <td>
+                            {{item.createdBy}}
+                        </td>
+                        <td>
+                            {{item.createdOn}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.clientAddress}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.totalIndictiveQuoteAmt}}
+                        </td>
+                        <td>
+                            {{item.brokerages}}
+                        </td>
+                        <td>
+                            {{item.targetPremium}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.claimYear1}}
+                        </td> -->
+                        <!-- <td>
+                            {{item.claimToYear1}}
+                        </td>
+                        <td>
+                            {{item.claim1PremiumPaid}}
+                        </td>
+                        <td>
+                            {{item.claim1ClaimAmount}}
+                        </td>
+                        <td>
+                            {{item.revNo}}
+                        </td> -->
+                        <!-- <td>
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': item.sameAsPremium, 'false-icon pi-times-circle': !item.sameAsPremium}"></i>
+
+                        </td> -->
+                        <!-- <td>
+                            {{item.quoteSubmissionDate}}
+                        </td>
+
+                        <td>
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': item.status, 'false-icon pi-times-circle': !item.status}"></i>
+                        </td> -->
+
+                        <td>
+                            <div class="flex">
+                                <a [routerLink]="item.quoteNo ? (item._id + '/sum-insured-details') : item._id" pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" id="QuoteList_ViewQuote"></a>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="card modal-body">
+    <form class="">
+      <div class="grid">
+        <div class="col-12 md:col-12 mb-2">
+          <label for="" class="form-label" id="coverageType_label">Coverage Type</label>
+          <div class="pp-dropdown-c">
+            <p-dropdown class="custom-dropdown" [options]="productCarouselArray" name="coverageType"
+              [(ngModel)]="selectedCoverageType" optionLabel="abbreviation" [filter]="true" filterBy="abbreviation"
+              placeholder="Select Coverage Type" (onChange)="this.updateEmpCoveraegs($event.value)">
+              <ng-template pTemplate="selectedItem">
+                <div class="country-item" *ngIf="selectedCoverageType">
+                  <span class="font-bold" style="font-size:15px">{{selectedCoverageType.abbreviation}} </span>
+                  ({{selectedCoverageType.coverageType}})
+                </div>
+              </ng-template>
+              <ng-template let-coverage pTemplate="item">
+                <span class="font-bold" style="font-size:15px">{{coverage.abbreviation}} </span>
+                ({{coverage.coverageType}})
+              </ng-template>
+              <!-- 
+              <ng-template let-coverage pTemplate="item">
+                <span class="font-bold" style="font-size:15px">{{coverage.isEmployer}} </span>
+                ({{coverage.isEmployer}})
+              </ng-template> -->
+            </p-dropdown>
+            <textarea maxlength="255" pInputText id="itemquestion_text" [(ngModel)]="coverageInfo"
+              name="itemquestion_text" #itemquestion_text="ngModel" type="text"
+              class="p-inputtext1 text-left mt-3"></textarea>
+            <button type="button" class="btn btn-success btn-sm mt-2" (click)="addCoverage()">Add Info</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12 md:col-4 mb-2">
+          <label for="" class="form-label" id="totalNoofLives_label">Total No of Lives</label>
+          <input pInputText placeholder="Type Here" id="total_lives" style="text-align: right;"
+            [value]="this.totalLivesCount" type="text" class="p-inputtext1" readonly="true" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="content">
+          <div class="grid">
+            <div class="col-12 md:col-12 mb-5">
+                <div style="max-height: 400px; overflow-y: auto;">
+
+                  <table id="empInfo" class="table table-bordered" style="width: 100%; table-layout: fixed;">
+                    <thead>
+                      <tr class="tableBorder tableHeaderRow" style="color: white;">
+                        <th class="tableBorder" style="width: 8rem;text-align: center;color: white">
+                          Age Band
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                          Self
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                          Spouse
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white" *ngIf="showCols">
+                          Child
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white" *ngIf="showCols">
+                          Parent
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white" *ngIf="showCols">
+                          Siblings
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: white;">
+                          Grand Total
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let empRecord of employeeInfo" style="border: 1px solid #0064BB;">
+                        <td class="tableBorder" id="Emp_ageBand" style="width: 8rem;">{{ empRecord.ageBand }}</td>
+                        <td class="tableBorder" id="Emp_selfCount" style="width: 3rem;text-align: right;">
+                          {{ empRecord.selfCount == 0 ? '-' : empRecord.selfCount }}
+                        </td>
+                        <td class="tableBorder" id="Emp_spouseCount" style="width: 3rem;text-align: right;">
+                          {{ empRecord.spouseCount == 0 ? '-' : empRecord.spouseCount }}
+                        </td>
+                        <td class="tableBorder" id="Emp_childCount" style="width: 3rem;text-align: right;"
+                          *ngIf="showCols">
+                          {{ empRecord.childCount == 0 ? '-' : empRecord.childCount }}
+                        </td>
+                        <td class="tableBorder" id="Emp_parentCount" style="width: 3rem;text-align: right;"
+                          *ngIf="showCols">
+                          {{ empRecord.parentCount == 0 ? '-' : empRecord.parentCount }}
+                        </td>
+                        <td class="tableBorder" id="Emp_siblingsCount" style="width: 3rem;text-align: right;"
+                          *ngIf="showCols">
+                          {{ empRecord.siblingsCount == 0 ? '-' : empRecord.siblingsCount }}
+                        </td>
+                        <td class="tableBorder" id="Emp_grandTotal" style="width: 3rem;text-align: right;">
+                          {{ empRecord.grandTotal == 0 ? '-' : empRecord.grandTotal }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

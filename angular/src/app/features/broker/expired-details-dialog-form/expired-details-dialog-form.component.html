@@ -1,0 +1,27 @@
+<form class="" [formGroup]="expiredDetailsForm" (ngSubmit)="this.submitExpiredDetails()" id="expiredDetailsFrom">
+    <div class="mt-5 mb-5">
+        <div class="mb-3">
+            <label for="expiringIsurenceName" class="form-label" id="ConfigureDiscount_Discount_Label">Expiring Isurence
+                Name </label>
+            <input pInputText formControlName="expiringIsurenceName" id="expiringIsurenceName" />
+        </div>
+        <div class="mb-3">
+            <label for="expiringIsurenceOffice" class="form-label" id="ConfigureDiscount_Amount_Label">Expiring Isurence
+                Office </label>
+            <input pInputText formControlName="expiringIsurenceOffice" id="expiringIsurenceOffice" />
+        </div>
+        <div class="mb-3">
+            <label for="expiringPolicyNumber" class="form-label" id="ConfigureDiscount_Amount_Label">Expiring Policy
+                Number </label>
+            <input pInputText formControlName="expiringPolicyNumber" id="expiringPolicyNumber" />
+        </div>
+        <div class="mb-3">
+            <label for="expiringPolicyPeriod" class="form-label" id="ConfigureDiscount_Amount_Label">Expiring Policy
+                Period </label>
+            <input pInputText formControlName="expiringPolicyPeriod" id="expiringPolicyPeriod" />
+        </div>
+        <div class="flex justify-content-end" id="container-btn">
+            <button class="btn btn-success" type="submit" id="save">Save</button>
+        </div>
+    </div>
+</form>

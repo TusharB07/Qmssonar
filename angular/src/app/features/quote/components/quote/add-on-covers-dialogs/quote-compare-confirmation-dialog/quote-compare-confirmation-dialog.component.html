@@ -1,0 +1,39 @@
+<div class="grid px-5 py-5">
+    <div class="col-5">
+        <div class="p-4">
+
+            <img src="./../assets/step3-pic.png" width="100%" alt="" id="CompareConfirmationDialog_Image">
+        </div>
+    </div>
+    <div class="col-7">
+
+        <div class="mb-5">
+
+            <p class="mb-2" id="CompareConfirmationDialog_Header"><img
+                    src="./../assets/broker/images/icons/smiling-face.png" height="15px" class="mr-2" alt="">
+                <em>Hello,</em></p>
+            <h3 id="CompareConfirmationDialog_SubHeader">We've found data from multiple brokers, would you like to
+                compare!</h3>
+
+        </div>
+
+        <div class="mb-5">
+            <span>
+                <button pButton type="button" id="CompareConfirmationDialog_yes" class="mr-3 btn btn-success"
+                    (click)="yes()">Yes</button>
+                <button pButton type="button" id="CompareConfirmationDialog_no" class="mr-3 btn btn-primary"
+                    (click)="no()">No</button>
+            </span>
+        </div>
+
+        <small>
+
+            <div class="mb-5 flex align-items-center">
+                <i class="pi pi-info-circle mr-2" id="CompareConfirmationDialog_Icon"></i>
+                <p class="inline-block" id="CompareConfirmationDialog_CompareAllBrokers">
+                    By Selecting on brokers you'll be able to compare all selected brokers.
+                </p>
+            </div>
+        </small>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<p-card width="50%">
+    <div class="grid">
+        <div class="col-12">
+            <h2 class="mb-2" id="AppOfflinePayment_Header">Offline Payment Details</h2>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div class="col-7">
+            <div>
+                <h6 id="AppOfflinePayment_Mode_Label">Payment Mode</h6>
+                <p id="AppOfflinePayment_Mode_Offline">Offline</p>
+            </div>
+            <br>
+            <div>
+                <h6 id="AppOfflinePayment_InstrumentCode_Label">Instrument No./Fund Transfer Code</h6>
+                <p id="AppOfflinePayment_InstrumentCode">789279</p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <h6 id="AppOfflinePayment_DraweeBank_Label">Drawee Bank</h6>
+                <p id="AppOfflinePayment_DraweeBank">State Bank of India</p>
+            </div>
+            <br>
+            <div>
+                <h6 id="AppOfflinePayment_InstrumentAmount_Label">Instrument Amount/Fund Transfer Amount</h6>
+                <p id="AppOfflinePayment_InstrumentAmount">59,298</p>
+            </div>
+        </div>
+    </div>
+</p-card>
+<div class="m-8">
+    <h5>Payment Received</h5>
+    <div style="display: flex;">
+        <div class="m-2">
+            <button style="width: 50px;" pButton pRipple type="button" label="Yes" id="AppOfflinePayment_YES" class="p-button-outlined p-button-success"></button>
+        </div>
+        <div class="m-2">
+            <button style="width: 50px;" pButton pRipple type="button" label="No" id="AppOfflinePayment_NO" class="p-button-outlined p-button-danger"></button>
+        </div>
+    </div>
+</div>

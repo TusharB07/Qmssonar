@@ -1,0 +1,24 @@
+<div class="px-4">
+    <h2 class="text-black mb-3" id="OTCProductLimitDialog_Header">Are you sure to change your currency selection to
+        dollar?</h2>
+    <div class="mb-5">
+        <p>Whatever indian currency amount you will enter here, your whole calculation will come according to that much
+            dollars in this overall platform</p>
+        <div class="grid">
+            <div class="col-2">
+                <span class="p-inputtext1 text-left" style="font-size: 14px;">1 $ =</span>
+            </div>
+            <div class="col-2">
+                <input maxlength="255" pInputText id="currency" name="currency" placeholder="₹ 0" currencyMask
+                    [(ngModel)]="quote.dollarRate" #currency="ngModel" [options]="{ prefix: '₹ ' , precision:0 }"
+                    class="p-inputtext1 text-left" />
+            </div>
+        </div>
+        <!-- <h2 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG">Would you like to proceed?</h2><br> -->
+        <button class="btn btn-success mr-4" id="OTCProductLimitDialog_Accept" (click)="accept()">Save</button>
+        <button class="btn btn-outline-primary mr-4" id="OTCProductLimitDialog_Exit" (click)="exit()">No</button>
+    </div>
+    <div class="">
+
+    </div>
+</div>

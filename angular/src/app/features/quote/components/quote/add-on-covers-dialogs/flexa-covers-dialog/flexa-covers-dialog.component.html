@@ -1,0 +1,75 @@
+<div class="input-container flex justify-content-end pt-3">
+    <input class="form-control md:w-3 w-6" [(ngModel)]="searchedText" type="text" pInputText
+        placeholder="Search Flexa Cover" (ngModelChange)="this.searchCover($event)" />
+    <div class="flex align-items-center justify-content-center bg-blue-100 border-round mx-2"
+        style="width: 4rem;height: 4rem;" id="Dashboard_BookImage" (click)="downloadCovers()">
+        <i class="pi pi-download"></i>
+    </div>
+</div>
+<ng-container *ngIf="propertyDamageAddon">
+    <p-table [value]="propertyDamageAddon" responsiveLayout="scroll">
+        <ng-template pTemplate="body" let-rowData>
+            <tr style="border-top: 1px solid #dee2e6;">
+                <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                    <i class="pi pi-info-circle" [pTooltip]="rowData?.description" tooltipPosition="top"
+                        (click)="openEditDialog(rowData)">
+                    </i>
+
+                    <p-dialog [(visible)]="displayDialog" [closable]="true" [modal]="false" header="Edit Tooltip"
+                        [style]="{ width: '500px', height: '300px' }">
+                        <div class="p-fluid">
+                            <h5 for="tooltipDescription" class="mb-1">Description :-</h5>
+                            <textarea id="tooltipDescription" [(ngModel)]="selectedDescription" rows="4" cols="50"
+                                pInputTextarea placeholder="Enter tooltip description"></textarea>
+                        </div>
+
+                        <p-footer>
+                            <button pButton label="Save" icon="pi pi-check"
+                                (click)="updateQuoteLocationAddon(selectedRowData, {description:selectedDescription})"></button>
+                            <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"
+                                class="p-button-text"></button>
+                        </p-footer>
+                    </p-dialog>
+                </td>
+                <td>
+                    <p-checkbox name="isChecked" [(ngModel)]="rowData.isChecked" binary="true" value="true"
+                        (onChange)="toggleSelection(rowData,$event)"></p-checkbox>
+                </td>
+                <td id="conditionalFreeAddOnDialog_CoverIdName1"
+                    *ngIf='!rowData?.hasOwnProperty("name") && rowData?.isExternal == true'>
+                    <input pInputText type="text" [(ngModel)]="rowData.flexaText" [disabled]="!rowData.isChecked" #name>
+                </td>
+                <td id="conditionalFreeAddOnDialog_CoverIdName">
+                    {{rowData?.addOnCoverId ? rowData?.addOnCoverId?.name : rowData?.name }}
+                </td>
+                <td style="text-align: center;" *ngIf="rowData.isExternal">
+                    <button [ngClass]="{
+                                'btn-pending': rowData.addonStatus === 'Pending',
+                                'btn-approved': rowData.addonStatus === 'Approved',
+                                'btn-rejected': rowData.addonStatus === 'Reject',
+                                'btn-default': !rowData.addonStatus
+                            }" [disabled]="isDisabled(rowData)" (click)="updateQuoteLocationAddon(rowData, 'Pending')"
+                        title="Send To Master">
+                        {{
+                        rowData.addonStatus === 'Pending' ? 'Approval Pending' :
+                        rowData.addonStatus === 'Approved' ? 'Approved' :
+                        rowData.addonStatus === 'Reject' ? 'Reject' :
+                        'Send To Master'
+                        }}
+                    </button>
+                </td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</ng-container>
+<div class="col-12">
+    <div class="flex justify-content-end">
+        <button class="btn btn-info add-button mr-4" (click)="addmoreAddOns()">
+            + Add More
+        </button>
+        <button class="btn btn-success save-button" (click)="saveSelectedAddons()">
+            Save
+        </button>
+    </div>
+</div>

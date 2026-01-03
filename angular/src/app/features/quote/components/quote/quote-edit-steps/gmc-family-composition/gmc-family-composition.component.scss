@@ -1,0 +1,97 @@
+/* Container styling */
+.container {
+    padding: 20px;
+}
+
+.custom-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Table container for scrolling */
+.table-container {
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+/* Table styling */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.styled-table thead th {
+    background-color: #0064BB;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.styled-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.styled-table tbody td {
+    vertical-align: middle;
+}
+
+/* Header styling */
+.header {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sub-header {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.icon {
+    font-size: 10px;
+    color: #0064BB;
+    margin-right: 5px;
+}
+
+/* Link styles */
+.info-link, .view-link {
+    color: #0064BB;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.info-link:hover, .view-link:hover {
+    text-decoration: underline;
+}
+
+/* Button styles */
+.graded-button {
+    background-color: transparent;
+    border: none;
+    color: #0064BB;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.graded-button:hover {
+    color: #004b8a;
+    text-decoration: none;
+}

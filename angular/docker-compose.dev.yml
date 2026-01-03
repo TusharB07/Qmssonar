@@ -1,0 +1,8 @@
+version: "3"
+services:
+  inexchg-angular-app:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+        - SERVER_NAME=http://quote.harish.local

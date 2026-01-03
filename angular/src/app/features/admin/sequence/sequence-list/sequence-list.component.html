@@ -1,0 +1,205 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="SequenceList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="SequenceList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="SequenceList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="SequenceList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" id="SequenceList_FileUpload" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="SequenceList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_NameHeader">
+                                    Name
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_NameColumnFilter" type="text" field="name"
+                                        display="menu" placeholder="Search by name"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_NameSortIcon" field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="currentSequenceValue">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_CurrentSequenceHeader">
+                                    Current Sequence Value
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_CurrentSequenceColumnFilter" type="text"
+                                        field="currentSequenceValue" display="menu"
+                                        placeholder="Search by currentSequenceValue"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_CurrentSequenceSortIcon"
+                                        field="currentSequenceValue"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="paddingLeft">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_PaddingLeftHeader">
+                                    Padding Left
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_PaddingLeftColumnFilter" type="text"
+                                        field="paddingLeft" display="paddingLeft"
+                                        placeholder="Search by paddingLeft"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_PaddingLeftSortIcon" field="paddingLeft"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="paddingRight">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_PaddingRightHeader">
+                                    Padding Right
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_PaddingRightColumnFilter" type="text"
+                                        field="paddingRight" display="paddingRight"
+                                        placeholder="Search by paddingRight"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_PaddingRightSortIcon"
+                                        field="paddingRight"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="paddingCharacter">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_PaddingCharacterHeader">
+                                    paddingCharacter
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_PaddingCharacterColumnFilter" type="text"
+                                        field="paddingCharacter" display="paddingCharacter"
+                                        placeholder="Search by paddingCharacter"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_PaddingCharacterSortIcon"
+                                        field="paddingCharacter"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fullLength">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="SequenceList_FullLenghtHeader">
+                                    Full Length
+                                </span>
+                                <div>
+                                    <p-columnFilter id="SequenceList_FullLenghtColumnFilter" type="text"
+                                        field="fullLength" display="fullLength"
+                                        placeholder="Search by fullLength"></p-columnFilter>
+                                    <p-sortIcon id="SequenceList_FullLenghtSortIcon" field="fullLength"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item" id="SequenceList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span> {{city._id}}
+                        </td> -->
+                        <td style="width:50%; min-width:10rem;" id="SequenceList_Name">
+                            {{item.name}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="SequenceList_CurrentSequence">
+                            {{item.currentSequenceValue}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="SequenceList_PaddingLeft">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.paddingLeft, 'false-icon pi-times-circle': !item.paddingLeft}"></i>
+
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="SequenceList_PaddingRight">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.paddingRight, 'false-icon pi-times-circle': !item.paddingRight}"></i>
+
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="SequenceList_FullLenght">
+                            {{item.fullLength}}
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="SequenceList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(item)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button id="SequenceList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="SequenceList_DeleteRecordConfirmationIcon"></i>
+                <span id="SequenceList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to
+                    delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="SequenceList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="SequenceList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="SequenceList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="SequenceList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="SequenceList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="SequenceList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

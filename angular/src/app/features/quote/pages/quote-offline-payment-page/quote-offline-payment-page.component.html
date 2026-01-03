@@ -1,0 +1,89 @@
+<section class="main-container review-quote-details" *ngIf="this.quote" id="QuoteOfflinePayment">
+    <div class="wrapper">
+        <div class="content-wrapper custom-style">
+            <div class="top-head-details">
+                <div class="grid px-3 align-items-center">
+
+                    <div class="col-8">
+                        <div class="flex align-items-center">
+                            <a class="btn-outline-blue mr-5 px-3 py-1" id="QuoteOfflinePayment_Back" pbutton routerLink="/backend"><i class="pi pi-chevron-left"></i> Back</a>
+                            <h2 class="m-0" id="QuoteOfflinePayment_ReviewDetails"> Review Details</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="content-details-tabs">
+                <div class="grid px-3">
+                    <div class="col mt-5 pr-4" id="left-bar">
+                        <div class="" *ngIf="this.quote?.allCoversArray">
+                            <app-quote-slip-template-one id="QuoteOfflinePayment_QuoteSlipTemplateOne" [quote]="this.quote"></app-quote-slip-template-one>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-4 pl-4" id="right-bar">
+                        <p-card [style]="{'margin-bottom': '2em'}" class="text-dark">
+                            <div class="mb-5">
+                                <h3 class="mb-4" id="QuoteOfflinePayment_OfflinePaymentDetails">Offline Payment Details</h3>
+
+                                <div class="grid">
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentMode_Label">Payment Mode</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentMode">{{this.quote.paymentMode}}</p>
+                                    </div>
+                                    <!-- <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_DraweeBank_Label">Drawee Bank</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_DraweeBank">{{this.quote.paymentOfflineDraweeBank}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">Instrument No. / Fund Transfer Code</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.paymentOfflineInstrumentTransferCode}}</p>
+                                    </div> -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_TotalIndictiveQuoteAmt_Label">Instrument Amount / Fund Trasnfer Amount *(Incl. Taxes)</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_TotalIndictiveQuoteAmt">
+                                            <app-currency [value]="this.quote.totalIndictiveQuoteAmtWithGst"></app-currency>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">Instrument Type</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.instrumentType}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">UTR Number/Cheque Number</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.chequeNo}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">Bank Name </label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.bankName}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">Branch</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.branchName}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">IFSC Code </label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.ifscCode}}</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label" id="QuoteOfflinePayment_PaymentInstrumentTransferCode_Label">Payment Date</label>
+                                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.paymentOperationAssignAt | date : 'dd/mm/yyyy'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <h4 class="mb-4" id="QuoteOfflinePayment_PaymentReceived">Payment Received</h4>
+
+                                <div class="flex">
+                                    <button (click)="this.paymentReceived()" id="QuoteOfflinePayment_PaymentReceivedButton" class="btn btn-outline-success mr-3">Yes</button>
+                                    <button class="btn btn-outline-danger" id="QuoteOfflinePayment_PaymentNotReceivedButton">No</button>
+                                </div>
+
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

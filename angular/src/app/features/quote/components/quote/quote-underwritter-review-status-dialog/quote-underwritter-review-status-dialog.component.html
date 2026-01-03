@@ -1,0 +1,26 @@
+<div class="">
+    <div class="task-dailog-header" id="QCRStatus_Note">
+        Underwriters actively working on this quote
+    </div>
+    <div class="task-dailog-body">
+        <div class="grid flex" *ngFor="let task of tasks;">
+            <div class="col-1" id="QCRStatus_TasksStatus">
+                <img src="assets/quote/icons/{{task.status}}.svg" />
+            </div>
+            <div class="col-8">
+                <div class="broker-name" id="QCRStatus_UserName">
+                    {{task.userName}}
+                </div>
+                <div class="role" id="QCRStatus_Role">
+                    {{task.role}}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="quote-status" id="QCRStatus_QuoteStatus">
+                    {{task.statusText}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

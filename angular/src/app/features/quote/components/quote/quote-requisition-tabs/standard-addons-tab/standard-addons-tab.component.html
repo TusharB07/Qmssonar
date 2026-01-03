@@ -1,0 +1,487 @@
+
+
+<div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width: 500px">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2" id="StandardAddons_LossOfRent"><b>Loss of Rent</b></h2>
+                        <!-- <p class="sub-head">{{this.quote?.productId?.type}}</p> -->
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="StandardAddons_LossOfRentTotalPremium_Label">Total Premium</p>
+                         <!-- <p class="premium-price" id="StandardAddons_LossOfRentTotalPremium" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+                         <p class="premium-price" id="StandardAddons_LossOfRentTotalPremium" pTooltip=""><span><app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0">  </app-currency></span></p>
+                          <!-- <span class="price" >{{( 0) | currency:'INR' }}</span> -->
+                    </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                        <!-- <span class="name">Base Premium:</span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                    </div>
+                    <div class="col-4 text-right" id="StandardAddons_LossOfRentViewQuoteBreakup_Label"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name" id="StandardAddons_LossOfRentSumInsured_Label">Sum Insured:</span>
+                        <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalSumAssured, { currency: true ,ignoreZeroCurrency: true })}}">₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }}</span> -->
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openLossofRentDialog()" label="Sum Insured Split" id="StandardAddons_LossOfRentSumInsuredSplit_Label" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2" id="StandardAddons_Alternativeaccomodation"><b>Rent For Alternative accomodation</b></h2>
+                        <!-- <p class="sub-head">{{this.quote?.productId?.type}}</p> -->
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="StandardAddons_AlternativeaccomodationTotalPremium_Label"  >Total Premium</p>
+                         <p class="premium-price" id="StandardAddons_AlternativeaccomodationTotalPremium" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                        <!-- <span class="name">Base Premium:</span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                    </div>
+                    <div class="col-4 text-right" id="StandardAddons_AlternativeaccomodationViewQuoteBreakup"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name" id="StandardAddons_AlternativeaccomodationSumInsured_Label">Sum Insured:</span>
+                        <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalSumAssured, { currency: true ,ignoreZeroCurrency: true })}}">₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }}</span> -->
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openRentForAlternativeAccomodationDialog()" id="StandardAddons_AlternativeaccomodationSumInsuredSplit" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2" id="StandardAddons_PersonalAccident"><b>Personal Accident Cover</b></h2>
+                        <!-- <p class="sub-head">{{this.quote?.productId?.type}}</p> -->
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="StandardAddons_PersonalAccidentTotalPremium_Label">Total Premium</p>
+                         <p class="premium-price" id="StandardAddons_PersonalAccidentTotalPremium" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                        <!-- <span class="name">Base Premium:</span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                    </div>
+                    <div class="col-4 text-right" id="StandardAddons_PersonalAccidentViewQuoteBreakup"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name" id="StandardAddons_PersonalAccidentSumInsured_Label">Sum Insured:</span>
+                        <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalSumAssured, { currency: true ,ignoreZeroCurrency: true })}}">₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }}</span> -->
+
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openPersonalAccidentCoverDialog()" id="StandardAddons_PersonalAccidentSumInsuredSplit" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2" id="StandardAddons_ValuebleContent"><b>Valueble Content on Agreed value Basis</b></h2>
+                        <!-- <p class="sub-head">{{this.quote?.productId?.type}}</p> -->
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="StandardAddons_ValuebleContentTotalPremium_Label">Total Premium</p>
+                         <p class="premium-price" pTooltip="" id="StandardAddons_ValuebleContentTotalPremium">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                       <!-- <span class="name">Base Premium:</span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                    </div>
+                    <div class="col-4 text-right" id="StandardAddons_ValuebleContentViewQuoteBreakup"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name" id="StandardAddons_ValuebleContentSumInsured_Label">Sum Insured:</span>
+                        <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                        <!-- <span class="price" pTooltip="{{this.toWord.convert(this.quote?.totalSumAssured, { currency: true ,ignoreZeroCurrency: true })}}">₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }}</span> -->
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openValuebleContentonAgreedDialog()" id="StandardAddons_ValuebleContentSumInsuredSplit" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <!-- <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2">Bharth Griha Raksha Policy</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                         <p class="premium-price" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openBharthGrihaRakshaPolicyDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2">Indicativep premium</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                         <p class="premium-price" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openIndicativeppremiumDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2">Bharat Laghu Udyam Suraksha</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                         <p class="premium-price" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openBharatLaghuUdyamSurakshaDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2">CGST</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                         <p class="premium-price" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openCGSTDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h2 class="mb-2">SGST</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium">Total Premium</p>
+                         <p class="premium-price" pTooltip="">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p>                   </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                   </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8">
+                        <button (click)="this.openSGSTDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card> -->
+    </div>
+
+
+        <div class="mx-3 combined-quote-wrapped" style="width: 500px">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <div class="grid">
+                        <div class="col">
+                            <h6 class="mb-2" id="StandardAddons_TotalIndicative">Total Indicative Quote</h6>
+                            <p class="sub-head" id="StandardAddons_TotalIndicative_subHeader">Combined Quote of all sections</p>
+                        </div>
+                    </div>
+                </ng-template>
+                <div class="h-100">
+                    <div class="grid mb-3">
+                        <div class="col-12">
+                            <div class="combined-quote">
+                                <ul class="list-group mb-1">
+                                    <li class="list-group-item head">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_TotalCOVERSOPTED_Label">
+                                                        <span>COVERS OPTED</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_TotalCOVERSOPTED">
+                                                <span>AMOUNT (₹)</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_ProductType_Label">
+                                                        <span>{{this.quote?.productId?.type}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_TotalIndicative">
+                                                {{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}
+                                                <!-- {{0 | currency:"INR"}} -->
+                                                <!-- <span pTooltip="{{this.toWord.convert((this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0)| currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_IndicativePremium_Label">
+                                                        <span>Indicative premium</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_IndicativePremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalFireLossOfProfit, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalFireLossOfProfit ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_BGRPPremium_Label">
+                                                        <span>Bharth Griha Raksha Policy</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_BGRPPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalBurglaryHouse, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalBurglaryHouse ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_LossOfRentPremium_Label">
+                                                        <span>Loss Of Rent</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_LossOfRentPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalMoneySafeTill, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalMoneySafeTill ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_AlternativeAccomodationPremium_Label">
+                                                        <span>Rent For Alternative accomodation</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_AlternativeAccomodationPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalMoneyTransit, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalMoneyTransit ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_PersonalAccidentPremium_Label">
+                                                        <span>Personal Accident Cover</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_PersonalAccidentPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalelectronicEquipment, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalelectronicEquipment ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_ValuebleContentPremium_Label">
+                                                        <span>Valueble Content on Agreed value Basis</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_ValuebleContentPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalPortableEquipment, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalPortableEquipment ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_CGSTPremium_Label">
+                                                        <span>CGST</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_CGSTPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalFixedPlateGlass, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalFixedPlateGlass ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" >
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_SGSTPremium_Label">
+                                                        <span>SGST</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_SGSTPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalAccompaniedBaggage, { currency: true ,ignoreZeroCurrency: true })}}">{{this.quote?.totalAccompaniedBaggage ?? 0 | currency:"INR"}}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item footer">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="flex">
+                                                    <div class="flex-shrink-0 ms-2" id="StandardAddons_TOTALPremium_Label">
+                                                        <span>TOTAL PREMIUM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0" id="StandardAddons_TOTALPremium">
+                                                {{0 | currency:"INR"}}
+                                                <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+
+    </div>
+</div>
+<!-- <div id="container">
+    <button  pButton pRipple label="% Configure Discount " class="btn btn-primary mr-2" (click)="opneConfigureDiscountDialoge()"></button>
+</div> -->
+

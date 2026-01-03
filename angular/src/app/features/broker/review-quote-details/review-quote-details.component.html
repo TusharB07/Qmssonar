@@ -1,0 +1,195 @@
+<!-- <section class="main-container">
+    <div class="wrapper">
+        <div class="content-wrapper custom-style">
+            <div class="top-head-details">
+                <div class="grid">
+                    <div class="col-11 pt-3">
+                        <p-progressBar [value]="value" [showValue]="false"></p-progressBar>
+                    </div>
+                    <div class="col-1">
+                        <p>{{value/100 | percent}} completed</p>
+                    </div>
+                    <div class="col-8">
+                        <h2>Review Quote Details</h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button class="btn-sm btn btn-outline-success mr-2" type="submit">View</button>
+                        <button class="btn btn-lg btn-primary mr-2" type="button" (click)="requestApproval()">Send for
+                            approval</button>
+                    </div>
+                </div>
+            </div>
+            <div class="content-details-tabs">
+                <div class="col-8 mt-5" id="left-bar">
+                    <div class="grid  header-section mb-3 p-2">
+                        <div class="col-6">
+                            <h1>Quote Slip</h1>
+                        </div>
+                        <div class="col-6">
+                            <h5>Bharat Laghu Udyam Suraksha & Miscellaneous</h5>
+                            <p>Liberty General Insurance Limited</p>
+                        </div>
+                        <div class="grid p-3" style="font-size: 10px !important;">
+                            <div class="col-2">
+                                <div>
+                                    <h6>Quote No</h6>
+                                </div>
+                                <div>{{'BLUS-HASAN-2022-00000004'}}</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Policy Type</h6>
+                                </div>
+                                <div>New</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>IMD</h6>
+                                </div>
+                                <div>GlobeSecure</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Quote Date</h6>
+                                </div>
+                                <div>{{22/4/2022}}</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Branch Name</h6>
+                                </div>
+                                <div>New Delhi</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Commission/Brokerage</h6>
+                                </div>
+                                <div>as per IRDA</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Proposer Name</h6>
+                                </div>
+                                <div>XYZ LTD</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Correspondence Address</h6>
+                                </div>
+                                <div>Lower Parel, Mumbai</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Policy Inception Date</h6>
+                                </div>
+                                <div>15/6/2022</div>
+                            </div>
+                            <div class="col-6">
+                                <div>
+                                    <h6>Policy Period</h6>
+                                </div>
+                                <div>12 months from the Inception Date</div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <h6>Number of Locations</h6>
+                                </div>
+                                <div>5</div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <h6>Hypothication</h6>
+                                </div>
+                                <div>Bank Of India</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p-table [value]="customers" responsiveLayout="scroll" dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll" [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                        <ng-template pTemplate="caption">
+                            <h4 class="text-center">
+                                Sum Insured and Premium Details
+                            </h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="text-center">Sections/Covers</th>
+                                <th>Sum Insured <br>(INR)</th>
+                                <th>Net Premium <br>(INR)</th>
+                                <th>GST</th>
+                                <th>Total Premium <br>(INR)</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-row>
+                            <tr>
+
+                                <td>{{row.name}}</td>
+                                <td>{{row.country.name}}</td>
+                                <td>{{row.company}}</td>
+                                <td>{{row.company}}</td>
+                                <td>{{row.representative.name}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="5">
+                                    No records found
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <p class="p-3">
+                        the paragrapgh will be written here the paragrapgh will be written here the paragrapgh will be written here the paragrapgh will be written here the paragrapgh will be written here the paragrapgh will be written here the paragrapgh will be written here
+                    </p>
+                    <p-table [value]="dataBLUS" responsiveLayout="scroll" dataKey="address" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll" [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                        <ng-template pTemplate="caption">
+                            <h4 class="text-center">
+                                Bharat Laghu Udyam Suraksha
+                            </h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="pl-3">Location Address</th>
+                                <th class="pl-5">Occupancy</th>
+                                <th class="text-center">Total Premium (INR)</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-row>
+                            <tr>
+
+                                <td class="pl-3">{{row.address}}</td>
+                                <td class="pl-5">{{row.occupancy}}</td>
+                                <td class="text-center">{{row.sum | currency:'INR'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="3">
+                                    No records found
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-4 mt-4" id="right-bar">
+                    <p-card header="Select Insurer" [style]="{'width': '32rem', 'margin-bottom': '2em'}">
+                        <div class="mb-4">
+                            <input value="" placeholder="Search Insurer" [(ngModel)]="searchText" type="text" class="p-inputtext1" style="padding: 1rem; width: 80%;" (ngModelChange)="searchInsurer($event)">
+                        </div>
+                        <div *ngFor="let category of optionsCategories; let index" class="field-checkbox" style="display: unset;">
+                            <p-checkbox name="group" value="category" [value]="category" [(ngModel)]="selectedInsurer" [inputId]="category.name" (onChange)="parentChange($event,index)"></p-checkbox>
+                            <label [for]="category.value">{{category.name}}</label>
+                            <i class="pi pi-info-circle ml-1" style="font-size: 0.75rem" [pTooltip]="details"></i>
+                            <div class="m-2">
+                                <div *ngFor="let item of category.mappedRmEmails; let index" class="field-checkbox ml-3">
+                                    <p-checkbox name="subgroup" value="item" [value]="item" [disabled]="disable(category.name)" [(ngModel)]="selectedRMEmails" [inputId]="item.email" (onChange)="childChange($event,category.name,index)">
+                                    </p-checkbox>
+                                    <label [for]="item.email">{{item.email}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->

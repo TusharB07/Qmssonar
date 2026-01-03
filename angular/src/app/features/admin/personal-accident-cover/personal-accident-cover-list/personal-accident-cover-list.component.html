@@ -1,0 +1,147 @@
+<div class="grid">
+    <div class="col-12">
+    <p-card>
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="PersonalAccidentList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="PersonalAccidentList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="PersonalAccidentList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="PersonalAccidentList_FilterGlobal" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+           </ng-template>
+            </p-toolbar>
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="PersonalAccidentList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center" style="width: 260px;">
+                                <span id="PersonalAccidentList_QuoteIdHeader">
+                                    QuoteId
+                                </span>
+                                <div>
+                                    <p-columnFilter id="PersonalAccidentList_QuoteIdColumnFilter" type="text" field="QuoteId" display="menu" placeholder="Search by QuoteId"></p-columnFilter>
+                                    <p-sortIcon id="PersonalAccidentList_QuoteIdSortIcon" field="QuoteId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 260px;">
+                                <span id="PersonalAccidentList_NameHeader">
+                                    Name
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 260px;">
+                                <span id="PersonalAccidentList_SpouseNameHeader">
+                                    Spouse Name
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 260px;">
+                                <span id="PersonalAccidentList_ProposerAgeHeader">
+                                    Proposer Age
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 260px;">
+                                <span id="PersonalAccidentList_SpouseAgeHeader">
+                                    Spouse Age
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quotes>
+                    <tr (click)="this.editRecord(quotes)">
+                        <td>
+                            <p-tableCheckbox [value]="quotes" id="PersonalAccidentList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+
+                        <td style="width:15%; min-width:10rem;" id="PersonalAccidentList_QuoteId">
+                            <!-- {{quotes.quoteId?.quoteNo}} -->
+                            {{quotes.quoteId.quoteNo}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="PersonalAccidentList_Name">
+
+                            {{quotes.name}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="PersonalAccidentList_SpouseName">
+
+                            {{quotes.spouseName}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="PersonalAccidentList_ProposerAge">
+
+                            {{quotes.proposerAge}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="PersonalAccidentList_SpouseAge">
+
+                            {{quotes.spouseAge}}
+                        </td>
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="PersonalAccidentList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(quotes)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button id="PersonalAccidentList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(quotes)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" id="PersonalAccidentList_DeleteRecordConfirmationIcon"></i>
+                <span id="PersonalAccidentList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="PersonalAccidentList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="PersonalAccidentList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="PersonalAccidentList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="PersonalAccidentList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="PersonalAccidentList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="PersonalAccidentList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

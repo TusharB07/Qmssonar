@@ -1,0 +1,195 @@
+<div *ngIf="!this.user.partnerId['brokerModeStatus']">
+    <p-card *ngIf="this.claimExperiences && this.recordForm &&   this.permissions.includes('read')">
+        <form class="claim-exp-location" [formGroup]="this.recordForm" (ngSubmit)="this.saveRecord();">
+            <div class="top-bar mb-4">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0" id="Claim_Experience_Header">Claim Experience</h5>
+                </div>
+            </div>
+            <div class=" grid lt-solid-box mb-4">
+                <div class="col-2 inline-block p-1">
+                    <div class="grid-container ">
+                        <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1 ">
+                            <i class="pi pi-angle-left mt-3 ml-6" (click)="decreaseYear()"></i>
+                        </div>
+                    </div> -->
+                    </div>
+                    <div class="grid-container" *ngFor="let row of rows">
+                        <div class="mt-3">
+                            <div class="flex-grow-1" id="Claim_Experience_lable">
+                                {{row?.label}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-10 inline-block p-1">
+    
+                    <div class="grid-container location-details pl-4">
+                        <div class="pr-2 flex align-items-center  justify-content-center"
+                            *ngFor="let claim of this.claimExperiences">
+                            <div class="justify-content-between text-center">
+                                <!-- <div class="number-cl">
+                                <p-inputNumber [useGrouping]="false" [showButtons]="true" [value]="col"
+                                    buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal"
+                                    [step]="1" decrementButtonClass="p-button-plain" [min]="col" [max]="col"
+                                    incrementButtonClass="p-button-plain" incrementButtonIcon="pi pi-plus"
+                                    decrementButtonIcon="pi pi-minus" mode="decimal">
+                                </p-inputNumber>
+                            </div> -->
+                                <h6 id="Claim_Experience_Years">
+                                    {{claim['year']-1}} - {{claim['year']}}
+                                </h6>
+                            </div>
+                        </div>
+                        <!-- <div class="grid-container m-1 p-2 "> -->
+                        <!-- <div class="flex align-items-center">
+                            <div class="flex-grow-1 justify-content-end">
+                                <i class="pi pi-angle-right" (click)="increaseYear()"></i>
+                            </div>
+                        </div> -->
+                        <!-- </div> -->
+                    </div>
+    
+                    <div class="grid-container location-details pl-4">
+                        <div formArrayName="claimYearArray"
+                            *ngFor="let claimYearForm of this.claimYearArray.controls; let i = index" class="pr-2 ">
+                            <div [formGroupName]="i">
+                                <input type="hidden" pInputText formControlName="_id">
+                                <div class="" *ngIf="this.permissions.includes('update')">
+                                    <input maxlength="11" type="text" pInputText placeholder="₹ 0"
+                                        id="Claim_Experience_PaidPremium_Amount" formControlName="premiumPaid" currencyMask
+                                        [options]="{ prefix: '₹ ' , precision:0 }">
+                                    <!-- <small class="ng-dirty ng-invalid" *ngIf="claimYearForm.controls['premiumPaid']?.errors?.max">PremiumPaid is cannot be more than 11 Characters.</small> -->
+                                </div>
+                                <div class="" *ngIf="!this.permissions.includes('update', 'create')">
+                                    <p *ngIf="claimYearForm.controls['premiumPaid'].value"
+                                        id="Claim_Experience_PaidPremium_Amount" class="p-3  text-right">
+                                        <span><app-currency
+                                                [value]="claimYearForm.controls['premiumPaid'].value"></app-currency></span>
+                                    </p>
+                                    <p *ngIf="!claimYearForm.controls['premiumPaid'].value"
+                                        id="Claim_Experience_PaidPremium_Amount" class="p-3  text-center">
+                                        <span><app-currency [value]="0"></app-currency></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-container location-details pl-4">
+                        <div formArrayName="claimYearArray"
+                            *ngFor="let claimYearForm of this.claimYearArray.controls; let i = index" class="pr-2 ">
+                            <div [formGroupName]="i">
+                                <div *ngIf="this.permissions.includes('update')">
+                                    <input maxlength="11" type="text" pInputText placeholder="₹ 0"
+                                        id="Claim_Experience_Claim_Amount" formControlName="claimAmount" currencyMask
+                                        [options]="{ prefix:     '₹ ' , precision:0 }">
+                                    <!-- <small class="ng-dirty ng-invalid" *ngIf="claimYearForm.controls['claimAmount']?.errors?.max">claimAmount is cannot be more than 11 Characters.</small> -->
+                                </div>
+                            </div>
+                            <div class="w-100" *ngIf="!this.permissions.includes('update')">
+                                <p *ngIf="claimYearForm.controls['claimAmount'].value" id="Claim_Experience_Claim_Amount"
+                                    class="p-3 text-right"> <span><app-currency
+                                            [value]="claimYearForm.controls['claimAmount'].value"></app-currency></span></p>
+                                <p *ngIf="!claimYearForm.controls['claimAmount'].value" id="Claim_Experience_Claim_Amount"
+                                    class="p-3 text-center"><span><app-currency [value]=" 0"></app-currency></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-container location-details pl-4">
+                        <div formArrayName="claimYearArray"
+                            *ngFor="let claimYearForm of this.claimYearArray.controls; let i = index" class="pr-2 ">
+                            <div [formGroupName]="i">
+                                <div *ngIf="this.permissions.includes('update')">
+                                    <input maxlength="11" type="number" pInputText placeholder="0" [min]="0"
+                                        id="Claim_Experience_No_Of_Claims" formControlName="numberOfClaims">
+                                    <!-- <small class="ng-dirty ng-invalid" *ngIf="claimYearForm.controls['numberOfClaims']?.errors?.max">Number Of Claims is cannot be more than 11 Characters.</small> -->
+                                </div>
+                            </div>
+                            <div class="" *ngIf="!this.permissions.includes('update')">
+                                <p *ngIf="claimYearForm.controls['numberOfClaims'].value" id="Claim_Experience_No_Of_Claims"
+                                    class="p-3  text-right">
+                                    {{claimYearForm.controls['numberOfClaims'].value.toLocaleString('en-IN')}}</p>
+                                <p *ngIf="!claimYearForm.controls['numberOfClaims'].value"
+                                    id="Claim_Experience_No_Of_Claims" class="p-3  text-center">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-container location-details pl-4">
+                        <div formArrayName="claimYearArray"
+                            *ngFor="let claimYearForm of this.claimYearArray.controls; let i = index" class="pr-2 ">
+                            <div [formGroupName]="i">
+                                <div *ngIf="this.permissions.includes('update')">
+                                    <input maxlength="255" type="text" pInputText placeholder="Nature of Claim"
+                                        id="Claim_Experience_Nature_Claim" formControlName="natureOfClaim">
+                                    <small class="ng-dirty ng-invalid"
+                                        *ngIf="claimYearForm.controls['natureOfClaim']?.errors?.maxlegth">Nature Of Claim is
+                                        cannot be more than 255 Characters.</small>
+                                </div>
+                            </div>
+                            <div class="" *ngIf="!this.permissions.includes('update')">
+                                <p *ngIf="claimYearForm.controls['natureOfClaim'].value" id="Claim_Experience_Nature_Claim"
+                                    class="p-3 text-right ">
+                                    {{claimYearForm.controls['natureOfClaim'].value.toLocaleString('en-IN')}}</p>
+                                <p *ngIf="!claimYearForm.controls['natureOfClaim'].value" id="Claim_Experience_Nature_Claim"
+                                    class="p-3  text-center">N/A</p>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+    
+            </div>
+            <div class="flex justify-content-end mt-5">
+                    <button *ngIf="this.permissions.includes('update')" [disabled]="quote.quoteState == 'Rejected'" id="Claim_Experience_Save" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="btn btn-success mr-2"></button>
+            </div>
+        </form>
+    
+    </p-card>
+</div>
+<div class="mx-3" *ngIf="this.user.partnerId['isRiskInspection'] == false" style="min-width: 90vw;">
+    <p-card [style]="{ width: '510px', height: '250px' }" >
+        <div *ngIf="this.user.partnerId['brokerModeStatus']">
+            <div class="grid" style="margin-bottom:30px;">
+                <h5 id="claimExperience">Claim Experience Upload</h5>
+                <div class="col-12">
+                                    <p-fileUpload #fileUpload
+                                    [auto]="true"
+                                    (onUpload)="this.onUploadClaimExperienceReport()"
+                                    styleClass="upload-outline-light"
+                                    [name]="this.onUploadClaimExperienceReport.name"
+                                    [mode]="this.onUploadClaimExperienceReport.mode"
+                                    [url]="this.onUploadClaimExperienceReport.url"
+                                    [method]="this.onUploadClaimExperienceReport.method"
+                                    (onUpload)="this.onUploadClaimExperienceReport.onUpload($event.originalEvent.body)"
+                                    (onError)="this.errorHandler($event, fileUpload)"
+                                    [headers]="this.onUploadClaimExperienceReport.headers" [showCancelButton]="true"
+                                    [auto]="this.onUploadClaimExperienceReport.auto"
+                                    uploadLabel="Claim Experience upload"
+                                    chooseLabel="Upload Claim experience Report">
+                                    </p-fileUpload>
+                                </div>
+                                <a href="{{this.quote?.claimAttachmentUrl}}" target="_blank">{{this.quote?.claimAttachmentUrl}}</a>
+            </div>
+            <div style="margin-left: 10px;">
+                    <div class="flex justify-content-center">
+                        <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="this.downloadSampleFile()"><i
+                                class="pi pi-download"></i> Download Sample File</button>
+                        <div>
+                            <p-fileUpload #fileUpload id="SidSumInsured_Split_Upload" styleClass="btn btn-primary"
+                                [name]="this.quoteLocationBreakupBulkImportProps.name"
+                                [mode]="this.quoteLocationBreakupBulkImportProps.mode"
+                                [url]="this.quoteLocationBreakupBulkImportProps.url"
+                                [method]="this.quoteLocationBreakupBulkImportProps.method"
+                                (onUpload)="this.quoteLocationBreakupBulkImportProps.onUpload($event.originalEvent.body)"
+                                (onError)="this.errorHandler($event, fileUpload)"
+                                [headers]="this.quoteLocationBreakupBulkImportProps.headers" [showCancelButton]="true"
+                                [auto]="this.quoteLocationBreakupBulkImportProps.auto"
+                                [uploadLabel]="this.quoteLocationBreakupBulkImportProps.uploadLabel"
+                                [chooseLabel]="this.quoteLocationBreakupBulkImportProps.chooseLabel"></p-fileUpload>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </p-card>
+</div>

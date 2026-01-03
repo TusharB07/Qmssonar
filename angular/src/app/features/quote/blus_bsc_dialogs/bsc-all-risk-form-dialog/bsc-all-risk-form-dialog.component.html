@@ -1,0 +1,131 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="allRisksForm" (ngSubmit)="this.submitAllRiskForm()" #$form="ngForm">
+        <div formArrayName="formArray" *ngFor="let form of this.formArray.controls; let i = index">
+            <div [formGroupName]="i">
+
+                <div class="sign-in-head flex align-items-center justify-content-between"
+                    *ngIf="this.permissions.includes('update')">
+                    <h4 class="head5">BSC All Risk {{ i + 1 }}</h4>
+                    <a class="red-link" id="Delete_AllRisks_Form"
+                        (click)="this.deleteFormBasedOnIndex(i)" *ngIf="this.formArray.controls.length > 1">Delete</a>
+                </div>
+                <div class="grid mb-5">
+                    <div class="col-6 mb-5">
+                        <label for="" class="form-label" id="AllRisks_Dialog_BaggageTypeId_label">Risk
+                            Type</label>
+                        <div class="pp-dropdown-c">
+
+                            <p-autoComplete class="custom-dropdown" id="AllRisks_Dialog_BaggageTypeId"
+                                [readonly]="!this.permissions.includes('update')"
+                                [dropdown]="this.permissions.includes('update') ? true : false"
+                                [suggestions]="this.optionsEquipmentType" field="label"
+                                formControlName="riskTypeId"
+                                (completeMethod)="this.searchOptionsEquipmentTypes($event)"
+                                placeholder="Select Risk Type" [forceSelection]="true" [showEmptyMessage]="true"
+                                [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['riskTypeId']?.errors}">
+                            </p-autoComplete>
+
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="$form.submitted && form.controls['riskTypeId']?.errors?.required">Risk
+                                Type is required.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="col-6 mb-5"> -->
+
+                    <div class="col-6 mb-5">
+                        <label for="" id="AllRisks_Dialog_Description_label" class="form-label">Risk
+                            Description</label>
+
+                        <input pInputText id="AllRisks_Dialog_Description"
+                            [readonly]="!this.permissions.includes('update')" formControlName="riskDescription"
+                            value="" type="text" class="p-inputtext1" placeholder="Enter description"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['riskDescription']?.errors}">
+
+
+                        <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_Description_ValidationError"
+                            *ngIf="$form.submitted && form.controls['riskDescription']?.errors?.required">Risk
+                            Description is required.</small>
+                        <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_Description_ValidationError"
+                            *ngIf="form.value['riskDescription']?.length > 255">Description
+                            cannot be greater than 255 Characters.</small>
+                    </div>
+                    <!-- </div> -->
+                    <!-- <div class="col-6 mb-5">
+                        <label for="" id="AllRisks_Dialog_Geography_label"
+                            class="form-label">Geography</label>
+                        <input pInputText id="AllRisks_Dialog_Geography" formControlName="geography"
+                            [readonly]="!this.permissions.includes('update')" value="" type="text" class="p-inputtext1"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['geography']?.errors}">
+
+
+                        <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_Geography_ValidationError"
+                            *ngIf="$form.submitted && form.controls['geography']?.errors?.required">Geography
+                            is required.</small>
+                        <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_Geography_ValidationError"
+                            *ngIf="$form.submitted && form.controls['geography']?.errors?.maxlength">Geography is cannot
+                            be more than 255 Characters.</small>
+                    </div> -->
+                    <div class="col-6 mb-5">
+                        <label for="" id="AllRisks_Dialog_SumInsured_label" class="form-label">Sum
+                            Insured</label>
+
+                        <!-- TO GET THE COUNT OF VALUES IN RUPEES INSTEAD OF MILLIONS -->
+                        <p-inputNumber id="AllRisks_Dialog_SumInsured" mode="decimal" locale="en-IN"
+                            prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="sumInsured"
+                            maxlength="21" [readonly]="!this.permissions.includes('update')"
+                            [ngClass]="{'ng-invalid ng-dirty':$form.submitted && form.controls['sumInsured']?.errors}">
+                        </p-inputNumber>
+
+                        <small style="color :brown;font-style: italic;" id="AllRisks_Dialog_SumInsured_ValidationError"
+                            *ngIf="form.controls['riskTypeId']?.value">Range for SI is {{form.controls['riskTypeId']?.value?.sumMin}} - {{form.controls['riskTypeId']?.value?.sumMax}}</small><br>
+                        <small style="color :brown;font-style: italic;"
+                            *ngIf="form.controls['riskTypeId']?.value">NSTP Range for SI is {{minNSTP}} - {{form.controls['riskTypeId']?.value?.maxNSTP}}</small>
+
+                        <!-- <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_SumInsured_ValidationError"
+                            *ngIf="$form.submitted && form.controls['sumInsured']?.errors?.required">SumInsured cannot
+                            blank.</small>
+                        <small class="ng-dirty ng-invalid" id="AllRisks_Dialog_SumInsured_ValidationError"
+                            *ngIf="$form.submitted && form.controls['sumInsured']?.errors?.min">SumInsured should be
+                            greater than 1.</small> -->
+                    </div>
+                    <div class="col-6"></div>
+                    <!-- Upload Code Starts Here -->
+                    <div class="col-6 mb-5"
+                        *ngIf="!form.value['fileInput'] || (form.value['fileInput'] && isFile(form.value['fileInput']))">
+                        <label for="" id="AllRisk_Dialog_SumInsured_label" class="form-label">File</label>
+                        <input style="display: none;" type="text" formControlName="fileInput">
+                        <p-fileUpload mode="advanced" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light"
+                            chooseIcon="pi pi-paperclip" chooseLabel="Upload Document" accept=""
+                            (onSelect)="onBasicUpload($event,i)"></p-fileUpload>
+                        <small style="font-style: italic;">**Allowed File Types XLX/XLSX.</small>
+                    </div>
+                    <div class="col-4 max-h-full min-h-full flex align-items-center" *ngIf="form.value['fileInput'] && !isFile(form.value['fileInput'])">
+                        <a (click)="downloadFile(i)" class="mr-2">
+                            <i class="pi pi-download mr-1" style="font-size: 1rem"></i>Download File
+                        </a>
+                        <i *ngIf="form.value['fileInput'] && this.permissions.includes('update')"  class="pi pi-trash" style="font-size: 1.5rem" (click)="deletefile(i)"></i>   
+                    </div>
+                    <!-- Upload Code Ends Here -->
+                </div>
+            </div>
+            <!-- <div class="col-4 text-center">
+                <div class="total-premium">
+                    <div class="premium">Total Premium</div>
+                    <div class="price">{{totalPremium | currency:"INR"}}</div>
+                  </div>
+            </div> -->
+        </div>
+        <div class="col-12 mb-5 text-right">
+            <a class="add-more" id="Delete_AllRisks_Form" (click)="this.addFormToArray()"
+                *ngIf="this.permissions.includes('update')">+ Add More Equipments</a>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="flex justify-content-end">
+                <button class="btn btn-success mr-4" type="submit" id="Save_AllRisks_Dialog"
+                    *ngIf="this.permissions.includes('update')">Save</button>
+                <button class="btn btn-outline-light mt-1" type="button" id="Close_AllRisks_Dialog"
+                    (click)="cancel()">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

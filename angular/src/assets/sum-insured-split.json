@@ -1,0 +1,108 @@
+{
+    "data": [
+        {
+            "data": {
+                "name": "Section I: Property Damage (PD)",
+                "bh": "100",
+                "jd": "100",
+                "jp": "100",
+                "kr": "100",
+                "th": "100",
+                "ko": "100",
+                "total": "100 Cr."
+            },
+            "children": [
+                {
+                    "data": {
+                        "name": "(A) Material Damage Section*",
+                        "bh": "100",
+                        "jd": "100",
+                        "jp": "100",
+                        "kr": "100",
+                        "th": "100",
+                        "ko": "100",
+                        "total": "100 Cr."
+                    },
+                    "children": [
+                        {
+                            "data": {
+                                "name": "Building",
+                                "bh": "10",
+                                "jd": "10",
+                                "jp": "10",
+                                "kr": "10",
+                                "th": "10",
+                                "ko": "10",
+                                "total": "210 Cr."
+                            },
+                            "children": [
+                                {
+                                    "data": {
+                                        "name": "Plinth & Foundation, roads and bridges, etc.",
+                                        "bh": "10",
+                                        "jd": "10",
+                                        "jp": "10",
+                                        "kr": "10",
+                                        "th": "10",
+                                        "ko": "10",
+                                        "total": "210 Cr."
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "data": {
+                                "name": " Plant & Machinery",
+                                "bh": "10",
+                                "jd": "10",
+                                "jp": "10",
+                                "kr": "10",
+                                "th": "10",
+                                "ko": "10",
+                                "total": "210 Cr."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "data": {
+                        "name": "(B) Machinery/Electrical Breakdown*",
+                        "bh": "100",
+                        "jd": "100",
+                        "jp": "100",
+                        "kr": "100",
+                        "th": "100",
+                        "ko": "100",
+                        "total": "100 Cr."
+                    },
+                    "children": [
+                        {
+                            "data": {
+                                "name": "Less Reduction in sum insured on account of piping etc",
+                                "bh": "10",
+                                "jd": "10",
+                                "jp": "10",
+                                "kr": "10",
+                                "th": "10",
+                                "ko": "10",
+                                "total": "210 Cr."
+                            }
+                        },
+                        {
+                            "data": {
+                                "name": "Total MBD Sum Insured",
+                                "bh": "10",
+                                "jd": "10",
+                                "jp": "10",
+                                "kr": "10",
+                                "th": "10",
+                                "ko": "10",
+                                "total": "210 Cr."
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

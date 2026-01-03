@@ -1,0 +1,37 @@
+<div *ngIf="this.annexures!=0">
+    <p-table [value]="this.annexures" dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+        responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <h4 class="text-center text-black" id="BLUSSubTemplate_SumInsuredDetails_Header">
+                Annexures
+            </h4>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th></th>
+                <th id="BLUSSubTemplate_SectionsCovers_Header" class="text-center text-black">Cover</th>
+                <th id="BLUSSubTemplate_SumInsured_Header" class="text-center text-black">Document</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cover let-i="rowIndex">
+            <tr class="no-border">
+                <td>{{i+1}}</td>
+                <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-left">
+                    <span>{{cover.lovType}} {{cover.lovKey ? '- '+ cover.lovKey : cover.lovKey}} </span>
+                </td>
+                <td id="BLUSSubTemplate_SumInsured" class="text-center text-right text-nowrap ">
+                    <a (click)="downloadFile(cover.filePath)" class="mr-2" style=" text-decoration: underline;">
+                        <i class="pi pi-download mr-1" style="font-size: 1rem"></i>Download File
+                    </a>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="3" id="BLUSSubTemplate_NoRecordsFoundMSG">
+                    No Annexures found
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

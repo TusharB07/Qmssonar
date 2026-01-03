@@ -1,0 +1,48 @@
+.tableBorder {
+    border: 1px solid #0064BB !important
+}
+
+.wide-card {
+    width: 900px; /* Full width */
+    margin: 0 auto; /* Center the card */
+    padding: 20px; /* Add padding for better spacing */
+}
+
+.header-title {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 20px; /* Increase margin for better spacing */
+}
+
+.deductible-item {
+    margin-top: 10px; /* Adjust margin for better spacing */
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex; /* Use flex for better alignment */
+}
+
+.form-label {
+    margin-left: 10px;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: medium;
+}
+
+.save-button-container {
+    margin-top: 20px;
+    text-align: right;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }

@@ -1,0 +1,38 @@
+<p-toast></p-toast>
+<div class="p-3">
+    <div class="grid" *ngIf="this.user">
+
+        <div class="md:col-4">
+
+            <p-card class="card">
+               
+                <h1 id="AppProfile_Header">Profile</h1>
+
+                <hr>
+
+                <div class="mb-3">
+                    <label for="" class="form-label" id="AppProfile_Name_Label">Name</label>
+                    <input class="form-control p-inputtext" id="AppProfile_Name" [value]="this.user?.name" readonly/>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label" id="AppProfile_Email_Label">Email</label>
+                    <input class="form-control p-inputtext" id="AppProfile_Email" [value]="this.user?.email" readonly/>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label" id="AppProfile_MobileNumber_Label">Mobile Number</label>
+                <input class="form-control p-inputtext" id="AppProfile_MobileNumber" [value]="this.user?.mobileNumber" readonly/>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label" id="AppProfile_Role_Label">Role</label>
+                    <input [style]="{textTransform:'capitalize'}"  id="AppProfile_Role" class="form-control p-inputtext" [value]="this.user?.roleId?.name.replace('_',' ')" readonly/>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" id="Reset_Password" (click)="resetPassword()">
+                        Reset Password
+                    </button>
+                </div>
+
+            </p-card>
+        </div>
+    </div>
+</div>

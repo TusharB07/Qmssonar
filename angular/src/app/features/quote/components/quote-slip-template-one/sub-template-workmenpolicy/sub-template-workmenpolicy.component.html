@@ -1,0 +1,570 @@
+<div class="px-5">
+    <div class="tblz01-pdf md-4">
+        <table class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+            <style *ngIf="isNamed">
+                .common-column-width {
+                    width: 200px;
+                }
+            </style>
+            <style *ngIf="!isNamed">
+                .common-column-width {
+                    width: 300px;
+                }
+            </style>
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td colspan="6" id="WCtemplate_BasicDetails" style="background-color: #f2f2f2;">
+                        <h5 class="text-black">Employee Details</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-black" [ngClass]="{'common-column-width': isNamed}" *ngIf="isNamed">
+                        <p>Name</p>
+                    </td>
+                    <td class="text-black" [ngClass]="{'common-column-width': isNamed}" *ngIf="isNamed">
+                        <p>Age</p>
+                    </td>
+                    <td class="text-black common-column-width">
+                        <p>Type of Industry</p>
+                    </td>
+                    <td class="text-black common-column-width">
+                        <p>Occupation of Employees</p>
+                    </td>
+                    <td class="text-black" [ngClass]="{'common-column-width': !isNamed}" *ngIf="!isNamed">
+                        <p>Total Number of Employees</p>
+                    </td>
+                    <td class="text-black common-column-width">
+                        <p>Total Earnings</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let wcRatesRecord of wcRatesInfo">
+                    <td *ngIf="isNamed" class="common-column-width">
+                        <p>{{ wcRatesRecord.name }}</p>
+                    </td>
+                    <td *ngIf="isNamed" class="common-column-width">
+                        <p>{{ wcRatesRecord.age }}</p>
+                    </td>
+                    <td class="common-column-width">
+                        <p>{{ wcRatesRecord.natureOfWork }}</p>
+                    </td>
+                    <td class="common-column-width">
+                        <p>{{ wcRatesRecord.typeOfEmployees }}</p>
+                    </td>
+                    <td *ngIf="!isNamed" class="common-column-width">
+                        <p>{{ wcRatesRecord.noOfEmployees }}</p>
+                    </td>
+                    <td class="common-column-width">
+                        <p><span><app-currency [value]="wcRatesRecord.salaryPerMonth ?? 0"></app-currency></span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center text-right text-nowrap" [attr.colspan]="isNamed ? 3 : 2">
+                        <span style="font-size:1rem; font-weight: bold; color: black;">Total:</span>
+                    </td>
+                    <td class="text-center text-right text-nowrap" *ngIf="!isNamed">
+                        <span style="font-weight: bold; color: black;">{{ getTotalEmployee() }}</span>
+                    </td>
+                    <td *ngIf="isNamed"></td>
+                    <td class="text-center text-right text-nowrap">
+                        <span style="font-weight: bold; color: black;">
+                            <app-currency [value]="getTotalSalary() ?? 0"></app-currency>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <br />
+        <table class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td id="WC_SafetyMeasures" style="background-color: #f2f2f2;">
+                        <h5 class="text-black">Safety Measures</h5>
+                    </td>
+                </tr>
+                <tr class="no-border">
+                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                        {{this.wcTemplateModel.safetyMeasures}}</td>
+                </tr>
+                <tr *ngIf="!this.wcTemplateModel.safetyMeasures">
+                    <td>
+                        No Safety Measures were added.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td colspan="2" id="WCtemplate_Details" style="background-color: #f2f2f2;">
+                        <h5 class="text-black">File Details</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center text-black">Attachment Type</td>
+                    <td class="text-center text-black">File Name</td>
+                </tr>
+                <tr *ngFor="let items of fileDetails">
+                    <td id="wcRates_natureOfWork" class="text-center text-left">{{items.attachmentType}}</td>
+                    <td id="wcRates_typeOfEmployees" class="text-center text-left">{{items.fileName}}</td>
+                </tr>
+                <tr *ngIf="fileDetails.length === 0">
+                    <td colspan="2" id="wcSubTemplate_NoRecordsFoundMSG" class="text-center">
+                        No Attachments were uploaded
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td colspan="3" id="DandOSubTemplate_Details" style="background-color: #f2f2f2;">
+                        <h5 class="text-black">Add-Ons Covers</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center text-black">Covers Name</td>
+                    <td class="text-center text-black">Covered/Not Covered</td>
+                    <td class="text-center text-black">Activity Name</td>
+                </tr>
+                <tr *ngFor="let rowData of liabiltyCovers">
+                    <td style="width: 40%;" id="conditionalFreeAddOnDialog_CoverIdName">
+                        {{rowData?.name}}
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        {{rowData.optionSelected}}
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        {{rowData.description}}
+                    </td>
+                </tr>
+                <tr *ngIf="liabiltyCovers.length === 0">
+                    <td colspan="3" id="wcSubTemplate_NoRecordsFoundMSG" class="text-center">
+                        No Add-On Covers were selected
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--  page break -->
+    <hr style="border-top: dashed 3px;border-color : #0462BC">
+    <div class="mt-3 custom-border">
+        <table class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse; width: 100%; border-radius: 10px; border: 1px solid #0048bc;">
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td colspan="2" id="WCtemplate_BasicDetails" style="border: 1px solid #0048bc;"
+                        style="background-color: #f2f2f2;">
+                        <h5 class="text-black">Territory Details</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #0048bc;">Jurisdiction</td>
+                    <td style="border: 1px solid #0048bc;">
+                        {{ this.wcTemplateModel.juridiction || 'N/A' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #0048bc;">Territory</td>
+                    <td style="border: 1px solid #0048bc;">
+                        {{ this.wcTemplateModel.territory || 'N/A' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr style="border-top: dashed 3px;border-color : #0462BC">
+        <div class=" tblz01-pdf mt-4">
+            <div class="tblz01-pdf md-4">
+                <table class="p-datatable p-datatable-striped"
+                    style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+                    <tbody class="p-datatable-tbody">
+                        <tr>
+                            <td class="text-black" id="WCPSubTemplate_FreeCovExtn_Header"
+                                style="background-color: #f2f2f2;">
+                                Coverage
+                                Extension
+                                - Free</td>
+                        </tr>
+                        <tr>
+                            <td class="text-black">
+                                Coverage
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="WCPSubTemplate_FreeCovExtn">
+                                <ng-container *ngFor="let freeCov of wccoverageTypesFree">
+                                    <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                                </ng-container>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-black">
+                                Standard
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="WCPSubTemplate_FreeCovExtn">
+                                <ng-container *ngFor="let freeCov of wcStandardcoverageType">
+                                    <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                                </ng-container>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-black" id="WCPSubTemplate_PaidCovExtn_Header"
+                                style="font-size:13px; background-color: #f2f2f2;">
+                                Coverage
+                                Extension
+                                - Paid</td>
+                        </tr>
+                        <tr>
+                            <td id="WCPSubTemplate_PaidCovExtn">
+                                <div>
+                                    <p style="font-size:12px;">Is Medical extension common for all type of employee? -
+                                        <span *ngIf=" this.wcTemplateModel?.allmedicalBenifitsYesNo" class="text-black"
+                                            style="font-size:smaller;">Yes</span>
+                                        <span *ngIf="!this.wcTemplateModel?.allmedicalBenifitsYesNo" class="text-black"
+                                            style="font-size:smaller;">No</span>
+                                    </p>
+                                </div>
+
+
+                                <div class="mt-3 custom-border" *ngIf="this.wcTemplateModel?.allmedicalBenifitsYesNo">
+                                    <p-table
+                                        *ngIf="!this.wcTemplateModel?.isActual && this.wcTemplateModel?.medicalBenifitsOption=='ME'"
+                                        [value]="this.wcMedicalBenifitsYesLstME" responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                        responsiveLayout="scroll">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center text-black"
+                                                id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header">
+                                                Medical Extension Benefits
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                        <tr>
+                            <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">
+                                Medical
+                                Extension
+                                Benefits</th>
+                            <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">
+                                Amount(₹)
+                            </th>
+                        </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-mbenifits>
+                            <tr class="no-border">
+                                <td id="wcRates_safertymeasures" class="text-center text-left">
+                                    {{mbenifits.medicalBenifitsOption}}
+                                </td>
+                                <td id="wcRates_safertymeasures" class="text-center text-right">
+                                    <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                            [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                    <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                    No Medical Extension Benefits found
+                                </td>
+                            </tr>
+                        </ng-template>
+                        </p-table>
+
+                        <p-table *ngIf="this.wcTemplateModel?.medicalBenifitsOption=='ME_AGGREGATE'"
+                            [value]="this.wcMedicalBenifitsYesLstMEAggregate" responsiveLayout="scroll" dataKey="id"
+                            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                <h4 class="text-center text-black"
+                                    id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header">
+                                    Medical Extension Benefits
+                                </h4>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                        class="text-center text-black">
+                                        Medical
+                                        Extension Benefits</th>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                        class="text-center text-black">Is
+                                        Actual
+                                        ?</th>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                        class="text-center text-black">
+                                        Amount(₹)
+                                    </th>
+                                </tr>
+
+                            </ng-template>
+                            <ng-template pTemplate="body" let-mbenifits>
+                                <tr class="no-border">
+                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                        {{mbenifits.medicalBenifitsOption}}</td>
+                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                        {{mbenifits.isActual}}</td>
+                                    <td id="wcRates_safertymeasures" class="text-center text-right">
+                                        <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                                [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                        <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                            <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                    <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                        No Medical extension benifits found
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+            </div>
+            </td>
+            </tr>
+            </table>
+        </div>
+        <div class="mt-3 custom-border">
+            <p-table [value]="this.premiumLst" responsiveLayout="scroll"
+                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th id="WCPSubTemplate_Discountbasedonpremium%%_Header" class="text-center text-black">Discount
+                            based on
+                            premium (%)</th>
+                        <th id="WCPSubTemplate_AddOnCovers_Header" class="text-center text-black">Addons Covers(₹) </th>
+                        <th id="WCPSubTemplate_TargetPremium_Header" class="text-center text-black">Target Premium(₹)
+                        </th>
+                        <th id="WCPSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹)
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-premium>
+                    <tr class="no-border"
+                        *ngIf="quote.quoteState == 'QCR From Underwritter' || quote.quoteState =='Under Writter Review'">
+                        <td id="WCPSubTemplate_discountbasedonPremium" class="text-center text-right text-nowrap ">
+                            <span>{{wcTemplateModel?.discountbasedonPremium}}</span>
+                        </td>
+                        <td id="WCPSubTemplate_addonCoversAmount" class="text-center text-right text-nowrap ">
+                            <span><app-currency
+                                    [value]="(wcTemplateModel?.addonCoversAmount ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_targetPremium" class="text-center text-right text-nowrap ">
+                            <span><app-currency [value]="(wcTemplateModel?.targetPremium ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_TotalPremium" class="text-black text-right text-nowrap ">
+                            <span><app-currency
+                                    [value]="(wcTemplateModel?.indicativePremium ?? 0)"></app-currency></span>
+                        </td>
+                    </tr>
+                    <tr class="no-border"
+                        *ngIf="quote.quoteState != 'QCR From Underwritter' && quote.quoteState !='Under Writter Review'">
+                        <td id="WCPSubTemplate_discountbasedonPremium" class="text-center text-right text-nowrap ">
+                            <span>{{premium.discountbasedonPremium}}</span>
+                        </td>
+                        <td id="WCPSubTemplate_addonCoversAmount" class="text-center text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.addonCoversAmount ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_targetPremium" class="text-center text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.targetPremium ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_TotalPremium" class="text-black text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.indicativePremium ?? 0)"></app-currency></span>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="5" id="WCPSubTemplate_NoRecordsFoundMSG">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <hr style="border-top: dashed 3px;border-color : #0462BC">
+        <div class="tblz01-pdf md-4">
+            <table class="p-datatable p-datatable-striped"
+                style="border-collapse: collapse; width: 100%; border-radius: 10px;">
+                <tbody class="p-datatable-tbody">
+                    <tr style="color: white;">
+                        <td colspan="2" id="DandOSubTemplate_Details">
+                            <h5 class="text-black">Deductibles</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-black">Description</td>
+                        <td class="text-center text-black">Amount</td>
+                    </tr>
+                    <tr *ngFor="let item of deductiblesInfo">
+                        <td id="description_deductibles" class="text-center text-left">{{item.description}}</td>
+                        <td id="amount_deductibles" class="text-center text-left">
+                            <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="quote?.dollarRate"
+                                [selectedCurrencyDollar]="quote?.selectedCurrency=='$ Dollar'"
+                                [value]="item?.amount ?? 0">
+                            </app-currency-dollar-repee>
+                        </td>
+                    </tr>
+                    <tr *ngIf="deductiblesInfo.length === 0">
+                        <td colspan="2">
+                            No Deductibles found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr *ngIf="showExclusionAndSubjectivity" style="border-top: dashed 3px;border-color : #0462BC">
+        <table *ngIf="showExclusionAndSubjectivity" class="p-datatable p-datatable-striped"
+            style="border-collapse: collapse;width:100%; border-radius: 10px;">
+            <tbody class="p-datatable-tbody">
+                <tr style="color: white !important;">
+                    <td colspan="3" id="DandOSubTemplate_BasicDetails">
+                        <h5 class="text-black">Major Exclusions</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center text-black">Name</td>
+                    <td class="text-center text-black">Options</td>
+                    <td class="text-center text-black">Description</td>
+                </tr>
+                <tr *ngFor="let rowData of majorExclusions; let i = index">
+                    <td>
+                        <ng-container *ngIf="!rowData.isExternal">
+                            {{ rowData?.name }}
+                        </ng-container>
+                        <ng-container *ngIf="rowData.isExternal">
+                            {{ rowData.name }}
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="rowData.name !== 'Major Shareholders'">
+                            {{ rowData.optionSelected ? rowData.optionSelected : 'N/A' }}
+                        </ng-container>
+                        <ng-container *ngIf="rowData.name === 'Major Shareholders'">
+                            {{ rowData.optionSelected ? rowData.optionSelected + '%' : 'N/A' }}
+                        </ng-container>
+                    </td>
+                    <td>
+                        {{ rowData.description ? rowData.description : 'N/A' }}
+                    </td>
+                </tr>
+                <tr *ngIf="majorExclusions.length === 0">
+                    <td colspan="3" id="wcSubTemplate_NoRecordsFoundMSG" class="text-center">
+                        No Exclusions found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <div *ngIf="showExclusionAndSubjectivity" class="tblz01-pdf md-4">
+            <table class="p-datatable p-datatable-striped"
+                style="border-collapse: collapse;width:100%; border-radius: 10px;">
+                <tbody class="p-datatable-tbody">
+                    <tr style="color: white !important;">
+                        <td colspan="3" id="DandOSubTemplate_Details">
+                            <h4 class="text-black">Subjectivity</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-black">Name</td>
+                        <td class="text-center text-black">Options</td>
+                        <td class="text-center text-black">Description</td>
+                    </tr>
+                    <tr *ngFor="let rowData of subjectivities; let i = index">
+                        <td>
+                            <ng-container *ngIf="!rowData.isExternal">
+                                {{ rowData?.name }}
+                            </ng-container>
+                            <ng-container *ngIf="rowData.isExternal">
+                                {{ rowData.name }}
+                            </ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="rowData.name !== 'Major Shareholders'">
+                                {{ rowData.optionSelected ? rowData.optionSelected : 'N/A' }}
+                            </ng-container>
+                            <ng-container *ngIf="rowData.name === 'Major Shareholders'">
+                                {{ rowData.optionSelected ? rowData.optionSelected + '%' : 'N/A' }}
+                            </ng-container>
+                        </td>
+                        <td>{{ rowData.description ? rowData.description : 'N/A' }}</td>
+                    </tr>
+                    <tr *ngIf="subjectivities.length === 0">
+                        <td colspan="3" id="wcSubTemplate_NoRecordsFoundMSG" class="text-center">
+                            No Subjectivities found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tblz01-pdf  mt-4">
+        <p-table *ngIf="this.quote.quoteType=='rollover'" [value]="this.prvPolicyInfo" responsiveLayout="scroll"
+            dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <h4 class="text-center text-black" id="WCPSubTemplate_prvPolicyDetails_Header">
+                    Previous Policy Details
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Previous Company</th>
+                    <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Previous Policy
+                        Number
+                    </th>
+                    <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Policy Start Date
+                    </th>
+                    <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Policy End Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-policy>
+                <tr class="no-border">
+                    <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">{{policy.previousCompany}}
+                    </td>
+                    <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">{{policy.previousPolicyno}}
+                    </td>
+                    <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">{{policy.previousStartdate}}
+                    </td>
+                    <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">{{policy.previousEnddate}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                        No previous policy details found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!--  page break -->
+    <div class="page-break"></div>
+    <p class="p-3 mb-3" id="WCPSubTemplate_QuoteValidNote">
+        Quotation is valid for 15 days from the date of quotation
+    </p>
+    <p class="p-3 mb-8" id="WCPSubTemplate_ClientNameAndLocation"
+        *ngIf="this.quote?.otpVerifiedAt || this.quote?.offlineVerificationFormUrl">
+        Signed for and on behalf of the {{this.quote.clientId['name']}} <br>
+        <span>
+            {{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ? 'at : ' : 'URL :'}}
+        </span>
+        <a *ngIf="!this.quote?.otpVerifiedAt" [href]="this.quote.offlineVerificationFormUrl" target="_blank">
+            {{this.quote.offlineVerificationFormUrl}}
+        </a>
+        <span *ngIf="this.quote?.otpVerifiedAt">
+            <b>{{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ?? ''}}</b>
+        </span>
+    </p>
+</div>

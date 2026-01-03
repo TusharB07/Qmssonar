@@ -1,0 +1,79 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="AnnualTurnOverFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="AnnualTurnOverForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="AnnualTurnOverForm_CancelButton" pButton pRipple label="Cancel"
+                                icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field">
+                            <label id="AnnualTurnOverForm_turnoverFromLabel" for="turnoverFrom">Turnover From</label>
+                            <!-- <input  id="AnnualTurnOverForm_turnoverFrom" type="number"  pInputText id="turnoverFrom" formControlName="turnoverFrom" required
+                                 autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['turnoverFrom']}" (focusout)="onFocusOutCountEvent()"/> -->
+                            <input maxlength="100" type="text" placeholder="₹ 0" currencyMask
+                                [options]="{ prefix: '₹ ' , precision:0 }" pInputText id="turnoverFrom"
+                                formControlName="turnoverFrom" required autofocus
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['turnoverFrom']}"
+                                (focusout)="onFocusOutCountEvent()" />
+                            <small id="AnnualTurnOverForm_countFromValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['turnoverFrom']">Turnover From is
+                                required.</small>
+                        </div>
+                        <div class="field">
+                            <label id="AnnualTurnOverForm_turnoverToLabel" for="turnoverTo">Turnover To</label>
+                            <!-- <input  id="AnnualTurnOverForm_turnoverTo" type="number"  pInputText id="turnoverTo" formControlName="turnoverTo" required
+                                   [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['turnoverTo']}" (focusout)="onFocusOutCountEvent()"/>
+                                 -->
+
+                            <input maxlength="100" type="text" placeholder="₹ 0" currencyMask
+                                [options]="{ prefix: '₹ ' , precision:0 }" pInputText id="turnoverTo"
+                                formControlName="turnoverTo" required
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['turnoverTo']}"
+                                (focusout)="onFocusOutCountEvent()" />
+
+                            <small id=" AnnualTurnOverForm_countToValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['turnoverTo']">Turnover To is required.</small>
+                        </div>
+                        <div class="field">
+                            <label id="AnnualTurnOverForm_formattedString" for="abbreviation">Annual Turnover
+                                Range</label>
+                            <input readonly id="AnnualTurnOverForm_formattedString" class="form-control" type="text"
+                                pInputText id="formattedString" formControlName="formattedString" required
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['formattedString']}" />
+                            <small id="AnnualTurnOverForm_formattedStringValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['formattedString']">Employees Count is
+                                required.</small>
+
+                        </div>
+
+                        <div class="field">
+                            <label id="AnnualTurnOverForm_StatusLabel" for="active">Active</label>
+                            <p-toggleButton id="AnnualTurnOverForm_Status" class="form-control" formControlName="active"
+                                onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times"
+                                iconPos="right"></p-toggleButton>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

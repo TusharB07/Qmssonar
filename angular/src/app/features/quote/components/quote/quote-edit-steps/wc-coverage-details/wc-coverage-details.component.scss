@@ -1,0 +1,21 @@
+.currency::first-letter {
+    padding-right: 0.3em;
+}
+
+:host ::ng-deep .tblz01-pdf .custom-border .p-datatable .p-datatable-thead>tr>th {
+    border-top: 2px solid #000000;
+    //  border-top: 1px solid red;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.p-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

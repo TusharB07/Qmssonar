@@ -1,0 +1,145 @@
+<div class="root" *ngIf="!isMobile">
+    <div class="grid pt-3">
+        <!-- <div class="col-12 my-3">
+            <a routerLink="/" label="Money In Transit" type="button" class="btn btn-outline-gray-custom p-2 px-3"><i class="pi pi-angle-left pt-1 mr-2"></i>Back To Dashboard</a>
+        </div> -->
+
+        <div class="col-12">
+            <div class="px-5">
+                <div class="flex align-items-center justify-content-between grid">
+
+                    <div class="align-items-center col-2">
+                        <a routerLink="/backend" class="btn btn-dark" [style]="{'font-size':'16px'}"><i
+                                class="pi pi-angle-left" style="font-size: 1rem"
+                                id="QuoteViewPage_BackToDashbaord"></i>Back to Dashboard</a>
+                    </div>
+
+                    <div class="flex align-items-center justify-content-between pr-2 col-9">
+                        
+                        <div>
+                            <h6 class="ml-2 form-label">Products</h6>
+                            <p-multiSelect id="QuoteViewPage_UpdatedQuoteStages" [options]="this.optionsProducts"
+                                (ngModelChange)="this.updateQuoteStages($event, 'Product')" optionValue="value"
+                                optionLabel="label" [(ngModel)]="this.selectedProducts" placeholder="Select Products"
+                                class="multiSelect"></p-multiSelect>
+                        </div>
+
+                        <div>
+                            <h6 class="ml-2 form-label">Clients</h6>
+                            <p-multiSelect id="QuoteViewPage_UpdatedQuoteStages" [options]="this.optionsClients"
+                                (ngModelChange)="this.updateQuoteStages($event, 'Client')" optionValue="_id"
+                                optionLabel="name" [(ngModel)]="this.selectedClients" placeholder="Select Clients"
+                                class="multiSelect"></p-multiSelect>
+
+                        </div>
+                        <div>
+                            <h6 class="ml-2 form-label">Quote Status</h6>
+                            <p-multiSelect id="QuoteViewPage_UpdatedQuoteStages" [options]="this.optionsQuoteStages"
+                                (ngModelChange)="this.updateQuoteStages($event,'Stage')" placeholder="Select Quote Status"
+                                [(ngModel)]="this.unSelectedQuoteStages" class="multiSelect"></p-multiSelect>
+
+                        </div>
+
+
+                        <p-calendar [numberOfMonths]="2" id="Dashboard_StartDateAndEndDate" [(ngModel)]="this.dateRange"
+                            (ngModelChange)="this.rangeChanged($event)" [maxDate]="this.dateToday" [showIcon]="true"
+                            selectionMode="range" inputId="date" dateFormat="dd/mm/yy">
+                        </p-calendar>
+
+
+                        <p-selectButton class="align-items-center" id="QuoteViewPage_ChangeView"
+                            [options]="this.optionsViewTypes" (ngModelChange)="this.changeView($event)"
+                            [(ngModel)]="this.selectedViewType" optionValue="code" optionLabel="icon"
+                            optionLabel="label"></p-selectButton>
+
+
+                        <button *ngIf="this.isAllowedCreateQuote" (click)="this.createQuote()" type="button"
+                            class="btn btn-primary"><i class="pi pi-plus pt-1 mr-2"
+                                id="QuoteKanban_CreateTask"></i>Create Quote</button>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="col-12">
+            <div class="" *ngIf="this.selectedViewType == AllowedQuoteView.KANBAN">
+                <app-sub-view-kanban id="QuoteViewPage_SubViewKanban"
+                    [selectedQuoteStages]="this.queryParam"></app-sub-view-kanban>
+            </div>
+            <div class="" *ngIf="this.selectedViewType == AllowedQuoteView.TABLE">
+                <app-sub-view-table id="QuoteViewPage_SubViewTable"
+                    [selectedQuoteStages]="this.queryParam"></app-sub-view-table>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isMobile">
+    <div class="px-4">
+        <span class="block font-bold mb-2">Select Date</span>
+        <p-calendar [numberOfMonths]="1" id="Dashboard_StartDateAndEndDate" [(ngModel)]="this.dateRange"
+            (ngModelChange)="this.rangeChanged($event)" [maxDate]="this.dateToday" [showIcon]="true"
+            selectionMode="range" inputId="date" dateFormat="dd/mm/yy" [style]="{'width':'100%'}">
+        </p-calendar>
+    </div>
+    <div class="" *ngIf="this.selectedViewType == AllowedQuoteView.KANBAN">
+        <app-sub-view-kanban id="QuoteViewPage_SubViewKanban"
+            [selectedQuoteStages]="this.queryParam"></app-sub-view-kanban>
+    </div>
+    <div class="" *ngIf="this.selectedViewType == AllowedQuoteView.TABLE">
+        <app-sub-view-table id="QuoteViewPage_SubViewTable"
+            [selectedQuoteStages]="this.queryParam"></app-sub-view-table>
+    </div>
+    <div class="grid">
+        <div class="col-12 mobile-quote-create">
+            <a (click)="this.openCreateQuote()" pButton
+                class="p-button-success p-blue-button mobile-quote-create-button flex justify-content-center"
+                id="Dashboard_AddQuote">
+                <div class="w-full">
+                    <i class="pi pi-plus pr-2"></i> Create Quote
+                </div>
+            </a>
+        </div>
+        <i class="pi pi-sliders-h mobile-filters" (click)="displayFilters = true"></i>
+    </div>
+    <p-dialog class="custom-dialog" [(visible)]="displayFilters" position="bottom" [modal]="true"
+        [style]="{width: '100vw', margin: 'unset', overflow:'hidden',height:'88vh'}" [draggable]="false"
+        [resizable]="false">
+        <div class="mb-5">
+            <h5 class="mb-2">Users</h5>
+            <p-multiSelect class="custom-multiselect" *ngIf="isAllowedUserFilter" id="QuoteViewPage_UpdatedQuoteStages"
+                [options]="this.optionsUsers" optionLabel="name" optionValue="_id"
+                (ngModelChange)="this.updateQuoteStages($event, 'User')"
+                [(ngModel)]="this.selectedUsers"></p-multiSelect>
+        </div>
+        <div class="my-5">
+            <h5 class="mb-2">Products</h5>
+            <p-multiSelect class="custom-multiselect" id="QuoteViewPage_UpdatedQuoteStages"
+                [options]="this.optionsProducts" (ngModelChange)="this.updateQuoteStages($event, 'Product')"
+                optionValue="value" optionLabel="label" [(ngModel)]="this.selectedProducts"></p-multiSelect>
+        </div>
+        <div class="my-5">
+            <h5 class="mb-2">Clients</h5>
+            <p-multiSelect class="custom-multiselect" id="QuoteViewPage_UpdatedQuoteStages"
+                [options]="this.optionsClients" (ngModelChange)="this.updateQuoteStages($event, 'Client')"
+                optionValue="_id" optionLabel="name" [(ngModel)]="this.selectedClients"></p-multiSelect>
+        </div>
+        <div class="my-5">
+            <h5 class="mb-2">Quote Stages</h5>
+            <p-multiSelect class="custom-multiselect" id="QuoteViewPage_UpdatedQuoteStages"
+                [options]="this.optionsQuoteStages" (ngModelChange)="this.updateQuoteStages($event,'Stage')"
+                [(ngModel)]="this.selectedQuoteStages"></p-multiSelect>
+
+        </div>
+        <div class="sidemenu-footer">
+            <button class="mb-2 h-3rem font-bold" pButton pRipple type="button" id="Login_Submit" label="Apply Filter"
+                style="background: #2156c2; border-color: #2156c2; width: 91%"
+                (click)="displayFilters = false"></button>
+        </div>
+    </p-dialog>
+</div>

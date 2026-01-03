@@ -1,0 +1,9 @@
+.buttons{
+    display: grid;
+    place-items: center;
+    }
+    .currency::first-letter{
+        // display: none;
+        // visibility: none;
+        font-size: 0px !important
+    }

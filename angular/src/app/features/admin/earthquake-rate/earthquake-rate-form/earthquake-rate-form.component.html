@@ -1,0 +1,196 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="EarthQuakeRateFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="EarthQuakeRateForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="EarthQuakeRateForm_CancelButton" pButton pRipple label="Cancel"
+                                icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="EarthQuakeRateForm_GeneralInformation">General Information</h5>
+
+                    <div class="field" *ngIf="this.role.name == AllowedRoles.ADMIN">
+                        <label id="UserForm_PartnerLabel" for="name">Partner</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="UserForm_Partner" [dropdown]="true"
+                            optionValue="value" field="label" formControlName="partnerId"
+                            [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        <small id="UserForm_Partner_ValidationError"
+                            *ngIf="this.recordForm.controls['partnerId'].errors?.required" class="ng-invalid">This field
+                            Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="EarthQuakeRateForm_ProductLabel" for="productId">Product</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="EarthQuakeRateForm_Product" [dropdown]="true"
+                            [suggestions]="this.optionsProducts" field="label" formControlName="productId"
+                            (completeMethod)="this.searchOptionsProducts($event)" (onSelect)="this.hideRate($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <!-- <div class="field">
+                        <label id="EarthQuakeRateForm_IndustryTypeLabel" for="industryTypeId">IndustryType</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="EarthQuakeRateForm_IndustryType" [dropdown]="true"
+                            [suggestions]="this.optionsIndustryType" field="label" formControlName="industryTypeId"
+                            (completeMethod)="this.searchOptionsIndustryType($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['industryTypeId'].valid}"></p-autoComplete>
+                    </div> -->
+                    <div class="field">
+                        <label for="sectorId">Sector</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsSectors"
+                            field="label" formControlName="sectorId" (completeMethod)="this.searchOptionsSector($event)" 
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['sectorId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <div class="field">
+                        <label id="EarthQuakeRateForm_occupancyLabel" for="occupancyId">Occupancy</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="EarthQuakeRateForm_IndustryType" [dropdown]="true"
+                            [suggestions]="this.optionOccupancy" field="label" formControlName="occupancyId"
+                            (completeMethod)="this.searchOptionsOccupancy($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['industryTypeId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <div class="field">
+                        <label id="EarthQuakeRateForm_ZoneLabel" for="zone">Zone</label>
+
+                        <p-dropdown [disabled]="this.mode == 'edit'" id="EarthQuakeRateForm_ZoneLabel" class="form-control" [options]="this.optionsEarthquakeZones" placeholder="Zone" optionLabel="label" optionValue="value" [showClear]="true" formControlName="zone" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['zone'].valid}"></p-dropdown>
+                        <small id="EarthQuakeRateForm_ZoneLabelValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['zone']?.errors?.required">Earthquake Zone is required.</small>
+                    </div>
+                    
+                    <div class="field" *ngIf="isHide">
+                        <!-- <label id="EarthQuakeRateForm_RateLabel" for="rate">Rate</label>
+                        <input id="EarthQuakeRateForm_Rate" class="form-control" type="text" pInputText id="rate"
+                            formControlName="rate" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rate']}" />
+                        <small id="EarthQuakeRateForm_RateValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rate']">Rate is
+                            required.</small> -->
+                            <label id="EarthQuakeRateForm_RateLabel" for="rate">Rate</label>
+                        <input id="EarthQuakeRateForm_Rate" class="form-control" type="text" pInputText id="rate"
+                            formControlName="rate" autofocus/>
+                              <div *ngIf="!rate?.valid && (rate?.dirty ||rate?.touched || submitted)">
+                                <div [hidden]="!rate.errors.required">
+                                  <small class="ng-dirty ng-invalid">Rate is required</small>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="field" *ngIf="isHide">
+                        <label id="EarthQuakeRateForm_tenurewiseRateLabel" for="rate">Tenurewise Rate</label>
+                        <input id="EarthQuakeRateForm_tenurewiseRate" class="form-control" type="text" pInputText id="tenurewiseRate"
+                            formControlName="tenurewiseRate" autofocus />
+                        <!-- <small id="EarthQuakeRateForm_RateValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rate']">Rate is
+                            required.</small> -->
+                    </div>
+                    
+                    <!--This is for only for Griha Lite Start-->
+                    <!-- Building Rate -->
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_bulidingRateLabel" for="buildingRate">Building Rate</label>
+                        <input id="EarthQuakeRateForm_bulidingRateLabel" class="form-control" type="text" pInputText id="bulidingRate"
+                            formControlName="buildingRate" autofocus/>
+                            <div *ngIf="!buildingRate?.valid && (buildingRate?.dirty ||buildingRate?.touched || submitted)">
+                                <div [hidden]="!buildingRate.errors.required">
+                                  <small class="ng-dirty ng-invalid">Building Rate is required</small>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_buildingTenurewiseRateLabel" for="rate">Building Tenurewise Rate</label>
+                        <input id="EarthQuakeRateForm_buildingTenurewiseRate" class="form-control" type="text" pInputText id="buildingTenurewiseRate"
+                            formControlName="buildingTenurewiseRate" autofocus />
+                        <!-- <small id="EarthQuakeRateForm_RateValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rate']">Rate is
+                            required.</small> -->
+                    </div>
+                    <!-- Content Rate -->
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_contentRateLabel" for="contentRate">Content Rate</label>
+                        <input id="EarthQuakeRateForm_contentRate" class="form-control" type="text" pInputText id="contentRate"
+                            formControlName="contentRate" required autofocus />
+                            <div *ngIf="!contentRate?.valid && (contentRate?.dirty ||contentRate?.touched || submitted)">
+                                <div [hidden]="!contentRate.errors.required">
+                                  <small class="ng-dirty ng-invalid">Content Rate is required</small>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_contentTenurewiseRateLabel" for="rate">Content Tenurewise Rate</label>
+                        <input id="EarthQuakeRateForm_contentTenurewiseRate" class="form-control" type="text" pInputText id="contentTenurewiseRate"
+                            formControlName="contentTenurewiseRate" autofocus />
+                        <!-- <small id="EarthQuakeRateForm_RateValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rate']">Rate is
+                            required.</small> -->
+                    </div>
+                    <!--This is for only for Griha Lite End-->
+
+                    <div class="field">
+                        <label for="applicableFrom" id="EarthQuakeRateForm_ApplicableFromLabel">Applicable From</label>
+                        <!-- <input class="form-control" type="text" pInputText id="applicableFrom"
+                            formControlName="applicableFrom" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['applicableFrom']}" /> -->
+                        <p-calendar [disabled]="this.mode == 'edit'" id="EarthQuakeRateForm_ApplicableFrom" class="form-control" type="date" [showIcon]="true" id="applicableFrom" formControlName="applicableFrom" dateFormat="yy-mm-dd"></p-calendar>
+
+                        <small id="EarthQuakeRateForm_ApplicableFromValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['applicableFrom']">Applicable From is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="applicableTo" id="EarthQuakeRateForm_ApplicableToLabel">Applicable To</label>
+                        <!-- <input class="form-control" type="text" pInputText id="applicableTo"
+                            formControlName="applicableTo" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['applicableTo']}" /> -->
+                        <p-calendar id="EarthQuakeRateForm_ApplicableTo" class="form-control" type="date"
+                            [showIcon]="true" id="applicableTo" formControlName="applicableTo" [minDate]="minSelectableDate"
+                            dateFormat="yy-mm-dd"></p-calendar>
+
+                        <small id="EarthQuakeRateForm_ApplicableToValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['applicableTo']">Applicable To is
+                            required.</small>
+                    </div>
+
+                    <div class="field" *ngIf="this.mode == 'edit' && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value">
+                        <label for="taskStatus" id="EarthQuakeRateForm_taskStatusLabel">Task Status</label>
+                        <input id="EarthQuakeRateForm_taskStatus" class="form-control" type="text" pInputText id="taskStatus"
+                        formControlName="taskStatus" />
+                    </div>
+
+                    <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value == 'failed'">
+                        <label for="failedMessage" id="EarthQuakeRateForm_failedMessageLabel">Failed Reasson</label>
+                        <input id="EarthQuakeRateForm_failedMessage" class="form-control" type="text" pInputText id="failedMessage"
+                        formControlName="failedMessage" />
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail id="EarthQuakeRateForm_AuditTrail" [entityId]="this.id"
+                        [entityResourcePrefix]="'earthquake-rate-masters'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

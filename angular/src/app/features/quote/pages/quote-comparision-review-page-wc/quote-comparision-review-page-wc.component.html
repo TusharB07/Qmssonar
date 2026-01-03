@@ -1,0 +1,1022 @@
+<div class="mb-3" *ngIf="this.quote">
+    <div [ngClass]="{'overlay': quickView}" (click)="this.quickView = false"></div>
+    <div class="grid">
+        <div class="col-2 sidebar" style="max-width: 360px">
+            <div class="p-3" data-aos="fade-left">
+
+                <div class="text-center mb-3" id="QuoteComparisoReview_StepsImage">
+                    <img src="/assets/step3-pic.png" width="80px" alt="">
+                </div>
+                <div class="px-3">
+                    <h4 id="QuoteComparisoReview_QuoteNo">Quote Id: {{this.quote.quoteNo}}</h4>
+                    <p id="QuoteComparisoReview_ProductType">
+                        {{this.quote.productId.type}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="" data-aos="fade-up">
+
+                <div class="p-3 ">
+                    <ul>
+                        <li *ngFor="let tab of this.tabs"
+                            [class]="'tab-item ' + (selectedTabId === tab.id ? 'active' : '')"
+                            (click)="this.selectTab(tab)" id="QuoteComparisoReview_SelectTab">
+                            <div class="flex align-items-start p-3">
+                                <i [class]="'pi pi-chevron-right mt-1 mr-3' "></i> <span>{{tab.label}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="p-3">
+                <div class="edit-quote-link-container">
+                    <!-- Top Section with Title and Buttons -->
+                    <div class="header-top">
+                      <!-- Title Section -->
+                      <div class="header-title">
+                        <strong>
+                            <a style="color: blue;"> <i class="pi pi-chart-bar mr-3" style="font-size: 1.5rem"
+                                id="QuoteComparisoReview_ViewAnalytics"></i> {{
+                            this.quote?.hasOwnProperty('qcrVersion') ?
+                            ('Quote Comparison Report (QCR) - Version_' + this.quote?.qcrVersion) :
+                            'Quote Comparison Report (QCR)' }}
+                        </a>
+                        </strong>
+                      </div>
+          
+                      <!-- Action Buttons -->
+                      <div class="header-actions">
+                        <button class="btn-custom" (click)="downloadExcel()">
+                          <i class="pi pi-download"></i>
+                          Download Excel
+                        </button>
+                        <button class="btn-custom" (click)="toggleQuickView()">Quick QCR View</button>
+                        <button class="btn-custom" (click)="qcrEdit(quote.quoteNo)">QCR Edit</button>
+                      </div>
+          
+                      <!-- Approval Buttons -->
+                      <div class="header-approval"
+                        *ngIf="user._id == quote?.assignedToPlacementCheckerId && !quote.qcrApproved && quote.qcrApprovedRequested">
+                        <button class="btn-primary" (click)="pushBackTo()">Push Back</button>
+                        <button class="btn-primary" (click)="sendQuoteForApprovalbymaker()">Approve</button>
+                      </div>
+          
+                      <div
+                        *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && !this.quote.qcrApproved && this.quote.qcrApprovedRequested">
+                        <button class="btn-primary" (click)="this.pushBackTo()">Push Back</button>
+                        <button class="btn-primary" type="button" (click)="sendQuoteForApprovalbymaker()">Approve</button>
+                      </div>
+                      <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                        <div *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId">
+                          <div *ngIf="this.quote.qcrApprovedRequested == false">
+                            <button class="btn-primary" (click)="sendQuoteForApproval()">Send for approval</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <!-- Bottom Section with Dropdowns -->
+                    <div class="header-bottom">
+                      <div class="header-dropdowns">
+                        <div class="dropdown-group">
+                          <label class="dropdown-label">Select Version: </label>
+                          <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleVersion"
+                            placeholder="Select Version" [(ngModel)]="selectedVersion" (onChange)="onVersionChange($event)"
+                            [options]="versionOptions" field="label"></p-dropdown>
+                        </div>
+          
+                        <div class="dropdown-group">
+                          <label class="dropdown-label">Select Option: </label>
+                          <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleOptions"
+                            placeholder="Select Option" [(ngModel)]="selectedQuoteOption"
+                            (onChange)="handleQuoteOptionChangeLiability($event)" [options]="optionsQuoteOptions"
+                            field="label"></p-dropdown>
+                        </div>
+          
+                        <div class="dropdown-group">
+                          <label class="dropdown-label">Select Insurer: </label>
+                          <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleIC"
+                            placeholder="Select Insurer" [(ngModel)]="selectedInsurer" optionLabel="name"
+                            (onChange)="showInsuranceCompanyDetails($event)" class="custom-dropdown" [options]="this.dropdownName"
+                            field="label"></p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="p-3  ">
+                    <div class="quote-comparision-table">
+                        <p-table [value]="this.mapping" responsiveLayout="scroll">
+                            <ng-template pTemplate="header">
+                                <tr class="header">
+                                    <th [style]="col.style" class="text-left" *ngFor="let col of cols"
+                                        id="QuoteComparisoReview_BrokerLabel"
+                                        [ngClass]="{'text-right' : this.selectedTabId =='add_ons' || this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'business_suraksha_covers'}">
+                                        {{col.label}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item let-mappingIndex="rowIndex">
+                                <tr>
+                                    <td [style]="col.style" class="text-left" *ngFor="let col of cols">
+                                        <div class="">
+                                            <div class="" *ngIf="item[col.id]?.type == 'string'"
+                                                id="QuoteComparisoReview_value"
+                                                [ngClass]="{'text-right' : item[col.id]?.isAlignmentRequired}"
+                                                [style.color]="item[col.id].styleaddon">
+                                                {{item[col.id]?.value ?? ''}}
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'html'"
+                                                id="QuoteComparisoReview_value2">
+                                                <div [innerHtml]="item[col.id]?.value"></div>
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'button'"
+                                                id="QuoteComparisoReview_ItemIdValue"
+                                                [ngClass]="{'text-right' : this.selectedTabId =='add_ons' || this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'business_suraksha_covers'}">
+                                                <button [class]="item[col.id].buttonClassName"
+                                                    (click)="item[col.id].onClick()">{{item[col.id].value}}</button>
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'buttons'"
+                                                id="QuoteComparisoReview_ButtonValue"
+                                                [ngClass]="{'text-right' : this.selectedTabId =='add_ons' || this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'business_suraksha_covers'}">
+                                                <button *ngFor="let button of item[col.id]?.buttons"
+                                                    [class]="button.buttonClassName"
+                                                    (click)="button.onClick()">{{button.value}}</button>
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'boolean'"
+                                                id="QuoteComparisoReview_ItemValue"
+                                                [ngClass]="{'text-right' : this.selectedTabId == 'add_ons'}">
+                                                <i *ngIf="item[col.id]?.value" class="pi pi-check"
+                                                    style="font-weight: 700; color: green"></i>
+                                                <i *ngIf="!item[col.id]?.value" class="pi pi-times"
+                                                    style="font-weight: 700;color: red"></i>
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'tickOrValue'"
+                                                id="QuoteComparisoReview_TicketOrValue">
+                                                <div *ngIf="item[col.id]?.value" id="QuoteComparisoReview_IdValue">
+                                                    {{item[col.id]?.value}}</div>
+                                                <i *ngIf="!item[col.id]?.value" class="pi pi-check"
+                                                    id="QuoteComparisoReview_NotIdValue"
+                                                    style="font-weight: 700; color: green"></i>
+                                            </div>
+                                            <div class="" *ngIf="item[col.id]?.type == 'currency'"
+                                                id="QuoteComparisoReview_Currency"
+                                                [ngClass]="{'text-right' : this.selectedTabId =='add_ons' || this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'business_suraksha_covers'}">
+                                                <span [style.color]="item[col.id].styleaddon"><app-currency
+                                                        [maximumFractionDigits]="0"
+                                                        [value]="(item[col.id]?.value ?? 0)"></app-currency></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="p-3  s">
+                    <div class="quote-comparision-table  comparasionTable">
+                        <table *ngIf="questionAnswerListToBind.length > 0" style="font-size: 11px;">
+                            <tbody>
+                                <tr style="border: 1px solid #0064BB;">
+                                    <td [attr.colspan]="ques.colspan"
+                                        style="border: 1px solid #0064BB;text-align: center;"
+                                        *ngFor="let ques of qcrHeadersLst">
+                                        {{ques.label}}
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid #0064BB;">
+                                    <td *ngFor="let quest of qcrHeaderTwoLst" [attr.colspan]="quest.colspan"
+                                        style="border: 1px solid #0064BB;text-align: center;">
+                                        <b>{{quest.label}}</b>
+                                    </td>
+
+                                </tr>
+                                <tr style="border: 1px solid #0064BB;">
+                                    <td *ngFor="let quest of qcrHeaderTwoLst"
+                                        style="border: 1px solid #0064BB; text-align: center;">
+                                        <span *ngIf="quest.quoteId!=''">
+                                            <!-- <button class="btn btn-sm btn-primary  p-0 px-2"
+                                                *ngIf="quest.quoteFor!='IC'" (click)="openQuoteSlip()">View
+                                                Quote</button> -->
+                                            <button style="width: 145px;" class="btn btn-sm btn-success"
+                                                *ngIf="quest.quoteFor=='IC' && quest.showButton"
+                                                (click)="generatePlacementSlip(quest.quoteId,quest.optionId)">Generate
+                                                Placement
+                                                Slip</button>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td *ngFor="let quest of qcrHeaderTwoLst"
+                                        style="border: 1px solid #0064BB;text-align: center;">
+                                        <p class="btn btn-sm btn-info  p-0 px-2"
+                                            *ngIf="quest.quoteId!='' && quest.quoteFor=='IC' && quest.indicativePremium>0">
+                                            {{quest.indicativePremium | currency:'INR'}}</p>
+                                    </td>
+
+                                </tr>
+                                <tr *ngFor="let ques of questionAnswerList" style="border: 1px solid #0064BB;">
+
+                                    <td style="border: 1px solid #0064BB;" [attr.colspan]="ques.colspan">
+                                        <span *ngIf="ques.isSubHeader">
+                                            <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                                                &nbsp;&nbsp;{{ques.question}}</h5>
+
+                                        </span>
+                                        <!-- <span *ngIf="ques.isHeader" style="padding-left: 5px;">
+                                            <h3>{{ques.question}}</h3>
+                                        </span> -->
+                                        <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                                                style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                                    </td>
+                                    <td *ngFor="let ans of ques.answer" style="border: 1px solid #0064BB;">
+                                        <span [ngClass]="{'redText': ans.isChanged === true}"> {{ans.answer}}</span>
+                                    </td>
+                                </tr>Employment Details
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+
+                        <div class="px-5" *ngIf="this.selectedTabId == 'wm_details'">
+                            <p-card class="">
+                                <div class="tblz02-pdf">
+                                    <p-table [value]="this.wcRatesInfo" responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                        responsiveLayout="scroll">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center text-black"
+                                                id="WCPSubTemplate_EmployementDetails_Header" style="font-size:small; ">
+                                                Employment Details
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th *ngIf="isNamed" class="tableBorder" class="text-center text-black">
+                                                    Name
+                                                </th>
+                                                <th *ngIf="isNamed" class="tableBorder" class="text-center text-black">
+                                                    Age
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Type of Industry
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Occupation of Employees
+                                                </th>
+                                                <th *ngIf="!isNamed" class="tableBorder" class="text-center text-black">
+                                                    Total Number of Employees
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Total Earnings
+                                                </th>
+                                                <!-- <th class="tableBorder" class="text-center text-black">
+                                                    Period Covered In Months
+                                                </th> -->
+                                                <!-- <th class="tableBorder" class="text-center text-black">
+                                                    Description Of Employees
+                                                </th> -->
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-wcRatesRecord>
+                                            <tr class="no-border">
+                                                <td *ngIf="isNamed" id="wcRates_natureOfWork" class="text-left">
+                                                    {{wcRatesRecord.name }}
+                                                </td>
+                                                <td *ngIf="isNamed" id="wcRates_natureOfWork" class="text-left">
+                                                    {{wcRatesRecord.age }}</td>
+                                                <td id="wcRates_natureOfWork" class="text-left">
+                                                    {{wcRatesRecord.natureOfWork }}</td>
+                                                <td id="wcRates_natureOfWork" class="text-left">
+                                                    {{wcRatesRecord.typeOfEmployees }}</td>
+                                                <td *ngIf="!isNamed" id="wcRates_typeOfEmployees" class="text-right">
+                                                    {{wcRatesRecord.noOfEmployees }}</td>
+                                                <td id="wcRates_salaryPerMonth" class="text-right text-nowrap">
+                                                    <span><app-currency
+                                                            [value]="(wcRatesRecord.salaryPerMonth ?? 0)"></app-currency></span>
+                                                </td>
+                                                <!-- <td id="wcRates_noOfEmployees" class="text-right">{{wcRatesRecord.PeriodCoveredInMonths}}
+                                                </td> -->
+                                                <!-- <td id="wcRates_noOfEmployees" class="text-left">{{wcRatesRecord.typeOfEmployees}}</td> -->
+                                                <!-- <td id="wcRates_descriptionOfEmployees" class="text-left">
+                                                    {{wcRatesRecord.descriptionOfEmployees}}</td> -->
+                                            </tr>
+
+                                        </ng-template>
+                                        <ng-template pTemplate="footer">
+                                            <tr>
+                                                <td class="text-center text-right text-nowrap"
+                                                    [attr.colspan]="isNamed ? 3 : 2">
+                                                    <span
+                                                        style="font-size:1rem; font-weight: bold; color: black;">Total:</span>
+                                                </td>
+                                                <td class="text-center text-right text-nowrap" *ngIf="!isNamed">
+                                                    <span style="font-weight: bold; color: black;">{{ getTotalEmployee()
+                                                        }}</span>
+                                                </td>
+                                                <td *ngIf="isNamed"></td>
+                                                <td class="text-center text-right text-nowrap">
+                                                    <span style="font-weight: bold; color: black;">
+                                                        <app-currency [value]="getTotalSalary() ?? 0"></app-currency>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+
+
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="WCSubTemplate_NoRecordsFoundMSG">
+                                                    No records found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+
+                                    <div class="m-3 tblz02-pdf" *ngIf="this.safetyMeasuresInfo.length>0">
+                                        <p-table [value]="this.safetyMeasuresInfo" responsiveLayout="scroll"
+                                            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                            responsiveLayout="scroll">
+                                            <ng-template pTemplate="caption">
+                                                <h6 class="text-center text-black" style="font-size: small;">
+                                                    Safety Measures
+                                                </h6>
+
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-sf>
+                                                <tr class="no-border">
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        {{sf}}</td>
+                                                </tr>
+                                                <!-- <tr class="mb-5">
+                                                <th colspan="7" style="height: 50px">
+                                                    <hr style="border-top: dashed 3px;border-color : #0462BC">
+                                                </th>
+                                            </tr> -->
+                                            </ng-template>
+
+                                            <ng-template pTemplate="emptymessage" let-columns>
+                                                <tr>
+                                                    <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                                        No safety measures found
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+
+                                    <br />
+
+                                    <p-table [value]="liabiltyCoversBroker" responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                        responsiveLayout="scroll">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center text-black"
+                                                id="WCPSubTemplate_EmployementDetails_Header">
+                                                Add-Ons Covers
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Covers Name
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Covered/Not Covered
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Activity Name
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-rowData>
+                                            <tr style="border-top: 1px solid #dee2e6;">
+                                                <td style="width: 40%;" id="conditionalFreeAddOnDialog_CoverIdName">
+                                                    {{rowData?.name}}
+                                                </td>
+                                                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                                                    {{rowData.optionSelected}}
+                                                </td>
+                                                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                                                    {{rowData.description}}
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                                    No AddOn Covers were selected
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+
+                                </div>
+                            </p-card>
+                            <p-card class="card">
+                                <div class=" tblz02-pdf mt-4">
+                                    <table class="static-table-1" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td class="text-black" id="WCPSubTemplate_AdditionalCovers_Header"
+                                                style="font-size:small;">Additional Covers</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black" id="WCPSubTemplate_FreeCovExtn_Header"
+                                                style="font-size:small;">Coverage Extension - Free</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black">
+                                                Coverage
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td id="WCPSubTemplate_FreeCovExtn">
+                                                <ng-container *ngFor="let freeCov of wccoverageTypesFree">
+                                                    <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black">
+                                                Standard
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td id="WCPSubTemplate_FreeCovExtn">
+                                                <ng-container *ngFor="let freeCov of wcStandardcoverageType">
+                                                    <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-black" id="WCPSubTemplate_PaidCovExtn_Header"
+                                                style="font-size:small;">Coverage Extension - Paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="WCPSubTemplate_PaidCovExtn">
+                                                <div>
+                                                    <p style="font-size:small;">Is Medical extension common for all
+                                                        type of employee? - <span
+                                                            *ngIf=" this.wcTemplateModel.allmedicalBenifitsYesNo"
+                                                            class="text-black" style="font-size:smaller;">Yes</span>
+                                                        <span *ngIf="!this.wcTemplateModel.allmedicalBenifitsYesNo"
+                                                            class="text-black">No</span>
+                                                    </p>
+                                                </div>
+                                                <div class="mt-3 custom-border"
+                                                    *ngIf="this.wcTemplateModel.allmedicalBenifitsYesNo">
+                                                    <p-table
+                                                        *ngIf="!this.wcTemplateModel.isActual && this.wcTemplateModel.medicalBenifitsOption=='ME'"
+                                                        [value]="this.wcMedicalBenifitsYesLstME"
+                                                        responsiveLayout="scroll" dataKey="id"
+                                                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                                        responsiveLayout="scroll">
+                                                        <ng-template pTemplate="caption">
+                                                            <h4 style="font-size:small;" class="text-center text-black"
+                                                                id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header">
+                                                                Medical Extension Benefits
+                                                            </h4>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="header">
+                                        <tr>
+                                            <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                class="text-center text-black">Medical Extension Benefits</th>
+                                            <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                class="text-center text-black">Amount(₹) </th>
+                                        </tr>
+
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-mbenifits>
+                                            <tr class="no-border">
+                                                <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                    {{mbenifits.medicalBenifitsOption}}</td>
+                                                <td id="wcRates_safertymeasures" class="text-center text-right">
+                                                    <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                                            [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                                    <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                                    No Medical Extension Benefits found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        </p-table>
+
+                                        <p-table *ngIf="this.wcTemplateModel.medicalBenifitsOption=='ME_AGGREGATE'"
+                                            [value]="this.wcMedicalBenifitsYesLstMEAggregate" responsiveLayout="scroll"
+                                            dataKey="id"
+                                            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                            responsiveLayout="scroll">
+                                            <ng-template pTemplate="caption">
+                                                <h4 style="font-size:small;" class="text-center text-black"
+                                                    id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header">
+                                                    Medical Extension Benefits
+                                                </h4>
+                                            </ng-template>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">Medical Extension Benefits</th>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">Is Actual ?</th>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">Amount(₹) </th>
+                                                </tr>
+
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-mbenifits>
+                                                <tr class="no-border">
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        {{mbenifits.medicalBenifitsOption}}</td>
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        {{mbenifits.isActual}}</td>
+                                                    <td id="wcRates_safertymeasures" class="text-center text-right">
+                                                        <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                                                [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                                        <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+
+                                            <ng-template pTemplate="emptymessage" let-columns>
+                                                <tr>
+                                                    <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                                        No Medical extension benefits found
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+
+                                </div>
+
+
+                                </td>
+                                </tr>
+                                </table>
+                        </div>
+
+                        <div class="tblz02-pdf  mt-4">
+                            <p-table *ngIf="this.quote.quoteType=='rollover'" [value]="this.prvPolicyInfo"
+                                responsiveLayout="scroll" dataKey="id"
+                                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                responsiveLayout="scroll">
+                                <ng-template pTemplate="caption">
+                                    <h4 class="text-center text-black" id="WCPSubTemplate_prvPolicyDetails_Header"
+                                        style="font-size:small;">
+                                        Previous Policy Details
+                                    </h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">
+                                            Previous Company</th>
+                                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">
+                                            Previous Policy Number</th>
+                                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">
+                                            Policy Start Date</th>
+                                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">
+                                            Policy End Date</th>
+
+                                    </tr>
+
+                                </ng-template>
+                                <ng-template pTemplate="body" let-policy>
+                                    <tr class="no-border">
+                                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                                            {{policy.previousCompany}}</td>
+                                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                                            {{policy.previousPolicyno}}</td>
+                                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                                            {{policy.previousStartdate}}</td>
+                                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                                            {{policy.previousEnddate}}</td>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                            No previous policy details found
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+
+                        <div class="mt-3 custom-border">
+                            <p-table [value]="this.premiumLstBroker" responsiveLayout="scroll"
+                                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                responsiveLayout="scroll">
+                                <ng-template pTemplate="header">
+                                    <tr>
+
+                                        <th id="WCPSubTemplate_Discountbasedonpremium%%_Header"
+                                            class="text-center text-black">Discount based on premium (%)</th>
+                                        <th id="WCPSubTemplate_AddOnCovers_Header" class="text-center text-black">Addons
+                                            Covers(₹) </th>
+                                        <th id="WCPSubTemplate_TargetPremium_Header" class="text-center text-black">
+                                            Target Premium(₹) </th>
+                                        <th id="WCPSubTemplate_TotalPremium_Header" class="text-center text-black">Total
+                                            Premium(₹) </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-premium>
+                                    <tr class="no-border">
+                                        <td id="WCPSubTemplate_discountbasedonPremium"
+                                            class="text-center text-right text-nowrap ">
+                                            <span>{{premium.discountbasedonPremium}}</span>
+                                        </td>
+                                        <td id="WCPSubTemplate_addonCoversAmount"
+                                            class="text-center text-right text-nowrap "><span><app-currency
+                                                    [value]="(premium.addonCoversAmount ?? 0)"></app-currency></span>
+                                        </td>
+                                        <td id="WCPSubTemplate_targetPremium"
+                                            class="text-center text-right text-nowrap "><span><app-currency
+                                                    [value]="(premium.targetPremium ?? 0)"></app-currency></span></td>
+                                        <td id="WCPSubTemplate_TotalPremium" class="text-black text-right text-nowrap ">
+                                            <span><app-currency
+                                                    [value]="(premium.indicativePremium ?? 0)"></app-currency></span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td [attr.colspan]="5" id="WCPSubTemplate_NoRecordsFoundMSG">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        </p-card>
+                    </div>
+
+
+                    <div class="px-5" *ngIf="this.selectedTabId == 'wm_details'">
+                        <div *ngFor="let quoteInsurer of this.quote?.insurerProcessedQuotes;let i=index" class="px-5">
+                            <hr style="border-top: dashed 3px;border-color: #000000">
+
+                            <h4 class="text-center text-black" style="font-size: small; margin-bottom: 10px;">
+                                Underwriter
+                                Review - {{quoteInsurer.partnerId['name']}}</h4>
+
+                            <p-card>
+                                <div class="tblz02-pdf mt-4">
+
+                                    <p-table [value]="underWriterEditData[i].covers" responsiveLayout="scroll"
+                                        dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                        responsiveLayout="scroll">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center text-black"
+                                                id="WCPSubTemplate_EmployementDetails_Header">
+                                                Add-Ons Covers
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Covers Name
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Covered/Not Covered
+                                                </th>
+                                                <th class="tableBorder" class="text-center text-black">
+                                                    Activity Name
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-rowData>
+                                            <tr style="border-top: 1px solid #dee2e6;">
+                                                <td style="width: 40%;" id="conditionalFreeAddOnDialog_CoverIdName">
+
+                                                    <span [ngClass]="{'redText': rowData.changed}">
+                                                        {{rowData?.name}}
+                                                    </span>
+                                                </td>
+                                                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                                                    <span [ngClass]="{'redText': rowData.changed}">
+
+                                                        {{rowData.optionSelected}}
+                                                    </span>
+                                                </td>
+                                                <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                                                    <span [ngClass]="{'redText': rowData.changed}">
+
+                                                        {{rowData.description}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                                    No AddOn Covers were selected
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+                                </div>
+
+                                <!-- <br/>
+                            <div class="tblz02-pdf mt-4">
+                                <div class="mt-3 custom-border">
+                                    <p-table [value]="underWriterEditData[i].deductiblesInsurer"
+                                        responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip">
+                                        <ng-template pTemplate="caption">
+                                            <h4 style="font-size: small;" class="text-center text-black"
+                                                id="WCPSubTemplate_Deductibles_Header">
+                                                Deductibles
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th id="WCPSubTemplate_Deductibles_Header"
+                                                    class="text-center text-black">Descriptions</th>
+                                                <th id="WCPSubTemplate_Deductibles_Header"
+                                                    class="text-center text-black">Amount(₹)</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-deductible>
+                                            <tr class="no-border">
+                                                <td id="wcRates_safertymeasures_description" class="text-left">
+                                                    <span [ngClass]="{'redText': deductible.changed}">{{
+                                                        deductible.description }}</span>
+                                                </td>
+                                                <td id="wcRates_safertymeasures_amount" class="text-right">
+                                                    <span *ngIf="deductible.amount !== 0"
+                                                        [ngClass]="{'redText': deductible.changed}">
+                                                        <app-currency [value]="(deductible.amount ?? 0)"></app-currency>
+                                                    </span>
+                                                    <span *ngIf="deductible.amount === 0"
+                                                        [ngClass]="{'redText': deductible.changed}">N/A</span>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td [attr.colspan]="2" id="wcSubTemplate_NoRecordsFound"
+                                                    class="text-center" style="text-align: left;">
+                                                    No Deductibles found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div> -->
+
+                                <br />
+                                <div class="tblz02-pdf mt-4">
+                                    <div class="tblz02-pdf mt-4"
+                                        *ngIf="underWriterEditData[i].template.allmedicalBenifitsYesNo">
+                                        <p-table
+                                            *ngIf="!underWriterEditData[i].template.isActual && underWriterEditData[i].template.medicalBenifitsOption == 'ME'"
+                                            [value]="underWriterEditData[i].MeInfo" responsiveLayout="scroll"
+                                            dataKey="id"
+                                            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip">
+                                            <ng-template pTemplate="caption">
+                                                <h4 class="text-center text-black"
+                                                    id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header"
+                                                    style="font-size: small;">
+                                                    Medical Extension Benefits
+                                                </h4>
+                                            </ng-template>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">
+                                                        Medical Extension Benefits
+                                                    </th>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">
+                                                        Amount(₹)
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-mbenifits>
+                                                <tr class="no-border">
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.medicalBenifitsOption !== underWriterEditData[i].template.medicalBenifitsOption}">
+                                                            {{mbenifits.medicalBenifitsOption}}
+                                                        </span>
+                                                    </td>
+                                                    <td id="wcRates_safertymeasures" class="text-center text-right">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.medicalBenifitsAmount !== underWriterEditData[i].template.medicalBenifitsAmount}">
+                                                            <span
+                                                                *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                                                    [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                                            <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+
+                                        <p-table
+                                            *ngIf="underWriterEditData[i].template.medicalBenifitsOption == 'ME_AGGREGATE'"
+                                            [value]="underWriterEditData[i].MEAggregateInfo" responsiveLayout="scroll"
+                                            dataKey="id"
+                                            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip">
+                                            <ng-template pTemplate="caption">
+                                                <h4 class="text-center text-black"
+                                                    id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header"
+                                                    style="font-size: small;">
+                                                    Medical Extension Benefits
+                                                </h4>
+                                            </ng-template>
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">
+                                                        Medical Extension Benefits
+                                                    </th>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">
+                                                        Is Actual ?
+                                                    </th>
+                                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header"
+                                                        class="text-center text-black">
+                                                        Amount(₹)
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-mbenifits>
+                                                <tr class="no-border">
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.medicalBenifitsOption !== underWriterEditData[i].template.medicalBenifitsOption}">
+                                                            {{mbenifits.medicalBenifitsOption}}
+                                                        </span>
+                                                    </td>
+                                                    <td id="wcRates_safertymeasures" class="text-center text-left">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.isActual !== underWriterEditData[i].template.isActual}">
+                                                            {{mbenifits.isActual}}
+                                                        </span>
+                                                    </td>
+                                                    <td id="wcRates_safertymeasures" class="text-center text-right">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.medicalBenifitsAmount !== underWriterEditData[i].template.medicalBenifitsAmount}">
+                                                            <span
+                                                                *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                                                    [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                                            <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+
+
+                                    <div class="mt-3 custom-border">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th id="WCPSubTemplate_Discountbasedonpremium%%_Header"
+                                                        class="text-center text-black">
+                                                        Discount based on Premium (%)
+                                                    </th>
+                                                    <th id="WCPSubTemplate_AddOnCovers_Header"
+                                                        class="text-center text-black">
+                                                        Addons Covers (₹)
+                                                    </th>
+                                                    <th id="WCPSubTemplate_TargetPremium_Header"
+                                                        class="text-center text-black">
+                                                        Target Premium (₹)
+                                                    </th>
+                                                    <th id="WCPSubTemplate_TotalPremium_Header"
+                                                        class="text-center text-black">
+                                                        Total Premium (₹)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Assuming underWriterEditData[i].premiumUnderwriter is an array of premium objects -->
+                                                <tr *ngFor="let premium of underWriterEditData[i].premiumUnderwriter">
+                                                    <td id="WCPSubTemplate_discountbasedonPremium"
+                                                        class="text-center text-right text-nowrap">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.discountbasedonPremium !== premium.discountbasedonPremium}">
+                                                            {{premium.discountbasedonPremium}}
+                                                        </span>
+                                                    </td>
+                                                    <td id="WCPSubTemplate_addonCoversAmount"
+                                                        class="text-center text-right text-nowrap">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.addonCoversAmount !== premium.addonCoversAmount}">
+                                                            <app-currency
+                                                                [value]="(premium.addonCoversAmount ?? 0)"></app-currency>
+                                                        </span>
+                                                    </td>
+                                                    <td id="WCPSubTemplate_targetPremium"
+                                                        class="text-center text-right text-nowrap">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.targetPremium !== premium.targetPremium}">
+                                                            <app-currency
+                                                                [value]="(premium.targetPremium ?? 0)"></app-currency>
+                                                        </span>
+                                                    </td>
+                                                    <td id="WCPSubTemplate_TotalPremium"
+                                                        class="text-black text-right text-nowrap">
+                                                        <span
+                                                            [ngClass]="{'redText': this.wcTemplateModel.indicativePremium !== premium.indicativePremium}">
+                                                            <app-currency
+                                                                [value]="(premium.indicativePremium ?? 0)"></app-currency>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Empty message if no records found -->
+                                                <tr *ngIf="underWriterEditData[i].premiumUnderwriter.length === 0">
+                                                    <td colspan="4" class="text-center">No records found</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </p-card>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Quick View Toggler -->
+<div class="p-3 quickView" *ngIf="this.quickView">
+    <div class="quote-comparision-table">
+        <table>
+            <tr class="header">
+                <th [style]="col.style" class="text-align-center" *ngFor="let col of cols"
+                    id="QuoteComparisoReview_BrokerLabel">
+                    {{col.label}}
+                </th>
+            </tr>
+            <tr *ngFor="let item of mappingQCRArr">
+
+                <td class="text-left" *ngFor="let col of cols">
+
+                    <div class="">
+                        <div class="quickViewHeaderWrapper">
+                <th class="quickViewHeader" *ngIf="item[col.id]?.type == 'header'" id="QuoteComparisoReview_value">
+                    {{item[col.id]?.value ?? ''}}
+                </th>
+    </div>
+
+    <div class="cells" [style.color]="item[col.id].styleaddon" *ngIf="item[col.id]?.type == 'string'"
+        id="QuoteComparisoReview_value" [ngClass]="{'text-right' : item[col.id]?.isAlignmentRequired }"
+        [style.color]="item[col.id].styleaddon">
+        {{item[col.id]?.value ?? ''}}
+    </div>
+    <div class="cells" *ngIf="item[col.id]?.type == 'html'" id="QuoteComparisoReview_value2">
+        <div [innerHtml]="item[col.id]?.value"></div>
+    </div>
+    <div class="cells" *ngIf="item[col.id]?.type == 'boolean'" id="QuoteComparisoReview_ItemValue"
+        [ngClass]="{'text-right' : this.selectedTabId == 'add_ons'}">
+        <i *ngIf="item[col.id]?.value" class="pi pi-check" style="font-weight: 700; color: green"></i>
+        <i *ngIf="!item[col.id]?.value" class="pi pi-times" style="font-weight: 700;color: red"></i>
+    </div>
+    <div class="cells" *ngIf="item[col.id]?.type == 'tickOrValue'" id="QuoteComparisoReview_TicketOrValue">
+        <div *ngIf="item[col.id]?.value" id="QuoteComparisoReview_IdValue">{{item[col.id]?.value}}</div>
+        <i *ngIf="!item[col.id]?.value" class="pi pi-check" id="QuoteComparisoReview_NotIdValue"
+            style="font-weight: 700; color: green"></i>
+    </div>
+    <div class="cells text-right" *ngIf="item[col.id]?.type == 'currency'" id="QuoteComparisoReview_Currency">
+        <!-- ₹ {{item[col.id]?.value?.toLocaleString('en-IN') ?? ''}} -->
+        <span [style.color]="item[col.id].styleaddon"><app-currency [maximumFractionDigits]="0"
+                [value]="(item[col.id]?.value ?? 0)"></app-currency></span>
+    </div>
+</div>
+</td>
+</tr>
+</table>
+<!-- <button class="btn btn-success mt-2 px-4" style="float: right;" (click)="this.quickView = false">Close</button> -->
+</div>
+</div>
+</div>

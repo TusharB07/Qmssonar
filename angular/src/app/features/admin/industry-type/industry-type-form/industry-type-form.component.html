@@ -1,0 +1,58 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="IndustryTypeFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="IndustryTypeForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button id="IndustryTypeForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="IndustryTypeForm_GeneralInformation">General Information</h5>
+
+
+                    <div class="field">
+                        <label for="name" id="IndustryTypeForm_IndustryNameLabel">Industry Type Name</label>
+                        <input maxlength="100" id="IndustryTypeForm_IndustryName" class="form-control" type="text" pInputText id="industryTypeName"
+                            formControlName="industryTypeName" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['industryTypeName']}" />
+                        <small id="IndustryTypeForm_IndustryName_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['industryTypeName']">Industry Type Name is
+                            required.</small>
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="recordForm.controls['industryTypeName'].errors?.maxlength">Industry Type Name cannot be more than 100 Characters.</small> -->
+                    </div>
+
+                    <div class="field">
+                        <label id="IndustryTypeForm_ActiveLabel" for="IndustryTypeForm_Active">Active?</label>
+                        <p-toggleButton id="IndustryTypeForm_Active" class="form-control" formControlName="active"
+                            [onLabel]="'Industry Type Active'" [offLabel]="'Industry Type Inactive'" [onIcon]="'pi pi-check'"
+                            offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail id="IndustryTypeForm_AuditTrail" [entityId]="this.id" [entityResourcePrefix]="'industryTypes'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

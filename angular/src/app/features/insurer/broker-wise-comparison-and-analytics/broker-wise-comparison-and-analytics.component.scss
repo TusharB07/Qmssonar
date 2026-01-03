@@ -1,0 +1,83 @@
+@import url('../sum-insured-details/sum-insured-details.component.scss');
+.custom-step-header {
+    max-height: 130px;
+    min-height: 130px;
+    position: fixed;
+    left: 30px;
+}
+
+.custom-step-content {
+    position: relative;
+    left: 263px;
+    max-height: 52px;
+    min-height: 52px;
+}
+
+/* :host ::ng-deep .p-steps-item {
+    padding-bottom: 30px;
+    justify-content: unset !important;
+}
+
+:host ::ng-deep .p-steps ul {
+    display: block;
+}
+
+:host ::ng-deep .p-steps ul li a {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-number {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-title {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps .p-steps-item:before {
+    content: none;
+} */
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+a:focus{
+    color:#0064BB;
+}
+
+button:focus{
+    background-color: #2156C2;
+    color: #E8EFFF;
+}
+
+.custom-anchor-index{
+    background-color: #0064BB; 
+    color:#fff; min-height:20px; 
+    min-width: 20px; 
+    border-radius: 10px;
+}
+:host ::ng-deep .p-steps ul li a {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-number {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+:host ::ng-deep .p-steps ul li a .p-steps-title {
+    display: inline;
+}
+
+:host ::ng-deep .p-steps .p-steps-item:before {
+    content: none;
+}

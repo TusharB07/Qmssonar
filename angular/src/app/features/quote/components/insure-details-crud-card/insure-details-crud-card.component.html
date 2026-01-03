@@ -1,0 +1,103 @@
+<p-card class="">
+    <div class="add-more-detail" style="width:325px">
+        <h5 class="fs-24-eb" id="otherDetails_Hypothecation_Detail">Insurance Detail</h5>
+        <p id="otherDetails_Hypothecation_label">Insurance Name</p>
+        <form [formGroup]="this.insuranceDetailForm">
+            <div class="flex justify-content-between">
+                <!-- <h5>Insurance company maping</h5> -->
+                <!-- <div>
+                    <button pButton pRipple type="button" style="max-width: 6rem;" class="p-button-rounded" (click)="this.onAddHypothecation()"><i class="pi pi-plus"></i></button>
+                </div> -->
+            </div>
+            <div>
+                Lead Insurance
+            </div>
+            <div formArrayName="insurerDetails"
+                *ngFor="let form of this.insurerDetails.controls; let i = index">
+                <div class="" [formGroupName]="i"> 
+                    <div class="grid py-3">
+                        <div class="col flex justify-content-center align-items-center" style="flex-grow:2; align-items: flex-start !important;">
+                            <p-checkbox [formControl]="form.controls['isLeadInsurance']" [binary]="true" (onChange)="selectLeadInsurance(i)"></p-checkbox>
+                        </div>
+                        <div class="col" style="flex-grow:10">
+                            <div class="w-100">
+                                <p-dropdown [options]="allInsuranceCompany" formControlName="name" optionLabel="name" dataKey="name" placeholder="Select Insurerance Company">
+                                    <ng-template let-item pTemplate="item">
+                                      {{item.name}}
+                                    </ng-template>
+                                  </p-dropdown>
+                                <!-- <input maxlength="50"
+                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !form.value['name'] }"
+                                    pInputText formControlName="name" placeholder="Insurance Name"
+                                    type="text" class="p-inputtext1"
+                                    id="otherDetails_Hypothecation_Bank_Detaies"> -->
+                                <small *ngIf="form.controls['name'].errors?.required"
+                                    class="ng-dirty ng-invalid">Please select insurance name.</small>
+                                
+                                <p-inputNumber inputId="percent" suffix="%" maxlength="50"
+                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !form.value['share'] }"
+                                    formControlName="share" placeholder="Share" inputStyleClass="text-left"
+                                    class="p-inputtext1" 
+                                    id="otherDetails_Hypothecation_Bank_Detaies" (keyup)="onKey($event,i)"></p-inputNumber>
+                                <small *ngIf="form.controls['share'].errors?.required"
+                                    class="ng-dirty ng-invalid">This field Required.</small>
+                                <small *ngIf="form.controls['share'].errors?.pattern"
+                                    class="ng-dirty ng-invalid">Only number are allowed.</small>
+
+                                <input maxlength="50"
+                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !form.value['sumInsured'] }"
+                                    pInputText formControlName="sumInsured" placeholder="Sum Insured"
+                                    class="p-inputtext1" disabled
+                                    id="otherDetails_Hypothecation_Bank_Detaies">
+                                <small *ngIf="form.controls['sumInsured'].errors?.required"
+                                    class="ng-dirty ng-invalid">This field Required.</small>
+                                <small *ngIf="form.controls['sumInsured'].errors?.pattern"
+                                    class="ng-dirty ng-invalid">Only Alphabets are allowed.</small>
+                                <!-- <small *ngIf="mappedIcNamesForm.controls['name'].errors?.maxlegth" class="ng-dirty ng-invalid">Bank Name cannot be more than 255 Characters.</small> -->
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="flex">
+
+
+                                <!-- <div class="ml-5"> -->
+                                <button pRipple type="button" id="otherDetails_Hypothecation_Add_Bank"
+                                    class="p-button-rounded btn btn-outline-success ml-2"
+                                    (click)="this.onAddHypothecation()"><i class="pi pi-plus"></i></button>
+                                <div *ngIf="this.insurerDetails.length > 1">
+                                    <button pRipple type="button"
+                                        id="otherDetails_Hypothecation_Delete_Bank"
+                                        class="p-button-rounded btn btn-outline-danger ml-2"
+                                        (click)="this.onDeleteHypothecation(i)"><i
+                                            class="pi pi-minus"></i></button>
+                                </div>
+                                <!-- <a class="red-link" (click)="this.onDeleteHypothecation(i)">Delete</a> -->
+
+                            </div>
+
+                            <!-- </div> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- <div class="grid">
+                <div class="col-12">
+                    <div class="name-detail">
+                        <input pInputText formControlName="bankName2" placeholder="Name of Your Bank (Other If available)" type="text" class="p-inputtext1">
+                    </div>
+                </div>
+            </div> -->
+            <div class="grid text-right">
+                <div class="col-12">
+                    <!-- <a href="javascript:void(0)" class="add-more"><img src="../../../../assets/icons/add-circle.png" alt=""> Add More</a> -->
+                    <button type="submit" [disabled]="this.insuranceDetailForm.invalid"
+                        id="otherDetails_Save_Bank_Detailes" (click)="this.submitInsuranceNameForm()"
+                        pButton pRipple label="Save" icon="pi pi-check" class="btn btn-success"></button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</p-card>

@@ -1,0 +1,189 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+  <form class="" [formGroup]="this.coverForm" (ngSubmit)="submitted = true; this.submitForm()" id="ValuableContentDialog_Form">
+    <div formArrayName="formArray">
+      <p-table class="tblz01" [value]="this.formArray.controls">
+        <ng-template pTemplate="header">
+          <tr>
+            <th id="ValuableContentDialog"></th>
+            <th id="ValuableContentDialog_Item Description" class="text-center">Item Description</th>
+            <th id="ValuableContentDialog_Sum Insured" class="text-center">Sum Insured</th>
+            <th id="ValuableContentDialog_Valuation Certification" class="text-center">Valuation Certification Upload</th>
+            <th id="ValuableContentDialog"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-control let-i="rowIndex">
+          <!-- <tr *ngFor="let form of this.formArray.controls; let i = index" [formGroupName]="i"> -->
+          <tr [formGroupName]="i">
+            <td id="ValuableContentDialog_GroupName">{{ i + 1 }}</td>
+            <td>
+              <input
+                maxlength="255"
+                id="ValuableContentDialog_ItemDescription"
+                pInputText
+                formControlName="itemDescription"
+                *ngIf="this.permissions.includes('update')"
+                value=""
+                type="text"
+                class="p-inputtext1"
+                placeholder="Enter Description"
+              />
+              <input
+                maxlength="255"
+                id="ValuableContentDialog_ItemDescription"
+                pInputText
+                formControlName="itemDescription"
+                *ngIf="!this.permissions.includes('update')"
+                disabled="true"
+                value=""
+                type="text"
+                class="p-inputtext1"
+                placeholder="Enter Description"
+              />
+              <!-- <small id="ValuableContentDialog_ItemDescription_ValidationMSG" class="ng-dirty ng-invalid" *ngIf="submitted && this.coverForm.controls['itemDescription']?.errors?.required"> Description is required.</small> -->
+              <small
+                id="ValuableContentDialog_ItemDescription_ValidationMSG"
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && this.control.controls['itemDescription']?.errors?.required"
+              >
+                Description is required.</small
+              >
+            </td>
+            <td>
+              <!-- <input maxlength="11" id="ValuableContentDialog_SumInsured" pInputText
+                                formControlName="sumInsured" value="" *ngIf="this.permissions.includes('update')"
+                                currencyMask [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1">
+                            <input maxlength="11" id="ValuableContentDialog_SumInsured" pInputText
+                                formControlName="sumInsured" value="" *ngIf="!this.permissions.includes('update')"
+                                disabled="true" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+                                class="p-inputtext1"> -->
+              <p-inputNumber
+                *ngIf="this.permissions.includes('update')"
+                maxlength="11"
+                class="p-inputtext1"
+                id="ValuableContentDialog_SumInsured"
+                mode="decimal"
+                locale="en-IN"
+                prefix="₹ "
+                placeholder="0"
+                formControlName="sumInsured"
+              >
+              </p-inputNumber>
+              <p-inputNumber
+                *ngIf="!this.permissions.includes('update')"
+                maxlength="11"
+                class="p-inputtext1"
+                id="ValuableContentDialog_SumInsured"
+                mode="decimal"
+                locale="en-IN"
+                prefix="₹ "
+                placeholder="0"
+                formControlName="sumInsured"
+              >
+              </p-inputNumber>
+              <small id="ValuableContentDialog_SumInsured_ValidationMSG" class="ng-dirty ng-invalid" *ngIf="submitted && control.get('sumInsured')?.errors?.required"
+                >Sum Insured is required.</small
+              >
+              <!-- <small id="ValuableContentDialog_SumInsured_ValidationMSG" class="ng-dirty ng-invalid" *ngIf="this.control.controls['sumInsured']?.errors?.max">Sum Insured cannot be more than 11 Characters.</small> -->
+            </td>
+            <td>
+              <input
+                maxlength="11"
+                id="ValuableContentDialog_SumInsured"
+                pInputText
+                formControlName="valuationCertification"
+                value=""
+                style="display: none"
+                currencyMask
+                [options]="{ prefix: '₹ ', precision: 0 }"
+                class="p-inputtext1"
+              />
+              <div class="flex align-items-center">
+                <div class="flex-grow-0 mx-2">
+                  <div *ngFor="let url of control?.controls['valuationCertification'].value; let i = index">
+                    <!-- {{url?.imagePath}} -->
+                    <div class="flex justify-content-between">
+                      <div>
+                        <a href="javascript:void(0)" (click)="this.downloadLocationPhotograph(control?.controls['_id'].value, url?.imagePath)">Certificate {{ i + 1 }}</a>
+                      </div>
+                      <!--                                             <div>
+                                                <i class="pi pi-trash"
+                                                    (click)="this.deleteLocationPhotograph(control?.controls['_id'].value,url?.imagePath)"></i>
+                                            </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <div>
+                    <p-fileUpload
+                      id="ValuableContentDialog_FileUplaod"
+                      accept="image/*"
+                      [disabled]="control.value['sumInsured'] < 100000"
+                      (onSelect)="this.onUploadValuableContentCertificate($event, i, 'update')"
+                      *ngIf="this.permissions.includes('update')"
+                      [auto]="true"
+                      mode="basic"
+                      styleClass="upload-outline-light"
+                      chooseIcon="pi pi-paperclip"
+                      chooseLabel=""
+                    ></p-fileUpload>
+                    <p-fileUpload
+                      id="ValuableContentDialog_FileUplaod"
+                      (onSelect)="this.onUploadValuableContentCertificate($event, i, 'create')"
+                      accept="image/*"
+                      [disabled]="control.value['sumInsured'] < 100000"
+                      *ngIf="!this.permissions.includes('update')"
+                      [auto]="true"
+                      mode="basic"
+                      styleClass="upload-outline-light"
+                      chooseIcon="pi pi-paperclip"
+                      chooseLabel=""
+                    ></p-fileUpload>
+                  </div>
+                  <div>
+                    {{ uploadedFiles[i]?.name }}
+                  </div>
+                </div>
+              </div>
+              <small>(Valid only if SI > 1,00,000)</small>
+            </td>
+            <td>
+              <div>
+                <a class="red-link" (click)="this.deleteFormBasedOnIndex(i)" id="ValuableContentDialog_DeleteFormIndex"
+                  ><i class="pi pi-trash" style="font-size: 1.5rem; color: red;"></i
+                ></a>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <!-- <div [formGroupName]="i">
+                <div class="sign-in-head flex align-items-center justify-content-between">
+                    <h4 class="head5">BSC Liability Section {{ i + 1 }}</h4>
+                    <a class="red-link" (click)="this.deleteFormBasedOnIndex(i)">Delete</a>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col">
+                        {{i + 1}}.
+                    </div>
+                    <div class="col">
+                        <label for="" class="form-label">Description Risk</label>
+                        <input pInputText formControlName="itemDescription" value="" type="text" class="p-inputtext1" placeholder="Enter Description">
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && this.coverForm.controls['itemDescription']?.errors?.required"> Description is required.</small>
+                    </div>
+                    <div class="col ">
+                        <label for="" class="form-label">Sum Insured</label>
+                        <input pInputText formControlName="sumInsured" value="" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1">
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !this.coverForm.value['sumInsured']?.errors?.required">Sum Insured is required.</small>
+                    </div>
+                </div>
+            </div> -->
+    </div>
+    <div class="col-12 mb-5 text-right" *ngIf="this.permissions.includes('update')">
+      <a class="add-more" id="ValuableContentDialog_AddForm" (click)="this.addFormToArray()">+ Add More</a>
+    </div>
+    <div class="flex justify-content-end mt-3">
+      <button id="ValuableContentDialog_Save" class="btn btn-success mr-4" type="submit" *ngIf="this.permissions.includes('update')">Save</button>
+      <button id="ValuableContentDialog_Close" class="btn btn-outline-light mt-1" type="button" (click)="cancel()">Close</button>
+    </div>
+  </form>
+</div>

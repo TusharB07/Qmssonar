@@ -1,0 +1,43 @@
+<div class="grid">
+    <div class="col-4">
+        <div class="p-5" id="SendingForApprovalDialog_Image">
+
+            <img src="/assets/broker/images/icons/verified.png" width="150px" alt="">
+        </div>
+
+    </div>
+    <div class="col-8">
+        <div class="flex align-items-center mb-3"  *ngIf="this.user.roleId['name'] === 'sales_creator_and_approver'" id="SendingForApprovalDialog_Note">
+            <img class="mr-2" src="/assets/broker/images/icons/smiling-face.png" alt=""> Hurray, you've prepared the indicative quote.
+        </div>
+
+        <div class="flex align-items-center mb-3"  *ngIf="this.user.roleId['name'] === 'placement_creator_and_approver'" id="SendingForApprovalDialog_Note">
+            <img class="mr-2" src="/assets/broker/images/icons/smiling-face.png" alt=""> Hurray, Quote Sent to Insurers
+        </div>
+
+
+
+        <div class="mb-5">
+            <h2 class="mb-3"  *ngIf="this.user.roleId['name'] === 'sales_creator_and_approver'" id="SendingForApprovalDialog_SuccessFullMSG">Quote Creation Completed Successfully!</h2>
+
+
+            <div class="mb-5">
+                <i class="pi pi-info-circle mr-2" id="SendingForApprovalDialog_Icon"></i>
+                <h3 class="inline-block" *ngIf="this.user.roleId['name'] === 'sales_creator_and_approver'" id="SendingForApprovalDialog_SentForApproval">
+                    <b>Your quote is sent for approval</b> 
+                </h3>
+                <h3 class="inline-block" id="SendingForApprovalDialog_SentForApproval" *ngIf="this.user.roleId['name'] === 'placement_creator_and_approver'">
+                    <b>Your quote is Sent to Insurers</b> 
+                </h3>
+            </div>
+        </div>
+
+
+        <div class="mb-5">
+
+            <button pButton type="button" id="SendingForApprovalDialog_Close" label="Go to Quotes" class="p-button-success py-3 px-5" (click)="close()"></button>
+        </div>
+
+
+    </div>
+</div>

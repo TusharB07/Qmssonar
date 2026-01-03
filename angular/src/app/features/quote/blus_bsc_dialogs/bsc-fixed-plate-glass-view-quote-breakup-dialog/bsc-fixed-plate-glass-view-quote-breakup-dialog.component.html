@@ -1,0 +1,113 @@
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && !isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-left" id="FixedPlateGlass_Breakup_HDR_Location">Location</th>
+                        <th class="text-left" id="FixedPlateGlass_Breakup_HDR_plateGlassType">Type of Plate Glass</th>
+                        <th class="text-left" id="FixedPlateGlass_Breakup_HDR_Description">Description</th>
+                        <th class="text-right" id="FixedPlateGlass_Breakup_HDR_SumInsured">Sum Insured</th>
+                        <th class="text-right" id="FixedPlateGlass_Breakup_HDR_Total">Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td class="text-left" id="FixedPlateGlass_Breakup_Data_Location">{{ quoteLocationOccupancy?.clientLocationId.locationName }} - {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td class="text-left" id="FixedPlateGlass_Breakup_Data_plateGlassType">{{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] && this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']].plateGlassType['lovKey'] ?? 0}}</td>
+                        <td class="text-left" id="FixedPlateGlass_Breakup_Data_Description">{{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] && this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['description'] ?? 'NA'}}</td>
+                        <td class="text-right" id="FixedPlateGlass_Breakup_Data_SumInsured">{{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] && this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['sumInsured'] ?? 0 | currency:'INR' ?? 0}}</td>
+                        <th class="text-right" id="FixedPlateGlass_Breakup_Data_Total">{{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] && this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['total'] ?? 0 | currency:'INR' ?? 0}}</th>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" ><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="this.permissions.includes('update')" ><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="!this.permissions.includes('update')" [disabled]="true"><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info" type="submit"><i class="pi pi-upload"></i> Upload Excel Sheet</button> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" name="file" mode="basic" *ngIf="this.permissions.includes('update')" (onUpload)="this.onUpload($event)"  url="{{this.uploadUrl}}" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" name="file" mode="basic" *ngIf="!this.permissions.includes('update')" [disabled]="true" url="{{this.uploadUrl}}" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+
+            <button class="btn btn-outline-primary mr-3" id="FixedPlateGlass_Breakup_Download_Excel" (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+
+                <p-fileUpload #fileUpload
+                [name]="this.bulkImportProps.name"
+                [mode]="this.bulkImportProps.mode"
+                [url]="this.bulkImportProps.url"
+                [method]="this.bulkImportProps.method"
+                (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                (onError)="this.errorHandler($event, fileUpload)"
+                [headers]="this.bulkImportProps.headers"
+                [showCancelButton]="true"
+                [accept]="this.bulkImportProps.accept"
+                [auto]="this.bulkImportProps.auto"
+                [uploadLabel]="this.bulkImportProps.uploadLabel"
+                [chooseLabel]="this.bulkImportProps.chooseLabel"
+                styleClass="btn btn-primary"
+
+                id="FixedPlateGlass_Breakup_Upload_Excel"
+                ></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies" [scrollable]="true" scrollDirection="both">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_HDR_Location">Location</th>
+                        <th style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_HDR_plateGlassType">Type of Plate Glass</th>
+                        <th style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_HDR_Description">Description</th>
+                        <th style="width: 100px;" class="text-right" id="FixedPlateGlass_Breakup_HDR_SumInsured">Sum Insured</th>
+                        <th style="width: 100px;" class="text-right" id="FixedPlateGlass_Breakup_HDR_Total">Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_Data_Location">{{
+                            quoteLocationOccupancy?.clientLocationId.locationName }} -
+                            {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_Data_plateGlassType">
+                            {{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']].plateGlassType['lovKey'] ?? 0}}
+                        </td>
+                        <td style="width: 100px;" class="text-left" id="FixedPlateGlass_Breakup_Data_Description">
+                            {{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['description'] ?? 'NA'}}</td>
+                        <td style="width: 100px;" class="text-right" id="FixedPlateGlass_Breakup_Data_SumInsured">
+                            {{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['sumInsured'] ?? 0 |
+                            currency:'INR' ?? 0}}</td>
+                        <th style="width: 100px;" class="text-right" id="FixedPlateGlass_Breakup_Data_Total">
+                            {{this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscFixedPlateGlassCovers[quoteLocationOccupancy['_id']]['total'] ?? 0 | currency:'INR'
+                            ?? 0}}</th>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <button class="btn btn-outline-primary mr-3" id="FixedPlateGlass_Breakup_Download_Excel"
+                (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel
+                Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+                <p-fileUpload #fileUpload [name]="this.bulkImportProps.name" [mode]="this.bulkImportProps.mode"
+                    [url]="this.bulkImportProps.url" [method]="this.bulkImportProps.method"
+                    (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                    (onError)="this.errorHandler($event, fileUpload)" [headers]="this.bulkImportProps.headers"
+                    [showCancelButton]="true" [accept]="this.bulkImportProps.accept" [auto]="this.bulkImportProps.auto"
+                    [uploadLabel]="this.bulkImportProps.uploadLabel" [chooseLabel]="this.bulkImportProps.chooseLabel"
+                    styleClass="btn btn-primary" id="FixedPlateGlass_Breakup_Upload_Excel"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+<div class="container">
+    <ul class="chatbox" *ngFor = 'let message of messages' >
+        <li class="chat incoming">
+            <p>{{message.messageRequest}}</p>
+        </li>
+        <li class="chat outgoing">
+            <p>{{message.messageResponse}}</p>
+        </li>
+    </ul>
+    <div class="chat-input">
+        <input [(ngModel)]="value" placeholder="Enter a message ..." required (keyup.enter)="sendMessage()"/>
+        <span id="send-btn" class="material-symbols-outlined"  (click)="sendMessage()">send</span>
+    </div>
+</div>

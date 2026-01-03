@@ -1,0 +1,17 @@
+
+<span *ngIf="!this.selectedCurrencyDollar" class="text-nowrap" style="text-align: right;">
+    {{ '₹ ' + (this.value)?.toLocaleString('en-IN', {
+        maximumFractionDigits: this.maximumFractionDigits,
+        minimumFractionDigits: this.minimumFractionDigits,
+        localeMatcher: 'lookup'
+    }) }}
+</span>
+
+<span *ngIf="this.selectedCurrencyDollar" class="text-nowrap" style="text-align: right;">
+    {{ '$ ' + (this.value/rate)?.toLocaleString('en-IN', {
+        maximumFractionDigits: this.maximumFractionDigits,
+        minimumFractionDigits: this.minimumFractionDigits,
+        localeMatcher: 'lookup'
+    }) }}
+</span>
+

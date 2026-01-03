@@ -1,0 +1,219 @@
+// table, th, td {
+//     border-collapse: collapse;
+//     text-align: center;
+//     color: white
+// }
+
+h1{
+    color: white;
+}
+
+// .static-tablee {
+//     font-size: 1.8em;
+//     width: 110%;
+//     border: 5px solid white !important;
+//     border-top-left-radius: 6px !important;
+//     border-top-right-radius: 6px !important;
+//     margin: 15px;
+//     margin-bottom: 20px
+// }
+
+// .static-tablee td {
+//     padding: 0.429rem 0.571rem;
+// }
+
+// .static-tablee tr th,td {
+//     border: 1px solid white !important;
+//     font-size: larger;
+// }
+
+// .pdf-inner{
+//     // border-bottom: unset !important;
+// }
+
+
+.static-tablee {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.static-tablee th, .static-tablee td {
+    border: 1px solid #ddd;
+    padding: 16px 24px;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.static-tablee th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+.static-tablee tr:nth-child(even), .static-tablee tr:nth-child(odd) {
+    background-color: #ece3e3;
+}
+
+.static-tablee tr:hover {
+    background-color: #e0e0e0;
+}
+
+.static-tablee th, .static-tablee td {
+    text-align: center;
+}
+
+.static-tablee th {
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: bold;
+    width: 50%;
+    text-align: center;
+}
+
+.static-tablee td {
+    width: 50%;
+    text-align: center;
+}
+
+
+hr {
+    border: 0;
+    border-top: 5px solid white; /* White color for the line */
+    margin: 20px 0; /* Space above and below the line */
+}
+
+
+
+.pdf-inner {
+    width: 450mm !important;
+}
+
+
+.fist-img-table {
+    position: relative;
+    overflow: hidden; /* Ensure any overflow (like the image extending beyond container) is hidden */
+}
+
+.fist-img-table .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Adjust as necessary */
+    height: 100%; /* Adjust as necessary */
+    z-index: -1; /* Places the image behind other content */
+    // opacity: 0.2; /* Example opacity adjustment */
+}
+
+.heading{
+    margin-left: 10px;
+}
+
+.earthquake .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col-6 {
+    width: 48%;
+}
+
+.tblz01-pdf {
+    margin-top: 20px;
+}
+
+.static-tablee {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.static-tablee th, .static-tablee td {
+    border: 1px solid #ccc;
+    padding: 8px;
+
+}
+
+
+@media print{
+.fist-img{
+    width: 10%;
+}
+
+.static-tablee {
+    font-size: 1.8em;
+    border: 5px solid white !important;
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    margin-bottom: 20px
+}
+
+.heading{
+    margin-left: 10px;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    text-align: center;
+    color: white
+}
+
+h1{
+    color: white;
+}
+
+
+.img{
+    width: 700%;
+    z-index: 00000;
+}
+
+.fist-img-table {
+    position: relative;
+    overflow: hidden; /* Ensure any overflow (like the image extending beyond container) is hidden */
+}
+
+.fist-img-table .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Adjust as necessary */
+    height: 100%; /* Adjust as necessary */
+    z-index: -1; /* Places the image behind other content */
+    // opacity: 0.5; /* Example opacity adjustment */
+}
+
+.space{
+    height: 100px;
+}
+
+.earthquake .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col-6 {
+    width: 48%;
+}
+
+.tblz01-pdf {
+    margin-top: 20px;
+}
+
+.static-tablee {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.static-tablee th, .static-tablee td {
+    border: 1px solid #ccc;
+    padding: 8px;
+ 
+}
+
+
+
+}

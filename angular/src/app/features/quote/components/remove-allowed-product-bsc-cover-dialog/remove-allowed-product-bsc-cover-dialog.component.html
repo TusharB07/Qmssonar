@@ -1,0 +1,11 @@
+<div class="pb-5">
+
+    <ul class="mb-5">
+        <li class="mb-3" *ngFor="let cover of this.removedCovers" id="RemovedAllowedProduct_Delete">{{cover}}</li>
+    </ul>
+
+    <p class="mb-5" id="RemovedAllowedProduct_Erased">All the data respective to following covers will be erased</p>
+
+    <button class="btn btn-danger" id="RemovedAllowedProduct_DeleteCovers" (click)="this.deleteCovers()">Sure, Delete</button>
+    <button class="btn btn-primary ml-3" (click)="this.close()">Cancel</button>
+</div>

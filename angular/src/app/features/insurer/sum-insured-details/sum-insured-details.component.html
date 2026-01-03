@@ -1,0 +1,86 @@
+<!-- <div class="container">
+    <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div>
+    <div class="grid">
+        <p-card [style]="{'border-radius':'25px'}">
+            <div class="card tblz02">
+                <div class="grid">
+                    <div class="col-12">
+                        <p-treeTable [value]="files1">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <ng-container *ngFor="let item of cols; index as i;">
+                                        <th [ngStyle]="!item.clientLocation ? {'width' : '300px'} : {}">
+                                            {{item.clientLocation.locationName}}
+
+                                            <a *ngIf="item.clientLocation" href="javascript:0"><img src="../../../../assets/icons/info.png" alt=""></a>
+                                            <div class="info-show" style="z-index: 50">
+                                                <div class="top-header">
+                                                    <img src="../../../../assets/icons/info.png" alt=""> {{item.clientLocation.locationName}}
+                                                </div>
+                                                <div class="details">
+                                                    <p><span> Address:</span> {{item.clientLocation.address}}.</p>
+                                                    <p><span> Occupancy:</span> {{item.occupancy.type}}</p>
+                                                </div>
+                                            </div>
+                                            <p class="small">{{item.sumAssured | currency: 'INR'}}</p>
+                                        </th>
+                                    </ng-container>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                                <tr [ttRow]="rowNode">
+                                    <td>
+                                        <div style="width: 300px;">
+
+                                            <div class="flex">
+                                                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                                {{rowData.name}}
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <ng-container *ngFor="let col of cols; index as i;">
+                                        <td *ngIf="col._id && !rowData[col._id]?.readonly">
+                                            <input class="input01" (blur)="this.valueUpdated(
+                                                col._id,
+                                                rowData[col._id]?.lovId,
+                                                rowData[col._id]?.lovType,
+                                                rowData[col._id]?.lovKey,
+                                                rowData[col._id]?.lovReference,
+                                                rowData[col._id]?._id ?? ''
+
+                                            )" [(ngModel)]="this.model[rowData[col._id]?.lovId][col._id]" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" />
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <tr>
+                                    <th>Total Sum Insured</th>
+                                    <ng-container *ngFor="let col of cols; index as i;">
+                                        <th *ngIf="col._id">
+                                            {{this.sum[col._id] && this.sum[col._id]['calculatedSumAssured'] | currency: 'INR'}}
+                                        </th>
+                                    </ng-container>
+                                </tr>
+                            </ng-template>
+                        </p-treeTable>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div> -->

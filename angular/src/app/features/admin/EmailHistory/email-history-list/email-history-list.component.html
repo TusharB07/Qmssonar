@@ -1,0 +1,209 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+            <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2">
+                            <!-- <button id="EmailHistory_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button> -->
+                            <!-- <button id="EmailHistory_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="EmailHistory_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="EmailHistory_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="EmailHistory_FileUpload" accept="image/*"
+                            [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+                
+                <p-table [rowHover]="true" [paginator]="true" responsiveLayout="scroll" [value]="this.emailHistory" #dt
+                    [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name', 'email']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="EmailHistoryList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th> -->
+                            <!-- <th pSortableColumn="_id">
+                        <div class="flex justify-content-between align-items-center">
+                            <span> Id </span>
+                        </div>
+                    </th> -->
+
+                            
+                            
+                            <th pSortableColumn="subject">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_subjectHeader">
+                                        Subject
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="EmailHistoryList_subjectColumnFilter" type="text"
+                                            field="action" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by subject"></p-columnFilter>                                        
+                                        <p-sortIcon field="subject"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="date">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_dateHeader">
+                                        Date
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-columnFilter type="text" field="emailHistoryTemplate" display="menu" placeholder="Search by to SI"></p-columnFilter> -->
+                                        <p-sortIcon field="date"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="From">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_FromHeader">From</span>
+                                    <div>
+                                        <p-columnFilter id="EmailHistoryList_fromFilter" type="text"
+                                            field="from" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by Email"></p-columnFilter>
+                                        <p-sortIcon field="From"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="To">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_ToHeader">To</span>
+                                    <div>
+                                        <p-columnFilter id="EmailHistoryList_toFilter" type="text"
+                                            field="to" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by Email"></p-columnFilter>
+                                        <p-sortIcon field="To"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>  
+                            <th pSortableColumn="model">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_modelHeader">Model Name</span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="Model"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="body">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_bodyHeader">Body</span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="body"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="status">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_statusHeader">Status</span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="status"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="Failed_Reason(MessageId)">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_failedReasonHeader">Failed Reason</span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="Failed_Reason"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="Failed_Reason(MessageId)">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="EmailHistoryList_failedReasonHeader">MessageId</span>
+                                    <div>
+                                        <!-- <p-columnFilter type="boolean" field="isOtc" display="menu" placeholder="Search by Is OTC"></p-columnFilter> -->
+                                        <p-sortIcon field="messageId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th></th> -->
+                        </tr>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="body" let-emailHistory> -->
+                    <ng-template pTemplate="body" let-emailHistory>
+                        <tr>
+                            <!-- <td>
+                                <p-tableCheckbox [value]="emailHistory" id="EmailHistoryList_ItemCheckBox"></p-tableCheckbox>
+                            </td> -->
+                            <!-- <td style="width: 14%; min-width: 10rem">
+                        <span class="p-column-title">Id</span>
+                        {{ emailHistory._id }}
+                    </td> -->
+                            <td id="EmailHistoryList_Subject">
+                                {{emailHistory.subject}}
+                            </td>
+                            <td id="EmailHistoryList_date">
+                                {{ emailHistory.date}}
+                            </td>
+                            <!-- <td>
+                                {{ emailHistory.category }}
+                            </td> -->
+                            <!-- <td>
+                                <div class="text-nowrap">₹ {{(emailHistory.fromSI ?? 0)?.toLocaleString('en-IN') }}</div>
+                            </td> -->
+                            <!-- <td>
+                                <div class="text-nowrap">₹ {{(emailHistory.toSI ?? 0)?.toLocaleString('en-IN') }}</div>
+                            </td> -->
+                            <td id="EmailHistoryList_from">
+                                {{emailHistory.from}}
+                            </td>
+                            <td id="EmailHistoryList_to">
+                                <!-- <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': emailHistory.isOtc, 'false-icon pi-times-circle': !emailHistory.isOtc}"></i> -->
+                                    {{emailHistory.to}}
+                            </td>
+                            <td id="EmailHistoryList_model">
+                                <!-- <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': emailHistory.status, 'false-icon pi-times-circle': !emailHistory.status}"></i> -->
+                                    {{emailHistory.modelName}}
+                            </td>
+                            <td id="EmailHistoryList_body">
+                                {{emailHistory.body}}
+                            </td>
+                            <td id="EmailHistoryList_status">
+                                {{emailHistory.status}}
+                            </td>
+                            <td id="EmailHistoryList_failedReason">
+                                {{emailHistory.failedReason}}
+                            </td>
+                            <td id="EmailHistoryList_failedReason">
+                                {{emailHistory.messageId}}
+                            </td>
+                            <!-- <td>
+                                <div class="flex">
+                                    <button id="EmailHistoryList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(emailHistory)"></button>
+                                    <button id="EmailHistoryList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="
+                                    this.openDeleteRecordConfirmationDialog(emailHistory)
+                                "></button>
+                                </div>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </p-card>
+    </div>
+</div>

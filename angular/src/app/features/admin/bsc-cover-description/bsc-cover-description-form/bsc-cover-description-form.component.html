@@ -1,0 +1,62 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+                    <div class="field">
+                        <label for="bscType">BSC Type</label>
+                        <p-dropdown class="form-control" [options]="this.optionsBscTypes"
+                            placeholder="Select a BSC Type" optionLabel="label" optionValue="value" [showClear]="true"
+                            formControlName="bscType"
+                            [ngClass]="{'ng-invalid ng-dirty': !recordForm.controls['bscType'].valid}"></p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf=" !recordForm.value['bscType']">BSC Type is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="productId">Product</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" [dropdown]="true"
+                            [suggestions]="this.optionsProducts" field="label" formControlName="productId"
+                            (completeMethod)="this.searchOptionsProducts($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': !recordForm.controls['productId'].valid}">
+                        </p-autoComplete>
+                    </div>
+                    <div class="field">
+                        <label for="description">Description</label>
+                        <input class="form-control" type="text" pInputText id="description"
+                            formControlName="description" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': recordForm.controls['description'].errors?.required}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="recordForm.controls['description'].errors?.required">This field is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="DynamicClauseForm_ActiveLabel" for="configMenuType">Active?</label>
+                        <p-toggleButton id="DynamicClauseForm_Active" class="form-control" formControlName="active"
+                            [onLabel]="'Active'" [offLabel]="'Inactive'" [onIcon]="'pi pi-check'" offIcon="pi pi-times"
+                            iconPos="right"></p-toggleButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

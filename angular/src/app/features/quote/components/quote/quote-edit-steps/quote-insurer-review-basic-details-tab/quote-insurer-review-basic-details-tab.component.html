@@ -1,0 +1,291 @@
+<!-- <div class="container"> -->
+<!-- <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-4">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-8 flex justify-content-end">
+            <app-select-location-occupany class="mr-3"></app-select-location-occupany>
+
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+<!-- <div class="grid"> -->
+<!-- <form class="" [formGroup]="basicDetailsForm" (ngSubmit)="this.submitbasicDetailsForm()">
+            <div class="grid mb-3">
+                <div class="col-4 mb-5">
+                    <label for="insuredName" class="form-label"><h6>Insured Name</h6></label>
+                    <input formControlName="insuredName" type="text" class="p-inputtext2 mt-2">
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="policyType" class="form-label"><h6>Policy Type</h6></label>
+                    <input formControlName="policyType" type="text" class="p-inputtext2 mt-2">
+                </div> -->
+<!-- <div class="col-4"></div>
+                <div class="col-4 mb-5">
+                    <label for="riskType" class="form-label"><h6>Risk Type</h6></label>
+                    <input formControlName="riskType" type="text" class="p-inputtext2 mt-2" disabled>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="policyPeriod" class="form-label"><h6>Policy Period</h6></label>
+                    <input formControlName="policyPeriod" type="text" class="p-inputtext2 mt-2">
+                </div> -->
+<!-- </div>
+        </form> -->
+<!-- <div class="grid" style="width: 100%;">
+            <div class="col-1">
+                <div class="checkbox ">
+                    <div class="field-checkbox">
+                        <p-checkbox [binary]="true" [disabled]="true" ></p-checkbox>
+                        <label for="fire"><h6>Fire</h6></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="width: 13% !important;">
+                <div class="checkbox ">
+                    <div class="field-checkbox">
+                        <p-checkbox name="group1" value="earthquake" [binary]="true" inputId="earthquake"></p-checkbox>
+                        <label for="earthquake"><h6>Earthquake</h6></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="checkbox ">
+                    <div class="field-checkbox">
+                        <p-checkbox name="group1" value="stfi" [binary]="true" inputId="stfi"></p-checkbox>
+                        <label for="stfi"><h6>STFI</h6></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="checkbox ">
+                    <div class="field-checkbox">
+                        <p-checkbox name="group1" value="terrorism" [binary]="true" inputId="terrorism"></p-checkbox>
+                        <label for="terrorism"><h6>Terrorism</h6></label>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+<!-- <div class="col-6">
+            <app-toggle-cover-opted></app-toggle-cover-opted>
+        </div> -->
+<!-- </div>
+    </div>
+-->
+
+<!--
+
+    <div class="row">
+    <div class="card modal-body">
+        <form class="" [formGroup]="editInsuredDetailsForm">
+            <div class="grid">
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Insured Name</label>
+                    <input pInputText formControlName="insuredName" placeholder="Insurer Name" type="text"
+                    class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Head Office</label>
+
+                    <p-dropdown formControlName="clientLocationId" placeholder="Select client location"
+                        [options]="this.optionsQuoteLocationOccupancies" dropdown="false"
+                        [(ngModel)]="selectedTypeofPolicy" optionLabel="label" optionvalue="value"
+                        class="custom-dropdown">
+                    </p-dropdown>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Risk Type</label>
+                    <input pInputText formControlName="riskType" placeholder="Risk Type" value="" type="text"
+                    class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Type of Policy</label>
+                    <div class="pp-dropdown-c">
+                        <p-dropdown formControlName="typeofPolicy" [options]="optionsQuoteType" [disabled]="true"
+                        dropdown="true" [(ngModel)]="selectedOption" optionLabel="" optionValue="value"
+                            class="custom-dropdown" required>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Sum Insured</label>
+                    <input pInputText formControlName="sumAssured" placeholder="Type Here" value="500,000 Lacs"
+                        type="text" class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Renewal Policy Period</label>
+                    <div class="pp-dropdown-c">
+                        <p-dropdown class="custom-dropdown" [options]="this.optionsIndmenityPeriod" [disabled]="true"
+                        placeholder="Select Indmenity Period" optionLabel="label" optionValue="value"
+                            formControlName="renewalPolicyPeriod"></p-dropdown>
+                            <small class="ng-dirty ng-invalid"
+                            *ngIf="editInsuredDetailsForm.controls['renewalPolicyPeriod']?.errors?.required">Indmenity
+                            Period is required.</small>
+                        </div>
+                    </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">* CRM ID</label>
+                    <input pInputText formControlName="CRMArjunID" placeholder="Type Here" value="500,000 Lacs"
+                    type="text" class="p-inputtext1">
+                    <p class="hint">CRM ID is the lead ID like LDXXXXXXXXX</p>
+                </div>
+                <div class="col-12 md:col-4 mb-5">
+                    <label for="" class="form-label">Insured's Business</label>
+                    <input pInputText formControlName="insuredBusiness" placeholder="Type Here" value="500,000 Lacs"
+                        type="text" class="p-inputtext1" disabled>
+                    </div>
+                    <div class="col-12 md:col-4 mb-5">
+                        <label for="" class="form-label">Risk Start Date</label>
+                    <input pInputText formControlName="riskStartDate" placeholder="Type Here" value="" type="date"
+                        class="p-inputtext1" [min]="this.today" disabled>
+                </div>
+            </div>
+            <button class="btn btn-green mr-4" type="submit" (click)="formSubmit()">Save</button>
+        </form>
+
+    </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<form [formGroup]="basicDetailsForm">
+
+    <div>
+        <div class="container">
+
+            <div class="grid mb-3">
+                <div class="col-4 mb-5">
+                    <label id="BasicTab_InsuredName_Label" for="" class="form-label">Insured Name</label>
+                    <input pInputText id="BasicTab_InsuredName" formControlName="insuredName" placeholder="Insurer Name"
+                        type="text" class="p-inputtext1" disabled>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="" id="BasicTab_HeadOffice_Label" class="form-label">Head Office</label>
+                    <p-dropdown formControlName="clientLocationId" id="BasicTab_HeadOffice"
+                        [options]="this.optionsQuoteLocationOccupancies" placeholder="{{this.quote?.clientAddress}}"
+                        dropdown="true" [(ngModel)]="selectedOption" optionLabel="label" optionvalue="value"
+                        class="custom-dropdown" [disabled]="true">
+                    </p-dropdown>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_RiskType_Label">Risk Type</label>
+                    <input pInputText formControlName="riskType" id="BasicTab_RiskType" placeholder="Risk Type" value=""
+                        type="text" class="p-inputtext1" disabled>
+                </div>
+            </div>
+
+            <div class="grid mb-3">
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_PolicyType_Label">Type of Policy</label>
+                    <div class="pp-dropdown-c">
+                        <p-dropdown formControlName="typeofPolicy" id="BasicTab_PolicyTyp" [options]="optionsQuoteType"
+                            placeholder="{{this.quote?.quoteType}}" [disabled]="true" dropdown="true"
+                            [(ngModel)]="selectedOption" optionLabel="lable" optionValue="value"
+                            class="custom-dropdown">
+                        </p-dropdown>
+                        <!-- <input formControlName="typeofPolicy"    optionLabel="lable" optionValue="value" placeholder="{{this.quote?.quoteType}}" pInputText disabled> -->
+                    </div>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_SumAssured_Label">Sum Insured</label>
+                    <!-- <input pInputText formControlName="sumAssured" placeholder="Type Here" id="BasicTab_SumAssured"
+                        value="500,000 Lacs" type="text" class="p-inputtext1" disabled> -->
+
+                    <p-inputNumber maxlength="21" formControlName="sumAssured" id="BasicTab_SumAssured_Label" placeholder="Type Here"
+                        mode="decimal" locale="en-IN" prefix="₹ " [maxFractionDigits]="0" [minFractionDigits]="0"
+                        placeholder="₹" [disabled]="this.buttonDisabled"  type="" class=""></p-inputNumber>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_PolicyPeriod_Label">Renewal Policy Period</label>
+
+                    <p-dropdown class="custom-dropdown" id="BasicTab_PolicyPeriod"
+                        [options]="this.optionsIndmenityPeriod" placeholder="Select Indmenity Period"
+                        optionLabel="label" optionValue="value" formControlName="renewalPolicyPeriod"
+                        [disabled]="true"></p-dropdown>
+
+                </div>
+            </div>
+
+
+            <div class="grid mb-3">
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_CRMID_Label">CRM ID</label>
+                    <input pInputText formControlName="crmId" placeholder="Type Here" id="BasicTab_CRMID" type="text"
+                        class="p-inputtext1" disabled>
+                    <!-- <p class="hint">CRM ID is the lead ID like LDXXXXXXXXX</p> -->
+                </div>
+                <div class="col-4 mb-5">
+
+                    <label for="" class="form-label" id="BasicTab_InsuredBusiness_Label">Insured's Business</label>
+                    <input pInputText formControlName="insuredBusiness" id="BasicTab_InsuredBusiness"
+                        placeholder="{{this.quote?.riskStartDate | date}}" value="500,000 Lacs" type="text"
+                        class="p-inputtext1" disabled>
+                </div>
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label " id="BasicTab_RiskStartDate_Label">Risk Start Date</label>
+                    <input pInputText formControlName="riskStartDate" id="BasicTab_RiskStartDate"
+                        placeholder="Type Here" value="" type="date" class="p-inputtext1" [min]="this.today" [attr.disabled]="!this.quote.parentQuoteId?'true':null">
+                </div>
+            </div>
+            <div *ngIf="quote?.productId?.shortName === 'CAR' || quote?.productId?.shortName === 'EAR'" class="col-4 mb-5">
+                <label for="" class="form-label ">Project Tenure</label>
+                <input pInputText formControlName="projectTenure" [(ngModel)]="this.projectTenure" [attr.disabled]="!this.quote.parentQuoteId?'true':null">
+            </div>
+
+            <div class="grid mb-3" *ngIf = "this.quote.parentQuoteId">
+                <div class="col-4 mb-5">
+                    <label for="" class="form-label" id="BasicTab_ExpiredTermPremium_Label">Expired Term Premium</label>
+                    <input pInputText formControlName="expiredTermPremium" placeholder="Premium" id="BasicTab_ExpiredTermPremium" type="text"
+                        class="p-inputtext1" >
+                </div>
+            </div>
+            <hr>
+    <div class="flex align-items-center justify-content-end" *ngIf = "this.quote.parentQuoteId">
+        <button id="QuoteLocationBreakup_Save" class="btn btn-success" pRipple (click)="this.submitInsuredDetails()"
+            >Save</button>
+    </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--
+<div class="container">
+<form>
+    <div [formGroup]="basicDetailsForm">
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="insuredName" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="clientLocationId" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="insuredName" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+    </div>
+</form>
+</div> -->
+<div *ngIf="quote?.productId?.shortName === 'CAR' || quote?.productId?.shortName === 'EAR'">
+    <button class="btn btn-primary" (click)="projectDetails()">View Project Details</button>
+</div>

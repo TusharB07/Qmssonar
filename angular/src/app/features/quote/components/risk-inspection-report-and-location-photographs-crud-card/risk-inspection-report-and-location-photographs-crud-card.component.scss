@@ -1,0 +1,27 @@
+:host ::ng-deep .p-fileupload .p-fileupload-content {
+    padding: 1rem 1rem;
+}
+
+:host ::ng-deep .p-button .p-button-icon-left {
+    margin-left: 10px !important;
+}
+
+:host ::ng-deep p-button.p-element.ng-star-inserted {
+    display: none;
+}
+
+.dialog-content {
+    padding: 20px;
+  }
+  
+  h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .subtitle {
+    margin: 0 0 20px 0;
+    font-size: 1.2em;
+    color: #666;
+  }

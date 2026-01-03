@@ -1,0 +1,402 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="OccupancyRateFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="OccupancyRateForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="OccupancyRateForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="grid">
+                    <div class="col-12 md:col-6">
+
+                        <div class="card p-fluid">
+                            <h5 id="OccupancyRateForm_GeneralInformation">General Information</h5>
+                            <!-- <div class="field" *ngIf="this.role?.name == AllowedRoles.ADMIN"> -->
+                            <div class="field" >
+                                <label id="UserForm_PartnerLabel" for="name">Partner</label>
+                                <p-autoComplete [disabled]="this.mode == 'edit'" id="UserForm_Partner" [dropdown]="true" optionValue="value" field="label" formControlName="partnerId" [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                                <small id="UserForm_Partner_ValidationError" *ngIf="this.recordForm.controls['partnerId'].errors?.required" class="ng-invalid">This field Required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_ProductLabel" for="productId">Product</label>
+                                <p-autoComplete [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Product" [dropdown]="true" [suggestions]="this.optionsProducts" field="label" formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)" (onSelect)="this.hideRate($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_OccupancyTypeLabel" for="occupancyType" >Occupancy Type</label>
+                                <input  id="OccupancyRateForm_OccupancyType" class="form-control" type="text" pInputText id="occupancyType" formControlName="occupancyType" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['occupancyType']}" />
+                                <small id="OccupancyRateForm_OccupancyType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['occupancyType']">Occupancy Type is
+                                    required.</small>
+                            </div>
+
+                            <div class="field">
+                                <label id="OccupancyRateForm_HazardCategoryLabel" for="name">Hazard Category</label>
+                                <p-autoComplete [disabled]="this.mode == 'edit'" id="OccupancyRateForm_HazardCategory" [dropdown]="true" field="label" formControlName="hazardCategoryId" [suggestions]="this.hazardCategoryOptions" (completeMethod)="this.searchHazardCategoryOptions($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['hazardCategoryId'].valid}"></p-autoComplete>
+                                <small id="OccupancyRateForm_HazardCategory_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['hazardCategoryId']?.errors?.required">City is required.</small>
+                            </div>
+
+                            <div class="field">
+                                <label id="OccupancyRateForm_GradedRetentionLabel" for="gradedRetention">Graded Retention</label>
+                                <p-toggleButton [disabled]="this.mode == 'edit'" id="OccupancyRateForm_GradedRetention" class="form-control" formControlName="gradedRetention" onLabel="{{'Graded Retention active'}}" offLabel="{{'Graded Retention inactive'}}" onIcon="{{'pi pi-check'}}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                            </div>
+
+                            <div class="field">
+                                <label id="OccupancyRateForm_TacCodeLabel" for="tacCode">Tac Code</label>
+                                <input id="OccupancyRateForm_TacCode" class="form-control" type="text" pInputText id="tacCode" formControlName="tacCode" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['tacCode']}" />
+                                <small id="OccupancyRateForm_TacCode_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['tacCode']">Tac Code is
+                                    required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_SectionLabel" for="section">Section</label>
+                                <input  id="OccupancyRateForm_Section" class="form-control" type="text" pInputText id="section" formControlName="section" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['section']}" />
+                                <small id="OccupancyRateForm_Section_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['section']">Section is
+                                    required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_RiskCodeLabel" for="riskCode">Risk Code</label>
+                                <input  id="OccupancyRateForm_RiskCode" class="form-control" type="text" pInputText id="riskCode" formControlName="riskCode" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['riskCode']}" />
+                                <small id="OccupancyRateForm_RiskCode_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['riskCode']">Risk Code
+                                    is
+                                    required.</small>
+                            </div>
+                            <!-- <div class="field">
+                                <label id="OccupancyRateForm_PolicyTypeLabel" for="policyType">Policy Type</label>
+                                <input id="OccupancyRateForm_PolicyType" class="form-control" type="text" pInputText id="policyType" formControlName="policyType" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['policyType']}" />
+                                <small id="OccupancyRateForm_PolicyType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['policyType']">Policy
+                                    Type is
+                                    required.</small>
+                            </div> -->
+                            <!-- <div class="field" >
+                                <label id="UserForm_IndustryTypeLabel" for="name">Industry Type</label>
+                                <p-autoComplete  id="UserForm_IndustryType" [dropdown]="true" optionValue="value" field="label" formControlName="industryTypeId" [suggestions]="this.optionsIndustry" (completeMethod)="this.searchOptionsIndustry($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['industryTypeId'].valid}"></p-autoComplete>
+                                <small id="UserForm_Partner_ValidationError" *ngIf="this.recordForm.controls['industryTypeId'].errors?.required" class="ng-invalid">This field Required.</small>
+                            </div> -->
+                            <div class="field">
+                                <label for="sectorId">Sector</label>
+                                <p-autoComplete [dropdown]="true" [suggestions]="this.optionsSectors"
+                                    field="label" formControlName="sectorId" (completeMethod)="this.searchOptionsSector($event)" 
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['sectorId'].valid}"></p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_OccupancyCodeLabel" for="iibOccupancyCode">Iib Occupancy Code</label>
+                                <input id="OccupancyRateForm_OccupancyCode" class="form-control" type="text" pInputText id="iibOccupancyCode" formControlName="iibOccupancyCode" />
+
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_RateCodeLabel" for="rateCode">Rate Code</label>
+                                <input id="OccupancyRateForm_RateCode" class="form-control" type="text" pInputText id="rateCode" formControlName="rateCode" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rateCode']}" />
+                                <small id="OccupancyRateForm_RateCode_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['rateCode']">Rate Code
+                                    is
+                                    required.</small>
+                            </div>
+                            <div *ngIf="isHideOption">
+                                <div class="field">
+                                    <div class="tooltip">Opt 1
+                                        <span class="tooltiptext">Rate for 1 Month + 1 month testing(Rs. %o)</span>
+                                    </div>
+                                    <input id="opt1" class="form-control" type="text" pInputText id="opt1" formControlName="opt1Rate" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['opt1']}" />
+                                </div>
+    
+                                <div class="field">
+                                    <div class="tooltip">Opt 2
+                                        <span class="tooltiptext">Rate for 1 month or part thereof, for subsequent 10 months(Rs. %o)</span>
+                                    </div>
+                                    <input id="opt2" class="form-control" type="text" pInputText id="rateCode" formControlName="opt2Rate" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['opt2']}" />
+                                </div>
+    
+                                <div class="field">
+                                    <div class="tooltip">Opt 3
+                                        <span class="tooltiptext">Rate for 1 month or part thereof, for period exceeding 12 months(Rs. %o)</span>
+                                    </div>
+                                    <input id="opt3" class="form-control" type="text" pInputText id="rateCode" formControlName="opt3Rate" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['opt3']}" />
+                                </div>
+    
+                                <div class="field">
+                                    <div class="tooltip">Opt 4
+                                        <span class="tooltiptext">Rate for 1 month or part
+                                            thereof,for testing period extension within policy period(Rs. %o)</span>
+                                </div>
+                                    <input id="opt4" class="form-control" type="text" pInputText id="opt4" formControlName="opt4Rate" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['opt4']}" />
+                                </div>
+                            </div>
+                            <div class="field flex justify-content-between">
+                                <div class="mr-2">
+                                    <label id="ProductForm_ProductTemplateLabel" for="renewalPolicyPeriodinMonthsoryears">Min Tenure (in years)</label>
+                                <p-inputNumber id="LiabilitySection_Dialog_Description" mode="decimal" formControlName="minnumberOfYears"  [min]="1" 
+                                value="" [showButtons]="true"
+                                min="0"></p-inputNumber>
+                                <small id="ProductForm_ProductTemplateValidationError"
+                                        *ngIf="recordForm.controls['minnumberOfYears'].errors?.max" class="ng-invalid">Tenure cannot be greater than max tenure years.</small>
+                                </div>
+                                <div>
+                                    <label id="ProductForm_ProductTemplateLabel" for="renewalPolicyPeriodinMonthsoryears">Max Tenure (in years)</label>
+                                    <!-- <input class="form-control" type="number" pInputText  formControlName="numberOfYears"/> -->
+                                    <p-inputNumber id="LiabilitySection_Dialog_Description" mode="decimal" formControlName="maxnumberOfYears"  [min]="1" 
+                                    value="" [showButtons]="true"
+                                    min="0"></p-inputNumber>
+                                    <small id="ProductForm_ProductTemplateValidationError"
+                                        *ngIf="recordForm.controls['maxnumberOfYears'].errors?.max" class="ng-invalid">Allowed tenure is {{recordForm.controls['productId'].value.max}} years.</small>
+                                </div>  
+                            </div>
+                            <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value">
+                                <label for="taskStatus" id="OccupancyRateFormForm_taskStatusLabel">Task Status</label>
+                                <input id="OccupancyRateForm_taskStatus" class="form-control" type="text" pInputText id="taskStatus"
+                                formControlName="taskStatus" />
+                            </div>
+        
+                            <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value == 'failed'">
+                                <label for="failedMessage" id="OccupancyRateFormForm_failedMessageLabel">Failed Reasson</label>
+                                <input id="OccupancyRateForm_failedMessage" class="form-control" type="text" pInputText id="failedMessage"
+                                formControlName="failedMessage" />
+                            </div>
+
+                            <div class="field">
+                                <label id="OccupancyRateForm_ActiveLabel" for="OccupancyRateFormForm_Active">Active?</label>
+                                <p-toggleButton id="OccupancyRateFormForm_Active" class="form-control" formControlName="active"
+                                    [onLabel]="'Occupancy Rate Active'" [offLabel]="'Occupancy Rate Inactive'" [onIcon]="'pi pi-check'"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <div class="card p-fluid" *ngIf="isHide">
+                            <h5 id="OccupancyRateForm_RatesInfo">Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="flexaiib">Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="flexaiib" formControlName="flexaiib"  autofocus />
+                                <div *ngIf="!flexaiib?.valid && (flexaiib?.dirty ||flexaiib?.touched || submitted)">
+                                    <div [hidden]="!flexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Flexaiib Rate is required</small>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="stfiRate">Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="stfiRate" formControlName="stfiRate" autofocus />
+                                <div *ngIf="!stfiRate?.valid && (stfiRate?.dirty ||stfiRate?.touched || submitted)">
+                                    <div [hidden]="!stfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Stfi Rate is required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="flexaiib">Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="flexaiibc" formControlName="flexaiibc" autofocus />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['flexaiibc']">Flexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="flexaiib">Max StockSI</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" [min]="0" class="form-control" type="text" pInputText id="maxStockSI" formControlName="maxStockSI" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['maxStockSI']}" />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['flexaiibc']">Flexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+
+                            <h5 id="OccupancyRateForm_RatesInfo">Tenurewise Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="tenurewiseflexaiib">Tenurewise Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="tenurewiseflexaiib" formControlName="tenurewiseflexaiib"  autofocus/>
+                                <!-- <div *ngIf="!tenurewiseflexaiib?.valid && (tenurewiseflexaiib?.dirty ||tenurewiseflexaiib?.touched || submitted)">
+                                    <div [hidden]="!tenurewiseflexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Tenurewise Flexaiib is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="tenurewisestfiRate">Tenurewise Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="tenurewisestfiRate" formControlName="tenurewisestfiRate"  autofocus/>
+                                <!-- <div *ngIf="!tenurewisestfiRate?.valid && (tenurewisestfiRate?.dirty ||tenurewisestfiRate?.touched || submitted)">
+                                    <div [hidden]="!tenurewisestfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Tenurewise Stfi Rate is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="tenurewiseflexaiibc">Tenurewise Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiibc" class="form-control" type="text" pInputText id="tenurewiseflexaiibc" formControlName="tenurewiseflexaiibc"  autofocus  />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['tenurewiseflexaiibc']">Tenurewiseflexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+                        </div>
+                        <!-- This is only for Griha Lite Start -->
+                        <!-- Building Rate -->
+                        <div class="card p-fluid" *ngIf="isHideBulidingandContent">
+                            <h5 id="OccupancyRateForm_RatesInfo">Building Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="buildingFlexaiib">Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="buildingFlexaiib" formControlName="buildingFlexaiib" autofocus />
+                                <div *ngIf="!buildingFlexaiib?.valid && (buildingFlexaiib?.dirty ||buildingFlexaiib?.touched || submitted)">
+                                    <div [hidden]="!buildingFlexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Flexaiib Rate is required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="buildingStfiRate">Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="buildingStfiRate" formControlName="buildingStfiRate" autofocus />
+                                <div *ngIf="!buildingStfiRate?.valid && (buildingStfiRate?.dirty ||buildingStfiRate?.touched || submitted)">
+                                    <div [hidden]="!buildingStfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Flexaiib Rate is required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="buildingFlexaiibc">Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="buildingFlexaiibc" formControlName="buildingFlexaiibc"  autofocus />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['flexaiibc']">Flexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+
+                            <h5 id="OccupancyRateForm_RatesInfo">Building Tenurewise Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="buildingTenurewiseflexaiib">Building Tenurewise Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="buildingTenurewiseflexaiib" formControlName="buildingTenurewiseflexaiib"  autofocus/>
+                                <!-- <div *ngIf="!buildingTenurewiseflexaiib?.valid && (buildingTenurewiseflexaiib?.dirty ||buildingTenurewiseflexaiib?.touched || submitted)">
+                                    <div [hidden]="!buildingTenurewiseflexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Building Tenurewise Flexaiib Rate is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="buildingTenurewisestfiRate">Building Tenurewise Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="buildingTenurewisestfiRate" formControlName="buildingTenurewisestfiRate"  autofocus/>
+                                <!-- <div *ngIf="!buildingTenurewisestfiRate?.valid && (buildingTenurewisestfiRate?.dirty ||buildingTenurewisestfiRate?.touched || submitted)">
+                                    <div [hidden]="!buildingTenurewisestfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Building Tenurewise Stfi Rate is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="buildingTenurewiseflexaiibc">Building Tenurewise Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiibc" class="form-control" type="text" pInputText id="buildingTenurewiseflexaiibc" formControlName="buildingTenurewiseflexaiibc"  autofocus  />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['tenurewiseflexaiibc']">Tenurewiseflexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+                        </div>
+                        <!-- Content Rate -->
+                        <div class="card p-fluid" *ngIf="isHideBulidingandContent">
+                            <h5 id="OccupancyRateForm_RatesInfo">Content Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="contentFlexaiib">Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="contentFlexaiib" formControlName="contentFlexaiib" autofocus />
+                                <div *ngIf="!contentFlexaiib?.valid && (contentFlexaiib?.dirty ||contentFlexaiib?.touched || submitted)">
+                                    <div [hidden]="!contentFlexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Flexaiib Rate is required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="contentStfiRate">Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="contentStfiRate" formControlName="contentStfiRate" autofocus />
+                                <div *ngIf="!contentStfiRate?.valid && (contentStfiRate?.dirty ||contentStfiRate?.touched || submitted)">
+                                    <div [hidden]="!contentStfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Stfi Rate is required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="contentFlexaiibc">Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="contentFlexaiibc" formControlName="contentFlexaiibc" autofocus />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['flexaiibc']">Flexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+
+                            <h5 id="OccupancyRateForm_RatesInfo">Content Tenurewise Rates</h5>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibLabel" for="contentTenurewiseFlexaiib">Tenurewise Flexaiib</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiib" class="form-control" type="text" pInputText id="contentTenurewiseFlexaiib" formControlName="contentTenurewiseFlexaiib" autofocus/>
+                                <!-- <div *ngIf="!contentTenurewiseFlexaiib?.valid && (contentTenurewiseFlexaiib?.dirty ||contentTenurewiseFlexaiib?.touched || submitted)">
+                                    <div [hidden]="!contentTenurewiseFlexaiib.errors.required">
+                                      <small class="ng-dirty ng-invalid">Tenurewise Flexaiib Rate is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_StfiRateLabel" for="contentTenurewiseStfiRate">Content Tenurewise Stfi Rate</label>
+                                <input id="OccupancyRateForm_StfiRate" class="form-control" type="text" pInputText id="contentTenurewiseStfiRate" formControlName="contentTenurewiseStfiRate" autofocus/>
+                                 <!-- <div *ngIf="!contentTenurewiseStfiRate?.valid && (contentTenurewiseStfiRate?.dirty || contentTenurewiseStfiRate?.touched || submitted)">
+                                    <div [hidden]="!contentTenurewiseStfiRate.errors.required">
+                                      <small class="ng-dirty ng-invalid">Content Tenurewise Stfi Rate is required</small>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_FlexaiibcLabel" for="contentTenurewiseFlexaiibc">Content Tenurewise Flexaiibc</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_Flexaiibc" class="form-control" type="text" pInputText id="contentTenurewiseFlexaiibc" formControlName="contentTenurewiseFlexaiibc"  autofocus  />
+                                <!-- <small id="OccupancyRateForm_Flexaiibc_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['tenurewiseflexaiibc']">Tenurewiseflexaiib
+                                    is
+                                    required.</small> -->
+                            </div>
+                        </div>
+                        <!-- This is only for Griha Lite End -->
+                        <div class="card p-fluid">
+                            <h5>Addon</h5>
+
+                            <div class="field">
+                                <label id="OccupancyRateForm_ApplicableFromLabel" for="applicableFrom">applicableFrom</label>
+                                <!-- <input class="form-control" type="text" pInputText id="effectiveFrom" formControlName="effectiveFrom" /> -->
+                                <p-calendar [disabled]="this.mode == 'edit'" class="form-control" id="OccupancyRateForm_ApplicableFrom" type="date" [showIcon]="true" id="applicableFrom" formControlName="applicableFrom" dateFormat="yy-mm-dd"></p-calendar>
+
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_ApplicableToLabel" for="applicableTo">applicableTo</label>
+                                <!-- <input class="form-control" type="text" pInputText id="effectiveTo" formControlName="effectiveTo" /> -->
+                                <p-calendar [minDate]="minSelectableDate" id="OccupancyRateForm_ApplicableTo" class="form-control" type="date" [showIcon]="true" id="applicableTo" formControlName="applicableTo" dateFormat="yy-mm-dd"></p-calendar>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_EffectiveFromLabel" for="effectiveFrom">Effective From</label>
+                                <!-- <input class="form-control" type="text" pInputText id="effectiveFrom" formControlName="effectiveFrom" /> -->
+                                <p-calendar id="OccupancyRateForm_EffectiveFrom" class="form-control" type="date" [showIcon]="true" id="effectiveFrom" formControlName="effectiveFrom" dateFormat="yy-mm-dd"></p-calendar>
+
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_EffectiveToLabel" for="effectiveTo">Effective To</label>
+                                <!-- <input class="form-control" type="text" pInputText id="effectiveTo" formControlName="effectiveTo" /> -->
+                                <p-calendar id="OccupancyRateForm_EffectiveTo" class="form-control" type="date" [showIcon]="true" id="effectiveTo" formControlName="effectiveTo" dateFormat="yy-mm-dd"></p-calendar>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_SPLRemarkLabel" for="specialRemark">SpecialRemark</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_SPLRemark" class="form-control" type="text" pInputText id="specialRemark" formControlName="specialRemark" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['specialRemark']}" />
+                                <small id="OccupancyRateForm_SPLRemark_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['specialRemark']">SpecialRemark is
+                                    required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="OccupancyRateForm_SplGICLabel" for="specialExcessGIC">Special Excess GIC</label>
+                                <input [disabled]="this.mode == 'edit'" id="OccupancyRateForm_SplGIC" class="form-control" type="text" pInputText id="specialExcessGIC" formControlName="specialExcessGIC" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['specialExcessGIC']}" />
+                                <small id="OccupancyRateForm_SplGIC_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['specialExcessGIC']">Special Excess GIC is
+                                    required.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" id="OccupancyRateForm_AuditTrail" [entityResourcePrefix]="'occupancy'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

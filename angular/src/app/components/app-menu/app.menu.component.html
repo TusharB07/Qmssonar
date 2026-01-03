@@ -1,0 +1,93 @@
+<ng-container *ngIf="(this.currentUser$ | async) !== null && !ismobile">
+    <div class="layout-menu-wrapper" [ngClass]="{'layout-sidebar-active': appMain.sidebarActive}" (click)="appMain.onSidebarClick($event)" (mouseover)="appMain.onSidebarMouseOver($event)" (mouseleave)="appMain.onSidebarMouseLeave($event)">
+        <div class="menu-logo" *ngIf="!appMain.isHorizontal() || appMain.isMobile()">
+
+            <a href="#" class="logo">
+                <img [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'">
+            </a>
+            <!--
+            <a href="#" class="app-name" *ngIf="!appMain.isSlim() || appMain.isMobile()">
+                <img [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" />
+            </a>
+            -->
+            <a href="#" class="menu-pin" (click)="appMain.onToggleMenu($event)">
+                <span *ngIf="appMain.isOverlay()" class="pi pi-times"></span>
+                <span *ngIf="appMain.isSidebar() && !appMain.sidebarStatic && appMain.pinActive" class="pi pi-unlock"></span>
+                <span *ngIf="appMain.isSidebar() && appMain.sidebarStatic && appMain.pinActive" class="pi pi-lock"></span>
+            </a>
+        </div>
+
+        <div class="layout-menu-container">
+            <ul class="layout-menu">
+                <ng-container *ngFor="let item of model; let i = index;">
+                    <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true">================</li>
+                    <li *ngIf="item.separator" class="menu-separator">----------------</li>
+                </ng-container>
+            </ul>
+        </div>
+
+        <app-inlinemenu></app-inlinemenu>
+    </div>
+</ng-container>
+<ng-container *ngIf="(this.currentUser$ | async) !== null && ismobile">
+    <div class="layout-menu-wrapper" [ngClass]="{'layout-sidebar-active': appMain.sidebarActive}" (click)="appMain.onSidebarClick($event)" (mouseover)="appMain.onSidebarMouseOver($event)" (mouseleave)="appMain.onSidebarMouseLeave($event)">
+        <div class="menu-logo" *ngIf="!appMain.isHorizontal() || appMain.isMobile()">
+
+            <a href="#" class="logo">
+                <!-- <img id="AppMenu_Image" [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'"> -->
+                <img id="AppMenu_Image" src="../.">
+            </a>
+            <!--
+            <a href="#" class="app-name" *ngIf="!appMain.isSlim() || appMain.isMobile()">
+                <img [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" />
+            </a>
+            -->
+            <a href="#" class="menu-pin" (click)="appMain.onToggleMenu($event)">
+                <span id="AppMenu_Overlay" *ngIf="appMain.isOverlay()" class="pi pi-times"></span>
+                <span id="AppMenu_SideBar" *ngIf="appMain.isSidebar() && !appMain.sidebarStatic && appMain.pinActive" class="pi pi-unlock"></span>
+                <span id="AppMenu_SideBar" *ngIf="appMain.isSidebar() && appMain.sidebarStatic && appMain.pinActive" class="pi pi-lock"></span>
+            </a>
+        </div>
+
+        <div class="layout-menu-container">
+            <ul class="layout-menu">
+                <ng-container *ngFor="let item of model; let i = index;">
+                    <li id="AppMenu_MenuItems" app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true">
+                    </li>
+                    <li id="AppMenu_Separator" *ngIf="item.separator" class="menu-separator"></li>
+                </ng-container>
+            </ul>
+            <div class="sidemenu-footer">
+                <div class="flex align-items-center sidemenu-footer-sub py-3">
+                    <div class="mx-1" *ngIf="photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage" style="border-radius: 17px;"
+                            onerror="this.src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'"
+                            src="{{ this.staticUrl }}/users/{{ (this.currentUser$ | async)?.photo }}">
+                    </div>
+                    <div class="mx-1" *ngIf="!photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage" style="border-radius: 17px;"
+                            src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'>
+                    </div>
+                    <div class="mr-3">
+                        <h6 class="" id="AppTopBar_Capitalize">{{ (this.currentUser$ | async)?.name }} <p-badge
+                                [style]="{textTransform:'capitalize'}"
+                                [value]="(this.currentUser$ | async)?.roleId.name.replaceAll('_',' ')"></p-badge>
+                        </h6>
+                        <small>{{ (this.currentUser$ | async)?.email }}</small><br>
+                        <small>Last Logged In : {{this.user.lastLogin | date : 'dd MMM yyyy, h:mm a'}}</small>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div>
+                        1
+                    </div>
+                    <div>
+                        2
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-inlinemenu id="AppMenu_InlineMenu"></app-inlinemenu>
+    </div>
+</ng-container>

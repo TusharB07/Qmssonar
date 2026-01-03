@@ -1,0 +1,61 @@
+.clauses-list-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px !important;
+}
+
+.lt-solid-box {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 2px solid #2156C2;
+    border-radius: 27px;
+    padding: 10px;
+    // min-height: 520px;
+}
+
+.lt-solid-box ul.addOns-list li{
+    padding: 12px 10px;
+    min-height: auto;
+}
+
+.lt-solid-box ul.addOns-list li:nth-of-type(odd) {
+    background: #F2F6FF;
+    border-radius: 13px;
+}
+::ng-deep .customPopup.p-dialog .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link{
+    position: relative;
+    background: transparent;
+}
+
+.lt-solid-box-Risk-Inspaction-status{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 2px solid #2156C2;
+    border-radius: 27px;
+    padding: 10px;
+    min-height: 50px;
+    // min-height: 520px;
+}
+.Annexure-data{
+    text-align: center;
+
+    font-size: 9px;
+
+}
+// .inline-flex{
+//     position: abslute;
+// }
+// .header-section{
+// transform: skewX(30);
+// position: absolute;
+// z-index: 0;
+// }
+
+// .inline-flex-boxes{
+//     position: relative;
+//     padding-top: 150px;
+
+
+// }
+
+hr{
+    border-top: 1px solid #0064BB
+}

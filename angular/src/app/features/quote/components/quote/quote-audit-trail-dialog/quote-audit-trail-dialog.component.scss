@@ -1,0 +1,72 @@
+.pi-arrow-down {
+  color: #2156c2;
+  border: 1.5px solid #2156c2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.pi-arrow-down:hover {
+  cursor: pointer;
+}
+
+.custom-marker {
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: #1a0163;
+  padding: 12px;
+  border-radius: 50%;
+  z-index: 1;
+  margin: 1 rem;
+  border: 1px solid black;
+}
+
+::ng-deep {
+
+  .p-timeline-event-content,
+  .p-timeline-event-opposite {
+    line-height: 1;
+  }
+
+  .p-timeline-event-opposite {
+    max-width: 250px;
+  }
+}
+
+:host ::ng-deep .p-timeline.p-timeline-vertical .p-timeline-event-connector {
+  width: 1px;
+  border: 1px dashed black;
+}
+
+.custom-timeline-content {
+  padding: 10px;
+  border-radius: 10px;
+  background: rgb(238, 234, 250);
+}
+
+@media screen and (max-width: 960px) {
+  ::ng-deep {
+    .customized-timeline {
+      .p-timeline-event:nth-child(even) {
+        flex-direction: row !important;
+
+        .p-timeline-event-content {
+          text-align: left !important;
+        }
+      }
+
+      .p-timeline-event-opposite {
+        flex: 0;
+      }
+
+      .p-card {
+        margin-top: 1rem;
+      }
+    }
+  }
+}

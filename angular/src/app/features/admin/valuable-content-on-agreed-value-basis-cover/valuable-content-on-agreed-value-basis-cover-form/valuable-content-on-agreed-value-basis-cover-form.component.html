@@ -1,0 +1,53 @@
+
+
+
+
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ValuableContentRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="ValuableContent_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="ValuableContent_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5>General Information</h5>
+                        <div class="field">
+                            <label for="quoteId" id="ValuableContent_QuoteIdLabel">Quote Id</label>
+                            <p-autoComplete [dropdown]="true" id="ValuableContent_QuoteId" [suggestions]="this.optionsQuotes" autofocus field="label" formControlName="quoteId" (completeMethod)="this.searchOptionsQuotes($event)"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label for="itemDescription" id="ValuableContent_ItemDescriptionLabel">Item Description</label>
+                                <input maxlength="11" type="text" pInputText id="itemDescription" formControlName="itemDescription" required id="ValuableContent_ItemDescription"
+                                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['itemDescription']}" />
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['itemDescription']">itemDescription is required.</small>
+                        </div>
+                        <div class="field">
+                            <label for="sumInsured" id="ValuableContent_SumInsuredLabel">Sum Insured</label>
+                                <input  type="text" pInputText id="sumInsured" formControlName="sumInsured" required id="ValuableContent_SumInsured"
+                                    autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sumInsured']}" />
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sumInsured']">sumInsured is required.</small>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

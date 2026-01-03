@@ -1,0 +1,299 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2 flex">
+                            <button id="wcCoverageTypeList_CreateRecord"
+                                *ngIf="this.user?.partnerId?.partnerType == 'self'" pButton pRipple label="New"
+                                icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <button id="wcCoverageTypeList_DeleteSelectedRecordsConfirmation" pButton pRipple
+                                label="Delete" icon="pi pi-trash" class="p-button-danger mr-2"
+                                (click)="this.openDeleteSelectedRecordsConfirmationDialog()"
+                                [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button>
+                            <button id="wcCoverageTypeList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                            <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action"
+                                [(ngModel)]="this.selectedOption" optionLabel="name" (onChange)="selectAction($event)"
+                                (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="wcCoverageType_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="wcCoverageType_FileUpload" accept="image/*"
+                            [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true"
+                    (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id"
+                    [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)"
+                    [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['coverageType','rate']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="wcCoverageType_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+                            <th style="width: 700px;" pSortableColumn="productId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Product </span>
+                                    <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Product filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedProductId"
+                                                [suggestions]="optionsProductId"
+                                                (completeMethod)="getOptionsProductId($event)" field="productId"
+                                                [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                                (onUnselect)="handleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="coverageType">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="wcCoverageType_coverageTypeHeader">
+                                        Coverage Type
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="wcCoverageTypeList_coverageTypeColumnFilter" type="text"
+                                            field="coverageType" display="menu"
+                                            placeholder="Search by Coverage Type"></p-columnFilter>
+                                        <p-sortIcon id="wcCoverageTypeList_coverageTypeSortIcon"
+                                            field="coverageType"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="rate">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="wcCoverageType_RateHeader">
+                                        Rate
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="wcCoverageTypeList_RateColumnFilter" type="text"
+                                            field="rate" display="menu" placeholder="Search by Rate"></p-columnFilter>
+                                        <p-sortIcon id="wcCoverageTypeList_RateSortIcon" field="rate "></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="isPaid">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="wcCoverageType_PaidHeader">
+                                        Paid
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="wcCoverageTypeList_PaidColumnFilter" type="text"
+                                            field="isPaid" display="menu" placeholder="Search by Paid"></p-columnFilter>
+                                        <p-sortIcon id="wcCoverageTypeList_PaidSortIcon" field="isPaid "></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="isFree">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="wcCoverageType_FreeHeader">
+                                        Free
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="wcCoverageTypeList_FreeColumnFilter" type="text"
+                                            field="isFree" display="menu" placeholder="Search by Free"></p-columnFilter>
+                                        <p-sortIcon id="wcCoverageTypeList_FreeSortIcon" field="isFree "></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+
+                            <th pSortableColumn="partnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Partner Id </span>
+                                    <p-columnFilter field="partnerId" matchMode="equals" display="menu" type="text"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">partnerId filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedPartners"
+                                                [suggestions]="optionsPartners"
+                                                (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                                [dropdown]="true" [multiple]="true"
+                                                (onSelect)="partnerIdHandleFilter($event)"
+                                                (onUnselect)="partnerIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+                            <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="word-wrap: norwrap" id="wcCoverageTypetaskStatusList_taskStatusHeader">
+                                        TaskStatus
+                                    </span>
+                                    <div style="word-wrap: nowrap">
+                                        <p-columnFilter id="wcCoverageTypeRateList_RateColumnFilter" type="text"
+                                            field="taskStatus" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon id="wcCoverageTypeRateList_RateSortIcon"
+                                            field="taskStatus"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="word-wrap: norwrap"
+                                        id="wcCoverageTypetaskStatusfailedMessage_failedMessageHeader">
+                                        FailedMessage
+                                    </span>
+                                    <div style="word-wrap: nowrap">
+                                        <p-sortIcon id="wcCoverageTypeRateList_RateSortIcon"
+                                            field="failedMessage"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="status">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="wcCoverageTypeList_StatusHeader"> Status </span>
+                                    <div>
+                                        <p-columnFilter type="boolean" field="active" display="menu"
+                                            placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon field="active"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th></th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-coverageType>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox [value]="coverageType"
+                                    id="wcCoverageTypeList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <td id="wcCoverageTypeList_Product">
+
+                                <a
+                                    routerLink="/backend/admin/products/{{product?.productId?._id}}">{{coverageType.productId?.type}}</a>
+
+                            </td>
+
+                            <td id="wcCoverageTypeList_coverageType">
+                                {{coverageType.coverageType}}
+
+                            </td>
+                            <td id="wcCoverageTypeListRate">
+                                {{coverageType.rate}}
+
+                            </td>
+                            <td id="wcCoverageTypeList_isPaid">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check': coverageType.isPaid, 'false-icon pi-times': !coverageType.isPaid}"></i>
+                            </td>
+                            <td id="wcCoverageTypeList_isFree">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check': coverageType.isFree, 'false-icon pi-times': !coverageType.isFree}"></i>
+                            </td>
+                            <td>
+                                {{coverageType?.partnerId?.name}}
+                            </td>
+
+
+
+                            <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{coverageType?.taskStatus ?? '-'}}
+                            </td>
+
+                            <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{coverageType?.failedMessage ??
+                                '-'}}</td>
+
+                            <td id="wcCoverageTypeList_Status">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': coverageType.active, 'false-icon pi-times-circle': !coverageType.active}"></i>
+                            </td>
+                            <td>
+                                <div class="flex">
+                                    <button id="wcCoverageTypeList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(coverageType)"></button>
+                                    <button id="wcCoverageTypeList_DeleteRecordConfirmationDialog" pButton pRipple
+                                        icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                        (click)="this.openDeleteRecordConfirmationDialog(coverageType)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="wcCoverageTypeList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="wcCoverageTypeList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you
+                    want to delete <b>{{selectedRecord.coverageType}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="wcCoverageTypeList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="wcCoverageTypeList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="wcCoverageTypeList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="wcCoverageTypeList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="wcCoverageTypeList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="wcCoverageTypeList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,198 @@
+<div class="form-container px-3 pt-3">
+    <div class="grid">
+        <div class="col-12 mx-0">
+            <div class="col-12">
+                <div class="grid">
+                    <div class="col-6">
+                        <p-card>
+                            <ng-template pTemplate="header">
+                                <div class="grid">
+                                    <div class="col-9">
+                                        <h3 style="font-size: medium; font-weight: bold;">
+                                            Breakup Details
+                                        </h3>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <p-selectButton id="Breakup_RevenueORTurnOver" [options]="this.optionsBreakup"
+                                            style="height: 50px;" (ngModelChange)="this.changeView($event)"
+                                            [(ngModel)]="this.quoteEndOOptions.isBreakupRevenueORTurnover"
+                                            optionValue="code" optionLabel="label"
+                                            style="font-size: 20px;"></p-selectButton>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class=" grid lt-solid-box mb-4">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                *ngFor="let header of this.quoteEndOOptions.revenueDetails.revenueColumn">
+                                                {{ header.label }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of quoteEndOOptions.revenueDetails.revenueRows">
+                                            <td *ngIf="row.label!='Total'">
+                                                <input pInputText type="text" [(ngModel)]="row.label"
+                                                    placeholder="Country Name" maxlength="255" />
+                                            </td>
+                                            <td *ngIf="row.label=='Total'">{{ row.label }}</td>
+                                            <td>
+                                                <div *ngIf="row.label!='Total'">
+                                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0"
+                                                        id="firstYear" locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="row.firstYear" name="firstYear"
+                                                        #firstYear="ngModel" [minFractionDigits]="0"
+                                                        class="text-right"></p-inputNumber>
+                                                </div>
+                                                <div *ngIf="row.label=='Total'" style="text-align: right;">
+                                                    <span style="font-weight: bold;color: black;"
+                                                        id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                            [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                            [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                            [value]='getTotalfirstYear()'></app-currency-dollar-repee></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="row.label!='Total'">
+                                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0"
+                                                        id="secondYear" locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="row.secondYear" name="secondYear"
+                                                        #secondYear="ngModel" [minFractionDigits]="0"
+                                                        class="text-right"></p-inputNumber>
+                                                </div>
+                                                <div *ngIf="row.label=='Total'" style="text-align: right;">
+                                                    <span style="font-weight: bold;color: black;"
+                                                        id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                            [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                            [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                            [value]='getTotalsecondYear()'></app-currency-dollar-repee></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="row.label!='Total'">
+                                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0"
+                                                        id="thirdYear" locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="row.thirdYear" name="thirdYear"
+                                                        #thirdYear="ngModel" [minFractionDigits]="0"
+                                                        class="text-right"></p-inputNumber>
+                                                </div>
+                                                <div *ngIf="row.label=='Total'" style="text-align: right;">
+                                                    <span style="font-weight: bold;color: black;"
+                                                        id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                            [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                            [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                            [value]='getTotalthirdYear()'></app-currency-dollar-repee></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="row.label!='Total'">
+                                                    <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0"
+                                                        id="estimatedForNextYear" locale="en-IN" autocomplete="off"
+                                                        maxlength="20" [(ngModel)]="row.estimatedForNextYear"
+                                                        name="estimatedForNextYear" #estimatedForNextYear="ngModel"
+                                                        [minFractionDigits]="0" class="text-right"></p-inputNumber>
+                                                </div>
+                                                <div *ngIf="row.label=='Total'" style="text-align: right;">
+                                                    <span style="font-weight: bold;color: black;"
+                                                        id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                            [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                            [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                            [value]='getTotalestimatedForNextYear()'></app-currency-dollar-repee></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="button-container" style="margin-top: 10px;">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success"></button>
+                            </div>
+                        </p-card>
+                    </div>
+                    <div class="col-6">
+                        <p-card>
+                            <ng-template pTemplate="header">
+                                <div class="grid" style="margin-bottom: 20px;">
+                                    <div class="col-8">
+                                        <h3 class="mb-2" style="font-size: large; font-weight: bold;"
+                                            id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h3>
+                                        <label for="" id="lblClientIndustry"
+                                            style="font-size: xx-small;  font-weight: bold;">Liability - Errors &
+                                            Omissions Insuarance Policy</label>
+                                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                                            {{this.quote?.productId?.type}}</p>
+                                    </div>
+                                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium
+                                        </p>
+                                        <!-- <p class="premium-price" id="IndicativeQuoteTab_TotalPremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+                                        <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span>
+                                                <!-- <app-currency
+                                                        [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency>-->
+                                                <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                    [rate]="this.quote?.dollarRate"
+                                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                    [value]='this.quoteEndOOptions?.totalPremiumAmt ?? 0'></app-currency-dollar-repee>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class="view-breakup h-100">
+                                <div class="grid mb-2">
+                                    <div class="col-8">
+                                        <span class="name" id="IndicativeQuoteTab_BasePremium_Label">Limit of
+                                            Liability:</span>
+                                        <!-- <span class="price" id="IndicativeQuoteTab_BasePremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                                        <!-- <span class="price" id="IndicativeQuoteTab_BasePremium"><app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency></span> -->
+                                        <span class="price"
+                                            id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                [value]='this.quoteEndOOptions?.limitOfLiability'></app-currency-dollar-repee></span>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3">
+                                    <!-- <div class="col-8">
+                                                <span class="name" id="IndicativeQuoteTab_PropertyValue_Label">Property Value:</span> -->
+                                    <!-- <span class="price" id="IndicativeQuoteTab_PropertyValue">{{(this.quote.totalSumAssured).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} </span> -->
+                                    <!-- <span class="price" id="IndicativeQuoteTab_PropertyValue"><app-currency [maximumFractionDigits]="0" [value]="this.quote?.totalSumAssured ?? 0"></app-currency> </span>
+                                            </div> -->
+                                </div>
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Covers Opted
+                                                (<span>{{selectedCoversCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Deductibles
+                                                (<span>{{deductibilitiesCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3">
+                                    <div class="col-12">
+                                        <button id="IndicativeQuoteTab_ViewDetailsDialog" label="View Details"
+                                            type="button" class="btn btn-primary  mr-2"
+                                            (click)="openFlexaCoversDialog()">View Details</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

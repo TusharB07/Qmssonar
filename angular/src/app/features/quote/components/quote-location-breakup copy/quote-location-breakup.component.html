@@ -1,0 +1,105 @@
+<div class="">
+    <div class="">
+        <p class="" id="QuoteLocationBreakup_PropertyDamage_Label">Section I : Property Damage</p>
+        <div class="">
+            <p class="" id="QuoteLocationBreakup_MaterialDamageSection_Label">(A) Material Damage Section</p>
+            <div class="">
+                <p class="" id="QuoteLocationBreakup_Building_Label">Building</p>
+            </div>
+            <div class="">
+                <p class="" id="QuoteLocationBreakup_PlinthFoundationroads_Label">Plinth & Foundation, roads and bridges, etc,</p>
+            </div>
+            <div class="">
+                <p class="" id="QuoteLocationBreakup_PlantMachinery_Label">Plant & Machinery</p>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <p class="" id="QuoteLocationBreakup_MachineryElectricalBreakdown_Label">(B) Machinery / Electrical Breakdown</p>
+    </div>
+    <div class="">
+        <p class="" id="QuoteLocationBreakup_BusinessInterruption_Label">Section II : Business Interruption</p>
+        <div class="">
+            <p class="" id="QuoteLocationBreakup_SomethingHere_Label">Something is here</p>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- <p-treeTable #dt [value]="this.data" [scrollable]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 200px;" *ngFor="let header of headers">
+                {{header.label}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr>
+            <td style="width: 200px;">
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler> <span class="">{{rowData.name}}</span>
+            </td>
+            <td style="width: 200px;" *ngFor="let col of rowData.cols">
+                <div class="" *ngIf="col.type=='inputText'">
+                    <input pInputText type="number" (change)="this.updated(rowData.name)" [(ngModel)]="model[rowData.name][col.id]">
+                </div>
+                <div class="" *ngIf="col.type=='plainText'">
+                    <input pInputText [readonly]="true" tabindex="-1" type="number" (change)="this.updated(rowData.name)" [(ngModel)]="model[rowData.name][col.id]">
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-treeTable> -->
+
+
+<div class="card" style="width: 800px;">
+    <h5>Frozen Columns</h5>
+    <!-- <p-treeTable [value]="this.data" [columns]="this.headers" [frozenColumns]="[headers[0]]" [scrollable]="true" scrollHeight="150px" frozenWidth="200px"> -->
+        <!-- <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" style="width:150px">
+            </colgroup>
+        </ng-template> -->
+        <ng-template pTemplate="frozenheader" let-frozenColumns>
+            <tr>
+                <ng-container *ngFor="let col of frozenColumns">
+                    <th style="width:150px" id="QuoteLocationBreakup_FrozenheaderLabel">
+                        {{col.label}}
+                    </th>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <ng-container *ngFor="let col of columns">
+                    <th style="width:150px" *ngIf="col.id != ''" id="QuoteLocationBreakup_HeaderLabel">
+                        {{col.label}}
+                    </th>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-columns="columns">
+            <tr style="height: 57px">
+                <ng-container *ngFor="let col of rowData.cols">
+                    <td style="width: 150px;" *ngIf="col.id != ''">
+                        <div class="" *ngIf="col.type=='inputText'" id="QuoteLocationBreakup_Name">
+                            <input pInputText type="number" (change)="this.updated(rowData.name)" [(ngModel)]="model[rowData.name][col.id]">
+                        </div>
+                        <div class="" *ngIf="col.type=='plainText'">
+                            <input pInputText [readonly]="true" tabindex="-1" type="number" id="QuoteLocationBreakup_Amount" (change)="this.updated(rowData.name)" [(ngModel)]="model[rowData.name][col.id]">
+                        </div>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="frozenbody" let-rowNode let-rowData="rowData">
+            <tr style="height: 57px">
+                <td style="width:150px" id="QuoteLocationBreakup_FrozenbodyName">
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    {{rowData.name}}
+                </td>
+            </tr>
+        </ng-template>
+    <!-- </p-treeTable> -->
+</div>

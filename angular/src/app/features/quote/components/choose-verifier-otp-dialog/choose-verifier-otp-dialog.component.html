@@ -1,0 +1,70 @@
+<div class="">
+    <form *ngIf="this.stage == 'enter-otp'" id="ChooseVerifierOTP_Form" class="" [formGroup]="this.verificationDetailsForm" (ngSubmit)="this.submitVerificationDetailsForm()">
+        <div class="mb-5">
+            <h4 class="text-black mt-4 mb-3">Enter Number & Choose Verifier</h4>
+            <div class="display: inline-flex">
+                <div class="col-6">
+                    <label for="" class="form-label" id="ChooseVerifierOTP_MobileNumber_Label">Mobile Number </label>
+                    <input pInputText placeholder="+91 000 000 0000" class="p-inputtext1 mb-1" id="ChooseVerifierOTP_MobileNumber" formControlName="mobileNumber">
+
+                    <small id="ChooseVerifierOTP_RequiredMobileNumber" *ngIf="this.verificationDetailsForm.controls['mobileNumber'].errors?.required" class="ng-invalid">Mobile Number is required.</small>
+                    <small id="ChooseVerifierOTP_InvalidMobileNumber" *ngIf="this.verificationDetailsForm.controls['mobileNumber'].errors?.pattern" class="ng-invalid">Invalid Mobile Number.</small>
+                </div>
+                <div class="col-6">
+                    <label for="" class="form-label" id="ChooseVerifierOTP_Verifier_Label">Verifier </label>
+                    <!-- <input pInputText formControlName="amount" currencyMask placeholder="" [options]="{ prefix: '₹ ' , precision:0 }"  class="p-inputtext1"> -->
+                    <input pInputText placeholder=""  id="ChooseVerifierOTP_Verifier" class="p-inputtext1" formControlName="verifier" [readonly]="true">
+                </div>
+            </div>
+            <div class="mt-3 mr-auto">
+                <p id="ChooseVerifierOTP_Proposal_Form">We Will Send on OTP on above Number to verify the proposal form</p>
+            </div>
+            <div class="mt-5">
+                <div id="container-btn">
+                    <button id="ChooseVerifierOTP_SendOTP" [disabled]="this.verificationDetailsForm.invalid" class="btn btn-primary mr-4" type="submit">Send OTP</button>
+                    <!-- <button class="btn btn-primary mr-4" type="submit" [disabled]="!this.verificationForm.valid" >Send OTP</button> -->
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <form *ngIf="this.stage == 'submit-otp'" [formGroup]="this.otpForm" (ngSubmit)="this.submitOTPForm()" id="ChooseVerifierOTP_SubmitOTPForm">
+
+        <div class="mb-3 mt-3">
+            <a (click)="back()" class="mr-2"><i class="pi pi-angle-left" id="ChooseVerifierOTP_SubmitOTPBack"></i> Back</a>
+        </div>
+        <div class="mb-3">
+            <h5 id="ChooseVerifierOTP_OTPToMobileNumber"><em> We have sent an OTP on {{this.verificationDetailsForm.controls['mobileNumber'].value}}</em></h5>
+        </div>
+        <div class="row mb-3">
+            <div class="display: inline-flex">
+                <div class="col-2">
+                    <input pInputText type="text" #otp1 id="ChooseVerifierOTP_OTPInput" formControlName="otp1" class="p-inputtext1 text-center" maxlength="1" (keyup)="move($event, '', otp1, otp2)">
+                </div>
+                <div class="col-2">
+                    <input pInputText type="text" #otp2 id="ChooseVerifierOTP_OTPInput" formControlName="otp2" class="p-inputtext1 text-center" maxlength="1" (keyup)="move($event, otp1, otp2, otp3)">
+                </div>
+                <div class="col-2">
+                    <input pInputText type="text" #otp3 id="ChooseVerifierOTP_OTPInput" formControlName="otp3" class="p-inputtext1 text-center" maxlength="1" (keyup)="move($event, otp2, otp3, otp4)">
+                </div>
+                <div class="col-2">
+                    <input pInputText type="text" #otp4 id="ChooseVerifierOTP_OTPInput" formControlName="otp4" class="p-inputtext1 text-center" maxlength="1" (keyup)="move($event, otp3, otp4, '')">
+                </div>
+            </div>
+
+        </div>
+        <div class="mb-3">
+            <h5 class="ml-3 pi pi-refresh" style="font-size: 15px;" id="ChooseVerifierOTP_ResendOTP"><em>Resend</em></h5>
+            <!-- <h4  class="ml-8" style="font-size: 15px;">{{ time | async}}</h4> -->
+        </div>
+        <div class="mb-5">
+            <div id="container-btn">
+                <button [disabled]="this.otpForm.invalid" class="btn btn-primary mr-4" type="submit" id="ChooseVerifierOTP_VerifyOTP">Verify Proposal</button>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>

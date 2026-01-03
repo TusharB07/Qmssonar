@@ -1,0 +1,37 @@
+
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ExclusionFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="SumInsuredForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="SumInsuredForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="field">
+                        <label id="SumInsuredForm_SILabel" for="sumInsured">Sum Insured</label>
+
+                            <input maxlength="100" type="text" placeholder="₹ 0" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"  pInputText id="sumInsured" formControlName="sumInsured" required
+                                 autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sumInsured']}" />
+                                    <small id="SumInsuredForm_SIValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sumInsured']">Sum Insured is required.</small>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

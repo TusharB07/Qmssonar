@@ -1,0 +1,80 @@
+.link-sample-text{
+    display: inline-block;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    color:blue;
+    cursor: pointer; 
+    font-size: 12px;
+}
+
+.margin-left20{
+    margin-left: 57px;
+}
+
+.option-container {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background-color: #f9f9f9;
+    padding: 10px;
+  }
+  
+  .header-container {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .option-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .delete-icon {
+    font-size: 1.5rem;
+    color: #ff4c4c;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+  }
+  .delete-icon:hover {
+    color: #d40f0f;
+  }
+  
+  .option-item-container {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+  }
+  
+  .option-label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .expired-label {
+    margin-right: 8px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  /* Add some padding between radio button and text */
+  .field-radiobutton, .field-checkbox {
+    margin-right: 10px;
+  }
+  
+  .inline-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust spacing between elements */
+    margin-bottom: 10px;
+  }
+  
+  .inline-item {
+    margin: 0; /* Reset default margins for inline alignment */
+  }

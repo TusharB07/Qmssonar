@@ -1,0 +1,45 @@
+<div class="px-5 pb-3">
+    <div class="tblz01-pdf md-4">
+        <p-card>
+            <!-- <div style="text-align: right;">
+                <button class="btn btn-lg btn-success" type="button" id="requisitionTab_EditOptions" (click)="save()"
+                    *ngIf="showEditOption">Save</button>
+            </div> -->
+            <table class="static-table" style="margin-top: 20px; margin-bottom: 20px; width: 100%;" cellpadding="10"
+                cellspacing="0">
+                <tr style="background-color:#0048bc; color: white !important;">
+                    <td colspan="3" class="text-black" id="DandOSubTemplate_Details">
+                        <h4 style="color: white;">Territory & Subsidiary Details</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-6">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Jurisdiction</p>
+                    </td>
+                    <td class="col-4">
+                        {{ quoteWCOptions.juridiction }}
+                    </td>
+                    <!-- <td class="col-4">
+                        <p-dropdown class="form-control" placeholder="Select" optionLabel="label" optionValue="value"
+                            [readonly]="true" [(ngModel)]="quoteWCOptions.jurisdiction" #jurisdictionId="ngModel"
+                            id="jurisdictionId" name="jurisdictionId" appendTo="body"></p-dropdown>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td class="col-6">
+                        <p><i class="pi pi-circle-on" style="font-size: 5px"></i> Territory</p>
+                    </td>
+                    <td class="col-4">
+                        {{ quoteWCOptions.territory }}
+                    </td>
+                    <!-- <td class="col-4">
+                        <p-dropdown class="form-control" placeholder="Select" optionLabel="label" optionValue="value"
+                            [readonly]="true" [(ngModel)]="quoteWCOptions.territory" #territoryId="ngModel"
+                            id="territoryId" name="territoryId" appendTo="body"></p-dropdown>
+                    </td> -->
+                </tr>
+            </table>
+            <br />
+        </p-card>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="container">
+    <h2 class="mt-3" id="ConfigureDiscount_Header">Discount Percentage</h2>
+    <!-- <h5 class="mt-3 ml-auto">Base Premium </h5><br><p class="premium-price" >{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+     <div *ngIf="this.quote.partnerId['isRate'] == true">
+         <h5 class="mt-3 ml-auto" id="ConfigureDiscount_BasePremium_Label">Base Premium <span><br>
+                 <p class="premium-price" id="ConfigureDiscount_BasePremium"><span><app-currency
+                             [value]="this.totalIndictiveQuoteAmt ?? 0"> </app-currency></span></p>
+             </span> </h5>
+     </div>
+</div>
+<div class=" card mt-3">
+
+    <div class="flex justify-content-between align-items-center">
+        <h3 class="" id="ConfigureDiscount_DiscountFrom">{{this.discountFrom}}</h3>
+        <div class="flex-grow-1 mx-4">
+            <p-slider [(ngModel)]="discountPercentage" id="ConfigureDiscount_DiscountPercentage"
+                (ngModelChange)="this.discountPercentageUpdated($event)" [step]="0.01" [min]="this.discountFrom"
+                [max]="this.discountTo"></p-slider>
+        </div>
+        <h3 class="" id="ConfigureDiscount_DiscountTo">{{this.discountTo}}</h3>
+    </div>
+    <div class="container">
+    </div>
+</div>
+<div class="mt-5">
+    <input pInputText type="number" [(ngModel)]="this.discountPercentage"
+        id="ConfigureDiscount_DiscountPercentage_Input" (ngModelChange)="this.discountPercentageUpdated($event)"
+        [min]="this.discountFrom" [max]="this.discountTo" placeholder="Enter Percentage">
+</div>
+
+<form class="" [formGroup]="configureDiscountForm" (ngSubmit)="this.submitConfigueDiscount()"
+    id="ConfigureDiscount_Form">
+    <div class="mt-5 mb-5">
+        <!-- <h3 id="ConfigureDiscount_PayOut">Payout</h3> -->
+        <div class="grid">
+            <div class="col-6">
+                <label for="" class="form-label" id="ConfigureDiscount_Discount_Label">Discount </label>
+                <p-inputNumber locale="en-IN" prefix="₹" [minFractionDigits]="2" [maxFractionDigits]="2"
+                    formControlName="discountedAmount" disabled="true" id="ConfigureDiscount_Discount" placeholder=""
+                    class="">
+                </p-inputNumber>
+                <!-- {{this.discountedAmt}} -->
+            </div>
+            <div class="col-6">
+                <label for="" class="form-label" id="ConfigureDiscount_Amount_Label">Amount </label>
+                <p-inputNumber locale="en-IN" prefix="₹" [minFractionDigits]="2" [maxFractionDigits]="2"
+                    formControlName="afterDiscountAmount" id="ConfigureDiscount_Amount" disabled="true" placeholder=""
+                    class="p-">
+                </p-inputNumber>
+                <!-- {{this.quoteDiscount?.totalIndictiveQuoteAmt}} -->
+            </div>
+            <div class="col-12" *ngIf="this.permissions.includes('update')">
+                <div class="flex justify-content-between" id="container-btn">
+                    <button [disabled]="!this.discountId" type="button" class="btn btn-danger" (click)="removeDiscount()"><i
+                            class="pi pi-trash mr-1"></i>Remove</button>
+                    <button
+                        [disabled]="this.discountPercentage < this.discountFrom || this.discountPercentage > this.discountTo"
+                        class="btn btn-success" type="submit" id="ConfigureDiscount_SaveForm">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

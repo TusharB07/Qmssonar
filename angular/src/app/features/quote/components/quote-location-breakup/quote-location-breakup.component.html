@@ -1,0 +1,306 @@
+<div *ngIf="!isMobile && this.isLockton == false">
+    <div style="overflow-x: auto; position: relative;">
+        <div class="fixed-header">
+            <p-treeTable [value]="sales" [columns]="cols" [reorderableColumns]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns; let i = index"
+                            [style]="col.field == 'key' ? 'width: 480px' : 'width:200px'" ttReorderableColumn
+                            id="QuoteLocationBreakup_Header">
+                            <div class="flex mb-1">
+                                <div class="mr-3" style="position:relative" *ngIf="col.quoteLocationOccupancy">
+                                    <a href="javascript:0"><img src="../../../../assets/icons/info.png" alt=""></a>
+                                    <div class="info-show" style="z-index: 50">
+                                        <div class="top-header">{{col.quoteLocationOccupancy.locationName}}</div>
+                                        <div class="details">
+                                            <p><span> Address:</span>
+                                                {{col.quoteLocationOccupancy.clientLocationId.address}}.</p>
+                                            <p><span> Occupancy:</span>
+                                                {{col.quoteLocationOccupancy.occupancyId.occupancyType}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong class="h3">{{col.header}}</strong>
+                                    <p *ngIf="col.header" class="small">
+                                        <span>
+                                            <app-currency [maximumFractionDigits]="0"
+                                                [value]="col.quoteLocationOccupancy?.sumAssured ?? 0"></app-currency>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns; let i = index" [class.fixed-column]="i < 3">
+                            <div class="flex flex-nowrap">
+                                <div>
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                                </div>
+                                <div>
+                                    <span *ngIf="rowData[col.field]?.type=='plainText'"
+                                        [ngStyle]="{'font-weight': rowData[col.field]?.bold || rowData[col.field].value == 'Total' ? 'bold' : ''}">
+                                        {{rowData[col.field].value}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div *ngIf="rowData[col.field]?.type=='inputText'">
+                                <p-inputNumber [style]="{'display': 'block', 'text-align': 'right'}" mode="decimal"
+                                    locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+                                    (ngModelChange)="this.updated($event, col.field, rowData[col.field].rowId)"
+                                    [(ngModel)]="model[col.field][rowData[col.field].rowId]" placeholder="0"
+                                    [disabled]="!this.permissions.includes('update')"
+                                    [readonly]="rowData[col.field]?.readonly"></p-inputNumber>
+                            </div>
+                            <div *ngIf="rowData[col.field]?.type=='string'">
+                                <input [style]="{'display': 'block', 'text-align': 'right'}" type="text" pInputText
+                                    (ngModelChange)="this.updated($event, col.field, rowData[col.field].rowId)"
+                                    [(ngModel)]="model[col.field][rowData[col.field].rowId]"
+                                    [disabled]="!this.permissions.includes('update')"
+                                    [readonly]="rowData[col.field]?.readonly" />
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-treeTable>
+        </div>
+    </div>
+
+
+    <hr>
+    <div class="flex align-items-center justify-content-end">
+        <button id="QuoteLocationBreakup_Save" class="btn btn-success" pRipple
+            (click)="this.save({IS_FETCH_FROM_AI: false})" *ngIf="this.permissions.includes('update')">Save</button>
+        <button id="QuoteLocationBreakup_Save_AI" class="btn btn-info ml-4" pRipple
+            (click)="this.save({IS_FETCH_FROM_AI: true})">AI</button>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center">
+            <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="this.downloadSampleFile()"><i
+                    class="pi pi-download"></i> Download Sample File</button>
+            <div *ngIf="this.permissions.includes('update')" class="mr-4">
+                <p-fileUpload #fileUpload id="SidSumInsured_Split_Upload" styleClass="btn btn-primary"
+                    [name]="this.quoteLocationBreakupBulkImportProps.name"
+                    [mode]="this.quoteLocationBreakupBulkImportProps.mode"
+                    [url]="this.quoteLocationBreakupBulkImportProps.url"
+                    [method]="this.quoteLocationBreakupBulkImportProps.method"
+                    (onUpload)="this.quoteLocationBreakupBulkImportProps.onUpload($event.originalEvent.body)"
+                    (onError)="this.errorHandler($event, fileUpload)"
+                    [headers]="this.quoteLocationBreakupBulkImportProps.headers" [showCancelButton]="true"
+                    [auto]="this.quoteLocationBreakupBulkImportProps.auto"
+                    [uploadLabel]="this.quoteLocationBreakupBulkImportProps.uploadLabel"
+                    [chooseLabel]="this.quoteLocationBreakupBulkImportProps.chooseLabel"></p-fileUpload>
+            </div>
+            <!-- Old_Quote -->
+            <!-- <div *ngIf="this.permissions.includes('update')">
+                <p-fileUpload #fileUpload *ngIf="!this.quote?.attachmentURL" [auto]="true" (onUpload)="this.onUploadAttachment()"
+                    styleClass="btn btn-primary" name="attchment_upload" mode="basic" url="{{this.uploadAttachmentUrl}}"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/wps-office.xlsx, application/vnd.ms-excel"
+                    maxFileSize="1000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload Attachment"
+                    [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                <a *ngIf="this.quote?.attachmentURL" (click)="downloadFile(this.quote?.attachmentURL)" class="mr-2">
+                    <i class="pi pi-download mr-1" style="font-size: 1rem">Download Attachment</i>
+                </a>
+                <i *ngIf="this.quote?.attachmentURL && this.permissions.includes('update')" class="pi pi-trash" style="font-size: 1.5rem"
+                    pTooltip="Delete Attachment" (click)="deletefile(this.quote?.attachmentURL)"></i>
+            </div> -->
+
+            <!-- New_Quote_Option -->
+            <div *ngIf="this.permissions.includes('update')">
+                <p-fileUpload #fileUpload *ngIf="!this.quoteOptionData?.attachmentURL" [auto]="true"
+                    (onUpload)="this.onUploadAttachment()" styleClass="btn btn-primary" name="attchment_upload"
+                    mode="basic" url="{{this.uploadAttachmentUrl}}"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/wps-office.xlsx, application/vnd.ms-excel"
+                    maxFileSize="10000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload Attachment"
+                    [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                <a *ngIf="this.quoteOptionData?.attachmentURL"
+                    (click)="downloadFile(this.quoteOptionData?.attachmentURL)" class="mr-2">
+                    <i class="pi pi-download mr-1" style="font-size: 1rem">Download Attachment</i>
+                </a>
+                <i *ngIf="this.quoteOptionData?.attachmentURL && this.permissions.includes('update')"
+                    class="pi pi-trash" style="font-size: 1.5rem; color:red" pTooltip="Delete Attachment"
+                    (click)="deletefile(this.quoteOptionData?.attachmentURL)"></i>
+            </div>
+        </div>
+
+        <!-- <div class="flex justify-content-center" style="padding-top: 10px;">
+
+        </div> -->
+    </div>
+</div>
+
+<div *ngIf="!isMobile && this.isLockton == true">
+
+    <div class="modal-container">
+        <h3>Edit Sum Insured Split</h3>
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th class="fixed-column">Description</th>
+                        <th *ngFor="let location of quoteLocationOccupancies">
+                            <div class="location-header flex justify-content-center">
+                                <div class="mr-3">
+                                    <i class="pi pi-info-circle info-icon mt-1"></i>
+                                </div>
+                                <div class="siHeader">
+                                    <p class="location-name">
+                                        {{ location.locationName.split(",")[0] }} - {{
+                                        location.locationName.split(",")[5] }}
+                                    </p>
+                                    <span>
+                                        <app-currency [maximumFractionDigits]="0" [value]=" location.sumAssured ?? 0">
+                                        </app-currency>
+                                    </span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of splitData">
+                        <ng-container *ngIf="item.isHeader; else editableRow">
+                            <td colspan="{{ quoteLocationOccupancies?.length + 1 }}" class="header-row fixed-column">
+                                {{ item.description }}
+                            </td>
+                        </ng-container>
+
+                        <ng-template #editableRow>
+                            <td class="fixed-column">
+                                <input *ngIf="!item.isHeader" type="text" class="description-input"
+                                    [(ngModel)]="item.lovKey" [readonly]="item.isHeader" hidden />
+                                <input *ngIf="!item.isHeader" type="text" class="description-input"
+                                    [(ngModel)]="item.description" [readonly]="item.isHeader"
+                                    placeholder="Enter description" [disabled]="item.disabled"
+                                    [required]="item.required" />
+                            </td>
+                            <td *ngFor="let location of quoteLocationOccupancies; let i = index">
+                                <p-inputNumber *ngIf="!item.isHeader" type="number" class="amount-input" mode="currency"
+                                    currency="INR" locale="en-IN" [minFractionDigits]="0" [maxFractionDigits]="2"
+                                    [(ngModel)]="item.amounts[i]" placeholder="Enter amount"  [min]="0"
+                                    (focusout)="updateTotals()">
+                                </p-inputNumber>
+                            </td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="fixed-column"><strong>Total</strong></td>
+                        <td *ngFor="let total of totals; let i = index"
+                            [class.error]="total !== quoteLocationOccupancies[i]?.sumAssured">
+                            <span>
+                                <app-currency [maximumFractionDigits]="0" [value]="total ?? 0">
+                                </app-currency>
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="action-buttons">
+            <button class="save-btn" (click)="saveData()">Save</button>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="isMobile">
+    <p-treeTable [value]="sales" [columns]="cols" [reorderableColumns]="true">
+        <!-- <ng-template pTemplate="header" let-columns>
+            <tr class="flex flex-wrap">
+                <th *ngFor="let col of columns" ttReorderableColumn style="width: 100%;"
+                    id="QuoteLocationBreakup_Header">
+                    <div class="flex mb-1">
+                        <div class="mr-3" style="position:relative" *ngIf="col.quoteLocationOccupancy">
+                            <a href="javascript:0"><img src="../../../../assets/icons/info.png" alt=""></a>
+                            <div class="info-show" style="z-index: 50">
+                                <div class="top-header">
+                                    {{col.quoteLocationOccupancy.locationName}}
+                                </div>
+                                <div class="details">
+                                    <p id="SidSumInsured_Split_ClientLocation"><span> Address:</span>
+                                        {{col.quoteLocationOccupancy.clientLocationId.address}}.</p>
+                                        <p id="SidSumInsured_Split_OccupancytType"><span> Occupancy:</span>
+                                            {{col.quoteLocationOccupancy.occupancyId.occupancyType}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="">
+                            <strong class="h3">{{col.header}}</strong>
+                            <p *ngIf="col.header" class="small " id="SidSumInsured_Split_sumAssured"><span><app-currency
+                                [maximumFractionDigits]="0"
+                                [value]="col.quoteLocationOccupancy?.sumAssured ?? 0"></app-currency></span></p>
+                            </div>
+                        </div>
+                </th>
+            </tr>
+        </ng-template> -->
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr style="display: flex; flex-wrap: wrap;">
+                <td *ngFor="let col of columns; let i = index" style="width: 100%;">
+                    <div class="flex flex-nowrap">
+                        <div *ngIf="i == 0">
+                            <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                        </div>
+                        <div>
+                            <span class="font-bold" *ngIf="rowData[col.field]?.type=='plainText'"
+                                id="QuoteLocationBreakup_CalculatedAmount">
+                                {{rowData[col.field].value}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex justify-content-between align-items-center" *ngIf="rowData[col.field]?.type">
+                        <div style="padding-left: 25px;">{{this.cols[i]?.header}}</div>
+                        <div class="" *ngIf="rowData[col.field]?.type=='inputText'" id="QuoteLocationBreakup_Amount">
+                            <p-inputNumber [style]="{'display': 'block', 'text-align': 'right'}" mode="decimal"
+                                locale="en-IN" prefix="₹ " [minFractionDigits]="0"
+                                (ngModelChange)="this.updated($event,col.field,rowData[col.field].rowId)"
+                                [(ngModel)]="model[col.field][rowData[col.field].rowId]" placeholder="0"
+                                [disabled]="!this.permissions.includes('update')"
+                                [readonly]="rowData[col.field]?.readonly"></p-inputNumber>
+                        </div>
+                        <div class="" *ngIf="rowData[col.field]?.type=='string'" id="QuoteLocationBreakup_Amount">
+                            <input [style]="{'display': 'block', 'text-align': 'right'}" type="text" pInputText
+                                (ngModelChange)="this.updated($event,col.field,rowData[col.field].rowId)"
+                                [(ngModel)]="model[col.field][rowData[col.field].rowId]"
+                                [disabled]="!this.permissions.includes('update')"
+                                [readonly]="rowData[col.field]?.readonly" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+    <hr>
+    <div class="flex align-items-center justify-content-end mr-2">
+        <button id="QuoteLocationBreakup_Save" class="btn btn-success" pRipple
+            (click)="this.save({IS_FETCH_FROM_AI: false})" *ngIf="this.permissions.includes('update')">Save</button>
+        <button id="QuoteLocationBreakup_Save_AI" class="btn btn-info ml-4" pRipple
+            (click)="this.save({IS_FETCH_FROM_AI: true})">AI</button>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center">
+            <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="this.downloadSampleFile()"><i
+                    class="pi pi-download"></i> Download Sample File</button>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-fileUpload #fileUpload id="SidSumInsured_Split_Upload" styleClass="btn btn-primary"
+                    [name]="this.quoteLocationBreakupBulkImportProps.name"
+                    [mode]="this.quoteLocationBreakupBulkImportProps.mode"
+                    [url]="this.quoteLocationBreakupBulkImportProps.url"
+                    [method]="this.quoteLocationBreakupBulkImportProps.method"
+                    (onUpload)="this.quoteLocationBreakupBulkImportProps.onUpload($event.originalEvent.body)"
+                    (onError)="this.errorHandler($event, fileUpload)"
+                    [headers]="this.quoteLocationBreakupBulkImportProps.headers" [showCancelButton]="true"
+                    [auto]="this.quoteLocationBreakupBulkImportProps.auto"
+                    [uploadLabel]="this.quoteLocationBreakupBulkImportProps.uploadLabel"
+                    [chooseLabel]="this.quoteLocationBreakupBulkImportProps.chooseLabel"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,171 @@
+<!-- <div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width: 600px"> -->
+<!-- <div class="">Debug::() - quote_id: {{quote_id}}</div>
+        <div class="">Debug::() - clientLocationId: {{clientLocationId}}</div> -->
+<!-- <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote For All Location</h6>
+                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium</p> -->
+<!-- <p class="premium-price" id="IndicativeQuoteTab_TotalPremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+<!-- <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span> <app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency></span></p>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                        <span class="name" id="IndicativeQuoteTab_BasePremium_Label">Location Premium:</span> -->
+<!-- <span class="price" id="IndicativeQuoteTab_BasePremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+<!-- <span class="price" id="IndicativeQuoteTab_BasePremium"><app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency></span> -->
+<!-- <span class="price" id="IndicativeQuoteTab_BasePremium"><app-currency [maximumFractionDigits]="0" [value]="this.quote?.locationBasedCovers?.quoteLocationOccupancy?.totalPremium ?? 0"></app-currency></span>
+                    </div>
+                    <div class="col-4 text-right"><a (click)="openViewQuoteBreakupDialog()" label="View Quote Breakup" href="javascript:void(0);" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3"> -->
+<!-- <div class="col-8">
+                        <span class="name" id="IndicativeQuoteTab_PropertyValue_Label">Property Value:</span> -->
+<!-- <span class="price" id="IndicativeQuoteTab_PropertyValue">{{(this.quote.totalSumAssured).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} </span> -->
+<!-- <span class="price" id="IndicativeQuoteTab_PropertyValue"><app-currency [maximumFractionDigits]="0" [value]="this.quote?.totalSumAssured ?? 0"></app-currency> </span>
+                    </div> -->
+<!-- </div>
+                <div class="grid">
+                    <div class="col-12">
+                        <ul class="covers-list">
+                            <li id="IndicativeQuoteTab_CoversOpted">Covers Opted (<span>{{this.coversOptedCount}}</span>)</li>
+                            <li id="IndicativeQuoteTab_FlexaCovers">Flexa Covers (<span>{{this.flexaCovers}}</span>)</li>
+                            <li id="IndicativeQuoteTab_ConditionalCovers">Conditional Free Add-Ons (<span>{{this.selectedConditionalFreeAddOnsCovers}}</span>)</li>
+                            <li id="IndicativeQuoteTab_SectorAvgPaidAddOns">Sector Avg. Paid Add-Ons (<span>{{this.selectedSectorAvgPaidCovers}}</span>)</li> -->
+<!-- <li id="IndicativeQuoteTab_OptionalPaidAddOns">Optional Paid Add-Ons (12)</li> -->
+<!-- </ul>
+                    </div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-12"> -->
+<!-- <button id="IndicativeQuoteTab_ViewDetailsDialog" (click)="openViewDetailsDialog()" label="View Details" type="button" class="btn btn-primary  mr-2">View Details</button> -->
+<!-- <button id="IndicativeQuoteTab_AddOnsDialog" (click)="openAddOnsDialog()" label="Add Ons" type="button" class="btn btn-outline-success mr-2">Add-Ons</button> -->
+<!-- <button id="IndicativeQuoteTab_PaidAddOns" type="button" class="btn btn-outline-primary">Paid Add-Ons (10)</button> -->
+<!-- </div>
+                </div>
+            </div>
+        </p-card>
+
+    </div> -->
+<!-- <div class="mx-3" style="display:none">
+        <div class="grid">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="IndicativeQuoteTab_IndustryAverageQuote">Industry Average Quote</h5>
+                    <p class="sub-heading" id="IndicativeQuoteTab_IndustryAverageQuote_ProductType">{{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p id="IndicativeQuoteTab_AvgPremium_Label">Avg. Premium </p>
+                        <p class="price" id="IndicativeQuoteTab_AvgPremium"><span> <app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency></span></p>
+                    </div>
+                    <div class="sum-assured" id="IndicativeQuoteTab_SumAssured">
+                        <span class="icon"></span> Sum Insured: <span > <app-currency [maximumFractionDigits]="0" [value]="this.quote?.totalSumAssured ?? 0"></app-currency></span> - {{toWords.convert(this.quote?.totalSumAssured ?? 0)}} -->
+<!-- <span class="icon"></span> Sum Insured: -->
+<!-- </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit" id="IndicativeQuoteTab_ViewBreakup">View Breakup</button>
+                    </div>
+                    <div class="info" id="IndicativeQuoteTab_SourceName"><i class="pi pi-info-circle"></i> This information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- New_Quote_Option -->
+
+<div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width: 600px">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote For All Location
+                        </h6>
+                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                            {{this.quoteOptionData?.quoteId?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium</p>
+                        <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span> <app-currency
+                                    [value]="this.quoteOptionData?.totalIndictiveQuoteAmt ?? 0"></app-currency></span>
+                        </p>
+                    </div>
+                </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8" *ngIf="this.quote.partnerId['isRate'] == true">
+                        <span class="name" id="IndicativeQuoteTab_BasePremium_Label">Location Premium:</span>
+                        <span class="price" id="IndicativeQuoteTab_BasePremium"><app-currency
+                                [maximumFractionDigits]="0"
+                                [value]="this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.totalPremium ?? 0"></app-currency></span>
+                    </div>
+                    <div class="col-4"><a (click)="openViewQuoteBreakupDialog()" label="View Quote Breakup" href="javascript:void(0);" class="link">View Quote Breakup</a></div>
+                </div>
+                <div class="grid mb-3">
+                </div>
+                <div class="grid">
+                    <div class="col-12">
+                        <ul class="covers-list">
+                            <li id="IndicativeQuoteTab_CoversOpted">Covers Opted
+                                (<span>{{this.coversOptedCount}}</span>)</li>
+                            <li id="IndicativeQuoteTab_FlexaCovers">Flexa Covers (<span>{{this.flexaCovers}}</span>)
+                            </li>
+                            <li id="IndicativeQuoteTab_ConditionalCovers">Conditional Free Add-Ons
+                                (<span>{{this.selectedConditionalFreeAddOnsCovers}}</span>)</li>
+                            <li id="IndicativeQuoteTab_SectorAvgPaidAddOns">Sector Avg. Paid Add-Ons
+                                (<span>{{this.selectedSectorAvgPaidCovers}}</span>)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-12">
+                        <button id="IndicativeQuoteTab_AddOnsDialog" (click)="openAddOnsDialog()" label="Add Ons"
+                            type="button" class="btn btn-outline-success mr-2">Add-Ons</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+
+    </div>
+    <div class="mx-3" style="display:none">
+        <div class="grid">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="IndicativeQuoteTab_IndustryAverageQuote">Industry Average Quote</h5>
+                    <p class="sub-heading" id="IndicativeQuoteTab_IndustryAverageQuote_ProductType">
+                        {{this.quoteOptionData?.quoteId?.type}}</p>
+                    <div class="avg-premium">
+                        <p id="IndicativeQuoteTab_AvgPremium_Label">Avg. Premium </p>
+                        <p class="price" id="IndicativeQuoteTab_AvgPremium"><span> <app-currency
+                                    [value]="this.quoteOptionData?.totalIndictiveQuoteAmt ?? 0"></app-currency></span>
+                        </p>
+                    </div>
+                    <div class="sum-assured" id="IndicativeQuoteTab_SumAssured">
+                        <span class="icon"></span> Sum Insured: <span> <app-currency [maximumFractionDigits]="0"
+                                [value]="this.quoteOptionData?.totalSumAssured ?? 0"></app-currency></span> -
+                        {{toWords.convert(this.quoteOptionData?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit" id="IndicativeQuoteTab_ViewBreakup">View
+                            Breakup</button>
+                    </div>
+                    <div class="info" id="IndicativeQuoteTab_SourceName"><i class="pi pi-info-circle"></i> This
+                        information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

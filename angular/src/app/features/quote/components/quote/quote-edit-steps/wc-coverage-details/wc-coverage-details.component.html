@@ -1,0 +1,366 @@
+<div class="px-5">
+    <p-card class="">
+        <div class="inner-container">
+            <div class=" tblz02-pdf mt-4">
+                <table class="static-table-1 " cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="text-black" style="font-size:medium;" id="WCPSubTemplate_AdditionalCovers_Header">
+                            Additional Covers</td>
+                    </tr>
+                    <tr>
+                        <td class="text-black" style="font-size:medium;" id="WCPSubTemplate_FreeCovExtn_Header">Coverage
+                            Extension - Free</td>
+                    </tr>
+                    <tr>
+                        <h5 style="margin-left: 5px; margin-top: 5px;">Coverage</h5>
+                    </tr>
+                    <tr>
+                        <td id="WCPSubTemplate_FreeCovExtn">
+                            <ng-container *ngFor="let freeCov of wccoverageTypesFree">
+                                <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <h5 style="margin-left: 5px; margin-top: 5px;">Standard</h5>
+                    </tr>
+                    <tr>
+                        <td id="WCPSubTemplate_FreeCovExtn">
+                            <ng-container *ngFor="let freeCov of wcStandardcoverageType">
+                                <p style="font-size:12px;">{{freeCov.coverageType}}</p>
+                            </ng-container>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-black" id="WCPSubTemplate_PaidCovExtn_Header" style="font-size:medium;">Coverage
+                            Extension - Paid</td>
+                    </tr>
+                    <tr>
+                        <td id="WCPSubTemplate_PaidCovExtn">
+                            <div>
+                                <p style="font-size:medium;">Is Medical extension common for all type of employee? -
+                                    <span *ngIf=" this.wcTemplateModel.allmedicalBenifitsYesNo"
+                                        style="font-size:medium;" class="text-black">Yes</span>
+                                    <span *ngIf="!this.wcTemplateModel.allmedicalBenifitsYesNo"
+                                        class="text-black">No</span>
+                                </p>
+                            </div>
+                            <div class="mt-3 custom-border" *ngIf="this.wcTemplateModel.allmedicalBenifitsYesNo">
+                                <p-table
+                                    *ngIf="!this.wcTemplateModel.isActual && this.wcTemplateModel.medicalBenifitsOption=='ME'"
+                                    [value]="this.wcMedicalBenifitsYesLstME" responsiveLayout="scroll" dataKey="id"
+                                    styleClass="p-datatable-gridlines p-datatable-striped quoteSlip"
+                                    responsiveLayout="scroll">
+                                    <ng-template pTemplate="caption">
+                                        <h4 class="text-center text-black"
+                                            id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header"
+                                            style="font-size:small;">
+                                            Medical Extension Benefits
+                                        </h4>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                    <tr>
+                        <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">Medical
+                            Extension Benefits</th>
+                        <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">Amount(₹)
+                        </th>
+                    </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="body" let-mbenifits>
+                        <tr class="no-border">
+                            <td id="wcRates_safertymeasures" class="text-center text-left">
+                                {{mbenifits.medicalBenifitsOption}}</td>
+                            <td id="wcRates_safertymeasures" class="text-center text-right">
+                                <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                        [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                No medical extension benefits found
+                            </td>
+                        </tr>
+                    </ng-template>
+                    </p-table>
+
+                    <p-table *ngIf="this.wcTemplateModel.medicalBenifitsOption=='ME_AGGREGATE'"
+                        [value]="this.wcMedicalBenifitsYesLstMEAggregate" responsiveLayout="scroll" dataKey="id"
+                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            <h4 class="text-center text-black"
+                                id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header" style="font-size:small;">
+                                Medical Extension Benefits
+                            </h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">
+                                    Medical Extension Benefits</th>
+                                <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">
+                                    Is Actual ?</th>
+                                <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">
+                                    Amount(₹) </th>
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-mbenifits>
+                            <tr class="no-border">
+                                <td id="wcRates_safertymeasures" class="text-center text-left">
+                                    {{mbenifits.medicalBenifitsOption}}</td>
+                                <td id="wcRates_safertymeasures" class="text-center text-left">{{mbenifits.isActual}}
+                                </td>
+                                <td id="wcRates_safertymeasures" class="text-center text-right">
+                                    <span *ngIf="mbenifits.medicalBenifitsAmount!=0"><app-currency
+                                            [value]="(mbenifits.medicalBenifitsAmount ?? 0)"></app-currency></span>
+                                    <span *ngIf="mbenifits.medicalBenifitsAmount==0">N/A</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                                    No Medical extension benefits found
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+            </div>
+
+            <!-- <div class="mt-3 custom-border" *ngIf="!this.wcTemplateModel.allmedicalBenifitsYesNo">
+                        <p-table [value]="this.wcRatesInfo" responsiveLayout="scroll" dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                <h4 class="text-center text-black" id="WCPSubTemplate_MedicalExtensionBenifitsDetails_Header">
+                                    Medical Extension Benefits
+                                </h4>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">Business Type</th>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">Medical Extension Benefits</th>
+                                    <th id="WCPSubTemplate_MedicalExtensionBenifits_Header" class="text-center text-black">Amount(₹) </th>
+                                </tr>
+                                
+                            </ng-template>
+                            <ng-template pTemplate="body" let-mbenifitsno>
+                                <tr class="no-border">
+                                    <td id="wcRates_natureOfWork" class="text-center text-left">{{mbenifitsno.natureOfWork}}</td>
+                                    <td id="wcRates_medicalBenifitsAns" class="text-center text-left">{{mbenifitsno.medicalBenifitsAns}}</td>
+                                    <td id="wcRates_medicalBenifitsAmount" class="text-center text-right"><span><app-currency [value]="(mbenifitsno.medicalBenifitsAmount ?? 0)"></app-currency></span></td>
+                                </tr>
+                            </ng-template>
+                
+                            <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                    <td [attr.colspan]="5"  id="wcSubTemplate_NoRecordsFoundMSG">
+                                        No Medical extension benifits found
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div> -->
+            </td>
+            </tr>
+            </table>
+        </div>
+
+        <div class="tblz02-pdf  mt-4">
+            <p-table *ngIf="this.quote.quoteType=='rollover'" [value]="this.prvPolicyInfo" responsiveLayout="scroll"
+                dataKey="id" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="caption">
+                    <h4 class="text-center text-black" id="WCPSubTemplate_prvPolicyDetails_Header">
+                        Previous Policy Details
+                    </h4>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Previous Company
+                        </th>
+                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Previous Policy
+                            Number</th>
+                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Policy Start Date
+                        </th>
+                        <th id="WCPSubTemplate_prvPolicyDetails_Header" class="text-center text-black">Policy End Date
+                        </th>
+
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-policy>
+                    <tr class="no-border">
+                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                            {{policy.previousCompany}}</td>
+                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                            {{policy.previousPolicyno}}</td>
+                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                            {{policy.previousStartdate}}</td>
+                        <td id="WCPSubTemplate_prvPolicyDetails" class="text-center text-left">
+                            {{policy.previousEnddate}}</td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                            No previous policy details found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+
+        <div class="mt-3 custom-border">
+            <p-table [value]="this.premiumLst" responsiveLayout="scroll"
+                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th id="WCPSubTemplate_Discountbasedonpremium%%_Header" class="text-center text-black">Discount
+                            based on
+                            Premium (%)</th>
+                        <th id="WCPSubTemplate_AddOnCovers_Header" class="text-center text-black">Addons Covers(₹) </th>
+                        <th id="WCPSubTemplate_TargetPremium_Header" class="text-center text-black">Target Premium(₹)
+                        </th>
+                        <th id="WCPSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹)
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-premium>
+                    <tr>
+                        <td id="WCPSubTemplate_discountbasedonPremium" class="text-center text-right text-nowrap ">
+                            <span>
+                                {{premium.discountbasedonPremium}}
+                            </span>
+                        </td>
+
+                        <td id="WCPSubTemplate_targetPremium" class="text-center text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.addonCoversAmount ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_addOnsCover" class="text-center text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.targetPremium ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_TotalPremium" class="text-black text-right text-nowrap ">
+                            <span><app-currency [value]="(premium.indicativePremium ?? 0)"></app-currency></span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+</div>
+</p-card>
+<hr *ngIf="this.role.name!='insurer_rm'" style="border-top: dashed 3px;border-color : #000000">
+<div class="mt-3 custom-border" *ngIf="this.role.name!='insurer_rm'">
+    <div class="row mb-4">
+        <h4 class="text-center text-black" style="font-size:small;">Insurer Review</h4>
+    </div>
+
+    <p-card class="">
+        <div class="inner-container">
+            <div class="grid">
+                <div style="text-align:left; margin-top: 10px;">
+                    <h4 style="font-size:small;">Medical Coverage Extension Edit</h4>
+                </div>
+                <!-- <div class="align-items-center justify-content-end m-2 ml-auto">
+                    <button type="button" (click)="save(true)" id="btnSave" pButton pRipple label="Save"
+                        icon="pi pi-check" class="btn btn-success"></button>
+                </div> -->
+            </div>
+            <div class="col-6 mt-2">
+                <label class="form-label">Medical Extension Benefits</label>
+                <!-- Dropdown for ME or ME AGGREGATE -->
+                <p-dropdown appendTo="body" id="medicalBenifitsOption" [options]="optionsMELOV"
+                    [(ngModel)]="wcTemplateModel.medicalBenifitsOption" placeholder="Select" optionLabel="label"
+                    optionValue="value" name="medicalBenifitsOption" #medicalBenifitsOption="ngModel"
+                    (onChange)="setunderWritermedicalBenifitsOption()"></p-dropdown>
+            </div>
+            <div class="col-4" *ngIf="wcTemplateModel.medicalBenifitsOption == 'ME_AGGREGATE'">
+                <!-- Checkbox for Actual -->
+                <!-- <p-checkbox style="font-weight: bold;" label="Actual" [(ngModel)]="wcTemplateModel.isActual" (onChange)="onCheckboxChange()"></p-checkbox> -->
+                <p-checkbox label="Actual" style="font-weight: bold;" [(ngModel)]="wcTemplateModel.isActual"
+                    [binary]="true" (onChange)="onCheckboxChange()"></p-checkbox>
+            </div>
+            <!-- SI Dropdown -->
+            <div class="col-6 mt-2" *ngIf="medicalExpensesAmountLst.length>0">
+                <label class="form-label">Amount</label>
+                <p-dropdown appendTo="body" id="medicalBenifits" optionLabel="label" optionValue="value"
+                    class="custom-dropdown" [options]="medicalExpensesAmountLst"
+                    [(ngModel)]="wcTemplateModel.medicalBenifitsAmountId" name="medicalBenifitsAmountId"
+                    #medicalBenifitsAmountId="ngModel" placeholder="Select" (onChange)="setAmount()"
+                    [disabled]="wcTemplateModel.isActual && wcTemplateModel.medicalBenifitsOption != 'ME'">
+                    <ng-template let-amt pTemplate="item">
+                        <span *ngIf="amt.label!='0'"><app-currency [value]="(amt.siAmount ?? 0)"></app-currency></span>
+                        <span *ngIf="amt.label=='0'">N/A</span>
+                    </ng-template>
+                    <ng-template let-amtSelected pTemplate="selectedItem">
+                        <span *ngIf="amtSelected.label!='0'"><app-currency
+                                [value]="(amtSelected.siAmount ?? 0)"></app-currency></span>
+                        <span *ngIf="amtSelected.label=='0'">N/A</span>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="button-container" style="margin-top: 25px;">
+            <button type="button" (click)="save(true)" id="btnSave" pButton pRipple label="Save" icon="pi pi-check"
+                class="btn btn-success"></button>
+        </div>
+    </p-card>
+    <p-card>
+        <div class="inner-container">
+            <p-table [value]="this.premiumLst" responsiveLayout="scroll"
+                styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th id="WCPSubTemplate_Discountbasedonpremium%%_Header" class="text-center text-black">Discount
+                            based on
+                            Premium (%)</th>
+                        <th id="WCPSubTemplate_AddOnCovers_Header" class="text-center text-black">Addons Cover(₹) </th>
+                        <th id="WCPSubTemplate_TargetPremium_Header" class="text-center text-black">Target Premium(₹)
+                        </th>
+                        <th id="WCPSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹)
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-premium>
+                    <tr>
+                        <td id="WCPSubTemplate_discountbasedonPremium" class="text-center text-right text-nowrap ">
+                            <span>
+                                <!-- (keyup)="recalPremium('Premium')" -->
+                                <p-inputNumber class="text-right" id="discountbasedonPremium" placeholder="0"
+                                    [(ngModel)]="wcTemplateModel.discountbasedonPremium"
+                                    #discountbasedonPremium="ngModel" name="discountbasedonPremium"
+                                    [maxlength]="2"></p-inputNumber>
+                            </span>
+                        </td>
+                        <td id="WCPSubTemplate_addonCoversAmount" class="text-center text-right text-nowrap ">
+                            <span><app-currency
+                                    [value]="(this.wcTemplateModel.addonCoversAmount ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_targetPremium" class="text-center text-right text-nowrap ">
+                            <span><app-currency
+                                    [value]="(this.wcTemplateModel.targetPremium ?? 0)"></app-currency></span>
+                        </td>
+                        <td id="WCPSubTemplate_TotalPremium" class="text-black text-right text-nowrap ">
+                            <span><app-currency
+                                    [value]="(wcTemplateModel.indicativePremium ?? 0)"></app-currency></span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="button-container" style="margin-top: 25px;">
+            <button type="button" (click)="save(true)" id="btnSave" pButton pRipple label="Save" icon="pi pi-check"
+                class="btn btn-success"></button>
+        </div>
+    </p-card>
+</div>
+</div>

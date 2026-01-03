@@ -1,0 +1,503 @@
+<div class="card breakup-indicative-container" *ngIf="this.quote" id="LocationWIseCoversDioalog" [style.width]="isMobile ? '341px' : ''">
+    <div class="grid">
+        <div class="col-12">
+            <div class="header-section">
+                <div class="flex align-items-center w-100" id="LocationWIseCoversDialog_LocationWiseBreakupData">
+                    <span class="flex-grow-1"></span>
+                    <span class="flex-grow-1" *ngFor="let location of locationWiseBreakupData"> {{location.locationName}} - {{location.pincodeName}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--This is for only for Griha Lite Start-->
+    <p-accordion *ngIf="this.quote.productId['isBuildingAndContentWiseRate'] == true">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bandcHeader">
+                        <span style="margin-right: 213px">Building</span>
+                        <span style="margin-right: 13px">Content</span>
+                    </div>
+                    <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_FlexaLabel"> Flexa</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_FlexaPremium"> {{location.flexapremium | currency:'INR' : true : '1.0-2'}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of this.locationWiseBreakupData" id="LocationWIseCoversDialog_FlexaPremium"> <app-currency [value]=" location.quoteLocationOccupancy.buildingFlexaPremium "></app-currency> </span>
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_FlexaPremium"> <app-currency [value]=" location.quoteLocationOccupancy.contentFlexaPremium "></app-currency> </span>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="breakup-indicative-collapse">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateLabel">Rate (per mille)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Rate" *ngFor="let location of this.locationWiseBreakupData"> {{location.quoteLocationOccupancy.buildingFlexaiib}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Rate" *ngFor="let location of locationWiseBreakupData"> {{location.quoteLocationOccupancy.contentFlexaiib}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_SumInsuredLabel">Sum Insured </div>
+                                            <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversFlexa_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{location.sumAssured | currency:'INR' : true : '1.0-2'}} </div> -->
+                                            <div class="flex-grow-1 " id="LocationWIseCoversFlexa_SumInsured" *ngFor="let location of locationWiseBreakupData">  <span><app-currency  [maximumFractionDigits]="0"  [value]=" location.quoteLocationBreakupMaster[1]['value'] "></app-currency></span></div>
+                                            <div class="flex-grow-1 " id="LocationWIseCoversFlexa_SumInsured" *ngFor="let location of locationWiseBreakupData">  <span><app-currency  [maximumFractionDigits]="0"  [value]=" location.quoteLocationBreakupMaster[0]['value'] "></app-currency></span></div>
+                                        </div>
+                                        <!-- <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCodeLabel">Risk Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCode" *ngFor="let location of locationWiseBreakupData"> {{location.riskCode}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCode" *ngFor="let location of locationWiseBreakupData"> {{location.riskCode}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCodeLabel">Rate Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCode"*ngFor="let location of locationWiseBreakupData"> {{location.rateCode}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCode"*ngFor="let location of locationWiseBreakupData"> {{location.rateCode}} </div>
+                                        </div> -->
+                                        <!-- <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TotalAmountLabel">Total Amount (in ₹)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TotalAmount" *ngFor="let location of locationWiseBreakupData"> {{location.totalAmount | currency:'INR' : true : '1.0-2'}} </div>
+                                        </div> -->
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCodeLabel">TAC Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCode" *ngFor="let location of locationWiseBreakupData"> {{location.tacCode}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCode" *ngFor="let location of locationWiseBreakupData"> {{location.tacCode}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCodeLabel">IIB Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCode"*ngFor="let location of locationWiseBreakupData"> {{location.iibcode}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCode"*ngFor="let location of locationWiseBreakupData"> {{location.iibcode}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_OccupancyLabel">Occupancy</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Occupancy"*ngFor="let location of locationWiseBreakupData"> {{location.occupancy}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Occupancy"*ngFor="let location of locationWiseBreakupData"> {{location.occupancy}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategoryLabel">Hazard Category</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategory" *ngFor="let location of locationWiseBreakupData"> {{location.HazardCategory}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategory" *ngFor="let location of locationWiseBreakupData"> {{location.HazardCategory}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSectionLabel" >Fire Section</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSection" *ngFor="let location of locationWiseBreakupData"> {{location.fireSection}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSection" *ngFor="let location of locationWiseBreakupData"> {{location.fireSection}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IndustryLabel">Industry</div>
+                                            <!-- <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{location.industry}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{location.industry}} </div> -->
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_STFILabel"> STFI</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_STFIPremium"> {{(location.isStfi ? (location.stfipremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_STFIPremium"> <app-currency [value]=" location.quoteLocationOccupancy.buildingSTFIPremium "></app-currency></span>
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_STFIPremium"> <app-currency [value]=" location.quoteLocationOccupancy.contentSTFIPremium "></app-currency></span>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="breakup-indicative-collapse">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateLabel" >Rate (per mille)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.quoteLocationOccupancy.buildingStfiRate) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.quoteLocationOccupancy.contentStfiRate) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_SumInsuredLabel" >Sum Insured</div>
+                                            <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversSTFI_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.sumAssured | currency:'INR' : true : '1.0-2') : 'NA')}} </div> -->
+                                            <div class="flex-grow-1 " id="LocationWIseCoversSTFI_SumInsured" *ngFor="let location of locationWiseBreakupData"> <span><app-currency [maximumFractionDigits]="0" [value]=" location.quoteLocationBreakupMaster[1]['value'] "></app-currency></span></div>
+                                            <div class="flex-grow-1 " id="LocationWIseCoversSTFI_SumInsured" *ngFor="let location of locationWiseBreakupData"> <span><app-currency [maximumFractionDigits]="0" [value]=" location.quoteLocationBreakupMaster[0]['value'] "></app-currency></span></div>
+                                        </div>
+                                        <!-- <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCodeLabel" >Risk Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCode"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.riskCode) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCode"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.riskCode) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCodeLabel">Rate Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.rateCode) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.rateCode) : 'NA')}} </div>
+                                        </div> -->
+                                        <!-- <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_TotalLabel">Total Amount (in ₹)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_Total" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.totalAmount | currency:'INR' : true : '1.0-2') : 'NA')}} </div>
+                                        </div> -->
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCodeLabel">TAC Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.tacCode) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.tacCode) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIBLabel">IIB Code</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIB" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.iibcode) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIB" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.iibcode) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCodeLabel">Occupancy</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.occupancy) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.occupancy) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategoryLabel" >Hazard Category</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategory"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.HazardCategory) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategory"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.HazardCategory) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSectionLabel" >Fire Section</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSection"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.fireSection) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSection"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.fireSection) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IndustryLabel" >Industry</div>
+                                            <!-- <div class="flex-grow-1" id="LocationWIseCoversSTFI_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.industry) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversSTFI_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.industry) : 'NA')}} </div> -->
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_EarthquakeLabel"> Earthquake</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_EarthquakePremium"> {{(location.isEarthquake ? (location.earthquakepremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_EarthquakePremium"><app-currency [value]="location.quoteLocationOccupancy.buildingEarthquakePremium"></app-currency> </span>
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_EarthquakePremium"><app-currency [value]="location.quoteLocationOccupancy.contentEarthquakePremium"></app-currency> </span>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="breakup-indicative-collapse">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_RateLabel" >Rate (per mille)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.quoteLocationOccupancy.buildingEarthquakeRate) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.quoteLocationOccupancy.contentEarthquakeRate) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_PincodeLabel">Pincode</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Pincode"*ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.pincodeName) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Pincode"*ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.pincodeName) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_StateLabel" >State</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_State"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.stateName) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_State"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.stateName) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_DistrictLabel">District</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_District" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.districtName) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_District" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.districtName) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_ZoneLabel" >Zone</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Zone" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.earthquakeZone ?? 'NA') : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Zone" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.earthquakeZone ?? 'NA') : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSectionLabel">Fire Section</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSection" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.fireSection) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSection" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.fireSection) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_IndustryLabel" >Industry</div>
+                                            <!-- <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.industry) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.industry) : 'NA')}} </div> -->
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel"> Terrorism</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.quoteLocationOccupancy.buildingTerrorismPremium"></app-currency> </span>
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.quoteLocationOccupancy.contentTerrorismPremium"></app-currency> </span>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="breakup-indicative-collapse">
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_RateLabel" >Rate (per mille)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Rate"  *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.quoteLocationOccupancy.buildingTerrorismRate) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Rate"  *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.quoteLocationOccupancy.contentTerrorismRate) : 'NA')}} </div>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_SumInsuredLabel">Sum Insured</div>
+                                            <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversTerrorism_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.sumAssured | currency:'INR' : true : '1.0-2') : 'NA')}} </div> -->
+                                            <div class="flex-grow-1 " id="LocationWIseCoversTerrorism_SumInsured" *ngFor="let location of locationWiseBreakupData"><span><app-currency [maximumFractionDigits]="0" [value]=" location.quoteLocationBreakupMaster[1]['value'] "></app-currency></span></div>
+                                            <div class="flex-grow-1 " id="LocationWIseCoversTerrorism_SumInsured" *ngFor="let location of locationWiseBreakupData"><span><app-currency [maximumFractionDigits]="0" [value]=" location.quoteLocationBreakupMaster[0]['value'] "></app-currency></span></div>
+                                        </div>
+                                        <!-- <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalAmountLabel">Total Amount (in ₹)</div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalAmount" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.totalAmount | currency:'INR' : true : '1.0-2') : 'NA')}} </div>
+                                        </div> -->
+                                        <div class="flex align-items-center">
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_IndustryLabel">Industry</div>
+                                            <!-- <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Industry" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.industry) : 'NA')}} </div>
+                                            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Industry" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.industry) : 'NA')}} </div> -->
+                                            <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                                            
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab> 
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel">sum Insured</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.sumAssured"></app-currency> </span>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel">Total Perimum</span>
+                                    <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                                    <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.totalAmount"></app-currency> </span>
+                                </ng-template>
+                            </p-accordionTab>
+                            <div class="bandcFooter">
+                                <div class="total" >Total:</div>
+                                <div class="builingTotal" *ngFor="let location of locationWiseBreakupData"><app-currency [value]="location.quoteLocationOccupancy.buildingTotalPremium"></app-currency></div>
+                                <div class="contentTotal" *ngFor="let location of locationWiseBreakupData"><app-currency [value]="location.quoteLocationOccupancy.contentTotalPremium"></app-currency></div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </p-accordion>    
+    <!--This is for only for Griha Lite End-->
+    <p-accordion *ngIf="!this.quote.productId['isBuildingAndContentWiseRate']">
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_FlexaLabel"> Flexa</span>
+                <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_FlexaPremium"> {{location.flexapremium | currency:'INR' : true : '1.0-2'}} </span> -->
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_FlexaPremium"> <app-currency [value]=" location.flexapremium "></app-currency> </span>
+
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="breakup-indicative-collapse">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateLabel">Rate (per mille)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Rate" *ngFor="let location of locationWiseBreakupData"> {{location.flexaratePerMile}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_SumInsuredLabel">Sum Insured </div>
+                        <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversFlexa_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{location.sumAssured | currency:'INR' : true : '1.0-2'}} </div> -->
+                        <div class="flex-grow-1 " id="LocationWIseCoversFlexa_SumInsured" *ngFor="let location of locationWiseBreakupData">  <span><app-currency  [maximumFractionDigits]="0"  [value]=" location.sumAssured "></app-currency></span></div>
+
+                    </div>
+                    <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCodeLabel">Risk Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCode" *ngFor="let location of locationWiseBreakupData"> {{location.riskCode}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCodeLabel">Rate Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCode"*ngFor="let location of locationWiseBreakupData"> {{location.rateCode}} </div>
+                    </div> -->
+                    <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_TotalAmountLabel">Total Amount (in ₹)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_TotalAmount" *ngFor="let location of locationWiseBreakupData"> {{location.totalAmount | currency:'INR' : true : '1.0-2'}} </div>
+                    </div> -->
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCodeLabel">TAC Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCode" *ngFor="let location of locationWiseBreakupData"> {{location.tacCode}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCodeLabel">IIB Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCode"*ngFor="let location of locationWiseBreakupData"> {{location.iibcode}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_OccupancyLabel">Occupancy</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Occupancy"*ngFor="let location of locationWiseBreakupData"> {{location.occupancy}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategoryLabel">Hazard Category</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategory" *ngFor="let location of locationWiseBreakupData"> {{location.HazardCategory}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSectionLabel" >Fire Section</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSection" *ngFor="let location of locationWiseBreakupData"> {{location.fireSection}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_IndustryLabel">Industry</div>
+                        <!-- <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{location.industry}} </div> -->
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </p-accordionTab>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_STFILabel"> STFI</span>
+                <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_STFIPremium"> {{(location.isStfi ? (location.stfipremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_STFIPremium"> <app-currency [value]=" location.stfipremium "></app-currency></span>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="breakup-indicative-collapse">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateLabel" >Rate (per mille)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.stfiaratePerMile) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_SumInsuredLabel" >Sum Insured</div>
+                        <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversSTFI_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.sumAssured | currency:'INR' : true : '1.0-2') : 'NA')}} </div> -->
+                        <div class="flex-grow-1 " id="LocationWIseCoversSTFI_SumInsured" *ngFor="let location of locationWiseBreakupData"> <span><app-currency [maximumFractionDigits]="0" [value]=" location.sumAssured "></app-currency></span></div>
+                    </div>
+                    <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCodeLabel" >Risk Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCode"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.riskCode) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCodeLabel">Rate Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.rateCode) : 'NA')}} </div>
+                    </div> -->
+                    <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_TotalLabel">Total Amount (in ₹)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_Total" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.totalAmount | currency:'INR' : true : '1.0-2') : 'NA')}} </div>
+                    </div> -->
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCodeLabel">TAC Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.tacCode) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIBLabel">IIB Code</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIB" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.iibcode) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCodeLabel">Occupancy</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCode" *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.occupancy) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategoryLabel" >Hazard Category</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategory"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.HazardCategory) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSectionLabel" >Fire Section</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSection"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.fireSection) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversSTFI_IndustryLabel" >Industry</div>
+                        <!-- <div class="flex-grow-1" id="LocationWIseCoversSTFI_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isStfi ? (location.industry) : 'NA')}} </div> -->
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </p-accordionTab>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_EarthquakeLabel"> Earthquake</span>
+                <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_EarthquakePremium"> {{(location.isEarthquake ? (location.earthquakepremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_EarthquakePremium"><app-currency [value]="location.earthquakepremium"></app-currency> </span>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="breakup-indicative-collapse">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_RateLabel" >Rate (per mille)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Rate" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.earthquakeratePerMile) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_PincodeLabel">Pincode</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Pincode"*ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.pincodeName) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_StateLabel" >State</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_State"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.stateName) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_DistrictLabel">District</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_District" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.districtName) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_ZoneLabel" >Zone</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Zone" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.earthquakeZone ?? 'NA') : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSectionLabel">Fire Section</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSection" *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.fireSection) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversEarthquake_IndustryLabel" >Industry</div>
+                        <!-- <div class="flex-grow-1" id="LocationWIseCoversEarthquake_Industry"  *ngFor="let location of locationWiseBreakupData"> {{(location.isEarthquake ? (location.industry) : 'NA')}} </div> -->
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </p-accordionTab>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel"> Terrorism</span>
+                <!-- <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span> -->
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.terrorismpremium"></app-currency> </span>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="breakup-indicative-collapse">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_RateLabel" >Rate (per mille)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Rate"  *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.terrorismRatePerMile) : 'NA')}} </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_SumInsuredLabel">Sum Insured</div>
+                        <!-- <div class="flex-grow-1 currency" id="LocationWIseCoversTerrorism_SumInsured" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.sumAssured | currency:'INR' : true : '1.0-2') : 'NA')}} </div> -->
+                        <div class="flex-grow-1 " id="LocationWIseCoversTerrorism_SumInsured" *ngFor="let location of locationWiseBreakupData"><span><app-currency [maximumFractionDigits]="0" [value]=" location.sumAssured "></app-currency></span></div>
+                    </div>
+                    <!-- <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalAmountLabel">Total Amount (in ₹)</div>
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalAmount" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.totalAmount | currency:'INR' : true : '1.0-2') : 'NA')}} </div>
+                    </div> -->
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1" id="LocationWIseCoversTerrorism_IndustryLabel">Industry</div>
+                        <!-- <div class="flex-grow-1" id="LocationWIseCoversTerrorism_Industry" *ngFor="let location of locationWiseBreakupData"> {{(location.isTerrorism ? (location.industry) : 'NA')}} </div> -->
+                        <div class="flex-grow-1" id="LocationWIseCoversFlexa_Industry" *ngFor="let location of locationWiseBreakupData"> {{this.quote.sectorId['name']}} </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </p-accordionTab>
+        <!-- <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel">sum Insured</span>
+                <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span>
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.sumAssured"></app-currency> </span>
+            </ng-template>
+        </p-accordionTab>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <span class="flex-grow-1 text-left" id="LocationWIseCoversDialog_TerrorismLabel">Total Premium</span>
+                <span class="flex-grow-1 currency" *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"> {{(location.isTerrorism ? (location.terrorismpremium | currency:'INR' : true : '1.0-2') : 'NA')}} </span>
+                <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.totalAmount"></app-currency> </span>
+            </ng-template>
+        </p-accordionTab> -->
+    </p-accordion>
+
+    <div class="total-section">
+        <div class="flex align-items-center">
+            <span class="flex-grow-1 marginLeft" id="LocationWIseCoversTerrorism_TotalLabel">Sum Insured</span>
+            <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.sumAssured"></app-currency> </span>
+        </div>
+    </div>
+    <div class="total-section">
+        <div class="flex align-items-center">
+            <span class="flex-grow-1 marginLeft" id="LocationWIseCoversTerrorism_TotalLabel">Total Premium</span>
+            <span class="flex-grow-1 " *ngFor="let location of locationWiseBreakupData" id="LocationWIseCoversDialog_TerrorismLabel_Prmium"><app-currency [value]="location.totalAmount"></app-currency> </span>
+        </div>
+    </div>
+    <!-- <div class="total-section">
+        <div class="flex align-items-center">
+            <span class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalLabel">Discounted Premium</span>
+            <span class="flex-grow-1" id="LocationWIseCoversTerrorism_Industry" *ngFor="let location of locationWiseBreakupData"> <app-currency [value]="(location.quoteLocationOccupancy.totalPremiumWithDiscount?? 0 )"></app-currency></span>
+        </div>
+    </div>
+    <div class="total-section">
+        <div class="flex align-items-center w-100">
+            <span class="flex-grow-1" id="LocationWIseCoversTerrorism_TotalLabel">Grand Total</span>
+            <span class="flex-grow-1 " id="LocationWIseCoversTerrorism_Total"><app-currency [value]="(locationWiseBreakupData[0]?.overAllTotal )"></app-currency></span>
+        </div>
+    </div> -->
+
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center">
+            <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" id="LocationWIseCoversDialog_DownloadSampleFile" ><i class="pi pi-download"></i> Download Sample File</button>
+        </div>
+    </div>
+    
+</div>

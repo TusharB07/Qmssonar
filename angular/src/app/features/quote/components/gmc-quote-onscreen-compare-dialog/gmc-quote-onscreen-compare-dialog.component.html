@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="p-3  s">
+        <button style="color:green;text-align: right;" class="btn btn-info mr-3 p-3" id="SidSumInsured_Split_Download"
+            (click)="downloadExcel()">
+            <i class="pi pi-file-excel"></i> Download Excel
+        </button>
+        <div class="quote-comparision-table" style="width: auto; overflow-x: scroll!important;">
+            <table *ngIf="questionAnswerListToBind.length > 0" class="table" id="execeltbl"
+                style="width: 100%!important ;font-size: 11px;overflow-x: scroll;">
+                <tbody>
+                    <tr style="padding: 0px !important;">
+                        <td [attr.colspan]="ques.colspan"
+                            style="border: 1px solid #0064BB;text-align: center; width: 150px;"
+                            *ngFor="let ques of qcrHeadersLst">
+                            {{ques.label}}
+                        </td>
+                    </tr>
+                    <tr *ngFor="let ques of questionAnswerListToBind"
+                        style="border: 1px solid #0064BB; padding: 0px !important;">
+                        <td style="border: 1px solid #0064BB; width: 50%;" [attr.colspan]="ques.colspan">
+                            <span *ngIf="ques.isSubHeader">
+                                <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                                    &nbsp;&nbsp;{{ques.parentTabName}} - {{ques.question}}</h5>
+                            </span>
+                            <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                                    style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                        </td>
+                        <td *ngFor="let ans of ques.answer"  [ngClass]="{'highlight': ans.isChanged}"
+                            style="width: 80px;border: 1px solid #0064BB;padding: 0px !important;">
+                            &nbsp;&nbsp; {{ans.answer}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

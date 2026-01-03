@@ -1,0 +1,48 @@
+<p-card *ngIf="['IAR','PAR','MEGA'].includes(this.quote?.productId?.shortName)">
+    <div class="container">
+        <h4 id="AppIndicativeQuote_Header" class="mb-2"><b>Deductible Add-ons covers</b></h4>
+        <p-table [value]="data"  styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" >  
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <!-- <p-checkbox [(ngModel)]="isChecked" (onChange)="toggleSelectAll()" binary="true"></p-checkbox> -->
+                    </th>
+                    <th>Cover Name</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-i="rowIndex">
+                <tr>
+                    <td>
+                        <p-checkbox [(ngModel)]="row.isChecked" binary="true" [ngClass]="'no-border'" (ngModelChange)="updateRow(row)"></p-checkbox>
+                    </td>
+                    <td>{{ row.addOnCoverName }}</td>
+                    <td>
+                        <span><input [(ngModel)]="row.claimPercentage"  (input)="restrictInput($event)"  (focusout)="updateRow(row)" type="text" class="form-control custom-input"/></span> 
+                        <span>&nbsp;</span>
+                        <span>{{ row.productValue }}</span>
+                        <span>&nbsp;</span> 
+                        <span><input [(ngModel)]="row.claimAmountMin"  (input)="validateClaimAmountMin($event)" (focusout)="updateRow(row)" type="text" class="form-control customs-inputs"/></span>
+                        <span>&nbsp;lacs e.e.l</span> 
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td>
+                        <p-checkbox [(ngModel)]="newisChecked" binary="true" [ngClass]="'no-border'"></p-checkbox>
+                    </td>
+                    <td>
+                        <input [(ngModel)]="newCoverName" type="text" class="form-control custom-inputs" placeholder="Enter new cover name" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="newclaimPercentage" type="text" class="form-control custom-input"/>   <span>&nbsp;</span>% OF CLAIM AMOUNT SUBJECT TO A MINIMUM OF <span>&nbsp;</span> <input [(ngModel)]="newclaimAmountMin" type="text" class="form-control customs-inputs"/><span>&nbsp;lacs e.e.l</span> 
+                    </td>        
+                </tr>
+            </ng-template>
+
+        </p-table>
+        <button (click)="addNewCover()" class="btn btn-primary mt-2">Add Cover</button>
+    </div>
+</p-card>

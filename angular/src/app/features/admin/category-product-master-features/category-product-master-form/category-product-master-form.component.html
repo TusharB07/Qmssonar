@@ -1,0 +1,46 @@
+<form [formGroup]="recordForm" (ngSubmit)="submitted=true; saveRecord();">
+
+<div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <div class="card p-fluid">
+                        <p-toast></p-toast>
+                        <p-toolbar styleClass="">
+                            <ng-template pTemplate="left">
+                                <h3 class="mb-0" id="CategoryProductMasterFormRecordName">{{this.recordSingularName}}</h3>
+                            </ng-template>
+                            <ng-template pTemplate="right">
+                                <button id="CategoryProductMasterForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                                <button id="CategoryProductMasterForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                            </ng-template>
+                        </p-toolbar>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col-6">
+            <p-card>
+                <div class="card p-fluid">
+                    <h5 id="CategoryProductMasterForm_GeneralInformationHeader">General Information</h5>
+                    <div class="field">
+                        <label id="CategoryProductMasterForm_NameLabel">Name</label>
+                        <input maxlength="100" class="form-control" type="text" pInputText formControlName="name" required
+
+                               autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && recordForm.get('name')?.invalid}"
+                        />
+                        <small class="ng-dirty ng-invalid" id="CategoryProductMasterForm_Name_ValidationError" *ngIf="submitted && !recordForm.value['name']">Name is required.</small>
+                    </div>
+                </div>
+            </p-card>
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" id="CategoryProductMasterForm_AuditTrail" [entityResourcePrefix]="'sector-masters'"></app-audit-trail>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

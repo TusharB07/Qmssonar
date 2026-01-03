@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="card modal-body">
+        <form class="" [formGroup]="editInsuredDetailsForm">
+            <div class="grid">
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_Insured_Name_label">Insured Name</label>
+                    <input pInputText formControlName="insuredName" placeholder="Insurer Name"
+                        id="InsuredDetailsDialog_Insured_Name" type="text" class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-1md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_HeadOffice_label">Head Office</label>
+
+                    <p-dropdown formControlName="clientLocationId" id="InsuredDetailsDialog_HeadOffice"
+                        placeholder="Select client location" [options]="this.optionsQuoteLocationOccupancies"
+                        dropdown="false" [(ngModel)]="selectedTypeofPolicy" optionLabel="label" optionvalue="value"
+                        class="custom-dropdown">
+                    </p-dropdown>
+                    <!-- <p-dropdown [filter]="true" [filterBy]="'label'" (value)="this.selectedQuoteLocationOccpancyId"
+                        (onChange)="handleRiskLocationOccupancyChange($event)" class="custom-dropdown "
+                        [options]="this.optionsQuoteLocationOccupancies" field="label"></p-dropdown> -->
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_RiskType_label">Risk Type</label>
+                    <input pInputText formControlName="riskType" id="InsuredDetailsDialog_RiskType"
+                        placeholder="Risk Type" value="" type="text" class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_TypeOfPolicy_label">Type of Policy</label>
+                    <div class="pp-dropdown-c">
+
+                        <!-- <p-dropdown formControlName="typeofPolicy" [options]="" [disabled]="true" dropdown="false"
+                            [(ngModel)]="selectedTypeofPolicy" optionLabel="name"
+                            class="custom-dropdown" >
+                        </p-dropdown> -->
+
+                        <p-dropdown formControlName="typeofPolicy" id="InsuredDetailsDialog_TypeOfPolicy"
+                            [options]="optionsQuoteType" [disabled]="true" dropdown="true" [(ngModel)]="selectedOption"
+                            optionLabel="" optionValue="value" class="custom-dropdown" required>
+                        </p-dropdown>
+
+                        <!-- <p-dropdown placeholder="Type of Policy" [options]="optionsQuoteType" [(ngModel)]="selectedOption" optionLabel="name" optionValue="_id" class="custom-dropdowns" formControlName="typeofPolicy" required >
+                        </p-dropdown>
+
+                        <small class="ng-dirty ng-invalid" *ngIf="editInsuredDetailsForm.controls['typeofPolicy']?.errors?.required">Quote
+                            type is required.</small> -->
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_SumAssured_label">Sum Insured</label>
+                    <!-- <input pInputText formControlName="sumAssured" placeholder="Type Here"
+                        id="InsuredDetailsDialog_SumAssured" value="500,000 Lacs" type="text" class="p-inputtext1"
+                        disabled> -->
+                    <p-inputNumber maxlength="21" formControlName="sumAssured" id="InsuredDetailsDialog_SumAssured" placeholder="Type Here"
+                        mode="decimal" locale="en-IN" prefix="₹ " [maxFractionDigits]="0" [minFractionDigits]="0"
+                        placeholder="₹" [disabled]="true"  type="" class=""></p-inputNumber>
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_RenewalPolicyPeriod_label">Renewal Policy
+                        Period</label>
+                    <div class="pp-dropdown-c">
+                        <!-- <p-dropdown formControlName="renewalPolicyPeriod" [options]="renewalPolicyPeriod"
+                            [(ngModel)]="selectedRenewalPolicyPeriod" optionLabel="name" optionvalue="code"
+                            class="custom-dropdown">
+                        </p-dropdown> -->
+                        <!-- <p-autoComplete class="custom-dropdown" [dropdown]="true" [suggestions]="" field="label" [disabled]
+                        formControlName="renewalPolicyPeriod" (completeMethod)="this.searchOptionsrenewalPolicyPeriod($event)"> </p-autoComplete> -->
+
+
+                        <p-autoComplete class="custom-dropdown" [suggestions]="this.optionsIndmenityPeriod"
+                            id="InsuredDetailsDialog_RenewalPolicyPeriod" placeholder="Select Indmenity Period"
+                            (completeMethod)="this.searchOptionsMandY($event)"  [dropdown]="true" [disabled]="true"
+                            field="label" formControlName="renewalPolicyPeriod"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="editInsuredDetailsForm.controls['renewalPolicyPeriod']?.errors?.required">Indmenity
+                            Period is required.</small>
+
+
+                    </div>
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_CRMID_label">* CRM ID</label>
+                    <input pInputText formControlName="crmId" placeholder="Type Here" id="InsuredDetailsDialog_CRMID"
+                        type="text" class="p-inputtext1" maxlength="128" pattern="[/a-zA-Z0-9_-]+">
+                    <p class="hint">CRM ID is the lead ID like LDXXXXXXXXX</p>
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_Insured_Business_label">Insured's
+                        Business</label>
+                    <input pInputText formControlName="insuredBusiness" placeholder="Type Here"
+                        id="InsuredDetailsDialog_Insured_Business" type="text" class="p-inputtext1" disabled>
+                </div>
+                <div class="col-12 md:col-4 mb-1 md:mb-5">
+                    <label for="" class="form-label" id="InsuredDetailsDialog_RiskStartDate_label">Risk Start
+                        Date</label>
+                    <input pInputText formControlName="riskStartDate" placeholder="Type Here"
+                        id="InsuredDetailsDialog_RiskStartDate" value="" type="date" class="p-inputtext1"
+                        [min]="this.today" disabled>
+                </div>
+
+
+                <!-- <div class="col-12">
+                    <button class="btn btn-green mr-4" type="submit">Save</button>
+                    <button class="btn btn-outline-gray" type="submit">Cancel</button>
+                </div> -->
+            </div>
+            <!-- <button class="btn btn-green mr-4" type="submit" (click)="formSubmit()">Save</button> -->
+            <div class="flex justify-content-end">
+                <button class="btn btn-success md:mr-4" type="submit" id="Save_InsuredDetailsDialog_Form"
+                    (click)="formSubmit()">Save</button>
+            </div>
+        </form>
+
+    </div>
+</div>

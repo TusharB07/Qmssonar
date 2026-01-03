@@ -1,0 +1,172 @@
+<p-card class="">
+  <div class="grid">
+    <div class="mx-3" style="width: 900px">
+      <button class="btn btn-success mr-4" type="button" id="finalRater_Save" (click)="saveTabs()">Save</button>
+      <div class="grid mt-3">
+        <div class="col-4">
+          <label for="" class="form-label">Premium Paid Till Date</label>
+          <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="premium_paid_tillDate" locale="en-IN"
+            autocomplete="off" maxlength="20" [(ngModel)]="finalRater.premiumPaidTillDate" name="premium_paid_tillDate"
+            #premium_paid_tillDate="ngModel" [minFractionDigits]="0" class="p-inputtext1 text-left"></p-inputNumber>
+          <!-- <input maxlength="20" pInputText id="premium_paid_tillDate" [(ngModel)]="finalRater.premiumPaidTillDate"
+            name="premium_paid_tillDate" #premium_paid_tillDate="ngModel" type="text"
+            class="p-inputtext1 text-left mt-3" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" /> -->
+        </div>
+        <div class="col-4">
+          <label for="" class="form-label">Claims as on Date</label>
+          <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="claimAsOnDate" locale="en-IN"
+            autocomplete="off" maxlength="20" [(ngModel)]="finalRater.claimAsOnDate" name="claimAsOnDate"
+            #claimAsOnDate="ngModel" [minFractionDigits]="0" class="p-inputtext1 text-left"></p-inputNumber>
+          <!-- <input maxlength="20" pInputText id="claimAsOnDate" [(ngModel)]="finalRater.claimAsOnDate"
+            name="claimAsOnDate" #claimAsOnDate="ngModel" type="text" currencyMask
+            [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1 text-left mt-3" /> -->
+        </div>
+        <div class="col-4">
+          <label for="" class="form-label" >Claims Paid + Outstanding</label>
+          <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="claimsPaidOutStanding" locale="en-IN"
+            autocomplete="off" maxlength="20" [(ngModel)]="finalRater.claimsPaidOutStanding" name="claimsPaidOutStanding"
+            #claimsPaidOutStanding="ngModel" [minFractionDigits]="0" class="p-inputtext1 text-left"></p-inputNumber>
+          <!-- <input maxlength="20" pInputText id="claimsPaidOutStanding" [(ngModel)]="finalRater.claimsPaidOutStanding"
+            name="claimsPaidOutStanding" #claimsPaidOutStanding="ngModel" type="text"
+            class="p-inputtext1 text-left mt-3" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+            (keyup)="calculateNetClaimAmount()" /> -->
+        </div>
+      </div>
+      <!-- <div class="mt-3"><label class="form-label">Net Claims : {{this.finalRater.netClaimAmount  | currency:"INR"}}</label></div>
+      <div class="mt-3"><label class="form-label">Net Total : {{this.finalRater.netToatlAmount  | currency:"INR"}}</label></div>
+      <div class="mt-3"><label class="form-label">Grand Total : {{this.finalRater.grandTotalAmount  | currency:"INR"}}</label></div> -->
+      <h4 class="mt-4">Enter amount to generate Quote</h4>
+
+      <div class="grid">
+        <div class="col-3 green-box">
+          <label for="" class="form-label">One Time Claims</label><input maxlength="100" pInputText id="oneTimeClaims"
+            [(ngModel)]="finalRater.oneTimeClaims" name="oneTimeClaims" #oneTimeClaims="ngModel" type="text"
+            class="p-inputtext1 text-left mt-3" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+            (keyup)="calculateNetClaimAmount()" />
+        </div>
+        <div class="col-3 green-box">
+          <label for="" class="form-label">Covid Claims</label><input maxlength="100" pInputText id="covidClaims"
+            [(ngModel)]="finalRater.covidClaims" name="covidClaims" #covidClaims="ngModel" type="text"
+            class="p-inputtext1 text-left mt-3" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+            (keyup)="calculateNetClaimAmount()" />
+        </div>
+        <div class="col-3 green-box">
+          <label for="" class="form-label">Claims due to Death of Employee</label><input maxlength="100" pInputText
+            id="claimsDuetoDeathOfEmployee" [(ngModel)]="finalRater.claimsDuetoDeathOfEmployee"
+            name="claimsDuetoDeathOfEmployee" #claimsDuetoDeathOfEmployee="ngModel" type="text"
+            class="p-inputtext1 text-left mt-3" currencyMask [options]="{ prefix: '₹ ' , precision:0 }"
+            (keyup)="calculateNetClaimAmount()" />
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-3 blue-box">
+          <label for="" class="form-label">Adjustment % for increase in life</label>
+          <!-- <input maxlength="2" min="0"
+            pInputText id="adjustmentpercentage" [(ngModel)]="finalRater.adjustmentpercentage" name="adjustmentpercentage"
+            #adjustmentpercentage="ngModel" type="number" class="p-inputtext1 text-left mt-3"
+            (keyup)="calculateNetTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="adjustmentpercentage" placeholder="0"
+            [(ngModel)]="finalRater.adjustmentpercentage" #adjustmentpercentage="ngModel" name="adjustmentpercentage"
+            [maxlength]="2" [min]="0" (keyup)="calculateNetTotalAmount()"></p-inputNumber>
+        </div>
+        <div class="col-3 blue-box">
+          <label for="" class="form-label">IBNR (%)</label>
+          <!-- <input maxlength="2" min="0" pInputText id="ibnr"
+            [(ngModel)]="finalRater.ibnr" name="ibnr" #ibnr="ngModel" type="number" class="p-inputtext1 text-left mt-3"
+            (keyup)="calculateNetTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="ibnr" placeholder="0" [(ngModel)]="finalRater.ibnr" #ibnr="ngModel"
+            name="ibnr" [maxlength]="2" [min]="0" (keyup)="calculateNetTotalAmount()"></p-inputNumber>
+        </div>
+        <div class="col-3 blue-box">
+          <label for="" class="form-label">Medical Inflation (%)</label>
+          <!-- <input maxlength="2" min="0" pInputText
+            id="medicalInflation" [(ngModel)]="finalRater.medicalInflation" name="medicalInflation"
+            #medicalInflation="ngModel" type="number" class="p-inputtext1 text-left mt-3"
+            (keyup)="calculateNetTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="medicalInflation" placeholder="0"
+            [(ngModel)]="finalRater.medicalInflation" #medicalInflation="ngModel" name="medicalInflation"
+            [maxlength]="2" [min]="0" (keyup)="calculateNetTotalAmount()"></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-3 violet-box">
+          <label for="" class="form-label">TPA Loading (%)</label>
+          <!-- <input maxlength="2" min="0" pInputText id="tpaLoading"
+            [(ngModel)]="finalRater.tpaLoading" name="tpaLoading" #tpaLoading="ngModel" type="number"
+            class="p-inputtext1 text-left mt-3" (change)="calculateGrossTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="tpaLoading" placeholder="0" [(ngModel)]="finalRater.tpaLoading"
+            #tpaLoading="ngModel" name="tpaLoading" [maxlength]="2" [min]="0"
+            (keyup)="calculateGrossTotalAmount()"></p-inputNumber>
+        </div>
+        <div class="col-3 violet-box">
+          <label for="" class="form-label">Brokerage (%)</label>
+          <!-- <input maxlength="2" min="0" pInputText id="brokerage"
+            [(ngModel)]="finalRater.brokerage" name="brokerage" #brokerage="ngModel" type="number"
+            class="p-inputtext1 text-left mt-3" (keyup)="calculateGrossTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="brokerage" placeholder="0" [(ngModel)]="finalRater.brokerage"
+            #brokerage="ngModel" name="brokerage" [maxlength]="2" [min]="0"
+            (keyup)="calculateGrossTotalAmount()"></p-inputNumber>
+        </div>
+        <div class="col-3 violet-box">
+          <label for="" class="form-label">Insurer Margin (%)</label>
+          <!-- <input pInputText maxlength="2" min="0"
+            id="insurerMargin" [(ngModel)]="finalRater.insurerMargin" name="insurerMargin" #insurerMargin="ngModel"
+            type="number" class="p-inputtext1 text-left mt-3" (keyup)="calculateGrossTotalAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="insurerMargin" placeholder="0" [(ngModel)]="finalRater.insurerMargin"
+            #insurerMargin="ngModel" name="insurerMargin" [maxlength]="2" [min]="0"
+            (keyup)="calculateGrossTotalAmount()"></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-3 greenyellow-box">
+          <label for="" class="form-label">Investment Income (%)</label>
+
+          <!-- <input maxlength="2" min="0" pInputText
+            id="investmentIncome" [(ngModel)]="finalRater.investmentIncome" name="investmentIncome"
+            #investmentIncome="ngModel" type="number" class="p-inputtext1 text-left mt-3"
+            (keyup)="calculateInvestmentAmount()" /> -->
+
+          <p-inputNumber class="text-right" id="investmentIncome" placeholder="0"
+            [(ngModel)]="finalRater.investmentIncome" #investmentIncome="ngModel" name="investmentIncome"
+            [maxlength]="2" [min]="0" (keyup)="calculateInvestmentAmount()"></p-inputNumber>
+
+        </div>
+        <div class="col-3 greenyellow-box">
+          <label for="" class="form-label">Overall Loading discount (%)</label>
+          <!-- <input pInputText maxlength="2" min="0"
+            id="overAllLoadingDiscount" [(ngModel)]="finalRater.overAllLoadingDiscount" name="overAllLoadingDiscount"
+            #overAllLoadingDiscount="ngModel" type="number" class="p-inputtext1 text-left mt-3"
+            (keyup)="calculatePremium()" /> -->
+
+          <p-inputNumber class="text-right" id="overAllLoadingDiscount" placeholder="0"
+            [(ngModel)]="finalRater.overAllLoadingDiscount" #overAllLoadingDiscount="ngModel"
+            name="overAllLoadingDiscount" [maxlength]="2" [min]="0" (keyup)="calculatePremium()"></p-inputNumber>
+
+        </div>
+      </div>
+
+
+    </div>
+    <div class="grid">
+      <div class="col-12 text-center">
+        <div class="total-premium">
+          <div class="premium">Total Premium</div>
+          <div class="price">{{this.finalRater.grandTotalAmount | currency:"INR"}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</p-card>
+
+
+<!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->

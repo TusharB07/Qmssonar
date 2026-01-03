@@ -1,0 +1,75 @@
+<div *ngIf="this.quote" class="" id="PaymentCompleted">
+    <div class="">
+        <!-- <div class="px-5">
+            <img src="/assets/broker/images/icons/verified.png" width="50px" id="PaymentCompleted_Image" alt="">
+        </div> -->
+    </div>
+    <div class="">
+        <div class="mb-5">
+
+            <div *ngIf="this.quote?.paymentMode=='offline'">
+                <div class="grid" style="width:400px">
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_Mode_Label">Payment Mode</h6>
+                        <p id="AppOfflinePayment_Mode_Offline">{{this.quote.paymentMode}}</p>
+                    </div>
+                    <!-- <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_DraweeBank_Label">Drawee Bank</h6>
+                        <p id="AppOfflinePayment_DraweeBank">{{this.quote.paymentOfflineDraweeBank}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentCode_Label">Instrument No./Fund Transfer Code</h6>
+                        <p id="AppOfflinePayment_InstrumentCode">{{this.quote.paymentOfflineInstrumentTransferCode}}</p>
+                    </div> -->
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">Instrument Amount/Fund Transfer Amount *(Incl. Taxes)</h6>
+                        <p id="AppOfflinePayment_InstrumentAmount"><app-currency [value]="this.quote.totalIndictiveQuoteAmtWithGst"></app-currency> </p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">Instrument Type</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.instrumentType}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">UTR Number/Cheque Number</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.chequeNo}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">Bank Name</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.bankName}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">Branch</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.branchName}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">IFSC Code</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.ifscCode}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6 id="AppOfflinePayment_InstrumentAmount_Label">Payment Date</h6>
+                        <p class="text-capitalize" id="QuoteOfflinePayment_PaymentInstrumentTransferCode">{{this.quote.paymentOperationAssignAt | date : 'dd/mm/yyyy'}}</p>
+
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="this.quote?.paymentMode=='online'">
+                <div>
+                    <div>
+                        <h6 id="AppOfflinePayment_Mode_Label">Payment Mode</h6>
+                        <p id="AppOfflinePayment_Mode_Offline">Online</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <p class="">Payment Mode: Offline</p> -->
+        </div>
+
+
+        <div class="mb-5">
+
+            <button pButton type="button" id="PaymentCompleted_RiskLetterHead" label="OK" class="p-button-primary btn-sm px-5 py-2 w-100" (click)="close()"></button>
+        </div>
+
+
+    </div>
+</div>

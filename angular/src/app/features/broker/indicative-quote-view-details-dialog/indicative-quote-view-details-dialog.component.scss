@@ -1,0 +1,120 @@
+
+.lt-solid-box {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 2px solid #2156C2;
+    border-radius: 27px;
+    padding: 10px;
+    // min-height: 520px;
+}
+::ng-deep .customPopup.p-dialog .p-accordion-header-text {
+    font: normal normal bold 28px/38px OpenSans-Bold;
+    color: #000000;
+}
+.lt-solid-box ul.addOns-list li{
+    padding: 12px 10px;
+    min-height: auto;
+}
+.lt-solid-box ul.addOns-list li:nth-of-type(odd) {
+    background: #F2F6FF;
+    border-radius: 13px;
+}
+::ng-deep .customPopup.p-dialog .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link{
+    position: relative;
+    background: transparent;
+}
+::ng-deep .customPopup.p-dialog .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon{
+    // position: absolute;
+    right: 15px;
+    top: 20px;
+    font-size: 20px;
+}
+::ng-deep .customPopup.p-dialog .p-accordion .p-accordion-header .p-accordion-header-link{
+    border: 0;
+}
+::ng-deep .customPopup.p-dialog p-accordiontab{
+    border-bottom: 1px solid #D5D5D5;
+    display: block;
+}
+::ng-deep .customPopup.p-dialog p-accordiontab:last-child{
+    border-bottom: 0;
+}
+::ng-deep .customPopup.p-dialog .p-accordion .p-accordion-content{
+    border: transparent;
+}
+
+hr {
+    font-weight: bold !important
+}
+
+
+
+// th, tr, td{
+// margin: 0%;
+
+//     padding-left: 30%;
+
+// }
+.table2 {
+    padding:0px ;
+    margin: 0;
+}
+
+
+.clauses-list-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px !important;
+}
+.name, .status{
+    padding: 10px;
+}
+
+.perils-deleted-name{
+    display: flex;
+    justify-content: space-between;
+    padding: 7px !important;
+}
+
+// .perils-deleted-status{
+//     margin-left: -50%;
+
+// }
+
+.lt-solid-box-Risk-Inspaction-status{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 2px solid #2156C2;
+    border-radius: 27px;
+    padding: 10px;
+    min-height: 50px;
+    // min-height: 520px;
+}
+.Annexure-data{
+    text-align: center;
+
+    font-size: 14px;
+
+}
+
+// .header{
+//     text-align: center;
+
+// }
+// .lt-solid-box-Annexure {
+//     text-align: center;
+
+// }
+
+
+
+
+// table1{
+//     padding-left: -200px;
+// }
+// table1{
+//     padding-left: -95px;
+// }\
+
+    // .end{
+    //     // position: relative;
+    //     padding-top:-250%;
+    // }

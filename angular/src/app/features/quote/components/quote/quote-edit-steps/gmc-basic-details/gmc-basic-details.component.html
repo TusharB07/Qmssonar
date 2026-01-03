@@ -1,0 +1,322 @@
+<form [formGroup]="basicDetailsForm">
+
+  <div>
+    <p-card class="">
+
+      <div class="grid mb-3">
+        <div class="col-4 mb-5">
+          <label id="BasicTab_InsuredName_Label" for="" class="form-label">Insured Name</label>
+          <input pInputText id="BasicTab_InsuredName" formControlName="insuredName" placeholder="Insurer Name"
+            type="text" class="custom-dropdown" disabled>
+        </div>
+        <div class="col-4 mb-5">
+          <label for="" id="BasicTab_HeadOffice_Label" class="form-label">Head Office</label>
+          <p-dropdown formControlName="clientLocationId" id="BasicTab_HeadOffice"
+            [options]="this.optionsQuoteLocationOccupancies" placeholder="{{this.quote?.clientAddress}}" dropdown="true"
+            [(ngModel)]="selectedOption" optionLabel="label" optionvalue="value" class="custom-dropdown"
+            [disabled]="true">
+          </p-dropdown>
+        </div>
+        <div class="col-4 mb-5">
+          <label for="" class="form-label" id="BasicTab_RiskType_Label">Risk Type</label>
+          <input pInputText formControlName="riskType" id="BasicTab_RiskType" placeholder="Risk Type" value=""
+            type="text" class="custom-dropdown" disabled>
+        </div>
+      </div>
+      <div class="grid mb-3">
+        <div class="col-4 mb-5">
+          <label for="" class="form-label" id="BasicTab_PolicyType_Label">Type of Policy</label>
+          <div class="pp-dropdown-c">
+            <p-dropdown formControlName="typeofPolicy" id="BasicTab_PolicyTyp" [options]="optionsQuoteType"
+              placeholder="{{this.quote?.quoteType}}" [disabled]="true" dropdown="true" [(ngModel)]="selectedOption"
+              optionLabel="lable" optionValue="value" class="custom-dropdown">
+            </p-dropdown>
+            <!-- <input formControlName="typeofPolicy"    optionLabel="lable" optionValue="value" placeholder="{{this.quote?.quoteType}}" pInputText disabled> -->
+          </div>
+        </div>
+        <div class="col-4 mb-5">
+          <label for="" class="form-label" id="BasicTab_SumAssured_Label">Sum Insured</label>
+          <!-- <input pInputText formControlName="sumAssured" placeholder="Type Here" id="BasicTab_SumAssured"
+                        value="500,000 Lacs" type="text" class="p-inputtext1" disabled> -->
+
+          <p-inputNumber maxlength="21" formControlName="sumAssured" id="BasicTab_SumAssured_Label"
+            placeholder="Type Here" mode="decimal" locale="en-IN" prefix="₹ " [maxFractionDigits]="0"
+            [minFractionDigits]="0" placeholder="₹" [disabled]="true" type="" class=""></p-inputNumber>
+        </div>
+        <div class="col-4 mb-5">
+          <label for="" class="form-label" id="BasicTab_PolicyPeriod_Label">Renewal Policy Period</label>
+
+          <p-dropdown class="custom-dropdown" id="BasicTab_PolicyPeriod" [options]="this.optionsIndmenityPeriod"
+            placeholder="Select Indmenity Period" optionLabel="label" optionValue="value"
+            formControlName="renewalPolicyPeriod" [disabled]="true"></p-dropdown>
+
+        </div>
+      </div>
+      <div class="grid mb-3">
+        <div class="col-4 mb-5">
+          <label for="" class="form-label" id="BasicTab_CRMID_Label">CRM ID</label>
+          <input pInputText formControlName="crmId" placeholder="Type Here" id="BasicTab_CRMID" type="text"
+            class="custom-dropdown" disabled>
+          <!-- <p class="hint">CRM ID is the lead ID like LDXXXXXXXXX</p> -->
+        </div>
+        <div class="col-4 mb-5">
+
+          <label for="" class="form-label" id="BasicTab_InsuredBusiness_Label">Insured's Business</label>
+          <input pInputText formControlName="insuredBusiness" id="BasicTab_InsuredBusiness"
+            placeholder="{{this.quote?.riskStartDate | date}}" value="500,000 Lacs" type="text" class="custom-dropdown"
+            disabled>
+        </div>
+        <div class="col-4 mb-5">
+          <label for="" class="form-label " id="BasicTab_RiskStartDate_Label">Risk Start Date</label>
+          <input pInputText formControlName="riskStartDate" id="BasicTab_RiskStartDate" placeholder="Type Here" value=""
+            type="date" class="custom-dropdown" [min]="this.today" disabled>
+        </div>
+      </div>
+    </p-card>
+  </div>
+  <p-card class="">
+    <div class="grid">
+      <div class="col-1 p-2">
+        <h4>Policy Details</h4>
+      </div>
+      <div>
+        <p-table [value]="basicTable">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Details</th>
+              <th>Count</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-detail>
+            <tr>
+              <td>{{ detail.name }}</td>
+              <td>{{detail.inception}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </div>
+
+  </p-card>
+
+
+  <div class="grid mt-1" *ngIf="selectedQuoteTemplate[0].showClaimHistory">
+    <div class="col-5">
+      <p-card class="">
+        <div class="grid mb-6">
+          <div class="col-8 p-2">
+            <h4>Policy Details</h4>
+          </div>
+        </div>
+        <div class="inner-container">
+          <div class="p-grid">
+            <div class="p-col-6">
+              <p-table [value]="basicTable">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Details</th>
+                    <th>Inception</th>
+                    <th>As on Date</th>
+                    <th>% Change</th>
+                    <th>Proposed</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-detail>
+                  <tr>
+                    <td>{{ detail.name }}</td>
+                    <td><label>{{ detail.inception }}</label></td>
+                    <td><label>{{ detail.asOnDate }}</label></td>
+                    <td><label>{{ detail.change }}</label></td>
+                    <td><label>{{ detail.proposed }}</label></td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              <div class="mt-2">
+                <div class="mt-2">
+                  <label class="form-label">No. of Days Lapsed in Policy:</label>
+                  <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.policyRunDays }}</label>
+                </div>
+                <label class="form-label">Premium Paid at Inception (Excluding ST) - INR:</label>
+                <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.premiumAtInception | currency: 'INR' }}</label>
+              </div>
+              <div class="mt-2">
+                <label class="form-label">Total Premium Paid as on date (Excluding ST) - INR:</label>
+                <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.premiumAsOnDate | currency: 'INR' }}</label>
+              </div>
+
+              <div class="mt-2">
+                <label class="form-label">Earned Premium (excl. GST):</label>
+                <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.earnedPremium | currency: 'INR' }}</label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Existing insurer:</label>
+            <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.existingInsurer }}</label>
+          </div>
+          <div>
+            <label class="form-label">Existing TPA:</label>
+            <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.existingTPA }}</label>
+          </div>
+          <div>
+            <label class="form-label">Existing broker:</label>
+            <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.existingBroker }}</label>
+          </div>
+        </div>
+      </p-card>
+    </div>
+    <div class="col-4">
+      <p-card class="">
+        <h4 class="mb-6">Claim Details</h4>
+        <div class="inner-container">
+          <div class="p-col-6">
+            <div style="margin-top: 20px;">
+              <label for="claimAsOnDate" class="form-label">Claim as on Date:</label>
+              <label>{{ selectedQuoteTemplate[0].gmcBasicDetails.claimAsOnDate | date }}</label>
+            </div>
+            <p-table [value]="this.selectedQuoteTemplate[0].gmcBasicDetails.gmcClaimDetails" class="mt-3">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Claims</th>
+                  <th>Count</th>
+                  <th>Amount</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-claim>
+                <tr>
+                  <td>{{ claim.name }}</td>
+                  <td><label>{{ claim.count }}</label></td>
+                  <td><label>{{ claim.amount | currency: 'INR' }}</label></td>
+                </tr>
+              </ng-template>
+            </p-table>
+            <div class="mt-2">
+              <label class="form-label">Annualized Claim Amount:</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.annualizedClaimAmount | currency: 'INR' }}</label>
+            </div>
+            <div class="mt-2">
+              <label class="form-label">Average Claim Amount:</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.averageClaimSize | currency: 'INR' }}</label>
+            </div>
+            <div class="mt-2">
+              <label class="form-label">Claim Ratio on Earned Premium(ICR):</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.claimRatioPremium }}</label>
+            </div>
+            <div class="mt-2">
+              <label class="form-label">Claim Ratio on Total Premium:</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.claimRatioTotalPremium}} %</label>
+            </div>
+
+            <div class="mt-2">
+              <label class="form-label">Co-Insure Details:</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.coInsureDetails }}</label>
+            </div>
+            <div class="mt-2">
+              <label class="form-label">Co-Insure Percentage:</label>
+              <label>{{ this.selectedQuoteTemplate[0].gmcBasicDetails.coInsurePercentage }}</label>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+    <div class="col-6" *ngIf="showGPAGTL">
+      <p-card class="">
+        <h4 class="mb-6">Claim Details</h4>
+        <div class="inner-container">
+          <div>
+            <table class="p-table" border="1" cellspacing="0" cellpadding="5">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Year 1</th>
+                  <th>Year 2</th>
+                  <th>Year 3</th>
+                  <th>Year 4</th>
+                  <th>Year 5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of selectedQuoteTemplate[0].gpaGtlFormDetails">
+                  <td>{{ detail.label }}</td>
+                  <td><label>{{ detail.data.year1 }}</label></td>
+                  <td><label>{{ detail.data.year2 }}</label></td>
+                  <td><label>{{ detail.data.year3 }}</label></td>
+                  <td><label>{{ detail.data.year4 }}</label></td>
+                  <td><label>{{ detail.data.year5 }}</label></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="col-4" *ngIf="quote.quoteType != 'new'">
+      <p-card class="">
+        <h4 class="mb-6">Insurer Details</h4>
+        <div class="inner-container">
+          <div class="grid mb-2">
+            <div class="col-6" *ngIf="typeOfInsurerList.length > 0">
+              <label for="" class="form-label" id="lblClientIndustry">Type of Insurer</label>
+              <label>{{ employeeDemographic.typeOfInsurer }}</label>
+              <button *ngIf="!employeeDemographic.istypeOfInsurerDescription" pButton type="button"
+                label="Add more info" class="p-button-link"
+                (click)="employeeDemographic.istypeOfInsurerDescription = !employeeDemographic.istypeOfInsurerDescription"></button>
+            </div>
+            <div class="col-6" *ngIf="employeeDemographic.istypeOfInsurerDescription">
+              <label for="" class="form-label" id="lblDescription">Description</label>
+              <label>{{ this.employeeDemographic.typeOfInsurerDescription }}</label>
+              <button pButton type="button" label="Remove" class="p-button-link btn-danger"
+                (click)="employeeDemographic.istypeOfInsurerDescription = !employeeDemographic.istypeOfInsurerDescription"></button>
+            </div>
+          </div>
+          <div class="grid mb-2">
+            <div class="col-6" *ngIf="optionsInsurers.length > 0">
+              <label for="" class="form-label" id="lblDescription">Name of Lead Insurer</label>
+              <label>{{ employeeDemographic.nameOfLeadInsurer }}</label>
+              <button *ngIf="!employeeDemographic.isnameOfLeadInsurerDescription" pButton type="button"
+                label="Add more info" class="p-button-link"
+                (click)="employeeDemographic.isnameOfLeadInsurerDescription = !employeeDemographic.isnameOfLeadInsurerDescription"></button>
+            </div>
+            <div class="col-6" *ngIf="employeeDemographic.isnameOfLeadInsurerDescription">
+              <label for="" class="form-label" id="lblDescription">Name of Insurer Description</label>
+              <label>{{ this.employeeDemographic.nameOfLeadInsurerDescription }}</label>
+              <button pButton type="button" label="Remove" class="p-button-link btn-danger"
+                (click)="employeeDemographic.isnameOfLeadInsurerDescription = !employeeDemographic.isnameOfLeadInsurerDescription"></button>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+</form>
+
+
+
+
+
+<!--
+<div class="container">
+<form>
+    <div [formGroup]="basicDetailsForm">
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="insuredName" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="clientLocationId" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+        <div class="col-3">
+             <label class="form-label">Insured Name</label>
+                <input pInputText formControlName="insuredName" placeholder="Insurer Name" type="text"
+                 disabled>
+        </div>
+    </div>
+</form>
+</div> -->

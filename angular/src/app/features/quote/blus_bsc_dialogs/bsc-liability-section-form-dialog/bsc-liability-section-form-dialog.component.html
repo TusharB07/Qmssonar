@@ -1,0 +1,168 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="liabilitySectionForm" (ngSubmit)="this.submitLiabilitySectionForm()" #$form="ngForm">
+        <div formArrayName="formArray" *ngFor="let form of this.formArray.controls; let i = index">
+            <div [formGroupName]="i">
+
+                <div class="sign-in-head flex align-items-center justify-content-between"
+                    *ngIf="this.permissions.includes('update')">
+                    <h4 class="head5">BSC Liability Section {{ i + 1 }}</h4>
+                    <a class="red-link" id="LiabilitySection_Form_Delete"
+                        (click)="this.deleteFormBasedOnIndex(i)" *ngIf="this.formArray.controls.length > 1">Delete</a>
+                </div>
+                <div class="grid md:mb-5">
+                    <div class="col-12 md:col-6 mb-1 md:mb-5">
+                        <label for="" class="form-label" id="LiabilitySection_Dialog_RiskType_label">Risk Type</label>
+                        <div class="pp-dropdown-c">
+
+                            <p-autoComplete class="custom-dropdown" id="LiabilitySection_Dialog_RiskType"
+                                [readonly]="!this.permissions.includes('update')"
+                                [dropdown]="this.permissions.includes('update') ? true : false"
+                                [suggestions]="this.optionsRiskType" field="label" formControlName="riskTypeId"
+                                (completeMethod)="this.searchOptionsRiskType($event,i)" placeholder="Select Risk Type"
+                                [forceSelection]="true" (onSelect)="createSumInsuredForEmp($event,i)"
+                                [showEmptyMessage]="true"
+                                [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['riskTypeId']?.errors}">
+                            </p-autoComplete>
+
+                            <small class="ng-dirty ng-invalid" id="LiabilitySection_Dialog_RiskType_ValidationError"
+                                *ngIf="$form.submitted && form.controls['riskTypeId']?.errors?.required">Risk
+                                Type is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 mb-1 md:mb-5"
+                        *ngIf="form.value['riskTypeId']?.label != 'Employee' && form.value['riskTypeId']?.label != 'Workmen Compensation'">
+                        <label for="" id="LiabilitySection_Dialog_Description_Label" class="form-label">Description of
+                            Risk</label>
+                        <input pInputText id="LiabilitySection_Dialog_Description" formControlName="riskDescription"
+                            [readonly]="!this.permissions.includes('update')" value="" type="text" class="p-inputtext1"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['riskDescription']?.errors}"
+                            placeholder="Enter Description">
+
+                        <small class="ng-dirty ng-invalid" id="LiabilitySection_Dialog_Description_ValidationError"
+                            *ngIf="$form.submitted && form.controls['riskDescription']?.errors?.required">
+                            Description is required.</small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="form.value['riskDescription']?.length > 255">Description
+                            cannot be greater
+                            than 255 Characters.</small>
+                    </div>
+                    <div class="col-12 md:col-6 mb-1 md:mb-5" *ngIf="form.value['riskTypeId']?.label == 'Workmen Compensation'">
+                        <label for="" id="LiabilitySection_Dialog_Description_Label" class="form-label">
+                            Average Salary of Employees</label>
+                        <!-- <p-inputNumber id="LiabilitySection_Dialog_Description"
+                                                    formControlName="averageSalaryOfEmployee" mode="decimal" locale="en-IN" prefix="₹ "
+                                                    [readonly]="!this.permissions.includes('update')" value="" type="text"
+                                                    (onFocus)="calculateSum(event,i)"
+                                                    [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['averageSalaryOfEmployee']?.errors}"></p-inputNumber> -->
+                        <p-autoComplete
+                            class="custom-dropdown" id="LiabilitySection_Dialog_RiskType" [readonly]="!this.permissions.includes('update')"
+                            [dropdown]="this.permissions.includes('update') ? true : false" [suggestions]="this.optionDropDownForAvgSal"
+                            field="label" formControlName="averageSalaryOfEmployee" placeholder="Select" [forceSelection]="true" [showEmptyMessage]="true"
+                            (completeMethod)="this.searchOptionsAvarageSalary()"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['averageSalaryOfEmployee']?.errors}">
+                        </p-autoComplete>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="form.controls['averageSalaryOfEmployee']?.errors?.required">This
+                            field is required.</small>
+
+                        <small class="ng-dirty ng-invalid" id="LiabilitySection_Dialog_SumInsured_ValidationError2"
+                            *ngIf="form.controls['averageSalaryOfEmployee']?.errors?.min">Average should be
+                            greater than 1.</small>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-1 md:mb-5"
+                        *ngIf="form.value['riskTypeId']?.label == 'Employee' || form.value['riskTypeId']?.label == 'Workmen Compensation'">
+                        <label for="" id="LiabilitySection_Dialog_Description_Label" class="form-label">
+                            Number of Employees</label>
+                        <p-inputNumber [style]="{'display': 'unset !important'}"
+                            id="LiabilitySection_Dialog_Description" formControlName="noOfEmployee" [showButtons]="true"
+                            min="0" (onInput)="calculateSum(event,i)"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['noOfEmployee']?.errors}"
+                            [readonly]="!this.permissions.includes('update')"></p-inputNumber>
+                        <small class="ng-dirty ng-invalid" *ngIf="form.controls['noOfEmployee']?.errors?.required">This
+                            field is required.</small>
+
+                        <small class="ng-dirty ng-invalid" id="LiabilitySection_Dialog_SumInsured_ValidationError2"
+                            *ngIf="form.controls['noOfEmployee']?.errors?.min">No of Employees should
+                            be greater than {{form.controls['riskTypeId']?.value.empMin}}.</small>
+                        <small class="ng-dirty ng-invalid" *ngIf="form.controls['noOfEmployee']?.errors?.max">No of
+                            Employees should be less {{form.controls['riskTypeId']?.value?.empMax}}.</small>
+                    </div>
+                    <div class="col-12 md:col-6 mb-1 md:mb-5">
+                        <label for="" id="PLiabilitySection_Dialog_SumInsured_label"
+                            class="form-label">{{form.value['riskTypeId']?.label != 'Employee'?'Sum Insured':'Per Employee Sum Insured'}}</label>
+
+                        <p-inputNumber *ngIf="form.value['riskTypeId']?.label != 'Employee' && form.value['riskTypeId']?.label != 'Owner'"
+                            id="LiabilitySection_Dialog_SumInsured" mode="decimal" locale="en-IN" prefix="₹ "
+                            [minFractionDigits]="0" placeholder="0" formControlName="sumInsured"
+                            (onFocus)="calculateSum(event,i)"
+                            [readonly]="!this.permissions.includes('update') || form.value['riskTypeId']?.label == 'Workmen Compensation'"
+                            maxlength="21"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && !form.value['sumInsured'] && form.controls['sumInsured']?.errors} ">
+                        </p-inputNumber>
+                        <!-- <p-dropdown *ngIf="form.value['riskTypeId']?.label == 'Employee'"
+                            [options]="this.optionDropDownForEmpSum" [autoDisplayFirst]="false" optionLabel="label"
+                            optionValue="value" formControlName="sumInsured" (onClick)="onfocus(e)"></p-dropdown> -->
+                        <p-autoComplete *ngIf="form.value['riskTypeId']?.label == 'Employee' || form.value['riskTypeId']?.label == 'Owner'" class="custom-dropdown"
+                            id="LiabilitySection_Dialog_RiskType" [readonly]="!this.permissions.includes('update')"
+                            [dropdown]="this.permissions.includes('update') ? true : false"
+                            [suggestions]="this.optionDropDownForEmpSum" field="label" formControlName="sumInsured"
+                            placeholder="Select" [forceSelection]="true" [showEmptyMessage]="true"
+                            (completeMethod)="this.searchOptionsRiskType($event,i)"
+                            [ngClass]="{'ng-invalid ng-dirty': $form.submitted && form.controls['sumInsured']?.errors}">
+                        </p-autoComplete>
+
+                        <small style="color :brown;font-style: italic;" id="PortableEquipments_Dialog_SumInsured_ValidationError"
+                            *ngIf="form.controls['riskTypeId']?.value && form.value['riskTypeId']?.label != 'Employee' && form.value['riskTypeId']?.label != 'Workmen Compensation'">
+                            Range for SI is {{form.controls['riskTypeId']?.value?.sumMin}} - {{form.controls['riskTypeId']?.value?.sumMax}}
+                        </small><br>
+                        <small style="color :brown;font-style: italic;"
+                            *ngIf="form.controls['riskTypeId']?.value && form.value['riskTypeId']?.label != 'Employee' && form.value['riskTypeId']?.label != 'Workmen Compensation'">
+                            NSTP Range for SI is {{minNSTP}} - {{form.controls['riskTypeId']?.value?.maxNSTP}}
+                        </small>
+
+                        <!-- <small class="ng-dirty ng-invalid" id="PortableEquipments_Dialog_SumInsured_ValidationError"
+                            *ngIf="$form.submitted && form.controls['sumInsured']?.errors?.required">Sum Insured cannot
+                            be blank.</small>
+
+                        <small class="ng-dirty ng-invalid" id="LiabilitySection_Dialog_SumInsured_ValidationError2"
+                            *ngIf="$form.submitted && form.controls['sumInsured']?.errors?.min">SumInsured should be
+                            greater than 1.</small> -->
+                    </div>
+                    <div *ngIf="form.value['riskTypeId']?.label != 'Workmen Compensation'" class="md:col-6"></div>
+                    <div class="col-12 md:col-6 mb-1 md:mb-5"
+                        *ngIf="!form.value['fileInput'] || (form.value['fileInput'] && isFile(form.value['fileInput']))">
+                        <label for="" id="PortableEquipments_Dialog_SumInsured_label" class="form-label">File</label>
+                        <input style="display: none;" type="text" formControlName="fileInput">
+                        <p-fileUpload mode="advanced" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light"
+                            chooseIcon="pi pi-paperclip" chooseLabel="Upload Document" accept=""
+                            (onSelect)="onBasicUpload($event,i)"></p-fileUpload>
+                        <small style="font-style: italic;">**Allowed File Types XLX/XLSX.</small>                           
+                    </div>
+                    <div class="col-12 md:col-4 mb-1 max-h-full min-h-full flex align-items-center" >
+                        <a *ngIf="form.value['fileInput'] && !isFile(form.value['fileInput'])" [href]="form.value['fileInput']" (click)="downloadFile(i)" class="mr-2">
+                            <i class="pi pi-download mr-1" style="font-size: 1rem"></i>Download File
+                        </a>
+                        <i *ngIf="form.value['fileInput'] && !isFile(form.value['fileInput']) && this.permissions.includes('update')" class = "pi pi-trash" style="font-size: 1.5rem" (click)="this.deletefile(i)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!--  <a [href]="form.value['fileInput']" (click)="downloadFile(i)" class="mr-2">
+                            <i class="pi pi-download mr-1" style="font-size: 1rem"></i>Download File
+                        </a>
+                        <i *ngIf="form.value['fileInput']"  class="pi pi-trash" style="font-size: 1.5rem" (click)="deletefile(i)"></i> -->
+
+        </div>
+        <div class="col-12 mb-1 md:mb-5 text-right" *ngIf="this.permissions.includes('update')">
+            <a class="add-more" id="Add_LiabilitySection_Form" (click)="this.addFormToArray()">+ Add More</a>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="flex justify-content-end">
+                <button id="LiabilitySection_dialog_Save" class="btn btn-success mr-4" type="submit"
+                    *ngIf="this.permissions.includes('update')">Save</button>
+                <button id="LiabilitySection_dialog_Close" class="btn btn-outline-light mt-1" type="button"
+                    (click)="cancel()">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

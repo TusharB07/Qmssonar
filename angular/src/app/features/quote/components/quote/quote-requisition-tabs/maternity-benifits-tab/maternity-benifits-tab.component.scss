@@ -1,0 +1,20 @@
+
+.radio-inline-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Adjust spacing between radio buttons */
+}
+
+.radio-inline {
+  display: flex;
+  align-items: center;
+}
+
+.reqHeader
+{
+    margin-top: 16px;
+    color: #ffffff;
+    margin-bottom: 9px;
+    background: #2156C2;
+    padding: 4px;
+}

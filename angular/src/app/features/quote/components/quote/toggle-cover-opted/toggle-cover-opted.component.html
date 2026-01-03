@@ -1,0 +1,147 @@
+<div class="grid" *ngIf="!this.isConditionAddon">
+    <div class="flex mr-4 mt-3 ml-2" *ngIf="quote?.productId?.isFire">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox id="ToggleCover_Fire" [binary]="true" [disabled]="this.quote?.productId?.isFireRequired"
+                    (onChange)="this.coversOptedChanged('isFlexa',$event)" [(ngModel)]="this.isFlexa"></p-checkbox>
+                <label for="fire" id="ToggleCover_Fire_label">Fire</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isEarthQuake">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_Earthquake" value="earthquake"
+                    [disabled]="this.quote?.productId?.isEarthQuakeRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake"
+                    inputId="earthquake"></p-checkbox>
+                <label for="earthquake" id="ToggleCover_Earthquake_label">Earthquake</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isSTFI">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_STFI" value="stfi"
+                    [disabled]="this.quote?.productId?.isSTFIRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi"
+                    inputId="stfi"></p-checkbox>
+                <label for="stfi" id="ToggleCover_STFI_label">STFI</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isTerrorism">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_Terrorism" value="terrorism"
+                    [disabled]="this.quote?.productId?.isTerrorismRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism"
+                    inputId="terrorism"></p-checkbox>
+                <label for="terrorism" id="ToggleCover_Terrorism_label">Terrorism</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="this.isConditionAddon" class="flex justify-content-between">
+    <!-- <div class="forAddonDiv " *ngIf="quote?.productId?.isFire">
+        <div class="col-6 flex justify-content-center"> -->
+    <!-- <i class="pi pi-info-circle " [pTooltip]="rowData?.addOnCoverId?.description" tooltipPosition="top"></i> -->
+    <!-- <p-checkbox class="forAddonCheckBox" id="ToggleCover_Fire" [binary]="true"
+                [disabled]="this.quote?.productId?.isFireRequired"
+                (onChange)="this.coversOptedChanged('isFlexa',$event)" [(ngModel)]="this.isFlexa"></p-checkbox>
+            <label class="forAddonLabel" for="fire" id="ToggleCover_Fire_label">Fire</label>
+        </div> -->
+    <!-- <div class="forAddonInput">
+            <input pInputText type="text" [disabled]="true" class="text-right"
+                value="{{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.flexaPremium}}">
+        </div> -->
+    <!-- </div>
+    <div class="forAddonDiv " *ngIf="quote?.productId?.isEarthQuake">
+        <div class="col-6 flex justify-content-center"> -->
+    <!-- <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.description" tooltipPosition="top"></i> -->
+    <!-- <p-checkbox class="forAddonCheckBox" name="group1" id="ToggleCover_Earthquake" value="earthquake"
+                [disabled]="this.quote?.productId?.isEarthQuakeRequired" [binary]="true"
+                (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake"
+                inputId="earthquake"></p-checkbox>
+            <label class="forAddonLabel" for="earthquake" id="ToggleCover_Earthquake_label">Earthquake</label>
+        </div> -->
+    <!-- <div class="forAddonInput ">
+            <input pInputText type="text" [disabled]="true" class="text-right"
+                value="{{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.earthquakePremium}}">
+        </div> -->
+    <!-- </div>
+    <div class="forAddonDiv " *ngIf="quote?.productId?.isSTFI">
+        <div class="col-6 flex justify-content-center"> -->
+    <!-- <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.description" tooltipPosition="top"></i> -->
+    <!-- <p-checkbox class="forAddonCheckBox" name="group1" id="ToggleCover_STFI" value="stfi"
+                [disabled]="this.quote?.productId?.isSTFIRequired" [binary]="true"
+                (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi"
+                inputId="stfi"></p-checkbox>
+            <label class="forAddonLabel" for="stfi" id="ToggleCover_STFI_label">STFI</label>
+        </div> -->
+    <!-- <div class="forAddonInput ">
+            <input pInputText type="text" [disabled]="true" class="text-right"
+                value="{{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.STFIPremium}}">
+        </div> -->
+    <!-- </div>
+    <div class="forAddonTerrDiv " *ngIf="quote?.productId?.isTerrorism">
+        <div class="col-6 flex justify-content-center"> -->
+    <!-- <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.description" tooltipPosition="top"></i> -->
+    <!-- <p-checkbox class="forAddonCheckBox" name="group1" id="ToggleCover_Terrorism" value="terrorism"
+                [disabled]="this.quote?.productId?.isTerrorismRequired" [binary]="true"
+                (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism"
+                inputId="terrorism"></p-checkbox>
+            <label class="forAddonLabel" for="terrorism" id="ToggleCover_Terrorism_label">Terrorism</label>
+        </div> -->
+    <!-- <div class="forAddonInput ">
+            <input pInputText type="text" [disabled]="true" class="text-right"
+                value="{{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.terrorismPremium}}">
+        </div> -->
+    <!-- </div> -->
+    <div class="flex mr-4 mt-3 ml-2" *ngIf="quote?.productId?.isFire">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox id="ToggleCover_Fire" [binary]="true" [disabled]="this.quote?.productId?.isFireRequired"
+                    (onChange)="this.coversOptedChanged('isFlexa',$event)" [(ngModel)]="this.isFlexa"></p-checkbox>
+                <label for="fire" id="ToggleCover_Fire_label" class="ml-5">Fire</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isEarthQuake">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_Earthquake" value="earthquake"
+                    [disabled]="this.quote?.productId?.isEarthQuakeRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake"
+                    inputId="earthquake"></p-checkbox>
+                <label for="earthquake" id="ToggleCover_Earthquake_label" class="ml-5">Earthquake</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isSTFI">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_STFI" value="stfi"
+                    [disabled]="this.quote?.productId?.isSTFIRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi"
+                    inputId="stfi"></p-checkbox>
+                <label for="stfi" id="ToggleCover_STFI_label" class="ml-5">STFI</label>
+            </div>
+        </div>
+    </div>
+    <div class="flex mr-4 mt-3" *ngIf="quote?.productId?.isTerrorism">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" id="ToggleCover_Terrorism" value="terrorism"
+                    [disabled]="this.quote?.productId?.isTerrorismRequired" [binary]="true"
+                    (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism"
+                    inputId="terrorism"></p-checkbox>
+                <label for="terrorism" id="ToggleCover_Terrorism_label" class="ml-5">Terrorism</label>
+            </div>
+        </div>
+    </div>
+</div>

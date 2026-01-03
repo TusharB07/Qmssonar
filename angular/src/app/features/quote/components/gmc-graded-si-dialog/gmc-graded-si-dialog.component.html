@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="card modal-body">
+    <!-- <div class="grid">
+      <div class="col-3"> <div class="field"><label>Grade</label></div></div>
+      <div class="col-9"> Sum Insured</div>
+    </div>
+    <ng-container *ngFor="let item of gmcGradedSILst; let i = index;">
+      <div class="grid">
+        <div class="col-3"> <label>{{ item.grade }}</label></div>
+        <div class="col-9"> <p-autoComplete [(ngModel)]="item.siAmount" [suggestions]="optionsSumInsured"
+            (completeMethod)="searchOptionsSumInsured($event)" field="label" [dropdown]="true" appendTo="body">
+          </p-autoComplete></div>
+      </div>
+    </ng-container> -->
+    <p-table #dt [value]="this.gmcGradedSILst" id="gmcGradedSILst" responsiveLayout="scroll" dataKey="grade">
+      <ng-template pTemplate="header">
+        <tr style="border: 1px solid #0064BB;">
+          <th style="width: 3rem;border: 1px solid #0064BB;">
+            <div class="flex justify-content-between align-items-center">
+              <b> Grade </b>
+            </div>
+          </th>
+          <th style="border: 1px solid #0064BB;">
+            <b>Sum Insured</b>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-gradeList>
+        <tr style="border: 1px solid #0064BB;">
+          <td id="Emp_EventType" style="border: 1px solid #0064BB;">
+            <label>{{ gradeList.grade }}</label>
+          </td>
+          <td style="border: 1px solid #0064BB;">
+            <div class="flex">
+              <p-autoComplete [(ngModel)]="gradeList.siAmount" [suggestions]="optionsSumInsured" class="text-right"
+                (completeMethod)="searchOptionsSumInsured($event)" field="label" [dropdown]="true" appendTo="body">
+              </p-autoComplete>
+              <!-- <p-dropdown id="gmc_SI" class="custom-dropdown"
+              [options]="optionsSumInsured" placeholder="Select" optionLabel="label"
+              name="gmc_SI" #gmc_SI="ngModel" [(ngModel)]="gradeList.siAmount"
+             ></p-dropdown> -->
+
+              <div class="ml-4">
+                <p class="title m-0" id="quote_totalSumAssured_InWords">
+                  <b> {{
+                    toWords.convert(ConvertStringToNumber(gradeList.siAmount) ?? 0, {
+                    currency: true,
+                    ignoreZeroCurrency: true
+                    })
+                    }}</b>
+                </p>
+              </div>
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <button [disabled]="disableButton()" class="btn btn-success mr-4 text-right mt-3" type="button" id="grade_Save"
+      (click)="saveGrades()">Save</button>
+  </div>
+</div>

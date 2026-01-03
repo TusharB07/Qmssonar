@@ -1,0 +1,36 @@
+<div *ngIf="this.user && this.partner">
+
+    <!-- <app-broker-dashboard [user]="this.user" [partner]="this.partner"></app-broker-dashboard> -->
+
+    <div [ngSwitch]="this.partner.partnerType">
+        <div *ngSwitchCase="AllowedPartnerTypes.self">
+            <app-self-dashboard [user]="this.user"></app-self-dashboard>
+        </div>
+        <div *ngSwitchCase="AllowedPartnerTypes.broker">
+            <app-broker-dashboard [user]="this.user" [partner]="this.partner"></app-broker-dashboard>
+        </div>
+        <div *ngSwitchCase="AllowedPartnerTypes.insurer">
+            <app-insurer-dashboard [user]="this.user" [partner]="this.partner"></app-insurer-dashboard>
+        </div>
+        <div *ngSwitchCase="AllowedPartnerTypes.banca">
+            <!-- <app-banca-dashboard [user]="this.user"></app-banca-dashboard> -->
+            <app-broker-dashboard [user]="this.user" [partner]="this.partner"></app-broker-dashboard>
+        </div>
+        <div *ngSwitchCase="AllowedPartnerTypes.agent">
+            <app-broker-dashboard [user]="this.user" [partner]="this.partner"></app-broker-dashboard>
+        </div>
+        <div *ngSwitchCase="AllowedPartnerTypes.corporateAgent">
+            <app-corporate-dashboard [user]="this.user"></app-corporate-dashboard>
+        </div>
+        <div *ngSwitchDefault>
+            <section class="main-container broker-dashboard">
+                <div class="grid m-3">
+                    <div class="col-8">
+                        <p class="title" id="Dashboard_Wishes">Hello {{user.name}},</p>
+                        <p class="para23" id="Dashboard_Wishes2">Welcome to Dashboard.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

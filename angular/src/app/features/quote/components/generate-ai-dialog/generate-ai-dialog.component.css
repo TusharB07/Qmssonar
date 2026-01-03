@@ -1,0 +1,71 @@
+.container .chatbox{
+    padding: 30px 20px;
+    overflow-y: auto;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.chatbox .chat {
+    display: flex;
+}
+.chatbox .outgoing {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-end;
+}
+.chatbox .chat p {
+    color: #fff;
+    font-size: 1.45rem;
+    padding: 12px 16px;
+    border-radius: 10px 10px 0 10px;
+    background-color:  #0064BB;
+    white-space: pre-wrap;
+    position: relative;
+    bottom: 30px;
+}
+.chatbox .incoming p {
+    color: #000;
+    background-color: #f2f2f2;
+    border-radius: 10px 10px 0 10px;
+    margin-top: 20px;
+}
+.chatbox .outgoing p {
+    color: #fff;
+    background-color: #0064BB;
+    border-radius: 10px 10px 0 10px;
+    margin-top: 20px;
+    width: 400px;
+}
+.chat-input{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    border-top: 1px solid #ccc;
+    padding: 5px 20px;
+    gap: 5px;
+    height: 55px;
+}
+.chat-input input{
+    width: 550px;
+    border: none;
+    outline: none;
+    font-size: 1.50rem;
+    resize: none;
+    padding: 16px 15px 16px 0;
+}
+.chat-input span{
+    cursor: pointer;
+    align-self: flex-end;
+    height: 55px;
+    line-height: 55px;
+    color: #0064BB;
+    visibility: hidden;
+}
+.chat-input input:valid ~ span{
+    visibility: visible;
+}

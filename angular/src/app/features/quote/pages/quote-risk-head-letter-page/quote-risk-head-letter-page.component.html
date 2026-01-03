@@ -1,0 +1,59 @@
+<section class="main-container review-quote-details" *ngIf="this.quote">
+    <div class="wrapper">
+
+        <div class="content-wrapper custom-style">
+            <div class="content-details-tabs">
+                <div class="grid">
+                    <div class="col-2">
+                        <p-fileUpload #fileUpload id="Ai_Doc_Upload" [auto]="true"
+                            (onUpload)="this.onUploadSAIDocFile()" mode="basic"
+                            (onError)="this.errorHandler($event, fileUpload)" name="ai-document"
+                            url="{{this.uploadAIDocUrl}}" accept="application/pdf" maxFileSize="4000000"
+                            chooseIcon="pi pi-paperclip" chooseLabel="Upload Policy for AI"
+                            [headers]="this.uploadHttpHeaders" method="post">
+                        </p-fileUpload>
+                    </div>
+                    <div class="col-6" *ngIf="this.quote.aiDocument!=''">
+                        <button class="btn btn-info mr-4" (click)="this.downloadaiDoc()" id="wcRates_file_view"><i
+                                class="pi pi-eye"></i> View</button>
+                        <button class="btn btn-primary mr-4" (click)="this.compareDoc()" id="wcRates_file_view"><i
+                                class="pi pi-file"></i> Compare</button>
+                        <button class="btn btn-secondary mr-4" (click)="clearOp()" id="wcRates_file_view"><i
+                                class="pi pi-trash"></i>Clear</button>
+                    </div>
+                    <div [innerHTML]="htmlOutput"></div>
+                </div>
+                <div class="grid px-3">
+                    <div class="col mt-5 pr-4" id="left-bar" style="height: calc(100vh - 70px - 50px);">
+                        <div style="float:right">
+                            <button *ngIf="this.quote.paymentMode" class="btn btn-lg btn-primary mr-2" type="button"
+                                id="QuotePlacementReview_GeneratePlacementSlip"
+                                (click)="openChoosePaymentMethodDialogComponent()">Payment Status</button>
+                        </div>
+                        <div>
+                            <app-risk-cover-letter-dialog id="QuoteSlipDialog_QuoteSlipTemplateOne"
+                                [quote]="this.quote"></app-risk-cover-letter-dialog>
+                        </div>
+                    </div>
+                    <!-- <div class="col-4 mt-4 pl-4" id="right-bar"
+                        style="height: calc(100vh - 70px - 50px);overflow-y: auto;">
+                    <div class="mt-4">
+                        <h6 *ngIf="this.fgiInprogress">**Policy Generation is in process. Please Wait...</h6><br>
+                        <h6 *ngIf="fgiRetry">**Soemthing Went Wrong. Please Retry</h6><br>
+                        <button pButton pRipple type="button" id="RiskCoverLetter_Re-try" label="Re-try" class="btn btn-outline-success mr-3"
+                            *ngIf="this.fgiRetry" (click)="retryFgiQueue()"></button>
+                        <button pButton pRipple type="button" *ngIf="this.fgiCompleted" id="RiskCoverLetter_DownLoad" label="Download Policy"
+                            class="btn btn-outline-success" (click)="download()"></button>
+                    </div>
+                    <div>
+                        <app-annexures [quote]="this.quote"></app-annexures>
+                    </div> -->
+                    <!-- <div *ngIf="this.quote">
+                            <app-query-discussion-box [quote]="this.quote"></app-query-discussion-box>
+                        </div> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

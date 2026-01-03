@@ -1,0 +1,30 @@
+<div *ngIf="this.quote">
+    <div>
+        <h4 class="text-black mt-4 mb-3">Upload Proposal Form</h4>
+        <div class="container">
+            <a [href]="'/backend/quotes/' + this.quote._id +'/pdf-preview?isProposal=true'" target="blank" style="font-size: 1rem"><i class="pi pi-book" style="font-size: 1rem" id="UploadProposal_DownloadForm"></i><span> Download Form</span></a>
+        </div>
+    </div>
+    <div class="m-2" style="border: dashed; background-color: rgb(218, 218, 219);">
+        <div class="m-7 ">
+            <h4 style="text-align: center;" id="UploadProposal_UploadForm">Drag & Drop <br> OR <br><a>Browse</a> to Upload</h4>
+            <!-- <p-fileUpload *ngIf="!this.quote.locationBasedCovers?.quoteLocationOccupancy?.riskInspectionReportDocumentPath" [auto]="true" (onUpload)="this.onUploadRiskInspectionReport()" styleClass="upload-outline-light" name="risk_location_report" mode="basic" url="{{this.uploadRiskInspectionReportUrl}}" accept="application/pdf" maxFileSize="1000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload inspection Report" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+
+            <p-fileUpload [auto]="true" styleClass="upload-outline-light" id="UploadProposal_FileUpload" [name]="this.uploadProposalForm?.name" mode="basic" [url]="this.uploadProposalForm?.url" [accept]="this.uploadProposalForm?.accept" (onUpload)="this.uploadProposalForm?.onUpload($event)" [maxFileSize]="this.uploadProposalForm?.maxFileSize" chooseIcon="pi pi-paperclip" chooseLabel="Select" [headers]="this.uploadHttpHeaders" [method]="this.uploadProposalForm?.method"></p-fileUpload>
+        </div>
+    </div>
+    <div style="font-size: small">
+        <ol type="1" id="UploadProposal_InstructionForUpload" >Instruction for Upload:
+            <br>
+            <li id="UploadProposal_InstructionForUpload1">1.Download Proposal Form</li>
+            <li id="UploadProposal_InstructionForUpload2">2.Sign Form</li>
+            <li id="UploadProposal_InstructionForUpload3">3.Upload Signed Form</li>
+
+        </ol>
+    </div>
+    <div class="proceedButton">
+        <button class="btn btn-primary m-3 mb-3" type="submit" id="UploadProposal_SubmitForm" (click)="onProceed()">Proceed</button>
+
+    </div>
+
+</div>

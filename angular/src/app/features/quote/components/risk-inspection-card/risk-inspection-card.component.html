@@ -1,0 +1,172 @@
+<!-- Old_Quote -->
+<!-- <p-card class="" *ngIf="this.quote?.locationBasedCovers && this.permissions.includes('read')"> -->
+
+<!-- New_Quote_Option -->
+<p-card class="" *ngIf="this.quoteOptionData?.locationBasedCovers && this.permissions.includes('read')">
+
+    <div class="top-bar">
+        <div class="">
+            <!-- Old_Quote -->
+            <!-- <h5 id="RiskInspectionTab_Risk_Parameters">Risk Parameters For
+                {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.locationName}}</h5> -->
+
+            <!-- New_Quote_Option -->
+            <h5 id="RiskInspectionTab_Risk_Parameters">Risk Parameters For
+                {{this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.locationName}}</h5>
+        </div>
+        <div class="flex justify-content-between">
+            <div class="view-location" id="RiskInspectionTab_Breakup"><a (click)="openRiskInspectionStatusDialog()"
+                    label="Risk Inspection Status & Claim Experience" href="javascript:void(0);">View all locations</a>
+            </div>
+            <div class="mt-3">
+                <h4>Discount %</h4>
+            </div>
+        </div>
+    </div>
+    <div class="inner-container">
+
+        <form *ngIf="tempForm" [formGroup]="tempForm" (ngSubmit)="submitForm()">
+            <!-- Loop through the product-specific fields and create dropdowns -->
+            <div *ngFor="let field of fieldNames" class="mt-2">
+                <label for="" class="form-label">{{ field.name }}</label>
+                <div class="flex justify-content-between">
+                    <div class="w-9">
+                        <p-autoComplete [dropdown]="true" field="label" id="MyOrganizationAddress_District"
+                            [formControlName]="field.fieldname" [suggestions]="this.optionRiskTypes"
+                            (completeMethod)="this.searchoptionRiskTypes($event,field)"
+                            (onSelect)="this.computeTotal($event)" (onClear)="onclear($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid }"></p-autoComplete>
+                    </div>
+                    <div class="mr-3">
+                        <h5>{{this.tempForm.controls[field.fieldname]?.value?.discount}} %</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-between mt-5 ">
+                <div class="w-9 text-right">
+                    <h3>Total :</h3>
+                </div>
+                <div>
+                    <div class="mr-3">
+                        <h3>{{this.total}} %</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2" *ngIf="this.total > 80">
+                <label for="" class="form-label">Commercial Loading</label>
+                <p-inputNumber [(ngModel)]="commercialLoadingDiscount" [ngModelOptions]="{standalone : true}"
+                    mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-100" [max]="100">
+                </p-inputNumber>
+            </div>
+            <div class="flex justify-content-end mt-5">
+                <button *ngIf="this.permissions.includes('update')" [disabled]="quote.quoteState == 'Rejected'"
+                    type="submit" id="RiskInspectionTab_Save" pButton pRipple label="Save" icon="pi pi-check"
+                    class="btn btn-success"></button>
+            </div>
+        </form>
+    </div>
+</p-card>
+
+
+<!-- <form [formGroup]="this.riskParametersForm" (ngSubmit)="this.submitRiskParameterForm()" novalidate #$ngForm="ngForm">
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Age of Building</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['ageOfBuilding'].value" id="RiskInspectionTab_AgeOfBuilding" class="p-3">{{this.riskParametersForm.controls['ageOfBuilding'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['ageOfBuilding'].value" id="RiskInspectionTab_AgeOfBuilding" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['ageOfBuilding']?.errors}" placeholder="Select Option" id="RiskInspectionTab_AgeOfBuilding" [formControl]="riskParametersForm.controls['ageOfBuilding']" [options]="this.optionsAgeOfBuilding" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf="$ngForm.submitted && this.riskParametersForm.controls['ageOfBuilding'].errors?.required" class="ng-invalid">This field Required.</small>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Construction Type</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['constructionType'].value" id="RiskInspectionTab_Construction_Type" class="p-3">{{this.riskParametersForm.controls['constructionType'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['constructionType'].value" id="RiskInspectionTab_Construction_Type" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['constructionType']?.errors}" placeholder="Select Option" [formControl]="riskParametersForm.controls['constructionType']" id="RiskInspectionTab_Construction_Type" [options]="this.optionsConstructionType" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf="$ngForm.submitted && this.riskParametersForm.controls['constructionType'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">3 Year Loss History</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['yearLossHistory'].value" id="RiskInspectionTab_Loss_History" class="p-3">{{this.riskParametersForm.controls['yearLossHistory'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['yearLossHistory'].value" id="RiskInspectionTab_Loss_History" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['yearLossHistory']?.errors}" placeholder="Select Option" [formControl]="riskParametersForm.controls['yearLossHistory']" id="RiskInspectionTab_Loss_History" [options]="this.optionsYearLossHistory" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf="$ngForm.submitted && this.riskParametersForm.controls['yearLossHistory'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Fire Protection</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['fireProtection'].value" id="RiskInspectionTab_Fire_Protection" class="p-3">{{this.riskParametersForm.controls['fireProtection'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['fireProtection'].value" id="RiskInspectionTab_Fire_Protection" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['fireProtection'].errors}" placeholder="Select Option" [formControl]="riskParametersForm.controls['fireProtection']" id="RiskInspectionTab_Fire_Protection" [options]="this.optionsFireProtection" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf=" $ngForm.submitted && this.riskParametersForm.controls['fireProtection'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Whether AMC for the Fire Protection Appliances is in force</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['amcFireProtection'].value" id="RiskInspectionTab_AMC_Protection" class="p-3">{{this.riskParametersForm.controls['amcFireProtection'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['amcFireProtection'].value" id="RiskInspectionTab_AMC_Protection" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['amcFireProtection']?.errors}" placeholder="Select Option" [formControl]="riskParametersForm.controls['amcFireProtection']" id="RiskInspectionTab_AMC_Protection" [options]="this.optionsAmcProtection" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf=" $ngForm.submitted && this.riskParametersForm.controls['amcFireProtection'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Distance between the risk to be covered and nearest Fire Brigade</label>
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['distanceBetweenFireBrigade'].value" id="RiskInspectionTab_DistanceToRisk" class="p-3">{{this.riskParametersForm.controls['distanceBetweenFireBrigade'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['distanceBetweenFireBrigade'].value" id="RiskInspectionTab_DistanceToRisk" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['distanceBetweenFireBrigade']?.errors}" placeholder="Select Option" id="RiskInspectionTab_DistanceToRisk" [formControl]="riskParametersForm.controls['distanceBetweenFireBrigade']" [options]="this.optionsDistanceBetweenFireBrigade" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf="$ngForm.submitted && this.riskParametersForm.controls['distanceBetweenFireBrigade'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label">Premises Basement/Ground/ Above Ground</label>
+            <div class="" *ngIf="!this.permissions.includes('update')" style="background-color: rgb(233, 233, 233);">
+            <div class="" *ngIf="!this.permissions.includes('update')">
+                <p *ngIf="this.riskParametersForm.controls['premises'].value" id="RiskInspectionTab_Premises_Basement" class="p-3">{{this.riskParametersForm.controls['premises'].value.label}}</p>
+                <p *ngIf="!this.riskParametersForm.controls['premises'].value" id="RiskInspectionTab_Premises_Basement" class="red-text p-3">Not Selected</p>
+            </div>
+            <div *ngIf="this.permissions.includes('update')">
+                <p-dropdown [ngClass]="{'ng-invalid ng-dirty': $ngForm.submitted && riskParametersForm.controls['premises']?.errors}" placeholder="Select Option" [formControl]="riskParametersForm.controls['premises']" id="RiskInspectionTab_Premises_Basement" [options]="this.optionsPremises" optionLabel="label" optionvalue="value" class="custom-dropdown"></p-dropdown>
+                <small *ngIf="$ngForm.submitted && this.riskParametersForm.controls['premises'].errors?.required" class="ng-invalid">This field Required.</small>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-content-end">
+        <button *ngIf="this.permissions.includes('update')" [disabled]="quote.quoteState == 'Rejected'" type="submit" id="RiskInspectionTab_Save" pButton
+            pRipple label="Save" icon="pi pi-check" class="btn btn-success"></button>
+    </div>
+
+</form> -->

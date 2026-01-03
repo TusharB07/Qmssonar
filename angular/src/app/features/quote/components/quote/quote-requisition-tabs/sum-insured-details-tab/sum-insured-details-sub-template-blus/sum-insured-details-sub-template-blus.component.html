@@ -1,0 +1,66 @@
+<!-- Old_Quote -->
+<!-- <div *ngIf="!isMobile">
+    <div class="grid" *ngIf="this.quote">
+        <div class="mx-3" style="width: 500px">
+            <app-indicative-quote-basic-card id="SubTemplateBlus_IndicativeQuoteBasicCard"
+                [quote]="this.quote"></app-indicative-quote-basic-card>
+            <app-risk-inspection-report-and-location-photographs-crud-card *ngIf="this.quote"
+                id="SubTemplateBlus_InspectionReportLocation" [permissions]="['read','create','update','delete']"
+                [quote]="this.quote"></app-risk-inspection-report-and-location-photographs-crud-card>
+        </div>
+        <div class="mx-3 " style="width: 500px">
+            <app-total-indicative-quote-covers-opted-card id="SubTemplateBlus_IndicativeQuoteCard"
+                [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+
+        </div>
+    </div>
+</div> -->
+
+<!-- New_Quote_Option -->
+
+<div *ngIf="!isMobile">
+    <div *ngIf="this.quoteOptionData">
+ <div class="grid">
+<div class="col-6">
+            <div class="mx-3">
+                <app-indicative-quote-basic-card id="SubTemplateBlus_IndicativeQuoteBasicCard"
+                [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-indicative-quote-basic-card>
+        
+            <app-risk-inspection-report-and-location-photographs-crud-card id="SubTemplateBlus_InspectionReportLocation"
+                [permissions]="['read','create','update','delete']" [quoteOptionData]="this.quoteOptionData"
+                [quote]="this.quote"></app-risk-inspection-report-and-location-photographs-crud-card>
+            </div>
+
+    </div>
+    <div class="col-4">
+        <app-total-indicative-quote-covers-opted-card id="SubTemplateBlus_IndicativeQuoteCard"
+        [quoteOptionData]="this.quoteOptionData"
+        [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+     </div>
+
+        </div>
+    </div>
+
+    <div class="col-7">
+        <app-deductibles-excess-card id="SubTemplateFire_IndicativeQuoteBasicCard"
+        *ngIf="['BGRP','BLUSP','BSUSP'].includes(this.quote?.productId?.shortName)"
+        [quoteOptionData]="this.quoteOptionData" [quote]="this.quote">
+    </app-deductibles-excess-card>
+    </div>
+
+</div>
+
+
+<div *ngIf="isMobile && this.quote">
+    <div>
+        <app-indicative-quote-basic-card id="SubTemplateBlus_IndicativeQuoteBasicCard"
+            [quote]="this.quote"></app-indicative-quote-basic-card>
+        <app-risk-inspection-report-and-location-photographs-crud-card id="SubTemplateBlus_InspectionReportLocation"
+            [permissions]="['read','create','update','delete']"
+            [quote]="this.quote"></app-risk-inspection-report-and-location-photographs-crud-card>
+    </div>
+    <div>
+        <app-total-indicative-quote-covers-opted-card id="SubTemplateBlus_IndicativeQuoteCard"
+            [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+    </div>
+</div>

@@ -1,0 +1,233 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { AppBreadcrumbService } from 'src/app/components/app-breadcrumb/app.breadcrumb.service';
+import { QuoteService } from '../../quote/quote.service';
+import { IClaimExperience } from '../claim-experience.model';
+import { ClaimExperienceService } from '../claim-experience.service';
+
+
+const DEFAULT_RECORD_FILTER = {
+  first: 0,
+  rows: 0,
+  sortField: "",
+  sortOrder: 1,
+  multiSortMeta: [],
+  filters: {}
+};
+
+@Component({
+  selector: 'app-claim-experience-list',
+  templateUrl: './claim-experience-list.component.html',
+  styleUrls: ['./claim-experience-list.component.scss']
+})
+export class ClaimExperienceListComponent implements OnInit {
+
+  cols: any[];
+
+  recordSingularName = "Claim Experience";
+  recordPluralName = "Claim Experiences";
+  modulePath: string = "/backend/admin/claim-experience";
+  /** Represents the data being displayed currently */
+  records: IClaimExperience[];
+  /** Represents the user record being deleted. */
+  selectedRecord: IClaimExperience | null = null;
+  /** Represents the user records being deleted. */
+  selectedRecords: IClaimExperience[] = [];
+
+  /** Dialog to show when attempting to delete one record */
+  deleteRecordDialog: boolean = false;
+  /** Dialog to show when attempting to delete more than one record */
+  deleteSelectedRecordsDialog: boolean = false;
+
+  totalRecords: number;
+  loading: boolean;
+  selectAll: boolean = false;
+
+  optionsQuoteId:any[];
+  selectedQuoteId:any[];
+  constructor(private router: Router, private messageService: MessageService,  private claimExperienceService: ClaimExperienceService, private breadcrumbService: AppBreadcrumbService,  private quoteService: QuoteService) {
+    this.breadcrumbService.setItems([
+      { label: "Pages" },
+      {
+        label: this.recordPluralName,
+        routerLink: [`${this.modulePath}`]
+      }
+    ]);
+  }
+
+  ngOnInit(): void {
+    this.cols = [
+      { field: "quoteId", header: "quoteId" },
+      { field: "year", header: "year" },
+      { field: "premiumPaid", header: "premiumPaid" },
+      { field: "claimAmount", header: "claimAmount" },
+      { field: "numberOfClaims", header: "numberOfClaims" },
+      { field: "natureOfClaim", header: "natureOfClaim" },
+
+    ];
+  }
+
+  loadRecords(event: LazyLoadEvent) {
+
+    console.log(event);
+
+    this.loading = true;
+    this.claimExperienceService.getMany(event).subscribe({
+      next: records => {
+        console.log(records);
+
+        this.records = records.data.entities;
+        this.totalRecords = records.results;
+        this.loading = false;
+      },
+      error: e => {
+        console.log(e);
+      }
+    });
+  }
+
+  getOptionsQuoteId(e) {
+    this.quoteService.getManyAsLovs(e.query).subscribe({
+      next: data => {
+          console.log('***',data.data.entities);
+          if(e.query){
+              this.optionsQuoteId = data.data.entities.filter(entity => entity.quoteNo?.toLowerCase().includes(e.query.toLowerCase()))
+              .map(entity => ({ label: entity.quoteNo, value: entity._id}));
+              console.log('***',this.optionsQuoteId);
+            }else{
+                this.optionsQuoteId = data.data.entities.map(entity => ({ label: entity.quoteNo, value: entity._id }));
+            }
+            console.log('***',this.optionsQuoteId);
+        },
+      error: e => { }
+    });
+  }
+  quoteIdHandleFilter(e) {
+      let quoteId = this.selectedQuoteId?.map(item => {
+          let obj = {
+              "value":null,
+              "matchMode": "equals",
+              "operator": "or"
+            };
+            obj.value = item.value;
+            return obj;
+        })
+        let lazyLoadEvent: LazyLoadEvent = {
+            first: 0,
+            rows: 20,
+            sortField: null,
+            sortOrder: 1,
+            filters: {
+                // @ts-ignore
+                "quoteId": quoteId
+            },
+            globalFilter: null,
+            multiSortMeta: null
+        }
+        this.loadRecords(lazyLoadEvent);
+  }
+  createRecord() {
+    this.router.navigateByUrl(`${this.modulePath}/new`);
+  }
+
+  editRecord(record) {
+    this.router.navigateByUrl(`${this.modulePath}/${record._id}`);
+  }
+
+  openDeleteRecordConfirmationDialog(selectedRecord) {
+    this.deleteRecordDialog = true;
+    this.selectedRecord = { ...selectedRecord };
+  }
+
+  deleteRecord() {
+    this.deleteRecordDialog = false;
+
+    this.claimExperienceService.delete(this.selectedRecord._id).subscribe({
+      next: res => {
+        this.loadRecords(DEFAULT_RECORD_FILTER);
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: `${this.recordSingularName} Deleted`,
+          life: 3000
+        });
+        // call the api to fetch the data form user tabel after delete
+      },
+      error: e => {
+        console.log(e.error.message);
+        this.messageService.add({
+          severity: "fail",
+          summary: "Fail",
+          detail: e.error.message,
+          life: 3000
+        });
+      }
+    });
+
+    this.selectedRecord = null;
+  }
+
+  openDeleteSelectedRecordsConfirmationDialog() {
+    this.deleteSelectedRecordsDialog = true;
+  }
+
+  deleteSelectedRecords() {
+    this.deleteSelectedRecordsDialog = false;
+
+    const userIds = this.selectedRecords.map(selectedUser => {
+      return selectedUser._id;
+    });
+    this.claimExperienceService.deleteMany(userIds).subscribe({
+      next: v => {
+        this.loadRecords(DEFAULT_RECORD_FILTER);
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: `${this.recordPluralName} Deleted`,
+          life: 3000
+        });
+      },
+      error: e => {
+        // console.log(e);
+        this.messageService.add({
+          severity: "error",
+          summary: "Fail",
+          detail: e.error.message,
+          life: 3000
+        });
+      }
+    });
+
+    this.selectedRecords = null;
+  }
+
+  onSelectionChange(value = []) {
+    this.selectAll = value.length === this.totalRecords;
+    this.selectedRecords = value;
+  }
+
+  onSelectAllChange(event) {
+    const checked = event.checked;
+
+    if (checked) {
+      this.selectedRecords = [...this.records];
+      this.selectAll = true;
+    } else {
+      this.selectedRecords = [];
+      this.selectAll = false;
+    }
+  }
+
+  clear(table: Table) {
+    this.selectedRecords = [];
+    this.selectAll = false;
+    table.clear();
+  }
+
+  hideDialog() {
+    console.log("hideDialog");
+  }
+
+}

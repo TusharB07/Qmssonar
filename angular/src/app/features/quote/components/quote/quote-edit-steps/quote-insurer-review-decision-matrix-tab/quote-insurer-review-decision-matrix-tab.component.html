@@ -1,0 +1,155 @@
+<div class="container">
+    <!-- <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+    <div class="grid">
+        <div class="col-6">
+            <div class="col-10">
+                <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                    <ng-template pTemplate="header">
+                        <div class="py-3 px-3">
+                            <h4 id="DecisionMatrix_ProductType">{{this.productType.type}}</h4>
+                        </div>
+                    </ng-template>
+                    <app-other-details-form-component [quote]="this.quote"
+                        [quoteOptionData]="this.quoteOptionData"></app-other-details-form-component>
+                </p-card>
+                <!-- <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                    <ng-template pTemplate="header">
+                        <div class="py-3 px-3">
+                            <h4 id="HypothecationDetail_Header">Moody's Discount card</h4>
+                        </div>
+                    </ng-template>
+                    <button pButton pRipple label="Moody's Discount" class="btn btn-primary mr-2"
+                    (click)="openmoddysConfigureDiscountDialoge()" [disabled]="quote.quoteState == 'Rejected'"></button>
+            
+                </p-card> -->
+            </div>
+
+        </div>
+
+        <div class="col-6">
+
+            <!-- TODO : Dummy Frontend Created For New Card PREMIUM DETAILS -->
+            <!-- <p-card [style]="{'margin-bottom': '2em', 'width': '350px','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h4 id="Premium_Details">Premium Details</h4>
+                    </div>
+                </ng-template>
+                <div class="mb-3">
+                    <label for="" id="broker_calculated_premium_label" class="form-label">Broker Calculated
+                        Premium</label>
+          
+    
+                    <p-inputNumber maxlength="11" id="broker_calculated_premium" mode="decimal" locale="en-IN"
+                        prefix="₹" [minFractionDigits]="2" [maxFractionDigits]="2"
+                        [(ngModel)]="this.quoteOptionData.brokerCalculatedPremium" [disabled]="true"
+                        class="" *ngIf="this.quote.partnerId['isRate'] == true"></p-inputNumber>
+                </div>
+                <div class="mb-3">
+                    <label for="" id="insurer_calculated_premium_label" class="form-label">Insurer Calculated
+                        Premium</label>
+                
+                    <p-inputNumber maxlength="11" id="insurer_calculated_premium" mode="decimal" locale="en-IN"
+                        prefix="₹ " [maxFractionDigits]="2" [minFractionDigits]="2"
+                        [(ngModel)]="this.quote.totalIndictiveQuoteAmt" [disabled]="true"
+                        class="" *ngIf="this.quote.partnerId['isRate'] == true"></p-inputNumber>
+                </div>
+            </p-card> -->
+
+            <!-- <p-card [style]="{'margin-bottom': '2em', 'width': '350px','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h4 id="HypothecationDetail_Header">Hypothecation Detail</h4>
+                    </div>
+                </ng-template>
+                <h6 id="Hypothecation_BankName_Label">Institution Name / Bank Name</h6>
+                <form [formGroup]="this.bankDetailForm" (ngSubmit)="this.submitBankDetailsForm()">
+                    <div class="grid py-3">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <input id="Hypothecation_BankName" pInputText formControlName="name"
+                                    placeholder="Name of Your Bank" type="text" class="p-inputtext1">
+                            </div>
+                            <div class="flex">
+                                <button type="submit" id="otherDetails_Save" pButton pRipple label="Save"
+                                    icon="pi pi-check" class="btn btn-success"></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-card> -->
+
+            <div class="dropdown" [style]="{'margin-bottom': '2em', 'width': '400px','border-radius':'25px'}">
+                <app-hypothication-details-crud-card *ngIf="this.quote" [quote]="this.quote"
+                    [quoteOptionData]="this.quoteOptionData"></app-hypothication-details-crud-card>
+            </div>
+
+            <div class="dropdown" [style]="{'margin-bottom': '2em', 'width': '400px','border-radius':'25px'}">
+                <app-declaration-clause-card *ngIf="this.quote" [quote]="this.quote"
+                    [quoteOptionData]="this.quoteOptionData"></app-declaration-clause-card>
+            </div>
+
+            <!-- <p-card [style]="{'margin-bottom': '2em', 'width': '350px','border-radius':'25px'}">
+
+                <h6 id="DecisionMatrix_LowPreference">Low Preference:</h6>
+                <p class="mb-3" id="DecisionMatrix_RestrictedPricing">
+                    Restricted Pricing / Capacity restricted to follow share for risk with high SI/none for low SI
+                </p>
+                <h6 id="DecisionMatrix_InsurerDiscount_Label">Insurer Discount</h6>
+                <div class="col-12">
+                    <input type="text" placeholder="10%" id="DecisionMatrix_InsurerDiscount" class="mt-2" pInputText
+                        disabled>
+                </div>
+                <h6 class="mt-3" id="DecisionMatrix_Terms_Label">Terms</h6>
+                <div class="col-12">
+                    <input type="text" id="DecisionMatrix_Terms " placeholder="Lead" class="mt-2" pInputText disabled>
+                </div>
+                <h6 class="mt-3 mb-3" id="DecisionMatrix_Exclusions_Label">Exclusions</h6>
+                <ul>
+                    <li class="my-2 flex align-items-center">
+                        <p-checkbox class="mr-2" name="group1" value="1" inputId="1"
+                            id="DecisionMatrix_Clauses_CheckBox">
+                        </p-checkbox>
+                        <label for="4" id="DecisionMatrix_Clauses">
+                            Clauses
+                        </label>
+                    </li>
+                    <li class="my-2 align-items-center">
+                        <p-checkbox class="mr-2" name="group1" value="2" inputId="2"
+                            id="DecisionMatrix_Warrenties_CheckBox">
+                        </p-checkbox>
+                        <label for="4" id="DecisionMatrix_Warrenties">
+                            Warrenties
+                        </label>
+                    </li>
+                    <li class="my-2 align-items-center">
+                        <p-checkbox class="mr-2" name="group1" value="3" inputId="3"
+                            id="DecisionMatrix_Subjectivities_CheckBox">
+                        </p-checkbox>
+                        <label for="4" id="DecisionMatrix_Subjectivities">
+                            Subjectivities
+                        </label>
+                    </li>
+                </ul>
+            </p-card> -->
+            <!-- <div id="container" *ngIf="this.quote && this.quote.otcType == 'NONOTC'"
+                id="opne_Configure_Discount_Button">
+                <button pButton pRipple label="% Configure Discount " class="btn btn-primary mr-2"
+                    (click)="opneConfigureDiscountDialoge()" [disabled]="quote.quoteState == 'Rejected'"></button>
+            </div> -->
+        </div>
+    </div>
+</div>

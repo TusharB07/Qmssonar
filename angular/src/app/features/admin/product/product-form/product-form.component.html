@@ -1,0 +1,218 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <div class="">
+                        <p-toast></p-toast>
+                        <p-toolbar styleClass="">
+                            <ng-template pTemplate="left">
+                                <h3 class="mb-0" id="ProductFormRecordName">{{this.recordSingularName}}</h3>
+                            </ng-template>
+                            <ng-template pTemplate="right">
+                                <button id="ProductForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                                <button id="ProductForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                            </ng-template>
+                        </p-toolbar>
+                    </div>
+
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <h5 id="ProductForm_GeneralInformationHeader">General Information</h5>
+
+
+                        <div class="field">
+                            <label id="ProductForm_TypeLabel" for="type">Type</label>
+                            <input maxlength="100" id="ProductForm_Type" class="form-control" type="text" pInputText id="type" formControlName="type" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['type']}" />
+                            <small id="ProductForm_TypeValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['type']">Type is required.</small>
+                            <!-- <small  *ngIf="this.recordForm?.controls['type'].errors?.maxlength" class="ng-invalid">Type cannot be more than 100 Characters.</small> -->
+                        </div>
+
+                        <div class="field">
+                            <label id="ProductForm_ShortNameLabel" for="shortName">Short Name</label>
+                            <input maxlength="10" id="ProductForm_ShortName" class="form-control" type="text" pInputText id="shortName" formControlName="shortName" />
+                            <!-- <small id="PartnerForm_ShortName_ValidationError" *ngIf="this.recordForm.controls['shortName'].errors?.maxlength" class="ng-invalid">Short Name cannot be more than 10 Characters.</small> -->
+                        </div>
+                        <!-- <div class="field">
+                            <label for="category">Category</label>
+                            <input class="form-control" type="text" pInputText id="category" formControlName="category" />
+                        </div> -->
+
+                        <!-- <div class="field">
+                            <label for="fromSI">From SI</label>
+                            <input class="form-control" type="number" pInputText id="fromSI" formControlName="fromSI" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" />
+                            <small *ngIf="recordForm.controls['fromSI'].errors?.min" class="ng-invalid">From SI should be more than 0.</small>
+
+                        </div> -->
+
+                        <!-- <div class="field">
+                            <label for="toSI">To SI</label>
+                            <input class="form-control" type="number" pInputText id="toSI" formControlName="toSI" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['toSI']}" />
+                            <small *ngIf="recordForm.controls['fromSI'].errors?.min" class="ng-invalid">To SI should be more than 0.</small>
+                        </div> -->
+
+                        <div class="field">
+                            <label id="ProductForm_BSCCOversLabel" for="bscCovers">BSC Covers</label>
+                            <p-multiSelect id="ProductForm_BSCCOvers" formControlName="bscCovers" display="chip" class="form-control" [options]="this.optionsBscCovers"></p-multiSelect>
+                        </div>
+
+                        <div class="field">
+                            <label id="ProductForm_MandatoryCoversLabel" for="mandatoryCovers">Mandatory Covers</label>
+                            <p-multiSelect id="ProductForm_MandatoryCovers" formControlName="mandatoryCovers" display="chip" class="form-control" [options]="this.recordForm.controls['bscCovers'].value"></p-multiSelect>
+                        </div>
+
+                        <div class="field">
+                            <label id="ProductForm_CategoryLabel" for="category">Category</label>
+                            <p-dropdown
+                                id="ProductForm_Category"
+                                class="form-control"
+                                [options]="categoryNames"
+                                placeholder="Select a Category"
+                                optionLabel="label"
+                                optionValue="value"
+                                [showClear]="true"
+                                formControlName="categoryId"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['categoryId'].valid}"
+                            ></p-dropdown>
+                            <small id="ProductForm_CategoryValidationError" *ngIf="recordForm.controls['categoryId'].errors?.required" class="ng-invalid">Category is Required</small>
+                        </div>
+
+
+
+
+
+
+                        <!-- <div class="field">
+                            <label for="isOtc">Is OTC</label>
+                            <p-toggleButton class="form-control" formControlName="isOtc" onLabel="Yes" offLabel="No" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div> -->
+
+                        <div class="field">
+                            <label id="ProductForm_ProductTemplateLabel" for="productTemplate">Product Template</label>
+                            <p-dropdown id="ProductForm_ProductTemplate" class="form-control" [options]="this.optionsProductTemplate"
+                                placeholder="Select a Product Template" optionLabel="label" optionValue="value" [showClear]="true"
+                                formControlName="productTemplate"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productTemplate'].valid}"></p-dropdown>
+                            <small id="ProductForm_ProductTemplateValidationError"
+                                *ngIf="recordForm.controls['productTemplate'].errors?.required" class="ng-invalid">Product Template is
+                                Required</small>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_ProductTemplateLabel" for="renewalPolicyPeriodinMonthsoryears">Renewal Policy Period</label>
+                            <p-dropdown id="ProductForm_ProductTemplate" class="form-control" [options]="this.optionsMonthYear"
+                                placeholder="Select option" optionLabel="label" optionValue="value" [showClear]="true"
+                                formControlName="renewalPolicyPeriodinMonthsoryears"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['renewalPolicyPeriodinMonthsoryears'].valid}"></p-dropdown>
+                            <small id="ProductForm_ProductTemplateValidationError"
+                                *ngIf="recordForm.controls['renewalPolicyPeriodinMonthsoryears'].errors?.required" class="ng-invalid">Renewal
+                                Policy Period is required.</small>
+                        </div>
+
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isFire" inputId="isFire" binary="true" label="Fire"></p-checkbox>
+                                </div>
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isFireRequired" inputId="isFireRequired" binary="true" label="FireRequired" [disabled]="!recordForm.controls['isFire'].value"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isSTFI" inputId="isSTFI" binary="true" label="STFI"></p-checkbox>
+                                </div>
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isSTFIRequired" inputId="isFire" binary="true" label="STFIRequired" [disabled]="!recordForm.controls['isSTFI'].value"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isTerrorism" inputId="isTerrorism" binary="true" label="Terrorism"></p-checkbox>
+                                </div>
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isTerrorismRequired" inputId="isTerrorismRequired" binary="true" label="TerrorismRequired" [disabled]="!recordForm.controls['isTerrorism'].value"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isEarthQuake" inputId="isEarthQuake" binary="true" label="Earthquake"></p-checkbox>
+                                </div>
+                                <div class="col-2">
+                                    <p-checkbox name="group1" value="New York" formControlName="isEarthQuakeRequired" inputId="isEarthQuakeRequired" binary="true" label="EarthquakeRequired" [disabled]="!recordForm.controls['isEarthQuake'].value"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="this.recordForm.controls['renewalPolicyPeriodinMonthsoryears'].value == 'Y'" class="field">
+                            <label id="ProductForm_ProductTemplateLabel" for="renewalPolicyPeriodinMonthsoryears">Number Of Years</label>
+                            <!-- <input class="form-control" type="number" pInputText  formControlName="numberOfYears"/> -->
+                            <p-inputNumber id="LiabilitySection_Dialog_Description" mode="decimal" formControlName="numberOfYears"  [min]="1" [max]="10"
+                            value="" [showButtons]="true"
+                            min="0"></p-inputNumber>
+                            <!-- <small id="ProductForm_ProductTemplateValidationError"
+                                *ngIf="recordForm.controls['renewalPolicyPeriodinMonthsoryears'].errors?.required" class="ng-invalid">Renewal
+                                Policy Period is required.</small> -->
+                        </div>
+                        <div *ngIf="this.recordForm.controls['renewalPolicyPeriodinMonthsoryears'].value == 'M'" class="field">
+                            <label id="ProductForm_ProductTemplateLabel" for="renewalPolicyPeriodinMonthsoryears">Number Of Months</label>
+                            <p-inputNumber id="LiabilitySection_Dialog_Description" mode="decimal" formControlName="numberOfMonths"  [min]="1" 
+                            value="" [showButtons]="true"
+                            min="0"></p-inputNumber>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_is_validation_checkLabel" for="status">Is Flexa Show</label>
+                            <p-toggleButton id="ProductForm_isFlexaShow" class="form-control" formControlName="isFlexaShow" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_isOccupancySubTypeShowLabel" for="status">Is Occupancy SubType Show</label>
+                            <p-toggleButton id="ProductForm_isOccupancySubTypeShow" class="form-control" formControlName="isOccupancySubTypeShow" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_isOccupancySubTypeShowLabel" for="status">Is Occupancywise Rate</label>
+                            <p-toggleButton id="ProductForm_isOccupancySubTypeShow" class="form-control" formControlName="isOccupancyWiseRate" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_isOccupancySubTypeShowLabel" for="status">Is Sub Occupancywise Rate</label>
+                            <p-toggleButton id="ProductForm_isOccupancySubTypeShow" class="form-control" formControlName="isSubOccupancyWiseRate" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_isOccupancywiseTenureLabel" for="status">Is Occupancywie Tenure</label>
+                            <p-toggleButton id="ProductForm_isOccupancywiseTenure" class="form-control" formControlName="isOccupancywiseTenure" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_is_validation_checkLabel" for="status">Validation Check</label>
+                            <p-toggleButton id="ProductForm_is_validation_check" class="form-control" formControlName="is_validation_check" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_StatusLabel" for="status">Status</label>
+                            <p-toggleButton id="ProductForm_Status" class="form-control" formControlName="status" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductForm_StatusLabel" for="status">Is Building And Content Wise Rate</label>
+                            <p-toggleButton id="ProductForm_Status" class="form-control" formControlName="isBuildingAndContentWiseRate" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <app-audit-trail [entityId]="this.id" id="ProductForm_AuditTrail" [entityResourcePrefix]="'products'"></app-audit-trail>
+                    </div>
+                </p-card>
+
+            </div>
+        </div>
+    </div>
+</form>

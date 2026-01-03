@@ -1,0 +1,120 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5>General Information</h5>
+                        <div class="field">
+                            <label for="partnerId">Partner Id</label>
+                            <p-autoComplete placeholder="Select Partner" [dropdown]="true" [suggestions]="this.optionsPratnerId" field="label" formControlName="partnerId" (completeMethod)="this.searchOptionsPartnerId($event)"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label for="productId">Product</label>
+                            <p-autoComplete placeholder="Select Product" [disabled]="!this.recordForm.controls['partnerId'].value?.value" [dropdown]="true" [suggestions]="this.optionsProducts" field="label" formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                        </div>
+
+                        <div class="field">
+                            <label for="active">Status</label>
+                            <p-toggleButton class="form-control" formControlName="active" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+                <p-card>
+                    <div class="card p-fluid">
+                        <h5>Covers Mapping</h5>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_SIGNAGE_COVER)">
+                            <label for="bscSignageCover">Bsc Signage Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscSignageCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_PORTABLE_EQUIPMENTS_COVER)">
+                            <label for="bscPortableEquipmentsCover">Bsc Portable Equipments Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscPortableEquipmentsCover" onLabel="{{ ' active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_MONEY_TRANSIT_COVER)">
+                            <label for="bscMoneyTransitCover">Bsc Money Transit Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscMoneyTransitCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_MONEY_SAFE_TILL_COVER)">
+                            <label for="bscMoneySafeTillCover">Bsc Money Safe Till Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscMoneySafeTillCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_LIABILITY_SECTION_COVER)">
+                            <label for="bscLiabilitySectionCover">Bsc Liability Section Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscLiabilitySectionCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_FIXED_PLATE_GLASS_COVER)">
+                            <label for="bscFixedPlateGlassCover">Bsc Fixed Plate Glass Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscFixedPlateGlassCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_FIRE_LOSS_OF_PROFIT_COVER)">
+                            <label for="bscFireLossOfProfitCover">Bsc Fire Loss Of Profit Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscFireLossOfProfitCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_FIDELITY_GUARANTEE_COVER)">
+                            <label for="bscFidelityGuaranteeCover">Bsc Fidelity Guarantee Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscFidelityGuaranteeCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_ELECTRONIC_EQUIPMENTS_COVER)">
+                            <label for="bscElectronicEquipmentsCover">Bsc Electronic Equipments Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscElectronicEquipmentsCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_BURGLARY_HOUSEBREAKING_COVER)">
+                            <label for="bscBurglaryHousebreakingCover">Bsc Burglary Housebreaking Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscBurglaryHousebreakingCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.BSC_ACCOMPANIED_BAGGAGE_COVER)">
+                            <label for="bscAccompaniedBaggageCover">Bsc Accompanied Baggage Cover</label>
+                            <p-toggleButton class="form-control" formControlName="bscAccompaniedBaggageCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <hr>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.FLOATER_COVER_ADD_ON)">
+                            <label for="floaterCoverAddOn">Floater Cover AddOn</label>
+                            <p-toggleButton class="form-control" formControlName="floaterCoverAddOn" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.DECLARATION_POLICY)">
+                            <label for="declarationPolicy">Declaration Policy</label>
+                            <p-toggleButton class="form-control" formControlName="declarationPolicy" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.LOSE_OF_RENT)">
+                            <label for="loseOfRent">Lose Of Rent</label>
+                            <p-toggleButton class="form-control" formControlName="loseOfRent" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.RENT_FOR_ALTERNATIVE_ACCOMODATION)">
+                            <label for="rentForAlternativeAccomodation">Rent For Alternative Accomodation</label>
+                            <p-toggleButton class="form-control" formControlName="rentForAlternativeAccomodation" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.PERSONAL_ACCIDENT_COVER)">
+                            <label for="personalAccidentCover">Personal Accident Cover</label>
+                            <p-toggleButton class="form-control" formControlName="personalAccidentCover" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field" *ngIf="this.mapping?.includes(AllowedBscCover.VALUABLE_CONTENTS_ON_AGREED_VALUE_BASIS)">
+                            <label for="valuableContentsOnAgreedValueBasis">Valuable Contents On Agreed Value Basis</label>
+                            <p-toggleButton class="form-control" formControlName="valuableContentsOnAgreedValueBasis" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+
+        </div>
+    </div>
+</form>

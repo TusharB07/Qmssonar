@@ -1,0 +1,156 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="TaskFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="TaskForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="TaskForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <h5 id="TaskForm_GeneralInformation">General Information</h5>
+                        <div class="field">
+                            <label id="TaskForm_retryCountLabel" for="retryCount">Retry Count</label>
+                            <input maxlength="255" id="TaskForm_retryCount" class="form-control" type="number"
+                                pInputText id="retryCount" formControlName="retryCount" required autofocus
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['retryCount']}" />
+                            <small id="TaskForm_retryCountValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['retryCount']">Retry Count is required.</small>
+                            <!-- <small id="TaskForm_retryCountValidationError" class="ng-dirty ng-invalid" *ngIf="recordForm.controls['DocumentKey'].errors?.maxlength">Document Key cannot be more than 255 Characters.</small> -->
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_retryIntervalLabel" for="retryInterval">Retry Interval</label>
+                            <input id="TaskForm_retryInterval" class="form-control" type="number" pInputText
+                                id="retryInterval" formControlName="retryInterval" />
+                            <small id="TaskForm_retryIntervalValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['retryInterval'].errors?.max">Retry Interval is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_stateLabel" for="state">State</label>
+                            <!-- <input id="TaskForm_state" class="form-control" type="text" pInputText id="state"
+                                formControlName="state" /> -->
+                            <p-dropdown id="TaskForm_state" class="form-control" [options]="this.optionsTaskStates"
+                                placeholder="Select a State" [showClear]="true" formControlName="state"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['state'].valid}">
+                            </p-dropdown>
+                            <small id="TaskForm_stateValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['state'].errors?.max">State is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_priceLabel" for="price">Price</label>
+                            <input id="TaskForm_price" class="form-control" type="number" pInputText id="price"
+                                formControlName="price" />
+                            <small id="TaskForm_priceValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['price'].errors?.max">Price is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_taskQueueIdLabel" for="taskQueueId">Task QueueId</label>
+                            <!-- <input id="TaskForm_taskQueueId" class="form-control" type="text" pInputText
+                                id="taskQueueId" formControlName="taskQueueId" /> -->
+                            <p-autoComplete id="TaskForm_taskQueueId" [dropdown]="true"
+                                [suggestions]="this.optionstaskQueueId" field="label"
+                                formControlName="taskQueueId"
+                                (completeMethod)="this.searchoptionsTaskQueueId($event)">
+                            </p-autoComplete>
+                            <!-- <small id="TaskForm_taskQueueIdValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['taskQueueId'].errors?.max">Document Value cannot be more than 100
+                                Characters.</small> -->
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_startTimeLabel" for="startTime">Start Time</label>
+                            <!-- <input id="TaskForm_startTime" class="form-control" type="text" pInputText id="startTime"
+                                formControlName="startTime" /> -->
+                            <p-calendar class="form-control" type="date" [showIcon]="true" id="TaskForm_startTime"
+                                formControlName="startTime" dateFormat="yy-mm-dd"></p-calendar>
+                            <small id="TaskForm_startTimeValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['startTime'].errors?.max">Start Time is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_createdAtLabel" for="createdAt">Created At</label>
+                            <!-- <input id="TaskForm_createdAt" class="form-control" type="text" pInputText id="createdAt"
+                                formControlName="createdAt" /> -->
+                            <p-calendar class="form-control" type="date" [showIcon]="true" id="TaskForm_createdAt"
+                                formControlName="createdAt" dateFormat="yy-mm-dd"></p-calendar>
+                            <small id="TaskForm_createdAtValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['createdAt'].errors?.max">Created At is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_endTimeLabel" for="endTime">End Time</label>
+                            <!-- <input id="TaskForm_endTime" class="form-control" type="text" pInputText id="endTime"
+                                formControlName="endTime" /> -->
+                            <p-calendar class="form-control" type="date" [showIcon]="true" id="TaskForm_endTime"
+                                formControlName="endTime" dateFormat="yy-mm-dd"></p-calendar>
+                            <small id="TaskForm_endTimeValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['endTime'].errors?.max">End Time is required.
+                                Characters.</small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_elapsedMillisLabel" for="elapsedMillis">Elapsed Millis</label>
+                            <input id="TaskForm_elapsedMillis" class="form-control" type="number" pInputText
+                                id="elapsedMillis" formControlName="elapsedMillis" />
+                            <small id="TaskForm_elapsedMillisValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['elapsedMillis'].errors?.max">Elapsed Millis is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_inputBodyLabel" for="inputBody">Input Body</label>
+                            <input id="TaskForm_inputBody" class="form-control" type="text" pInputText id="inputBody"
+                                formControlName="inputBody" />
+                            <small id="TaskForm_inputBodyValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['inputBody'].errors?.max">Input Body is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_outputBodyLabel" for="outputBody">Output Body</label>
+                            <input id="TaskForm_outputBody" class="form-control" type="text" pInputText id="outputBody"
+                                formControlName="outputBody" />
+                            <small id="TaskForm_DocumentKeyValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['outputBody'].errors?.max">Output Body is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_errorBodyLabel" for="errorBody">Error Body</label>
+                            <input id="TaskForm_errorBody" class="form-control" type="text" pInputText id="errorBody"
+                                formControlName="errorBody" />
+                            <small id="TaskForm_errorBodyValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="recordForm.controls['errorBody'].errors?.max">Error Body is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_ParentDocumentLabel" for="parentDocumentId">Parent Document</label>
+                            <p-autoComplete id="TaskForm_ParentDocument" [dropdown]="true"
+                                [suggestions]="this.optionsParentDocumentId" field="label"
+                                formControlName="parentDocumentId"
+                                (completeMethod)="this.searchoptionsParentDocumentId($event)">
+                            </p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label id="TaskForm_parentDocumentModelLabel" for="parentDocumentModel">Parent Document
+                                Model</label>
+                            <input id="TaskForm_parentDocumentModel" class="form-control" type="text" pInputText
+                                id="parentDocumentModel" formControlName="parentDocumentModel" />
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</form>

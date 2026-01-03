@@ -1,0 +1,274 @@
+<!-- Old_Quote -->
+<!-- <p-card class="combined-quote-wrapped"  [style]="{'min-height':'400px','max-height':'auto'}">
+    <ng-template pTemplate="header">
+        <div class="grid">
+            <div class="col">
+                <h6 class="mb-2 " id="BSC_Tab_Total_Indicative">Total Indicative Quote</h6>
+                <p class="sub-head">Combined Quote of all sections</p>
+            </div>
+        </div>
+    </ng-template>
+    <div class="h-100">
+        <div class="grid mb-3">
+            <div class="col-12">
+                <div class="combined-quote">
+                    <ul class="list-group mb-1">
+                        <li class="list-group-item head">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_CoverOpted">
+                                            <span>COVERS OPTED</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" id="BSC_Tab_CoverOpted_Amount">
+                                    <span>AMOUNT</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>{{this.quote?.productId?.type}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount" *ngIf="this.quote.partnerId['isRate'] == true">
+                                    <span ><app-currency [value]="((this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" *ngFor="let cover of covers">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                            <span>{{cover.label}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_Amount" *ngIf="this.quote.partnerId['isRate'] == true">
+                                    <span pTooltip="{{cover.isNegative && ' - ' + this.toWord.convert(cover.premium ?? 0, { currency: true ,ignoreZeroCurrency: true })}}">
+                                       {{(cover.isNegative && ' - ')}} <span *ngIf="!cover.percentage"><app-currency [value]="(cover.premium ?? 0)"></app-currency></span>
+                                    <span *ngIf="cover.percentage">{{cover.premium ?? 0 }} %</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" *ngIf="hideOptValue">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>Rate for 1 Month + 1 month testing(Rs. %o)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount">
+                                    <span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="((this.quote?.totalOpt1 ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" *ngIf="hideOptValue">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>Rate for 1 month or part thereof,<br/> for subsequent 10 months(Rs. %o)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount">
+                                    <span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="((this.quote?.totalOpt2 ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" *ngIf="hideOptValue">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>Rate for 1 month or part thereof,<br/> for period exceeding 12 months(Rs. %o)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount">
+                                    <span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="((this.quote?.totalOpt3 ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" *ngIf="hideOptValue">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>Rate for 1 month or part thereof,<br/>for testing period extension within <br/> policy period(Rs. %o)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount">
+                                    <span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="((this.quote?.totalOpt4 ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item footer">
+                            <div class="flex align-items-center" *ngIf="this.quote?.partnerId['isRate'] == 'true'">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers_Total">
+                                            <span>TOTAL PREMIUM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_TotalPremium">
+                                    <span class="premium-price"><app-currency [value]="(this.quote?.totalIndictiveQuoteAmt ?? 0)"></app-currency></span> -->
+<!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+<!-- </div>
+                            </div>
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers_Total">
+                                            <span>TOTAL SUM INSURED</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_TotalPremium">
+                                    <span class="premium-price" id="totalQuoteSI"><app-currency [ngStyle]="{'color': this.quote.totalQuoteSIExceeded ? 'red' : '#4CB70F'}" [value]="(this.quote?.totalQuoteSI ?? 0)"></app-currency></span> -->
+<!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+<!-- </div>
+                            </div>
+                        </li> -->
+<!-- <li class="list-group-item">
+                            <small class="small">{{toWord.convert(this.quote?.totalIndictiveQuoteAmt) }}</small>
+
+                        </li> -->
+<!-- </ul>
+                </div>
+            </div>
+        </div>
+    </div>     
+    <div id="container" *ngIf="this.quote?.productId?.shortName != 'GLL' && this.quote?.productId?.shortName != 'FSL' && this.quote?.productId?.shortName != 'FLL'" id="opne_Configure_Discount_Button">
+        <button pButton pRipple label="% Configure Discount " class="btn btn-primary mr-2 ml-2" (click)="opneConfigureDiscountDialoge()"></button>
+    </div> -->
+<!-- <div id="container" *ngIf="this.quote && this.quote.otcType == 'NONOTC'"
+                id="opne_Configure_Discount_Button">
+                <button pButton pRipple label="% Configure Discount " class="btn btn-primary  mr-2 ml-2"
+                    (click)="opneConfigureDiscountDialoge()" [disabled]="quote.quoteState == 'Rejected'"></button>
+            </div> -->
+<!-- </p-card> -->
+
+
+<!-- New_Quote_Option -->
+<p-card class="combined-quote-wrapped" >
+    <ng-template pTemplate="header">
+        <div class="grid">
+            <div class="col">
+                <h6 class="mb-2" id="BSC_Tab_Total_Indicative">Total Indicative Quote</h6>
+                <!-- <p class="sub-head">Combined Quote of all sections</p> -->
+            </div>
+        </div>
+    </ng-template>
+    <div class="h-100">
+        <div class="grid mb-3">
+            <div class="col-12">
+                <div class="combined-quote">
+                    <ul class="list-group mb-1">
+                        <!-- <li class="list-group-item head">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_CoverOpted">
+                                            <span>COVERS OPTED</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" id="BSC_Tab_CoverOpted_Amount">
+                                    <span>AMOUNT</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_Indicative_ProductType">
+                                            <span>{{this.quoteOptionData?.quoteId?.productId?.type}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_Indicative_Product_Amount">
+                                    <span><app-currency
+                                            [value]="((this.quoteOptionData?.totalFlexa ?? 0) + (this.quoteOptionData?.totalStfi ?? 0) + (this.quoteOptionData?.totalEarthquake ?? 0) + (this.quoteOptionData?.totalTerrorism ?? 0))"></app-currency></span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" *ngFor="let cover of covers">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                            <span>{{cover.label}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_Amount">
+                                    <span
+                                        pTooltip="{{cover.isNegative && ' - ' + this.toWord.convert(cover.premium ?? 0, { currency: true ,ignoreZeroCurrency: true })}}">
+                                        {{(cover.isNegative && ' - ')}} <span *ngIf="!cover.percentage"><app-currency
+                                                [value]="(cover.premium ?? 0)"></app-currency></span>
+                                        <span *ngIf="cover.percentage">{{cover.premium ?? 0 }} %</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="list-group-item footer">
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers_Total">
+                                            <span>TOTAL PREMIUM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_TotalPremium">
+                                    <span class="premium-price"><app-currency
+                                            [value]="(this.quoteOptionData?.totalIndictiveQuoteAmt ?? 0)"></app-currency></span>
+                                    <!-- <span pTooltip="{{this.toWord.convert(this.quoteOptionData?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                                </div>
+                            </div>
+                            <div class="flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers_Total">
+                                            <span>TOTAL SUM INSURED</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 " id="BSC_Tab_covers_TotalPremium">
+                                    <span class="premium-price" id="totalQuoteSI"><app-currency [ngStyle]="{'color': this.quote.totalQuoteSIExceeded ? 'red' : '#4CB70F'}" [value]="(this.quote?.totalSumAssured ?? 0)"></app-currency></span>
+                                    <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</span> -->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="container"
+        *ngIf="this.quote?.productId?.shortName != 'GLL' && this.quote?.productId?.shortName != 'FSL' && this.quote?.productId?.shortName != 'FLL'"
+        id="opne_Configure_Discount_Button">
+        <button pButton pRipple label="% Configure Discount " class="btn btn-primary mr-2 ml-2"
+            (click)="opneConfigureDiscountDialoge()"></button>
+    </div> -->
+</p-card>

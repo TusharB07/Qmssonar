@@ -1,0 +1,28 @@
+{
+    "data": [
+      {
+        "name": "Occupancy",
+        "nd": "Schools / Colleges",
+        "ch": "Shops dealing in goods otherwise not provided for",
+        "mu": "Sugar factories",
+        "am": "Water Treatment Plant/Water Tanks",
+        "hy": "Indoor Stadium"
+      },
+      {
+        "name": "Money In Safe",
+        "nd": "Rs. 25,000",
+        "ch": "Rs. 120,000,000",
+        "mu": "Rs. 120,000,000",
+        "am": "Rs. 120,000,000",
+        "hy": "Rs. 120,000,000"
+      },
+      {
+        "name": "Money In Till/Counter",
+        "nd": "Rs. 250,000",
+        "ch": "Rs. 10,000,000",
+        "mu": "Rs. 10,000,000",
+        "am": "Rs. 10,000,000",
+        "hy": "Rs. 10,000,000"
+      }
+    ]
+  }

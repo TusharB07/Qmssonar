@@ -1,0 +1,148 @@
+<div *ngIf="activeTab == 'uploadLocationDetails'" class="w-100">
+    <div class="form-style1 mb-3">
+        <label class="label-row" id="uploadLocationDetails_SubHeader">Upload Location Sheet</label>
+
+        <!-- <button class="btn btn-outline-primary mr-3" (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button> -->
+
+
+        <div class="mt-3">
+
+            <div class="grid">
+                <div class="col-6">
+                    <!-- <p-fileUpload [auto]="true" styleClass="upload-outline-light" [name]="this.uploadClientLocationExcel.name" mode="basic" (onUpload)="this.uploadClientLocationExcel.onUpload($event)" [url]="this.uploadClientLocationExcel.url" [accept]="this.uploadClientLocationExcel.accept" [maxFileSize]="this.uploadClientLocationExcel.maxFileSize" chooseIcon="pi pi-paperclip" chooseLabel="Select" [headers]="this.uploadHttpHeaders" [method]="this.uploadClientLocationExcel.method"></p-fileUpload> -->
+                    <p-fileUpload
+                    [name]="this.clientLocationsBulkImportProps.name"
+                    [mode]="this.clientLocationsBulkImportProps.mode"
+                    [url]="this.clientLocationsBulkImportProps.url"
+                    [method]="this.clientLocationsBulkImportProps.method"
+                    (onUpload)="this.clientLocationsBulkImportProps.onUpload($event.originalEvent.body)"
+                    [headers]="this.clientLocationsBulkImportProps.headers"
+                    [accept]="this.quoteLocationOccupancyBulkImportProps.accept.toString()"
+                    [showCancelButton]="true"
+                    [auto]="this.clientLocationsBulkImportProps.auto"
+                    uploadIcon="pi pi-paperclip"
+                    [uploadLabel]="this.clientLocationsBulkImportProps.uploadLabel"
+                    [chooseLabel]="this.clientLocationsBulkImportProps.chooseLabel"
+                    styleClass="upload-outline-light"
+                    id="uploadLocationDetails_Excel"
+
+
+                    ></p-fileUpload>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-primary" id="uploadLocationDetails_Upload"(click)="next()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- <form [formGroup]="this.uploadClientLocationForm" (ngSubmit)="this.uploadClientLocation()" class="mt-3">
+            To Be Removed
+            <div class="grid">
+                <div class="col-6"> -->
+                    <!-- <p-fileUpload [auto]="true" styleClass="upload-outline-light" (onUpload)="this.uploadQuoteLocationOccupancyExcel.onError($event)" [name]="this.uploadQuoteLocationOccupancyExcel.name" mode="basic" [url]="this.uploadQuoteLocationOccupancyExcel.url" [accept]="this.uploadQuoteLocationOccupancyExcel.accept" [maxFileSize]="this.uploadQuoteLocationOccupancyExcel.maxFileSize" chooseIcon="pi pi-paperclip" chooseLabel="Select" [headers]="this.uploadHttpHeaders" [method]="this.uploadQuoteLocationOccupancyExcel.method"></p-fileUpload> -->
+                    <!-- <p-fileUpload [auto]="true"  name="quote_location_occupancy" chooseIcon="pi pi-paperclip" chooseLabel="Select" mode="basic" styleClass="upload-outline-light" [customUpload]="true" ></p-fileUpload> -->
+                    <!-- <input type="file" styleClass="form-control" (change)="this.onClientLocationChange($event)" name="client_locations">
+                </div>
+                <div class="col-3"> -->
+                    <!-- <button class="btn btn-primary" (click)="done()">Done</button> -->
+                    <!-- <button class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </form> -->
+    </div>
+
+    <div class="download-text">
+        <a (click)="this.clientLocationsBulkImportGenerateSample()" id="uploadLocationDetails_DownloadExcel">Download Sample file</a>
+    </div>
+</div>
+
+
+<div *ngIf="activeTab == 'uploadLocationOccupancy'" class="w-100">
+    <div class="form-style1 mb-3">
+        <label class="label-row" id="uploadLocationOccupancy_SubHeader">Upload Location Occupancy Sheet</label>
+        <!-- <form [formGroup]="this.uploadQuoteLocationOccupancyForm" (ngSubmit)="this.uploadQuoteLocationOccupancy()" class="mt-3">
+
+            <div class="grid">
+                <div class="col-6"> -->
+                    <!-- <p-fileUpload [auto]="true" styleClass="upload-outline-light" (onUpload)="this.uploadQuoteLocationOccupancyExcel.onError($event)" [name]="this.uploadQuoteLocationOccupancyExcel.name" mode="basic" [url]="this.uploadQuoteLocationOccupancyExcel.url" [accept]="this.uploadQuoteLocationOccupancyExcel.accept" [maxFileSize]="this.uploadQuoteLocationOccupancyExcel.maxFileSize" chooseIcon="pi pi-paperclip" chooseLabel="Select" [headers]="this.uploadHttpHeaders" [method]="this.uploadQuoteLocationOccupancyExcel.method"></p-fileUpload> -->
+                    <!-- <p-fileUpload [auto]="true"  name="quote_location_occupancy" chooseIcon="pi pi-paperclip" chooseLabel="Select" mode="basic" styleClass="upload-outline-light" [customUpload]="true" ></p-fileUpload> -->
+                    <!-- <input type="file" styleClass="form-control" (change)="this.onChange($event)" name="quote_location_occupancy">
+                </div>
+                <div class="col-3"> -->
+                    <!-- <button class="btn btn-primary" (click)="done()">Done</button> -->
+                    <!-- <button class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </form> -->
+
+        <div class="mt-3">
+
+            <div class="grid">
+                <div class="col-6">
+                    <p-fileUpload #fileUpload
+                    [name]="this.quoteLocationOccupancyBulkImportProps.name"
+                    [mode]="this.quoteLocationOccupancyBulkImportProps.mode"
+                    [url]="this.quoteLocationOccupancyBulkImportProps.url"
+                    [method]="this.quoteLocationOccupancyBulkImportProps.method"
+                    (onUpload)="this.quoteLocationOccupancyBulkImportProps.onUpload($event.originalEvent.body)"
+                    (onError)="this.errorHandler($event, fileUpload)"
+                    [headers]="this.quoteLocationOccupancyBulkImportProps.headers"
+                    [accept]="this.quoteLocationOccupancyBulkImportProps.accept.toString()"
+                    [showCancelButton]="true"
+                    [auto]="this.quoteLocationOccupancyBulkImportProps.auto"
+                    uploadIcon="pi pi-paperclip"
+                    [uploadLabel]="this.quoteLocationOccupancyBulkImportProps.uploadLabel"
+                    [chooseLabel]="this.quoteLocationOccupancyBulkImportProps.chooseLabel"
+                    styleClass="upload-outline-light"
+                    id="uploadLocationOccupancy_Excel"
+
+
+                    ></p-fileUpload>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-primary" id="uploadLocationOccupancy_Upload" (click)="next()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-text">
+        <a type="button" (click)="this.quoteRiskLocationsBulkImportGenerateSample()" id="uploadLocationDetails_DownloadExcel">Download Sample file</a>
+    </div>
+</div>
+
+<!-- <div *ngIf="activeTab == 'uploadBscCover'" class="w-100">
+    <div class="form-style1 mb-3">
+        <label class="label-row" id="uploadBscCover_Header">Upload Bsc Cover Excel</label>
+        <div class="mt-3">
+
+            <div class="grid">
+                <div class="col-6">
+                    <p-fileUpload [auto]="true"id="uploadBscCover_Excel" styleClass="upload-outline-light" [name]="this.uploadBscCoverExcel?.name" mode="basic" [url]="this.uploadBscCoverExcel?.url" [accept]="this.uploadBscCoverExcel?.accept" [maxFileSize]="this.uploadBscCoverExcel?.maxFileSize" chooseIcon="pi pi-paperclip" chooseLabel="Select" [headers]="this.uploadHttpHeaders" [method]="this.uploadBscCoverExcel?.method"></p-fileUpload>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-primary" id="uploadBscCover_uploaded" (click)="done()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-text">
+        <a (click)="this.downloadBSCCoverExcel()" id="uploadBscCover_Download_Excel">Download sample file</a>
+    </div>
+</div> -->
+
+
+<div>
+    <ul class="tabs-container">
+        <!-- <li [class.active]="activeTab == 'uploadLocationDetails'" class="tab-link" (click)="goToStep1()">
+            <h3 id="Step1_UploadDownload_Excel">Step 1</h3>
+        </li>
+        <li [class.active]="activeTab == 'uploadLocationOccupancy'" class="tab-link" (click)="goToStep2()">
+            <h3 id="Step2_UploadDownload_Excel">Step 2</h3>
+        </li> -->
+        <!-- <li [class.active]="activeTab == 'uploadBscCover'" class="tab-link">
+            <h3 id="Step3_UploadDownload_Excel">Step 3</h3>
+        </li> -->
+    </ul>
+</div>

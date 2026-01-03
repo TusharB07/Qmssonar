@@ -1,0 +1,239 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button id="ClientContactList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="ClientContactList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="ClientContactList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+
+                        <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2" icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                        <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url" [method]="this.uploadProps.method" (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)" [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()" [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload" [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload>
+
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="ClientContactList_FilterGlobal" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="ClientContactList_FileUpload" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="ClientContactList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="clientId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_ClientHeader">
+                                    Client
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_ClientColumnFilter" type="text" field="clientId" display="menu" placeholder="Search by Client"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_ClientSortIcon" field="clientId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="contactPerson">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_ContactPersonHeader">
+                                    Contact Person
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_ContactPersonColumnFilter" type="text" field="contactPerson" display="menu" placeholder="Search by Contact Person"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_ContactPersonSortIcon" field="contactPerson"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="designation">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_DesignationHeader">
+                                    Designation
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_DesignationColumnFilter" type="text" field="designation" display="menu" placeholder="Search by Designation"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_DesignationSortIcon" field="designation"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="phone">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_PhoneHeader">
+                                    Phone
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_PhoneColumnFilter" type="text" field="phone" display="menu" placeholder="Search by Phone"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_PhoneSortIcon" field="phone"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="mobile">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_MobileHeader">
+                                    Mobile
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_MobileColumnFilter" type="text" field="mobile" display="menu" placeholder="Search by Mobile"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_MobileSortIcon" field="mobile"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="email">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_EmailHeader">
+                                    Email
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_EmailColumnFilter" type="text" field="email" display="menu" placeholder="Search by Email"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_EmailSortIcon" field="email"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="address">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_AddressHeader">
+                                    Address
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_AddressColumnFilter" type="text" field="address" display="menu" placeholder="Search by Address"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_AddressSortIcon" field="address"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="cityId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_CityHeader">
+                                    City
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_CityColumnFilter" type="text" field="cityId" display="menu" placeholder="Search by City"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_CitySortIcon" field="cityId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_StateHeader">
+                                    State
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_StateColumnFilter" type="text" field="stateId" display="menu" placeholder="Search by State"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_StateSortIcon" field="stateId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="pincodeId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_PincodeHeader">
+                                    Pincode
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_PincodeColumnFilter" type="text" field="pincodeId" display="menu" placeholder="Search by Pincode"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_PincodeSortIcon" field="pincodeId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="visitingCard">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientContactList_VisitingCardHeader">
+                                    Visiting Card
+                                </span>
+                                <div>
+                                    <p-columnFilter id="ClientContactList_VisitingCardColumnFilter" type="text" field="visitingCard" display="menu" placeholder="Search by Visiting Card"></p-columnFilter>
+                                    <p-sortIcon id="ClientContactList_VisitingCardSortIcon" field="visitingCard"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item" id="ClientKYCList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span> {{item._id}}
+                        </td> -->
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Client">
+                            <a routerLink="/backend/admin/clients/{{item.clientId?._id}}">{{item.clientId?.name}}</a>
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_ContactPerson">
+                            {{item.contactPerson}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Designation">
+                            {{item.designation}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Phone">
+                            {{item.phone}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Mobile">
+                            {{item.mobile}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Email">
+                            {{item.email}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Address">
+                            {{item.address}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_City">
+                            <a routerLink="/backend/admin/cities/{{item.cityId?._id}}">{{item.cityId?.name}}</a>
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_State">
+                            <a routerLink="/backend/admin/states/{{item.stateId?._id}}">{{item.stateId?.name}}</a>
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_Pincode">
+                            <a routerLink="/backend/admin/pincodes/{{item.pincodeId?._id}}">{{item.pincodeId?.name}}</a>
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="ClientContactList_VisitingCard">
+                            {{item.visitingCard}}
+                        </td>
+                        <!-- <td style="width:50%; min-width:10rem;">
+                        </td> -->
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="ClientContactList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(item)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button id="ClientContactList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ClientContactList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="ClientContactList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ClientContactList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ClientContactList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ClientContactList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="ClientContactList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ClientContactList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ClientContactList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

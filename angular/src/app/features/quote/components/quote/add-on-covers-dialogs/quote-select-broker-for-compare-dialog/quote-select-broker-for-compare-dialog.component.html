@@ -1,0 +1,31 @@
+<div class="px-5">
+    <h2 class="mb-3" id="SelectBrokers_SelectBroker">Select Brokers</h2>
+
+    <div class="mb-5" style="min-height: 250px;">
+
+        <div class="field-checkbox" *ngFor="let quote of this.brokerWiseQuotes">
+            <label for="{{quote._id}}" class="py-3 flex align-items-center">
+                <p-checkbox class="mr-3" name="{{quote._id}}" id="SelectBrokers_BrokerWiseQuote_checkBox" value="{{quote._id}}" [(ngModel)]="selectedBrokers" inputId="{{quote._id}}"></p-checkbox>
+
+                <div class="">
+                    <h6 class="" id="SelectBrokers_OriginalIntermediateName">{{quote.originalIntermediateName}}</h6>
+                    <p id="SelectBrokers_QuoteNo"> {{quote.quoteNo}}</p>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <button class="btn btn-primary"  id="SelectBrokers_ApplyButton" [disabled]="this.selectedBrokers.length == 0" (click)="apply()">Apply</button>
+    </div>
+
+    <small>
+
+        <div class="mb-5">
+            <i class="pi pi-info-circle mr-2" id="SelectBrokers_Icon"></i>
+            <p class="inline-block" id="SelectBrokers_CompareAllBrokers">
+                By Selecting on brokers you'll be able to compare all selected brokers.
+            </p>
+        </div>
+    </small>
+</div>

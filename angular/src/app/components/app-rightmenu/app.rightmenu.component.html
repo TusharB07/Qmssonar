@@ -1,0 +1,50 @@
+<div class="layout-rightmenu" [ngClass]="{'layout-rightmenu-active': appMain.rightMenuActive}"  id="AppRIghtMenu" (click)="appMain.onRightMenuClick($event)">
+    <a href="#" (click)="appMain.rightMenuActive=false" class="layout-rightmenu-close" id="AppRIghtMenu_Close">
+        <i class="pi pi-times"></i>
+    </a>
+    <div class="user-detail-wrapper">
+        <div class="user-detail-content">
+            <img src="assets/layout/images/dashboard/gene.png" id="AppRIghtMenu_Image" alt="inexchg" class="user-image">
+            <span class="user-name" id="AppRIghtMenu_UserName">Gene Russell</span>
+            <span class="user-number" id="AppRIghtMenu_Number">(406) 555-0120</span>
+        </div>
+        <div class="user-tasks">
+            <div class="user-tasks-item in-progress">
+                <a class="task-number"  id="AppRIghtMenu_TaskNumber1">23</a>
+                <span class="task-name" id="AppRIghtMenu_TaskName1">Progress</span>
+            </div>
+            <div class="user-tasks-item">
+                <a id="AppRIghtMenu_TaskNumber2" class="task-number">6</a>
+                <span id="AppRIghtMenu_TaskName2" class="task-name">Overdue</span>
+            </div>
+            <div class="user-tasks-item">
+                <a id="AppRIghtMenu_TaskNumber3" class="task-number">38</a>
+                <span id="AppRIghtMenu_TaskName3" class="task-name">All deals</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p-calendar [(ngModel)]="date" [inline]="true"></p-calendar>
+    </div>
+    <div class="daily-plan-wrapper">
+        <span class="today-date" id="AppRIghtMenu_TodayDate">14 Sunday, Jun 2020</span>
+        <ul>
+            <li>
+                <span id="AppRIghtMenu_EventTime1" class="event-time">1:00 PM - 2:00 PM</span>
+                <span id="AppRIghtMenu_EventTopic1" class="event-topic">Meeting with Alfredo Rhiel Madsen</span>
+            </li>
+            <li>
+                <span id="AppRIghtMenu_EventTime2" class="event-time">2:00 PM - 3:00 PM</span>
+                <span id="AppRIghtMenu_EventTopic2" class="event-topic">Team Sync</span>
+            </li>
+            <li>
+                <span id="AppRIghtMenu_EventTime3" class="event-time">5:00 PM - 6:00 PM</span>
+                <span id="AppRIghtMenu_EventTopic3" class="event-topic">Team Sync</span>
+            </li>
+            <li>
+                <span id="AppRIghtMenu_EventTime4" class="event-time">7:00 PM - 7:30 PM</span>
+                <span id="AppRIghtMenu_EventTopic4" class="event-topic">Meeting with Engineering managers</span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div *ngIf="!isMobile">
+    <section class="main-container">
+        <div class="wrapper">
+            <!-- Old_Quote -->
+            <!-- <app-quote-requisition-sidebar *ngIf="this.quote"  [quote]="this.quote"></app-quote-requisition-sidebar> -->
+            <!-- New_Quote_Option -->
+            <app-quote-requisition-sidebar *ngIf="this.changeConditionBasedOnProduct()" [quoteOptionData]="this.quoteOptionData"
+                [quote]="this.quote"></app-quote-requisition-sidebar>
+
+            <!-- <app-quote-requisition-tabs></app-quote-requisition-tabs> -->
+            <!-- Old_Quote -->
+            <!-- <app-quote-requisition-tabs-holder *ngIf="this.quote" [quote]="this.quote" [ngStyle]="{width: '100%'}"></app-quote-requisition-tabs-holder> -->
+            <!-- New_Quote_Option -->
+            <app-quote-requisition-tabs-holder *ngIf="this.changeConditionBasedOnProduct()" [quoteOptionData]="this.quoteOptionData"
+                [quote]="this.quote" [ngStyle]="{width: '100%'}"></app-quote-requisition-tabs-holder>
+        </div>
+    </section>
+</div>
+<div *ngIf="isMobile">
+    <section class="main-container">
+        <div class="">
+            <div class="flex flex-wrap">
+                <div *ngIf="isSidebarVisible">
+                    <app-quote-requisition-sidebar *ngIf="this.quote"
+                        [quote]="this.quote"></app-quote-requisition-sidebar>
+                </div>
+                <div *ngIf="!isSidebarVisible">
+                    <app-quote-requisition-tabs-holder *ngIf="this.quote" [quote]="this.quote"
+                        [style.width]="isTabActive ? '100vw' : '90vw'"></app-quote-requisition-tabs-holder>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

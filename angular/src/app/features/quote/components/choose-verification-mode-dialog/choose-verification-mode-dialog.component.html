@@ -1,0 +1,47 @@
+
+<div *ngIf="this.kycFailed">
+    <div class="m-5">
+        <div class="px-5 py-5">
+            <div style="text-align: center; border: dashed; background-color: rgb(218, 218, 219);">
+                <h5 class="mt-2 mb-2"><strong>Upload Document for KYC Verification</strong></h5>
+                <div style=" align-items: center; font-size: small">
+                    <p-fileUpload mode="basic" accept={{accceptFileTypes}} [maxFileSize]="1000000" label="" chooseLabel="Upload"
+                        class="mt-2 mb-2 mr-2 inline-block" (onSelect)="this.onUpload($event)"></p-fileUpload>
+                    <br>
+                    <small class="mb-2">* PDF and Image Format is Allowed.</small>
+                </div>
+            </div>
+            <div class="mt-5" style="text-align: center;">
+                <button class="btn btn-primary mx-5" (click)="proceed()">Verify</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="" *ngIf="!this.kycFailed">
+    <div class="my-5">
+        <div class="my-5">
+            <h4>Choose Verification Mode : </h4>
+        </div>
+        <div class="flex my-5">
+            <div class="mr-3">
+                <p-radioButton [(ngModel)]="verificationMode" value="online" label="Online"
+                    id="ChooseVerification_Online"></p-radioButton>
+            </div>
+            <div class="mr-3">
+                <p-radioButton [(ngModel)]="verificationMode" value="offline" label="Offline"
+                    id="ChooseVerification_Offline"></p-radioButton>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5">
+        <button class="btn btn-primary" id="ChooseVerification_ProceedWithOffline"
+            *ngIf="this.verificationMode == 'online'" (click)="proceedWithOnlineVerification()">Proceed with Online
+            verification</button>
+        <button class="btn btn-primary" id="ChooseVerification_ProceedWithOffline"
+            *ngIf="this.verificationMode == 'offline'" (click)="proceedWithOfflineVerification()">Proceed with Offline
+            verification</button>
+    </div>
+</div>

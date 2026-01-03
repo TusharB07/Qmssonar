@@ -1,0 +1,19 @@
+<div class="">
+
+    <!-- <div class="layout-topbar mb-3 p-3" *ngIf="this.quote?.quoteState == 'Pending Payment'" id="QuoteSlipDialog">
+        <button class="btn btn-success" (click)="this.proceedToPayment()" id="QuoteSlipDialog_ProceedToPayment">Proceed to Payment</button>
+    </div> -->
+    <!-- <div *ngIf="this.pendingStatus">
+        <div style="display: flex;" class="p-5">
+
+            <app-quote-slip-template-one *ngIf="this.quote" [quote]="this.quote" ></app-quote-slip-template-one>
+            <app-offline-payment-details-card></app-offline-payment-details-card>
+        </div>
+    </div> -->
+    <!-- <div *ngIf="this.paymentPandingStatus"> -->
+    <div class="p-5">
+        <app-quote-slip-template-one id="QuoteSlipDialog_QuoteSlipTemplateOne" *ngIf="this.quote" [quote]="this.quote"
+            [quoteOption]="this.quoteOption"></app-quote-slip-template-one>
+    </div>
+    <!-- </div> -->
+</div>

@@ -1,0 +1,63 @@
+<div class="grid">
+    <div class="col-6 my-2">
+        <div class="panel-heading mb-3"><strong>Select Addons</strong></div>
+        <ul class="list-group p-3" style="border: 1px solid #303f9f; border-radius: 23px;min-height: 300px;"
+            id="SectorPaidAddons_AddOnsCovers">
+            <li draggable *ngFor="let item of addOnCovers" [dragData]="item" class="list-group-item my-2">
+                {{item?.name}}</li>
+        </ul>
+    </div>
+
+    <div class="col-6 my-2">
+        <div class="panel-heading mb-3"><strong>Drop Items here</strong></div>
+        <div class="panel panel-default p-3" droppable (onDrop)="onItemDrop($event)"
+            style="border: 1px dotted #303f9f; border-radius: 23px;min-height: 300px;">
+            <div class="panel-body">
+                <li *ngFor="let item of droppedItems" class="list-group-item my-2"
+                    id="SectorPaidAddons_AddOnsCovers_ListItem">
+                    <div class="flex justify-content-between align-items-center">
+                        <div>
+                            <div class="inline-block mr-4" id="SectorPaidAddons_AddOnsCovers_Name">
+                                {{item.addOnCoverId.name}}
+                            </div>
+                            <div class="inline-block mr-4">
+
+                                <p-inputNumber class="mr-6" [(ngModel)]="item.sumInsured"
+                                    id="SectorPaidAddons_AddOnsCovers_SumInssured" mode="decimal" locale="en-IN"
+                                    prefix="₹ " [minFractionDigits]="0" placeholder="0" maxlength="21"
+                                    [disabled]="!(this.permissions.includes('update') && !item?.inBuilt)"
+                                    (focusout)="calculateSumInsured(item)">
+                                </p-inputNumber>
+
+                            </div>
+                            <!-- <div class="inline-block mr-4" id="SectorPaidAddons_CalculatedIndicativePremium">
+                                <span>
+                                    <app-currency [value]=" item?.calculatedIndicativePremium ?? 0"></app-currency>
+                                </span>
+                            </div> -->
+
+                        </div>
+                        <!-- {{item | json}} -->
+                        <span class="btn btn-danger mr-2 w-3rem" (click)="removeDroppedItems(item)"
+                            *ngIf="this.permissions.includes('update') && !item?.inBuilt">
+                            <i class="pi pi-minus-circle" style="background-color: red; font-weight: bolder;"
+                                aria-hidden="true"></i>
+                        </span>
+                        <span class="mr-2 w-3rem" *ngIf="!(this.permissions.includes('update') && !item?.inBuilt)">
+                        </span>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-end">
+                <div class="flex align-items-center" *ngIf="this.permissions.includes('update')">
+                    <button type="button" class="btn btn-success" id="SectorPaidAddons_CloseModel"
+                        (click)="closeModal()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

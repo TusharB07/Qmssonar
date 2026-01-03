@@ -1,0 +1,28 @@
+{
+    "data": [
+      {
+        "name": "Type of Plate Glass",
+        "nd": "Plain Plate Glass",
+        "ch": "Stained Glass",
+        "mu": "Plain Plate Glass",
+        "am": "Stained Glass",
+        "hy": "Stained Glass"
+      },
+      {
+        "name": "Description",
+        "nd": "Table",
+        "ch": "Chair",
+        "mu": "Dining Table",
+        "am": "Centre Table",
+        "hy": "Building Facade"
+      },
+      {
+        "name": "Sum Insured",
+        "nd": "Rs. 250,000",
+        "ch": "Rs. 10,000,000",
+        "mu": "Rs. 10,000,000",
+        "am": "Rs. 10,000,000",
+        "hy": "Rs. 10,000,000"
+      }
+    ]
+  }

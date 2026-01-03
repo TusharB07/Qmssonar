@@ -1,0 +1,318 @@
+<div class="container">
+    <p-toast></p-toast>
+    <div class="grid">
+        <div class="col-5">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h4 id="Warranty_Card">Warranties</h4>
+                    </div>
+                </ng-template>
+                <div class="input-container" *ngFor="let input of warrantiesInputs; let i = index">
+                    <input pInputText type="text" class="p-inputtext1" (blur)="getInputWarrantiesValue($event,input)"
+                        [value]="input.warranty">
+                    <button pRipple type="button" class="p-button-rounded btn btn-outline-success ml-2" (click)="addInputWarranties()"><i
+                            class="pi pi-plus"></i></button>
+                    <div *ngIf="this.warrantiesInputs.length > 1">
+                        <button pRipple type="button" class="p-button-rounded btn btn-outline-danger ml-2"
+                            (click)="removeInputWarranties(i)"><i class="pi pi-minus"></i></button>
+                    </div>        
+                </div>
+                <ul>
+                    <li class="mb-1" *ngFor="let warrenty of warrenties">
+                        <div class="grid" *ngIf="warrenty?.warranty_dict?.name != 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" id="Warranty_Card_CheckBox" name="warrenties"
+                                    value="{{warrenty?.warranty_dict?._id}}" [(ngModel)]="selectedWarrenties"
+                                    inputId="{{warrenty._id}}"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4" id="Warranty_Card_Names">
+                                    {{warrenty?.warranty_dict?.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                    <li *ngFor="let warrenty of warrenties">
+                        <div class="grid" *ngIf="warrenty?.warranty_dict?.name == 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" id="OtherWarrent_CheckBox" name="other_warrenty"
+                                    value="{{warrenty?.warranty_dict?._id}}" [(ngModel)]="otherSelectedWarrenties"
+                                    inputId="other_warrenty" (onChange)="otherWarrenty($event)"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4" id="OtherWarrent_Name">
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div *ngIf="showWarrentyInput || newWarrenty != null" class="ml-6">
+                    <input maxlength="50" style="width: 310px; max-width: 80%;" type="text" pInputText
+                        [(ngModel)]="newWarrenty" />
+                </div>
+                <div style="text-align : right">
+                    <button class="btn btn-success mr-3 mt-3" id="WarrantyCard_SaveWarrenty"
+                        (click)="saveWarrenty()" [disabled]="quote.quoteState == 'Rejected'">Save</button>
+                    <!-- <a class="inline-block mr-3" (click)="saveDialoge('warrenties')"
+                        style="text-decoration: underline; font-weight: bolder;">Add more</a> -->
+                    <!-- <button class="btn btn-primary mr-3 mt-3" id="WarrantyCard_ShowWarrenty"
+                        (click)="showWarrentieDialog(0)">View All</button> -->
+                </div>
+            </p-card>
+        </div>
+        <div class="col-5">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h4 id="Exclusions_Card">Exclusions</h4>
+                    </div>
+                </ng-template>
+                <div class="input-container" *ngFor="let input of exclusionsInputs; let i = index">
+                    <input pInputText type="text" class="p-inputtext1" (blur)="getInputExclusionsValue($event,input)"
+                        [value]="input.exclusion">
+                    <button pRipple type="button" class="p-button-rounded btn btn-outline-success ml-2" (click)="addInputExclusions()"><i
+                            class="pi pi-plus"></i></button>
+                    <div *ngIf="this.exclusionsInputs.length > 1">
+                        <button pRipple type="button" class="p-button-rounded btn btn-outline-danger ml-2"
+                            (click)="removeInputExclusions(i)"><i class="pi pi-minus"></i></button>
+                    </div>
+                </div>
+                <ul>
+                    <li class="mb-1" *ngFor="let exclusion of exclusions">
+                        <div class="grid" *ngIf="exclusion?.exclusion_dict?.name != 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" id="Exclusions_Card_CheckBox" name="exclusions"
+                                    value="{{exclusion?.exclusion_dict?._id}}" [(ngModel)]="selectedExclusions"
+                                    inputId="{{exclusion._id}}"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4">
+                                    {{exclusion?.exclusion_dict?.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                    <li *ngFor="let exclusion of exclusions">
+                        <div class="grid" *ngIf="exclusion?.exclusion_dict?.name == 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" id="OtherExcusion_CheckBox" name="other_exclusion"
+                                    value="{{exclusion?.exclusion_dict?._id}}" [(ngModel)]="otherSelectedExclusion"
+                                    inputId="other_exclusion" (onChange)="otherExcusion($event)"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4" id="OtherExcusion_Name">
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div *ngIf="showExclusionInput  || newExclusion != null" class="ml-6">
+                    <input maxlength="50" style="width: 310px; max-width: 80%;" type="text" pInputText
+                        [(ngModel)]="newExclusion" />
+                </div>
+                <div style="text-align : right">
+                    <button class="btn btn-success mr-3 mt-3" id="Exclusion_SaveWarrenty"
+                        (click)="saveExclusion()" [disabled]="quote.quoteState == 'Rejected'">Save</button>
+                    <!-- <a class="inline-block mr-3" (click)="saveDialoge('exclusion')"
+                        style="text-decoration: underline; font-weight: bolder;">Add more</a> -->
+                    <!-- <button class="btn btn-primary mr-3 mt-3" id="Exclusion_ShowWarrenty"
+                        (click)="showExclusionsDialog(0)">View All</button> -->
+                </div>
+            </p-card>
+        </div>
+        <div class="col-5">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h4 id="Subjectivities_Header">Subjectivities</h4>
+                    </div>
+                </ng-template>
+                <div class="input-container" *ngFor="let input of subjectivitiesInputs; let i = index">
+                    <input pInputText type="text" class="p-inputtext1" (blur)="getInputSubjectivitiesValue($event,input)"
+                        [value]="input.subjectivity">
+                    <button pRipple type="button" class="p-button-rounded btn btn-outline-success ml-2"
+                        (click)="addInputSubjectivities()"><i class="pi pi-plus"></i></button>
+                    <div *ngIf="this.subjectivitiesInputs.length > 1">
+                        <button pRipple type="button" class="p-button-rounded btn btn-outline-danger ml-2"
+                            (click)="removeInputSubjectivities(i)"><i class="pi pi-minus"></i></button>
+                    </div>
+                </div>
+                <ul>
+                    <li class="mb-1" *ngFor="let subjectivity of subjectivities">
+                        <div class="grid" *ngIf="subjectivity?.subjectivity_dict?.name != 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" name="subjectivities" id="Subjectivities_Name"
+                                    value="{{subjectivity?.subjectivity_dict?._id}}"
+                                    [(ngModel)]="selectedSubjectivities" inputId="{{subjectivity._id}}"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4" id="Subjectivity_Name">{{subjectivity?.subjectivity_dict?.name}}</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li *ngFor="let subjectivity of subjectivities">
+                        <div class="grid" *ngIf="subjectivity?.subjectivity_dict?.name == 'Other'">
+                            <div class="col-1 pt-3">
+                                <p-checkbox class="mr-2" name="other_subjectivity"
+                                    value="{{subjectivity?.subjectivity_dict?._id}}"
+                                    [(ngModel)]="otherSelectedSubjectivity" inputId="other_subjectivity"
+                                    id="Subjectivity_OtherSubjectivity"
+                                    (onChange)="otherSubjectivity($event)"></p-checkbox>
+                            </div>
+                            <div class="col-11 flex align-items-center">
+                                <label for="4">
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div *ngIf="showSubjectivityInput || newSubjectivity != null" class="ml-6">
+                    <input maxlength="50" style="width: 310px; max-width: 80%;" type="text" pInputText
+                        [(ngModel)]="newSubjectivity" id="Subjectivity_Input" />
+                </div>
+                <div style="text-align : right">
+                    <button class="btn btn-success mr-3 mt-3" id="Subjectivity_SaveSubjectivity"
+                        (click)="saveSubjectivity()" [disabled]="quote.quoteState == 'Rejected'">Save</button>
+                    <!--  <a class="inline-block mr-3" (click)="saveDialoge('subjectivity')"
+                        style="text-decoration: underline; font-weight: bolder;">Add more</a> -->
+                    <!-- <a class="inline-block" id="SubjectivitiesDialog_ShowSubjectivitiesDialog"
+                        (click)="showSubjectivitiesDialog(0)"
+                        style="text-decoration: underline; font-weight: bolder;">View All</a> -->
+                    <!-- <button class="btn btn-primary mr-3 mt-3" id="SubjectivitiesDialog_ShowSubjectivitiesDialog"
+                        (click)="showSubjectivitiesDialog(0)">View All</button> -->
+                </div>
+            </p-card>
+        </div>
+        <p-dialog [(visible)]="displayWarrenyDialog" [style]="{width: '30vw','background':'#fff'}">
+            <div class="card">
+                <p-dataView #wr [value]="warrenties" [paginator]="true" [rows]="10" filterBy="warranty_dict.name"
+                    layout="list">
+                    <ng-template pTemplate="header">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <!-- <i class="pi pi-search"></i> -->
+                                <input type="search" pInputText placeholder="Search by Name" id="Warrenty_TaretValue"
+                                    (input)="wr.filter($event.target.value)">
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-warrenty pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="grid" *ngIf="warrenty?.warranty_dict?.name != 'Other'">
+                                <div class="col-1 pt-3">
+                                    <p-checkbox name="warrenties" value="{{warrenty?.warranty_dict?._id}}"
+                                        id="Warrenty_CheckBox" [(ngModel)]="selectedWarrenties"
+                                        inputId="{{warrenty._id}}"></p-checkbox>
+                                </div>
+                                <div class="col-11 flex align-items-center">
+                                    <label for="4" id="Warrenty_Name">
+                                        {{warrenty?.warranty_dict?.name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </p-dialog>
+        <p-dialog [(visible)]="displayExclusionsDialog" [style]="{width: '30vw','background':'#fff'}">
+            <div class="card">
+                <p-dataView #ex [value]="exclusions" [paginator]="true" [rows]="10" filterBy="exclusion_dict.name"
+                    layout="list">
+                    <ng-template pTemplate="header">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <!-- <i class="pi pi-search"></i> -->
+                                <input type="search" pInputText placeholder="Search by Name" id="Exclusion_TargetValue"
+                                    (input)="ex.filter($event.target.value)">
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-exclusion pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="grid" *ngIf="exclusion?.exclusion_dict?.name != 'Other'">
+                                <div class="col-1 pt-3">
+                                    <p-checkbox name="exclusions" value="{{exclusion?.exclusion_dict?._id}}"
+                                        [(ngModel)]="selectedExclusions" id="Exclusion_CheckBox"
+                                        inputId="{{exclusion._id}}"></p-checkbox>
+                                </div>
+                                <div class="col-11 flex align-items-center">
+                                    <label for="4" id="Exclusion_Name">
+                                        {{exclusion?.exclusion_dict?.name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </p-dialog>
+        <p-dialog [(visible)]="displaySubjectivitiesDialog" [style]="{width: '30vw','background':'#fff'}">
+            <div class="card">
+                <p-dataView #sb [value]="subjectivities" [paginator]="true" [rows]="10"
+                    filterBy="subjectivity_dict.name" layout="list">
+                    <ng-template pTemplate="header">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <!-- <i class="pi pi-search"></i> -->
+                                <input type="search" pInputText placeholder="Search by Name"
+                                    id="Subjectivity_TargetValue" (input)="sb.filter($event.target.value)">
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-subjectivity pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="grid" *ngIf="subjectivity?.subjectivity_dict?.name != 'Other'">
+                                <div class="col-1 pt-3">
+                                    <p-checkbox name="subjectivities" id="Subjectivity_CheckBox"
+                                        value="{{subjectivity?.subjectivity_dict?._id}}"
+                                        [(ngModel)]="selectedSubjectivities"
+                                        inputId="{{subjectivity._id}}"></p-checkbox>
+                                </div>
+                                <div class="col-11 flex align-items-center">
+                                    <label for="4"
+                                        id="Subjectivity_Name">{{subjectivity?.subjectivity_dict?.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </p-dialog>
+        <p-dialog [(visible)]="saveDialogeFlag" [style]="{width: '20vw','background':'#fff'}">
+            <h4 class="text-center mb-2" id="Warrenty_AddWarranty" *ngIf="saveType == 'warrenties'">Add Warranty</h4>
+            <h4 class="text-center mb-2" id="Subjectivity_AddSubjectivity" *ngIf="saveType == 'subjectivity'">Add
+                Subjectivity</h4>
+            <h4 class="text-center mb-2" id="Exclusion_AddExclusion" *ngIf="saveType == 'exclusion'">Add Exclusion</h4>
+            <div>
+                <input type="text" pInputText [(ngModel)]="newWarrenty">
+            </div>
+            <div class="my-3">
+                <button *ngIf="saveType == 'subjectivity'" id="Subjectivity_AddSubjectivity" type="button"
+                    class="btn btn-secondary" (click)="addSubjectivity()">Save</button>
+                <button *ngIf="saveType == 'exclusion'" id="Exclusion_AddExclusion" type="button"
+                    class="btn btn-secondary" (click)="addExclusion()">Save</button>
+                <button *ngIf="saveType == 'warrenties'" id="Warrenty_AddWarrenty" type="button"
+                    class="btn btn-secondary" (click)="addWarrenty()">Save</button>
+            </div>
+        </p-dialog>
+        <div class="col-5">
+            <div *ngIf="quote?.productId?.shortName === 'CAR' || quote?.productId?.shortName === 'EAR'">
+            <!-- <p-card [style]="{'height': '160px'}">
+                    <div class="py-3 px-3">
+                        <h4 id="Warranty_Card">Project Details</h4>
+                    </div>
+                    <div class="input-container">
+                        <p-splitButton id="projectDetailsAddBtn"
+                            styleClass="p-button-outlined mb-2" label="View Project Details" (onClick)="projectDetails()">
+                        </p-splitButton>
+                    </div>
+                </p-card> -->
+            </div>
+        </div>
+    </div>
+</div>

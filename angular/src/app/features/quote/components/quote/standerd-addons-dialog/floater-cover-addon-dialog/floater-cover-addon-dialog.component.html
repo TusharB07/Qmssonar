@@ -1,0 +1,79 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="this.coverForm" (ngSubmit)="submitted = true;this.submitForm()" id="FloaterCoverCardDialog_Form">
+        <div formArrayName="formArray">
+
+            <!-- <p-table [value]="this.records" class="tblz01"> -->
+            <p-table class="tblz01" [value]="this.formArray?.controls">
+                <ng-template pTemplate="header">
+                    <tr >
+                        <th id="FloaterCoverCardDialog" class="text-left"></th>
+                        <th id="FloaterCoverCardDialog_Location" class="text-left">Location</th>
+                        <th id="FloaterCoverCardDialog_StocksStored" class="text-left">Stocks stored in open</th>
+                        <th id="FloaterCoverCardDialog_StockValue" class="text-right">Stock Value</th>
+                        <th id="FloaterCoverCardDialog_SumInsured" class="text-right">Sum Insured</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-control let-i="rowIndex">
+                    <tr [formGroupName]="i">
+                        <td>
+                            <p-checkbox formControlName="selected" id="FloaterCoverCardDialog_CheckBox" [binary]="true" *ngIf="this.permissions.includes('update')"></p-checkbox>
+                            <p-checkbox formControlName="selected" id="FloaterCoverCardDialog_CheckBox" [binary]="true" *ngIf="!this.permissions.includes('update')" disabled="true"></p-checkbox>
+                        </td>
+                        <td id="FloaterCoverCardDialog_LocationName" class="text-left" *ngIf="this.permissions.includes('update')" >{{control.value['locationName']}}</td>
+                        <td id="FloaterCoverCardDialog_LocationName" class="text-left" *ngIf="!this.permissions.includes('update')" disabled="true">{{control.value['locationName']}}</td>
+                        <td class="text-left w-3">
+                            <!-- <p-toggleButton formControlName="stockStoredInOpen" offLabel="No" onLabel="Yes"></p-toggleButton> -->
+                            <!-- <p-toggleButton offLabel="No" onLabel="Yes"></p-toggleButton> -->
+                            <!-- <p-selectButton formControlName="stockStoredInOpen" [options]="['Yes','No']"></p-selectButton> -->
+                            <p-dropdown id="FloaterCoverCardDialog_WhetherStockStoredInOpen" formControlName="whetherStockStoredInOpen" *ngIf="this.permissions.includes('update')"[options]="['Yes','No']"></p-dropdown>
+                            <p-dropdown id="FloaterCoverCardDialog_WhetherStockStoredInOpen" formControlName="whetherStockStoredInOpen"  *ngIf="!this.permissions.includes('update')" disabled="{{true}}"[options]="['Yes','No']"></p-dropdown>
+                        </td>
+                        <td class="text-right" id="FloaterCoverCardDialog_StockValue"><span><app-currency [value]="control.value['stockValue'] ? control.value['stockValue'] : 0">  </app-currency></span></td>
+                         <!--<td class="text-left" id="FloaterCoverCardDialog_SumInsured">{{control.value['sumInsured'] ? control.value['sumInsured']?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) : 'N/A'}}</td> -->
+                        <!-- <td class="text-right" id="FloaterCoverCardDialog_StockValue"><span><app-currency [value]="control.value['stockValue'] ? control.value['stockValue'] : 0">  </app-currency></span></td> -->
+                        <td class="text-right" id="FloaterCoverCardDialog_SumInsured"><span><app-currency [value]="control.value['stockValue'] ? control.value['stockValue'] : 0">  </app-currency></span></td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </form>
+    <!-- <div class="col-12" style="padding-top: 30px;"> -->
+   <div class="text-center mt-4">
+       <div class="flex justify-content-center">
+        <button class="btn btn-success mr-4"  id="FloaterCoverCardDialog_Submit" type="submit" (click)="submit()" *ngIf="this.permissions.includes('update') && quote?.quoteState != 'Rejected'">Save</button>
+        <button class="btn btn-outline-light mr-4" id="FloaterCoverCardDialog_Cancel"  type="button" (click)="cancel()">Close</button>
+
+
+
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()"  ><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" name="floater_cover_addon"  (onUpload)="this.fileUploaded($event)" *ngIf="this.permissions.includes('update')" mode="basic" url="{{this.uploadUrl}}"  maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="patch"></p-fileUpload> -->
+
+            <!-- comented -->
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="!this.permissions.includes('update')" [disabled]="true"><i class="pi pi-download"  ></i> Download Sample File</button> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" name="floater_cover_addon"  (onUpload)="this.fileUploaded($event)" *ngIf="!this.permissions.includes('update')" [disabled]="true" mode="basic" url="{{this.uploadUrl}}"  maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="patch"></p-fileUpload> -->
+
+            <button class="btn btn-outline-primary mr-3" id="FloaterCoverCardDialog_DownloadSampleFile" (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps && this.permissions.includes('update')">
+
+                <p-fileUpload
+                [name]="this.bulkImportProps.name"
+                [mode]="this.bulkImportProps.mode"
+                [url]="this.bulkImportProps.url"
+                [method]="this.bulkImportProps.method"
+                (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                [headers]="this.bulkImportProps.headers"
+                [showCancelButton]="true"
+                [auto]="this.bulkImportProps.auto"
+                [uploadLabel]="this.bulkImportProps.uploadLabel"
+                [chooseLabel]="this.bulkImportProps.chooseLabel"
+                styleClass="btn btn-primary"
+                id="FloaterCoverCardDialog_UploadExcel"
+
+
+                ></p-fileUpload>
+
+            </div>
+        </div>
+    <!-- </div> -->
+</div>

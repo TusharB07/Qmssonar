@@ -1,0 +1,48 @@
+.button-container {
+    align-items: center; 
+  }
+  .view-link {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+
+
+  .grid {
+    display: flex;
+    margin-left: 16px; /* Adjusting the margin-left */
+    margin-right: 16px; /* Adding right margin for consistency */
+  }
+  .col-8, .col-10, .col-2 {
+    padding: 8px;
+  }
+  .col-2 {
+    flex: 0 0 16.6667%;
+  }
+  .col-8 {
+    flex: 0 0 66.6667%;
+  }
+  .col-10 {
+    flex: 0 0 83.3333%;
+  }
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 1rem;
+  }

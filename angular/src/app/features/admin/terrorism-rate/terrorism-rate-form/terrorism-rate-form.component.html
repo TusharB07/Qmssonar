@@ -1,0 +1,147 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="TerrorismRateFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="TerrorismRateForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="TerrorismRateForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="TerrorismRateForm_GeneralInformationHeader">General Information</h5>
+
+                    <!-- <div class="field" *ngIf="this.role?.name == AllowedRoles.ADMIN"> -->
+                    <div class="field" >
+                        <label id="TerrorismRateForm_PartnerLabel" for="name">Partner</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="UserForm_Partner" [dropdown]="true" optionValue="value" field="label" formControlName="partnerId" [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        <small id="UserForm_Partner_ValidationError" *ngIf="this.recordForm.controls['partnerId']?.errors?.required" class="ng-invalid">This field Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label  id="TerrorismRateForm_ProductLabel" for="productId">Product</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="TerrorismRateForm_Product" [dropdown]="true"
+                            [suggestions]="this.optionsProducts" field="label" formControlName="productId"
+                            (completeMethod)="this.searchOptionsProducts($event)" (onSelect)="this.hideRate($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <!-- <div class="field">
+                        <label id="TerrorismRateForm_IndustryTypeLabel" for="industryTypeId">IndustryType</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="TerrorismRateForm_IndustryType" [dropdown]="true"
+                            [suggestions]="this.optionsIndustryType" field="label" formControlName="industryTypeId"
+                            (completeMethod)="this.searchOptionsIndustryType($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['industryTypeId'].valid}"></p-autoComplete>
+                    </div> -->
+                    <div class="field">
+                        <label for="sectorId">Sector</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsSectors"
+                            field="label" formControlName="sectorId" (completeMethod)="this.searchOptionsSector($event)" 
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['sectorId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <div class="field">
+                        <label id="TerrorismRateForm_occupancyLabel" for="occupancyId">Occupancy</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" id="TerrorismRateForm_IndustryType" [dropdown]="true"
+                            [suggestions]="this.optionOccupancy" field="label" formControlName="occupancyId"
+                            (completeMethod)="this.searchOptionsOccupancy($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['industryTypeId'].valid}"></p-autoComplete>
+                    </div>
+
+                    <div class="field">
+                        <label id="TerrorismRateForm_FromSITypeLabel" for="fromSI">From SI</label>
+                        <input id="TerrorismRateForm_FromSIType" class="form-control" type="text" pInputText id="fromSI" formControlName="fromSI" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" />
+                        <small id="TerrorismRateForm_FromSIType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['fromSI']">From SI is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="TerrorismRateForm_ToSITypeLabel" for="toSI">To SI</label>
+                        <input id="TerrorismRateForm_ToSIType" class="form-control" type="text" pInputText id="toSI" formControlName="toSI" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['toSI']}" />
+                        <small id="TerrorismRateForm_ToSIType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['toSI']">To SI is
+                            required.</small>
+                    </div>
+                    <div class="field" *ngIf="isHide">
+                        <label id="TerrorismRateForm_RatePerMileLabel" for="ratePerMile">Rate Per Mile</label>
+                        <input [disabled]="this.mode == 'edit'" id="TerrorismRateForm_RatePerMile" class="form-control" type="text" pInputText id="ratePerMile" formControlName="ratePerMile" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['ratePerMile']}" />
+                        <small id="TerrorismRateForm_RatePerMile_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['ratePerMile']">Rate
+                            Per Mile is
+                            required.</small>
+                    </div>
+                    <!--This is for only for Griha Lite Start-->
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_bulidingRateLabel" for="bulidingRatePerMile">Building Rate Per Mile</label>
+                        <input id="EarthQuakeRateForm_bulidingRateLabel" class="form-control" type="text" pInputText id="bulidingRatePerMile"
+                            formControlName="bulidingRatePerMile" autofocus/>
+                            <div *ngIf="!bulidingRatePerMile?.valid && (bulidingRatePerMile?.dirty ||bulidingRatePerMile?.touched || submitted)">
+                                <div [hidden]="!bulidingRatePerMile.errors.required">
+                                  <small class="ng-dirty ng-invalid">Building Rate Per Mile is required</small>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="field" *ngIf="isHideBulidingandContent">
+                        <label id="EarthQuakeRateForm_contentRateLabel" for="contentRatePerMile">Content Rate Per Mile</label>
+                        <input id="EarthQuakeRateForm_contentRate" class="form-control" type="text" pInputText id="contentRatePerMile"
+                            formControlName="contentRatePerMile" required autofocus />
+                            <div *ngIf="!contentRatePerMile?.valid && (contentRatePerMile?.dirty ||contentRatePerMile?.touched || submitted)">
+                                <div [hidden]="!contentRatePerMile.errors.required">
+                                  <small class="ng-dirty ng-invalid">Content Rate Per Mile is required</small>
+                                </div>
+                            </div>
+                    </div>
+                    <!--This is for only for Griha Lite End-->
+                    <div class="field">
+                        <label id="TerrorismRateForm_AddValueLabel" for="addValue">Add Value</label>
+                        <input [disabled]="this.mode == 'edit'" id="TerrorismRateForm_AddValue" class="form-control" type="text" pInputText id="addValue" formControlName="addValue" />
+                    </div>
+                    <div class="field">
+                        <label id="TerrorismRateForm_RemarkLabel" for="remark">Remark</label>
+                        <input  id="TerrorismRateForm_Remark" [disabled]="this.mode == 'edit'" class="form-control" type="text" pInputText id="remark" formControlName="remark" />
+                    </div>
+
+                    <div class="field">
+                        <label id="TerrorismRateForm_ApplicableFromLabel" for="applicableFrom">Applicable From</label>
+                        <!-- <input class="form-control" type="text" pInputText id="effectiveFrom" formControlName="effectiveFrom" /> -->
+                        <p-calendar [disabled]="this.mode == 'edit'" id="TerrorismRateForm_ApplicableFrom" class="form-control" type="date" [showIcon]="true" id="applicableFrom" formControlName="applicableFrom" dateFormat="yy-mm-dd"></p-calendar>
+
+                    </div>
+                    <div class="field">
+                        <label id="TerrorismRateForm_ApplicableToLabel" for="applicableTo">Applicable To</label>
+                        <!-- <input class="form-control" type="text" pInputText id="effectiveTo" formControlName="effectiveTo" /> -->
+                        <p-calendar [minDate]="minSelectableDate" id="TerrorismRateForm_ApplicableTo" class="form-control" type="date" [showIcon]="true" id="applicableTo" formControlName="applicableTo" dateFormat="yy-mm-dd"></p-calendar>
+                    </div>
+
+                    <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value">
+                        <label for="taskStatus" id="TerrorismRateForm_taskStatusLabel">Task Status</label>
+                        <input id="TerrorismRateForm_taskStatus" class="form-control" type="text" pInputText id="taskStatus"
+                        formControlName="taskStatus" />
+                    </div>
+
+                    <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value == 'failed'">
+                        <label for="failedMessage" id="TerrorismRateForm_failedMessageLabel">Failed Reasson</label>
+                        <input id="TerrorismRateForm_failedMessage" class="form-control" type="text" pInputText id="failedMessage"
+                        formControlName="failedMessage" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail id="TerrorismRateForm_AuditTrail" [entityId]="this.id" [entityResourcePrefix]="'terrorism-rate-masters'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

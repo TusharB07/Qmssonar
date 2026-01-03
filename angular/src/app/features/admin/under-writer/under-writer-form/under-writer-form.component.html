@@ -1,0 +1,186 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="UnderWriterFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="UnderWriterForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="UnderWriterForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="grid">
+
+                    <div class="col-6">
+                        <div class="card p-fluid">
+                            <h5 id="UnderWriterForm_GeneralInformationHeader">General Information</h5>
+
+                            <div class="field" *ngIf="!(this.recordForm.controls['occupancyId'].value)">
+                                <!-- <div class="field"> -->
+                                <label id="UnderWriterForm_SectorLabel" for="sectorId">Sector</label>
+                                <p-autoComplete id="UnderWriterForm_Sector" [showClear]="true" [dropdown]="true"
+                                    field="label" formControlName="sectorId" [suggestions]="this.optionsSectors"
+                                    (completeMethod)="this.searchOptionsSectors($event)">
+                                </p-autoComplete>
+                                <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sectorId']">Sector is
+                                    required.</small> -->
+                            </div>
+                            <div class="field" *ngIf="!(this.recordForm.controls['sectorId'].value)">
+                                <label id="UnderWriterForm_OccupancyLabel" for="OccupancyId">Occupancy</label>
+                                <p-autoComplete id="UnderWriterForm_Occupancy" [dropdown]="true" field="label"
+                                    formControlName="occupancyId" [suggestions]="this.optionsOccupancies"
+                                    (completeMethod)="this.searchOptionsOccupancies($event)" [showClear]="true">
+                                </p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_ZoneLabel" for="zone">Zone</label>
+                                <p-dropdown class="form-control" [options]="this.optionZones"
+                                optionLabel="label" optionValue="value" [autoDisplayFirst]="false"
+                                [showClear]="true" formControlName="zone"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['zone'].valid}"></p-dropdown>
+                                <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['zone']">Zone is
+                                    required.</small> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_ProductLabel" for="productId">Product</label>
+                                <p-autoComplete id="UnderWriterForm_Product" [dropdown]="true" field="label"
+                                    formControlName="productId" [suggestions]="this.optionsProducts"
+                                    (completeMethod)="this.searchOptionsProducts($event)"
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}">
+                                </p-autoComplete>
+                                <small id="UnderWriterForm_Product_ValidationError" class="ng-dirty ng-invalid"
+                                    *ngIf="submitted && !recordForm.value['productId']">Product
+                                    is required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_FromSILabel" for="fromSI">From SI</label>
+                                <input id="UnderWriterForm_FromSI" class="form-control" type="text" pInputText
+                                    id="fromSI" formControlName="fromSI" required autofocus
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" />
+                                <small id="UnderWriterForm_FromSI_ValidationError" class="ng-dirty ng-invalid"
+                                    *ngIf="submitted && !recordForm.value['fromSI']">From SI is
+                                    required.</small>
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_ToSILabel" for="toSI">To SI</label>
+                                <input id="UnderWriterForm_ToSI" class="form-control" type="text" pInputText id="toSI"
+                                    formControlName="toSI" required autofocus
+                                    [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['toSI']}" />
+                                <small id="UnderWriterForm_ToSI_ValidationError" class="ng-dirty ng-invalid"
+                                    *ngIf="submitted && !recordForm.value['toSI']">To SI is
+                                    required.</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+
+                        <div class="card p-fluid">
+                            <h5>Underwriter Mapping</h5>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter1Label" for="underWriter1">Under Writer 1</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter1" class="form-control"
+                                    formControlName="underWriter1" onLabel="{{ 'Under Writer 1 Role active' }}"
+                                    offLabel="{{ 'Under Writer 1 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter1" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter2Label" for="underWriter2">Under Writer 2</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter2" class="form-control"
+                                    formControlName="underWriter2" onLabel="{{ 'Under Writer 2 Role active' }}"
+                                    offLabel="{{ 'Under Writer 2 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter2" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter3Label" for="underWriter3">Under Writer 3</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter3" class="form-control"
+                                    formControlName="underWriter3" onLabel="{{ 'Under Writer 3 Role active' }}"
+                                    offLabel="{{ 'Under Writer 3 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter3" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter4Label" for="underWriter4">Under Writer 4</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter4" class="form-control"
+                                    formControlName="underWriter4" onLabel="{{ 'Under Writer 4 Role active' }}"
+                                    offLabel="{{ 'Under Writer 4 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter4" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter5Label" for="underWriter5">Under Writer 5</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter5" class="form-control"
+                                    formControlName="underWriter5" onLabel="{{ 'Under Writer 5 Role active' }}"
+                                    offLabel="{{ 'Under Writer 5 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter5" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter6Label" for="underWriter6">Under Writer 6</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter6" class="form-control"
+                                    formControlName="underWriter6" onLabel="{{ 'Under Writer 6 Role active' }}"
+                                    offLabel="{{ 'Under Writer 6 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter6" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter7Label" for="underWriter7">Under Writer 7</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter7" class="form-control"
+                                    formControlName="underWriter7" onLabel="{{ 'Under Writer 7 Role active' }}"
+                                    offLabel="{{ 'Under Writer 7 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter7" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter8Label" for="underWriter8">Under Writer 8</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter8" class="form-control"
+                                    formControlName="underWriter8" onLabel="{{ 'Under Writer 8 Role active' }}"
+                                    offLabel="{{ 'Under Writer 8 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter8" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter9Label" for="underWriter9">Under Writer 9</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter9" class="form-control"
+                                    formControlName="underWriter9" onLabel="{{ 'Under Writer 9 Role active' }}"
+                                    offLabel="{{ 'Under Writer 9 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter9" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                            <div class="field">
+                                <label id="UnderWriterForm_UnderWriter10Label" for="underWriter10">Under Writer
+                                    10</label>
+                                <p-toggleButton id="UnderWriterForm_UnderWriter10" class="form-control"
+                                    formControlName="underWriter10" onLabel="{{ 'Under Writer 10 Role active' }}"
+                                    offLabel="{{ 'Under Writer 10 Role inactive' }}" onIcon="{{ 'pi pi-check' }}"
+                                    offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="underWriter10" [suggestions]="this.optionsRoles" (completeMethod)="this.searchOptionsRoles($event)" ></p-autoComplete> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" id="UnderWriterForm_AuditTrail"
+                        [entityResourcePrefix]="'cities'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

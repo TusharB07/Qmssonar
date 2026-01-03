@@ -1,0 +1,71 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ProductPartnerFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="ProductPartnerForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="ProductPartnerForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5 id="ProductPartnerForm_GeneralInformationHeader">General Information</h5>
+                        <div class="field">
+                            <label id="ProductPartnerForm_PartnerLabel" for="partnerId">Partner Id</label>
+                            <p-autoComplete id="ProductPartnerForm_Partner"  [disabled]="this.partnerId" [dropdown]="true" [suggestions]="this.optionsPartnerId" field="label" formControlName="partnerId" (completeMethod)="this.searchOptionsPartnerId($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label id="ProductPartnerForm_ProductLabel" for="productId">Product Id</label>
+                            <p-autoComplete id="ProductPartnerForm_Product" [disabled]="this.mode == 'edit'" [dropdown]="true" [suggestions]="this.optionsProducts" field="label" formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label id="ProductPartnerForm_StatusLabel" for="active">Status</label>
+                            <p-toggleButton id="ProductPartnerForm_Status" class="form-control" formControlName="active" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                        <div class="field">
+                            <label id="ProductPartnerForm_AllowedCountLabel" for="locationCount">Allowed Location Count</label>
+                            <p-inputNumber id="ProductPartnerForm_Product" field="label" class="form-control" formControlName="locationCount" styleClass="input-styling"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['locationCount'].valid}  "></p-inputNumber>
+                        </div>
+                        <div class="field">
+                            <label id="ProductPartnerForm_MinCoverLabel" for="minCover">Minimum Cover</label>
+                            <p-inputNumber id="ProductPartnerForm_Product" field="label" class="form-control" formControlName="minCover" styleClass="input-styling"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['minCover'].valid}  "></p-inputNumber>
+                        </div>
+                        <div class="field" *ngIf="this.mode == 'edit' && recordForm.controls.taskStatus.value">
+                            <label for="taskStatus" id="ProductPartnerForm_taskStatusLabel">Task Status</label>
+                            <input id="ProductPartnerForm_taskStatus" class="form-control" type="text" pInputText id="taskStatus"
+                            formControlName="taskStatus" />
+                        </div>
+    
+                        <div class="field" *ngIf="this.mode == 'edit' && recordForm.value['taskStatus'] == 'failed'">
+                            <label for="failedMessage" id="ProductPartnerForm_failedMessageLabel">Failed Reasson</label>
+                            <input id="ProductPartnerForm_failedMessage" class="form-control" type="text" pInputText id="failedMessage"
+                            formControlName="failedMessage" />
+                        </div>
+
+                        <div class="field" *ngIf="this.mode == 'edit' && this.copyPercentage > 0">
+                        <label for="percentage" id="ProductParterForm_copypercentage">Copy Percentage - {{copyPercentage}}%</label> 
+                        <p-slider [(ngModel)]="copyPercentage" [ngModelOptions]="{standalone : true}" disabled="true"></p-slider>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

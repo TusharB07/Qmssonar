@@ -1,0 +1,239 @@
+<!-- <form [formGroup]="this.recordForm"  (ngSubmit)="submitted = true; this.saveRecord()" >
+    <div class="form-container pt-3 px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card class="">
+                    <p-toast></p-toast>
+                    <p-toolbar>
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{ this.recordSingularName }}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit"  pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+
+                    </p-toolbar>
+                </p-card>
+            </div>
+
+
+            <div class="col">
+                <div class="grid">
+                    <div class="col-12 md:col-6">
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5>General Information</h5>
+
+                                <div class="field">
+                                    <label for="name">Name</label>
+                                    <input class="form-control" type="text" pInputText id="name" formControlName="name" placeholder="{{this.user?.partnerId?.name}}"  autofocus [disabled]="true"/>
+
+
+                                </div>
+                                <div class="field">
+                                    <label for="shortName">Short Name</label>
+                                    <input class="form-control" type="text" pInputText id="shortName" formControlName="shortName" placeholder="{{this.user?.partnerId?.shortName}}" autofocus [disabled]="true">
+                                </div>
+                                <div class="field">
+                                    <label for="partnerType">Partner Type</label>
+                                    <input placeholder="Partner Type" type="text" pInputText  placeholder="{{this.user?.partnerId?.partnerType}}"  formControlName="partnerType" [disabled]="true">
+                                </div>
+                                <div class="field">
+                                    <label for="active">Active</label>
+                                    <p-toggleButton class="form-control" id="status" formControlName="status" onLabel="{{ 'Partner active' }}" offLabel="{{ 'Partner inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right" [disabled]="true"></p-toggleButton>
+                                </div>
+                            </div>
+                        </p-card>
+
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5>Address Information</h5>
+
+                                <div class="field">
+                                    <label for="address">Address</label>
+                                    <input class="form-control" type="text" value="{{this.user?.partnerId?.address}}"  pInputText id="address"  required  />
+
+                                </div>
+                                <div class="field">
+                                    <label for="name">Pincode</label>
+                                    <p-autoComplete [dropdown]="true" field="label" placeholder="{{this.user?.partnerId?.pincodeId}}" formControlName="pincodeId" [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">City</label>
+                                    <p-autoComplete [dropdown]="true" field="label" placeholder="{{this.user?.partnerId?.cityId}}" formControlName="cityId" [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">District</label>
+                                    <p-autoComplete [dropdown]="true" field="label" placeholder="{{this.user?.partnerId?.districtId}}" formControlName="districtId" [suggestions]="this.optionsDistricts" (completeMethod)="this.searchOptionsDistricts($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid }"></p-autoComplete>
+                                </div>
+
+
+                                <div class="field">
+                                    <label for="name">Country</label>
+                                    <p-autoComplete [dropdown]="true" field="label" placeholder="{{this.user?.partnerId?.countryId}}" formControlName="countryId" [suggestions]="this.optionsCountries" (completeMethod)="this.searchOptionsCountries($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }"></p-autoComplete>
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">State</label>
+                                    <p-autoComplete [dropdown]="true" field="label" placeholder="{{this.user?.partnerId?.stateId}}" formControlName="stateId" [suggestions]="this.optionsStates" (completeMethod)="this.searchOptionsStates($event)" [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+                                </div>
+                            </div>
+                        </p-card>
+
+
+
+
+
+
+
+
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5>Address Information</h5>
+
+                                <div class="field">
+                                    <label for="address">Address</label>
+                                    <input  field="label" formControlName="address" pInputText disabled placeholder="{{this.user?.partnerId?.address}}">
+
+
+                                </div>
+                                <div class="field">
+                                    <label for="name">Pincode</label>
+                                    <input field="label" formControlName="pincodeId" pInputText disabled placeholder="{{this.user?.partnerId?.pincodeId?.name}}" >
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">City</label>
+                                    <p-autoComplete  field="label" formControlName="cityId"  placeholder="{{this.user?.partnerId?.cityId}}" ></p-autoComplete>
+
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">District</label>
+                                    <p-autoComplete  field="label" formControlName="districtId"  placeholder="{{this.user?.partnerId?.district?.name}}" ></p-autoComplete>
+
+                                </div>
+
+
+                                <div class="field">
+                                    <label for="name">Country</label>
+                                    <p-autoComplete  field="label" formControlName="countryId" placeholder="{{this.user?.partnerId?.countryId?.name}}" ></p-autoComplete>
+
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="name">State</label>
+                                    <p-autoComplete  field="label" formControlName="stateId"  placeholder="{{this.user?.partnerId?.stateId?.name}}" ></p-autoComplete>
+
+                                </div>
+
+                            </div>
+                        </p-card>
+
+
+
+
+
+                    </div>
+
+                    <div class="col-12 md:col-6">
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5>KYC Information</h5>
+
+                                <div class="field">
+                                    <label for="pan">PAN</label>
+                                    <input class="form-control" type="text" pInputText id="pan" formControlName="pan" autofocus placeholder="{{this.user?.partnerId?.pan}}" [disabled]="true"/>
+
+                                </div>
+                                <div class="field">
+                                    <label for="gstin">GSTIN</label>
+                                    <input class="form-control" type="text" pInputText id="gstin" formControlName="gstin" autofocus placeholder="{{this.user?.partnerId?.gstin}}" [disabled]="true"/>
+
+                                </div>
+                                <div class="field">
+                                    <label for="cin">CIN</label>
+                                    <input class="form-control" type="text" pInputText id="cin" formControlName="cin" autofocus  placeholder="{{this.user?.partnerId?.cin}}" [disabled]="true"/>
+
+                                </div>
+                            </div>
+                        </p-card>
+                        <p-card>
+                            <div class="card p-fluid">
+
+                                <h5>Contact Person</h5>
+
+                                <div class="field">
+                                    <label for="contactPerson">Name</label>
+                                    <input class="form-control" type="text" pInputText id="contactPerson" formControlName="contactPerson" autofocus placeholder="{{this.user?.partnerId?.contactPerson}}" [disabled]="true"/>
+
+                                </div>
+                                <div class="field">
+                                    <label for="designation">Designation</label>
+                                    <input class="form-control" type="text" pInputText id="designation" formControlName="designation"  autofocus  placeholder="{{this.user?.partnerId?.designation}}" [disabled]="true"/>
+
+                                </div>
+                                <div class="field">
+                                    <label for="mobileNumber">Mobile Number</label>
+                                    <input class="form-control" type="text" pInputText id="mobileNumber" formControlName="mobileNumber" autofocus  placeholder="{{this.user?.partnerId?.mobileNumber}}" [disabled]="true" />
+
+                                </div>
+                            </div>
+                        </p-card>
+                        <p-card *ngIf="this.recordForm.controls['partnerType'].value == 'broker'">
+                            <div class="card p-fluid">
+                                <div class="flex justify-content-between">
+                                    <h5>Insurance company maping</h5>
+                                    <div>
+                                        <button pButton pRipple type="button" style="max-width: 6rem;" class="p-button-rounded" >Add More</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div formArrayName="mappedIcNames" *ngFor="let mappedIcNamesForm of this.mappedIcNames.controls; let i = index">
+                                        <div class="" [formGroupName]="i">
+                                            <div class="sign-in-head flex align-items-center justify-content-between">
+                                                <h4 class="head5">IC Name {{ i + 1 }}</h4>
+                                                <a class="red-link">Delete</a>
+                                            </div>
+                                            <div class="">
+                                                <div class="field">
+                                                    <label for="name">Name</label>
+                                                    <input class="form-control" type="text" pInputText id="name" formControlName="name" autofocus placeholder="{{this.user?.partnerId?.mappedIcNames?.name}}" [disabled]="true"/>
+                                                </div>
+                                                <div class="field">
+                                                    <label for="mappedRmEmails">Mapped RM Email</label>
+                                                    <p-chips class="form-control" type="text" id="mappedRmEmails" [formControlName]="'mappedRmEmails'"  placeholder="{{this.user?.partnerId?.mappedIcNames?.mappedRmEmails}}" [disabled]="true"></p-chips>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+ -->

@@ -1,0 +1,120 @@
+<div class="grid">
+    <div class="col-12">
+    <p-card>
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="LossOfRentList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="LossOfRentList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="LossOfRentList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="LossOfRentList_FilterGlobal" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+           </ng-template>
+            </p-toolbar>
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="LossOfRentList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="QuoteId">
+                            <div class="flex justify-content-between align-items-center" style="width: 440px;">
+                                <span id="LossOfRentList_QuoteIdHeader">
+                                    QuoteId
+                                </span>
+                                <div>
+                                    <p-columnFilter id="LossOfRentList_QuoteIdColumnFilter" type="text" field="QuoteId" display="menu" placeholder="Search by QuoteId"></p-columnFilter>
+                                    <p-sortIcon id="LossOfRentList_QuoteIdSortIcon" field="QuoteId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 440px;">
+                                <span id="LossOfRentList_NoOfMonthsHeader">
+                                    No. of Months
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateId">
+                            <div class="flex justify-content-between align-items-center" style="width: 440px;">
+                                <span id="LossOfRentList_SumInsuredHeader">
+                                    Sum Insured
+                                </span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quotes>
+                    <tr (click)="this.editRecord(quotes)">
+                        <td>
+                            <p-tableCheckbox [value]="quotes" id="LossOfRentList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+
+                        <td style="width:15%; min-width:10rem;"  id="LossOfRentList_QuoteId">
+
+                            {{quotes.quoteId.quoteNo}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="LossOfRentList_NoOfMonths">
+
+                            {{quotes?.numberOfMonth}}
+                        </td>
+                        <td style="width:15%; min-width:10rem;" id="LossOfRentList_SumInsured">
+
+                            {{quotes?.sumInsured}}
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="LossOfRentList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(quotes)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button id="LossOfRentList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(quotes)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" id="LossOfRentList_DeleteRecordConfirmationIcon"></i>
+                <span id="LossOfRentList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="LossOfRentList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="LossOfRentList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="LossOfRentList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="LossOfRentList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="LossOfRentList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="LossOfRentList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="px-4" *ngIf="this.productPartnerIcConfigurationId">
+
+    <ul class="mb-4 mt-4" id="OTCProductLimitDialog_List">
+        <ng-container>
+            <!-- <li *ngFor="let item of this.nonOtcBreachedValue" style="list-style-type: disc">
+                <div style="font-size: 15px;">{{item}}</div>
+            </li> -->
+            
+            <h4 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG">Download All Quote Option in Below Format
+            </h4><br>
+            <button class="btn btn-danger mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadDocument({fileFormatToGenerate: 'PDF'})">Download
+                PDF</button>
+            <!-- <button class="btn btn-primary mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadDocument({fileFormatToGenerate: 'DOCX'})">Download
+                    DOCX</button> -->
+            <button class="btn btn-success mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadExcel()">Download
+                Excel</button>
+        </ng-container>
+        <ng-container>
+            <li>
+                <!-- <div *ngIf="!(this.nonOtcBreachedValue && this.nonOtcBreachedValue.length > 0)"
+                    id="OTCProductLimitDialog_NoBreachedValues" style="font-size: 15px;">
+                    Selected Product is configured to NON - OTC.
+                </div> -->
+            </li>
+        </ng-container>
+    </ul>
+
+    <div class="mb-5 mt-4 marginLeft" *ngIf="this.user.partnerId.partnerType != 'insurer'">
+        <!-- <h2 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG">Would you like to proceed?</h2><br> -->
+        <h4 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG"  *ngIf="this.user.roleId.name === 'sales_creator_and_approver'">Would you like to proceed this quote to placement ?</h4><br>
+        <h4 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG"  *ngIf="this.user.roleId.name === 'placement_creator_and_approver'">Would you like to proceed this quote to Insurers ?</h4><br>
+        <button class="btn btn-primary mr-4 YesBtn" id="OTCProductLimitDialog_Accept" (click)="accept()">Yes</button>
+        <button class="btn btn-outline-primary mr-4 NoBtn" id="OTCProductLimitDialog_Exit" (click)="exit()">No</button>
+    </div>
+    <div class="">
+
+    </div>
+</div>
+<div class="px-4" *ngIf="!this.productPartnerIcConfigurationId">
+
+</div>

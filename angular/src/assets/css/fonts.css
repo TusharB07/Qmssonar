@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'OpenSans-Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-Italic'), url('../fonts/opensans-italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-Light'), url('../fonts/opensans-light.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-LightItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-LightItalic'), url('../fonts/opensans-lightitalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-Regular'), url('../fonts/opensans-regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-SemiBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-SemiBold'), url('../fonts/opensans-semibold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-SemiBoldItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-SemiBoldItalic'), url('../fonts/opensans-semibolditalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-Bold'), url('../fonts/opensans-bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-BoldItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-BoldItalic'), url('../fonts/opensans-boldItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-ExtraBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-ExtraBold'), url('../fonts/opensans-extrabold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OpenSans-ExtraBoldItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('OpenSans-ExtraBoldItalic'), url('../fonts/opensans-extrabold.ttf') format('truetype');
+}
+

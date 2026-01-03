@@ -1,0 +1,26 @@
+    .currency::first-letter {
+        padding-right: 0.3em;
+    }
+
+    :host ::ng-deep .tblz01-pdf .custom-border .p-datatable .p-datatable-thead>tr>th {
+        border-top: 1px solid #0462BC;
+        //  border-top: 1px solid red;
+    }
+
+    .custom-right-border {
+        border-right: 1px solid #0462BC;
+    }
+
+    .custom-list ul,
+    .custom-list ol {
+        margin: 0px 10px;
+    }
+    .custom-list ul li {
+        list-style: disc;
+    }
+    .custom-list ol li {
+        list-style: decimal;
+    }
+    .page-break {
+        page-break-before: always;
+      }

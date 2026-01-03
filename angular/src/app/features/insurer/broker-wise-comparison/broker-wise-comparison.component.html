@@ -1,0 +1,184 @@
+<!-- <div class="grid" style="overflow-y: scroll; height: 64vh;">
+    <div class="col-2">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="column-header mx-5">
+                    <button class="btn btn-outline-blue-next">
+                        <i class="pi pi-eye inline-block"></i>
+                        Show Difference
+                    </button>
+                </div>
+            </ng-template>
+            <p-accordion expandIcon="pi pi-plus" collapseIcon="pi pi-minus" (onClose)="onTabClose($event)" (onOpen)="onTabOpen($event)">
+                <p-accordionTab header="Client Details" [(selected)]="activeState[0]">
+                    <ul>
+                        <li class="p-2">Type of Policy</li>
+                        <li class="p-2">Insured Name</li>
+                        <li class="p-2">Type of Proposal</li>
+                        <li class="p-2">
+                            <h6>Details of Existing Insurer</h6>
+                        </li>
+                        <li class="p-2">Name Of Insurer</li>
+                        <li class="p-2">City of Issuing Office</li>
+                        <li class="p-2">DO No</li>
+                        <li class="p-2">
+                            <h6>Current Policy Period</h6>
+                        </li>
+                        <li class="p-2">Expiring Policy Period</li>
+                        <li class="p-2">Policy Period</li>
+                        <li class="p-2">Policy Range Month/Year</li>
+                        <li class="p-2">Renewal Policy Period</li>
+                        <li class="p-2">Insured's Business</li>
+                        <li class="p-2">Risk Locations</li>
+                        <li class="p-2" style="min-height: 70px;">Risk Description</li>
+                    </ul>
+                </p-accordionTab>
+                <p-accordionTab header="Sum Insured Details" [(selected)]="activeState[1]">
+                    <ul>
+                        <li>Amount</li>
+                        <li>Something</li>
+                    </ul>
+                </p-accordionTab>
+                <p-accordionTab header="Business Suraksha Covers" [(selected)]="activeState[2]">
+                </p-accordionTab>
+                <p-accordionTab header="Risk Management Features" [(selected)]="activeState[3]">
+                </p-accordionTab>
+                <p-accordionTab header="Risk Inspection Status & Claim Experience" [(selected)]="activeState[4]">
+                </p-accordionTab>
+                <p-accordionTab header="Add-Ons" [(selected)]="activeState[5]">
+                </p-accordionTab>
+                <p-accordionTab header="Other Details" [(selected)]="activeState[6]">
+                </p-accordionTab>
+            </p-accordion>
+        </p-card>
+    </div>
+    <div class="col-2" *ngFor="let broker of brokerData">
+        <p-card [style]="{'border-radius':'15px'}">
+            <ng-template pTemplate="header">
+                <div class="column-header p-3" style="background: transparent linear-gradient(180deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box; border-radius: 15px 15px 0px 0px; color:#fff">
+                    {{broker.brokerName}} : {{broker.year}}
+                </div>
+            </ng-template>
+            <p-accordion expandIcon="pi pi-plus" collapseIcon="pi pi-minus">
+                <p-accordionTab [(selected)]="activeState[0]">
+                    <ul>
+                        <li class="p-2">{{broker.clientDetails.policyType}}</li>
+                        <li class="p-2">{{broker.clientDetails.InsuredName}}</li>
+                        <li class="p-2">{{broker.clientDetails.proposalType}}</li>
+                        <li class="p-2"></li>
+                        <li class="p-2">{{broker.clientDetails.InsurerName}}</li>
+                        <li class="p-2">{{broker.clientDetails.city}}</li>
+                        <li class="p-2">{{broker.clientDetails.DO}}</li>
+                        <li class="p-2"></li>
+                        <li class="p-2">{{broker.clientDetails.expirirngPeriod}}</li>
+                        <li class="p-2">{{broker.clientDetails.policyPeriod}}</li>
+                        <li class="p-2">{{broker.clientDetails.policyRange}}</li>
+                        <li class="p-2">{{broker.clientDetails.renewalPeriod}}</li>
+                        <li class="p-2">{{broker.clientDetails.insuredBusiness}}</li>
+                        <li class="p-2">{{broker.clientDetails.riskLocations}}</li>
+                        <li class="p-2" style="min-height: 70px;">{{broker.clientDetails.riskDescription}}</li>
+                    </ul>
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[1]">
+                    <ul>
+                        <li>{{broker.sumInsuredDetails.amount}}</li>
+                        <li>{{broker.sumInsuredDetails.something}}</li>
+                    </ul>
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[2]">
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[3]">
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[4]">
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[5]">
+                </p-accordionTab>
+                <p-accordionTab [(selected)]="activeState[6]">
+                </p-accordionTab>
+            </p-accordion>
+        </p-card>
+    </div>
+    <div class="col-3" *ngIf="this.selectedBrokers && this.selectedBrokers.length !== 0">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="column-header my-2" style="border-bottom: 1px solid grey;">
+                    <div class="grid mx-2">
+                        <div class="col-4" *ngFor="let broker of selectedBrokers">
+                            <p-chip [removable]="true" (onRemove)="removedChip(broker.brokerName)">{{broker.brokerName}}
+                            </p-chip>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ul class="col-4 inline-block text-center" *ngFor="let broker of selectedBrokers" style="margin-top: 65px;">
+                <li class="p-2">
+                    <i class="pi pi-check" style="color: green;"></i>
+                </li>
+                <li class="p-2">
+                    <i class="pi pi-times" style="color: red;"></i>
+                </li>
+                <li class="p-2">
+                    <i class="pi pi-check" style="color: green;"></i>
+                </li>
+                <li class="p-2"></li>
+                <li class="p-2"></li>
+                <li class="p-2">NA</li>
+                <li class="p-2">NA</li>
+                <li class="p-2"></li>
+                <li class="p-2"></li>
+                <li class="p-2"></li>
+                <li class="p-2"></li>
+                <li class="p-2"></li>
+                <li class="p-2">NA</li>
+                <li class="p-2">NA</li>
+                <li class="p-2"></li>
+            </ul>
+        </p-card>
+    </div>
+    <div class="col-2">
+        <a (click)="addBroker()">
+            <p-card [style]="{'border':'2px dashed #0064BB','min-height':'300px','max-height':'300px','padding-top':'80px'}">
+                <div class="text-center">
+                    <i class="pi pi-plus-circle custom-background"></i>
+                    <h4>
+                        Add Brokers
+                    </h4>
+                </div>
+            </p-card>
+        </a>
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class="col-5" [ngClass]="applyClass()">
+        <p-card>
+            <p-table [value]="experienceData" styleClass="p-datatable-striped" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="color: black;">Claim Experience Sent of Broker A</th>
+                        <th>2018-19</th>
+                        <th>2019-20</th>
+                        <th>2020-21</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>{{item.header}}</td>
+                        <td>{{50}}</td>
+                        <td>{{50}}</td>
+                        <td>{{50}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="grid mt-3">
+                <div class="col-6 pt-4">
+                    <i class="pi pi-angle-left mr-2"></i>
+                    <i class="pi pi-angle-right"></i>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-blue-next">Show Claims from Previous year</button>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div> -->

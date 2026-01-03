@@ -1,0 +1,364 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2 ">
+                            <button id="ICCOnfigurationList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="ICCOnfigurationList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="ICCOnfigurationList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+<!--                            <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"-->
+<!--                                icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>-->
+<!--                            <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode"-->
+<!--                                [url]="this.uploadProps.url" [method]="this.uploadProps.method"-->
+<!--                                (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"-->
+<!--                                [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"-->
+<!--                                [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"-->
+<!--                                [uploadLabel]="this.uploadProps.uploadLabel"-->
+<!--                                [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"-->
+<!--                                id="uploadLocationDetails_Excel"></p-fileUpload>    -->
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="ICCOnfigurationList_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="ICCOnfigurationList_FileUpload" accept="image/*"
+                            [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name','email']">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="ICCOnfigurationList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+
+                            <!-- <th style="width: 700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ICCOnfigurationList_ProductIdHeader">
+                                        Product Id
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ICCOnfigurationList_ProductIdColumnFilter" type="text" field="partnerId" display="menu" placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon id="ICCOnfigurationList_ProductIdSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <th style="width: 700px;" pSortableColumn="productId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Product </span>
+                                    <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Product filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedProductId"
+                                                [suggestions]="optionsProductId"
+                                                (completeMethod)="getOptionsProductId($event)" field="productId"
+                                                [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                                (onUnselect)="handleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+                            <!-- <th style="width: 700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ICCOnfigurationList_BrokerPartnerHeader">
+                                        Broker Partner Id
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ICCOnfigurationList_BrokerPartnerColumnFilter" type="text" field="productId" display="menu" placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon id="ICCOnfigurationList_BrokerPartnerSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <th style="width: 700px;" pSortableColumn="brokerPartnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">broker Partner Id </span>
+                                    <p-columnFilter field="brokerPartnerId" matchMode="equals" display="menu"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">broker Partner filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedBrokerPartners"
+                                                [suggestions]="optionsBrokerPartners"
+                                                (completeMethod)="getOptionsBrokerPartnerId($event)"
+                                                field="brokerPartnerId" [dropdown]="true" [multiple]="true"
+                                                (onSelect)="brokerPartnerIdHandleFilter($event)"
+                                                (onUnselect)="brokerPartnerIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+                            <!-- <th style="width: 700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ICCOnfigurationList_InsurerPartnerHeader">
+                                        Insurer Partner Id
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ICCOnfigurationList_InsurerPartnerColumnFilter" type="text" field="productId" display="menu" placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon id="ICCOnfigurationList_InsurerPartnerSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <th style="width: 700px;" pSortableColumn="insurerPartnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Insurer Partner Id </span>
+                                    <p-columnFilter field="insurerPartnerId" matchMode="equals" display="menu"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">insurer Partner filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedInsurerPartnerId"
+                                                [suggestions]="optionsInsurerPartnerId"
+                                                (completeMethod)="getOptionsInsurerPartnerId($event)"
+                                                field="insurerPartnerId" [dropdown]="true" [multiple]="true"
+                                                (onSelect)="insurerPartnerIdHandleFilter($event)"
+                                                (onUnselect)="insurerPartnerIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+                            <th style="width: 700px;" pSortableColumn="otcType">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ICCOnfigurationList_OtcTypeHeader">
+                                        Otc Type
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ICCOnfigurationList_OtcTypeColumnFilter" type="text"
+                                            field="otcType" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by otcType"></p-columnFilter>
+                                        <p-sortIcon id="ICCOnfigurationList_OtcTypeSortIcon"
+                                            field="otcType"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="taskStatus">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="word-wrap: norwrap" id="ICCOnfigurationList_taskStatusHeader">
+                                        Task Status
+                                    </span>
+                                    <div style="word-wrap: nowrap">
+                                        <p-columnFilter id="ICCOnfigurationList_TaskColumnFilter" type="text"
+                                            field="taskStatus" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="in" operator="and"
+                                            placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon id="ICCOnfigurationList_TaskSortIcon"
+                                            field="taskStatus"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="failedMessage">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="word-wrap: norwrap" id="ICCOnfigurationList_failedMessageHeader">
+                                        Failed Message
+                                    </span>
+                                    <div style="word-wrap: nowrap">
+                                        <p-sortIcon id="ICCOnfigurationList_failedMessageSortIcon"
+                                            field="failedMessage"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="copyPercentage">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="word-wrap: norwrap" id="ICCOnfigurationList_copyPercentageHeader">
+                                        Copy Percentage
+                                    </span>
+                                    <div style="word-wrap: nowrap">
+                                        <p-sortIcon id="ICCOnfigurationList_copyPercentageHeader"
+                                            field="copyPercentage"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th style="width: 700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span>
+                                        Occupancy Rules
+                                    </span>
+                                    <div>
+                                        <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 700px;" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span>
+                                        Discount Rules
+                                    </span>
+                                    <div>
+                                        <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-icConfig>
+                        <!-- <tr *ngIf="this.icConfig.insurerPartnerId?.name == 'Reliance'"> -->
+                        <tr *ngIf="this.allowedRelianceModel && this.icConfig.insurerPartnerId?.name == 'Reliance'"
+                            (click)="this.editRecord(icConfig)">
+                            <td>
+                                <p-tableCheckbox [value]="icConfig"
+                                    id="ICCOnfigurationList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <td id="ICCOnfigurationList_ProductIdReliance">
+                                <a
+                                    routerLink="/backend/admin/products/{{icConfig.productId?._id}}">{{icConfig.productId?.type}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_BrokerPartnerReliance">
+                                <a
+                                    routerLink="/backend/admin/partners/{{icConfig.brokerPartnerId?._id}}">{{icConfig.brokerPartnerId?.name}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_InsurerPartnerReliance">
+                                <a
+                                    routerLink="/backend/admin/products/{{icConfig.insurerPartnerId?._id}}">{{icConfig.insurerPartnerId?.name}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_OtcTypeReliance">
+                                <a routerLink="/backend/admin/products/{{icConfig.otcType}}">{{icConfig.otcType}}</a>
+                            </td>
+
+                            <!-- <td>
+                                <div class="flex">
+                                    <button id="ICCOnfigurationList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(icConfig)"></button>
+                                    </div>
+                                </td> -->
+                            <!-- <button id="ICCOnfigurationList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(icConfig)"></button> -->
+                        </tr>
+                        <tr *ngIf="this.allowedAppleModel " (click)="this.editRecord(icConfig)">
+
+                            <td>
+                                <p-tableCheckbox [value]="icConfig"
+                                    id="ICCOnfigurationList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <td id="ICCOnfigurationList_ProductId">
+                                <a
+                                    routerLink="/backend/admin/products/{{icConfig.productId?._id}}">{{icConfig.productId?.type}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_BrokerPartner">
+                                <a
+                                    routerLink="/backend/admin/partners/{{icConfig.brokerPartnerId?._id}}">{{icConfig.brokerPartnerId?.name}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_InsurerPartner">
+                                <a
+                                    routerLink="/backend/admin/products/{{icConfig.insurerPartnerId?._id}}">{{icConfig.insurerPartnerId?.name}}</a>
+                            </td>
+                            <td id="ICCOnfigurationList_InsurerPartner">
+                                <a routerLink="/backend/admin/products/{{icConfig.otcType}}">{{icConfig.otcType}}</a>
+                            </td>
+                            <td>{{icConfig?.taskStatus ?? '-'}}</td>
+                            <td>{{icConfig?.failedMessage ?? '-'}}</td>
+                            <td>
+                                <!-- <p-slider [(ngModel)]="product.copyPercentage" disabled="true"></p-slider> -->
+                                <p>{{icConfig.copyPercentage ?? '0'}}%</p>
+                            </td>
+                            <!-- <td>
+                                <div class="flex">
+                                    <button id="ICCOnfigurationList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(icConfig)"></button>
+                                    </div>
+                                </td> -->
+                            <!-- <button id="ICCOnfigurationList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(icConfig)"></button> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="ICCOnfigurationList_DeleteRecordConfirmationIcon"></i>
+                <span id="ICCOnfigurationList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you
+                    want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ICCOnfigurationList_DeleteRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ICCOnfigurationList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ICCOnfigurationList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ICCOnfigurationList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ICCOnfigurationList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ICCOnfigurationList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div style="min-height: 800px;">
+    <h5>Audit Trail</h5>
+
+    <p-table [rowHover]="true" #dt [value]="this.auditRecords" [lazy]="true" (onLazyLoad)="this.loadAuditRecords($event)" id="AuditTrail" responsiveLayout="scroll" dataKey="_id" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [rows]="20" [totalRecords]="totalAuditRecords" [loading]="loadingAuditRecords" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th>
+                    <div class="flex justify-content-between align-items-center">
+                        <span id="AuditTrail_EventDate"> Event Date </span>
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-between align-items-center">
+                        <span style="white-space: nowrap" id="AuditTrail_EventType"> Event Type </span>
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-between align-items-center">
+                        <span style="white-space: nowrap" id="AuditTrail_ChangedBy"> Changed By </span>
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-auditRecord >
+            <tr >
+                <td>
+                    <button type="button"  id="AuditTrail_AuditRecord" pButton pRipple [pRowToggler]="auditRecord" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td id="AuditTrail_CreatedAt">{{ auditRecord.createdAt | date: "dd-MM-yyyy HH:mm" }}</td>
+                <td id="AuditTrail_EventType">{{ auditRecord.eventType }}</td>
+                <td id="AuditTrail_UserName">{{ auditRecord.user?.name }}</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="rowexpansion" let-auditRecord>
+            <tr>
+                <td colspan="7">
+                    <div style="background-color: ghostwhite" class="p-3" id="AuditTrail_AuditRecordDiff">
+                        <pre>{{ this.json.stringify(auditRecord.diff, null, 4) }}</pre>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

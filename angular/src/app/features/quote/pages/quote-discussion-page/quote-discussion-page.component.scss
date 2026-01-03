@@ -1,0 +1,29 @@
+::ng-deep {
+    .p-card {
+        padding: 0;
+
+        .p-card-header {
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+
+            background-color: lightgray !important;
+            
+        }
+
+        &.active {
+            .p-card-header {
+
+                background-color: blue !important;
+                color: white;
+            }
+        }
+
+    }
+}
+
+::ng-deep {
+    .p-card {
+        padding: 0;
+        // overflow: hidden;
+    }
+}

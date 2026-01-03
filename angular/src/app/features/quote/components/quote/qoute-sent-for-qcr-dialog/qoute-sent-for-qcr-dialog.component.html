@@ -1,0 +1,28 @@
+<div class="flex">
+    <div class="">
+        <div class="px-5" id="QuoteSentForQCRDialog_Image">
+            <img src="/assets/broker/images/icons/verified.png" width="50px" alt="">
+        </div>
+    </div>
+    <div class="">
+        <div class="mb-5">
+            <h4 class="mb-3" id="QuoteSentForQCRDialog_Header">{{msg}} </h4>
+                 <small>
+                <div class="mb-5">
+                    <i class="pi pi-info-circle mr-2" id="QuoteSentForQCRDialog_Icon"></i>
+                    <p class="inline-block" id="QuoteSentForQCRDialog_Note">
+                        Your quote has been sent for review.
+                    </p>
+                </div>
+            </small>
+        </div>
+
+
+        <div class="mb-5">
+
+            <button pButton type="button" id="QuoteSentForQCRDialog_GoToDashBoard" label="Go to Dashboard" class="p-button-primary py-3 px-5" (click)="close()"></button>
+        </div>
+
+
+    </div>
+</div>

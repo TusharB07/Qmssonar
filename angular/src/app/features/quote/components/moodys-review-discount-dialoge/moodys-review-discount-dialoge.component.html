@@ -1,0 +1,247 @@
+<div class="content-details-tabs">
+    <div class="grid px-3">
+        <div class="col-8 scrollable-left" id="left-bar">
+            <div class="pdf-inner">
+                <div class="fist-img bg-primary-200">
+                    <img class="img" src="..\assets\moodyapi\moodyspage.jpg" alt="">
+                </div>
+            <div class="detail">
+        <div class="grid">
+            <div class="col-10">
+                <div class="head">
+                    <h2 id="SideBar_header">BASIC DETAILS OF THE QUOTE</h2>
+                </div>
+                <div class="mb-2" id="SideBar_Insured_Name"><span class="clr-blue">Insured Name:</span>
+                    {{this.quote?.clientId?.name}}</div>
+                <div class="mb-2" id="SideBar_policy_Type"><span class="clr-blue">Policy Type:</span>
+                    {{this.quote?.productId?.type}}
+                </div>
+                <div *ngIf="this.quote && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_EANDO && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CRIME && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CGL && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PUBLIC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_PRODUCT &&  this.quote?.productId['productTemplate'] != AllowedProductTemplate.GMC && this.quote?.productId['productTemplate'] != AllowedProductTemplate.MARINE && this.quote?.productId['productTemplate'] != AllowedProductTemplate.WORKMENSCOMPENSATION && this.quote?.productId['productTemplate'] != AllowedProductTemplate.LIABILITY_CYBER">
+                    <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Location:</span>
+                        {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}}
+                        {{this.quote.locationBasedCovers.quoteLocationOccupancy.clientLocationId['isHeadOffice']? '(Head Office)' : ''}}/
+                    </div>
+                    <div class="mb-2" id="SideBar_Location_Name"><span class="clr-blue">Occupancy:</span>
+                        {{this.quote.locationBasedCovers.quoteLocationOccupancy.occupancyId['occupancyType']?.split(',')[0]}}
+                    </div>
+                    <div class="mb-2" id="SideBar_Location_Name" *ngIf="this.quote?.productId['isOccupancySubTypeShow']"><span class="clr-blue">Type Of Shop
+                    <span *ngIf="this.quote.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName=='Others'">
+                                <i class="pi pi-circle-fill" style="font-size: 0.75rem ;color :red"></i>
+                            </span> : </span>
+                        {{this.quote.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName}}
+                        {{this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription'] ?'('+this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription'] +')' : ''}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+                <br>
+                <div class="space"></div>
+                <div class="fist-img-table bg-primary-200">
+                    <img class="img" src="..\assets\moodyapi\risk.jpg" alt="">
+                    <div class="static">
+                        <div class="heading w-4 mx-2">
+                            <h1>Risk Scores - Earthquake</h1>
+                        </div>
+                     
+                        <div class="earthquake" *ngIf="earthquakeLossCosts">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="tblz01-pdf w-4 mt-3">
+                                        <table class="static-tablee">
+                                            <tr>
+                                                <th>RiskScore</th>
+                                                <th>Expected Damage Ratio</th>
+                                            </tr>
+                                            <!-- ngFor loop to iterate over ExpectedDamageRatio array -->
+                                            <tr *ngFor="let item of ExpectedDamageRatio">
+                                                <td>{{ item.riskScore }}</td>
+                                                <td>{{ item.ratio }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="tblz01-pdf w-4 mt-3" *ngIf="earthquakeRiskScore">
+                                        <table class="static-tablee">
+                                            <tr>
+                                                <th>RP</th>
+                                                <th>RiskScore</th>
+                                            </tr>
+                                            <tr>
+                                                <td>100-yr</td>
+                                                <td>{{ earthquakeRiskScore?.score100yr ?? '-' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>250-yr</td>
+                                                <td>{{ earthquakeRiskScore?.score250yr ?? '-' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>500-yr</td>
+                                                <td>{{ earthquakeRiskScore?.score500yr ?? '-' }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="heading mx-2" >
+                                <h1>Loss Costs - Earthquake</h1>
+                            </div>
+                            <div class="tblz01-pdf w-4 mt-3">
+                            <table class="static-tablee">
+                                <tr>
+                                    <th>Average Annual Loss</th>
+                                    <th>INR {{earthquakeLossCosts?.groundUpLoss ?? '0'}}</th>
+                                </tr>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+    
+                <!-- <div class="fist-img-table">
+                    <img class="img" src="..\assets\moodyapi\risk.jpg" alt="">
+                    <div class="static">
+                  
+                    </div>
+                </div> -->
+    
+                <!-- <div class="tblz01-pdf w-4 mt-3" *ngIf="earthquakeLossCosts">
+                    <h4 class="mb-2">Loss Costs - Earthquake</h4>
+                    <table class="static-tablee">
+                        <tr>
+                            <th>Average Annual Loss</th>
+                            <th>INR {{earthquakeLossCosts?.groundUpLoss ?? '0'}}</th>
+                        </tr>
+                    </table>
+                </div> -->
+    
+    
+                <br>
+                <div class="space1"></div>
+                <div class="fist-img-table">
+                    <img class="img" src="..\assets\moodyapi\flooded.jpg" alt="">
+                    <div class="static">
+                        <div class="heading w-4 mx-2">
+                            <h1 >Risk Scores - Flood</h1>
+                        </div>
+                        <div class="col-6">
+                            <div class="tblz01-pdf w-4 mt-3">
+                                <table class="static-tablee">
+                                    <tr>
+                                        <th>RiskScore</th>
+                                        <th>Expected Damage Ratio</th>
+                                    </tr>
+                                    <!-- ngFor loop to iterate over ExpectedDamageRatio array -->
+                                    <tr *ngFor="let item of ExpectedDamageRatio">
+                                        <td>{{ item.riskScore }}</td>
+                                        <td>{{ item.ratio }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tblz01-pdf w-4 mt-3" *ngIf="FloodRiskScore">
+                            <table class="static-tablee" >
+                                <tr>
+                                    <th>RP</th>
+                                    <th> RiskScore </th>
+                                </tr>
+                                <tr>
+                                    <td>100-yr</td>
+                                    <td>{{FloodRiskScore?.score100yr ?? '-'}}</td>
+                                </tr>
+                                <tr>
+                                    <td>250-yr</td>
+                                    <td>{{FloodRiskScore?.score250yr ?? '-'}}</td>
+                                </tr>
+                                <tr>
+                                    <td>500-yr</td>
+                                    <td>{{FloodRiskScore?.score500yr ?? '-'}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="static">
+                            <div class="heading w-4 mx-2">
+                                <h1>Loss Costs - Flood</h1>
+                            </div>
+                        <div class="tblz01-pdf w-4 mt-3" *ngIf="FloodLossCosts">
+                            <div class="heading w-4 mx-2">
+                            <!-- <h1>Loss Costs - Flood</h1> -->
+                        </div>
+                            <table class="static-tablee">
+                                <tr>
+                                    <th>Average Annual Loss</th>
+                                    <th>INR {{FloodLossCosts?.groundUpLoss ?? '0'}}</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-4 fixed-right" id="right-bar">
+            <div class="container">
+                <h2 class="mt-3" id="ConfigureDiscount_Header">Discount Percentage</h2>
+                <!-- <h5 class="mt-3 ml-auto">Base Premium </h5><br><p class="premium-price" >{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+                <h5 class="mt-3 ml-auto" id="ConfigureDiscount_BasePremium_Label">Base Premium <span><br>
+                        <p class="premium-price" id="ConfigureDiscount_BasePremium"><span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency
+                                    [value]="this.totalIndictiveQuoteAmt ?? 0"> </app-currency></span></p>
+                    </span> </h5>
+            </div>
+            <div class=" card mt-3">
+            
+                <div class="flex justify-content-between align-items-center">
+                    <h3 class="" id="ConfigureDiscount_DiscountFrom">{{this.discountFrom}}</h3>
+                    <div class="flex-grow-1 mx-4">
+                        <p-slider [(ngModel)]="discountPercentage" id="ConfigureDiscount_DiscountPercentage"
+                            (ngModelChange)="this.discountPercentageUpdated($event)" [step]="0.01" [min]="this.discountFrom"
+                            [max]="this.discountTo"></p-slider>
+                    </div>
+                    <h3 class="" id="ConfigureDiscount_DiscountTo">{{this.discountTo}}</h3>
+                </div>
+                <div class="container">
+                </div>
+            </div>
+            <div class="mt-5">
+                <input pInputText type="number" [(ngModel)]="this.discountPercentage"
+                    id="ConfigureDiscount_DiscountPercentage_Input" (ngModelChange)="this.discountPercentageUpdated($event)"
+                    [min]="this.discountFrom" [max]="this.discountTo" placeholder="Enter Percentage">
+            </div>
+            
+            <form class="" [formGroup]="configureDiscountForm" (ngSubmit)="this.submitConfigueDiscount()"
+                id="ConfigureDiscount_Form">
+                <div class="mt-5 mb-5">
+                    <!-- <h3 id="ConfigureDiscount_PayOut">Payout</h3> -->
+                    <div class="grid">
+                        <div class="col-6">
+                            <label for="" class="form-label" id="ConfigureDiscount_Discount_Label">Discount </label>
+                            <p-inputNumber locale="en-IN" prefix="₹" [minFractionDigits]="2" [maxFractionDigits]="2"
+                                formControlName="discountedAmount" disabled="true" id="ConfigureDiscount_Discount" placeholder=""
+                                class="">
+                            </p-inputNumber>
+                            <!-- {{this.discountedAmt}} -->
+                        </div>
+                        <div class="col-6">
+                            <label for="" class="form-label" id="ConfigureDiscount_Amount_Label">Amount </label>
+                            <p-inputNumber locale="en-IN" prefix="₹" [minFractionDigits]="2" [maxFractionDigits]="2"
+                                formControlName="afterDiscountAmount" id="ConfigureDiscount_Amount" disabled="true" placeholder=""
+                                class="p-">
+                            </p-inputNumber>
+                            <!-- {{this.quoteDiscount?.totalIndictiveQuoteAmt}} -->
+                        </div>
+                        <div class="col-12" *ngIf="this.permissions.includes('update')">
+                            <div class="flex justify-content-between" id="container-btn">
+                                <button [disabled]="!this.discountId" type="button" class="btn btn-danger" (click)="removeDiscount()"><i
+                                        class="pi pi-trash mr-1"></i>Remove</button>
+                                <button
+                                    [disabled]="this.discountPercentage < this.discountFrom || this.discountPercentage > this.discountTo"
+                                    class="btn btn-success" type="submit" id="ConfigureDiscount_SaveForm">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

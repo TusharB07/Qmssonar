@@ -1,0 +1,193 @@
+<div class="container">
+    <!-- <div class="grid mb-3 p-3 custom-detail-header">
+        <div class="col-8">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-outline-blue-back mr-1" (click)="save()">Save</button>
+            <button class="btn btn-outline-blue-next" (click)="sendForApproval()">Send for Approval</button>
+        </div>
+    </div> -->
+    <!-- <div *ngIf="quote?.quoteState!='Sent To Insurance Company RM' && quote?.productId['productTemplate'] == 'GMC'"> -->
+    <div *ngIf="quote?.productId['productTemplate'] == allowedProductTemplate.GMC">
+        <div class="container">
+            <div class="grid">
+                <div class="col-12 p-0 ">
+                    <p-card class="p-3">
+                        <div class="py-5">
+                            <h4>Decision</h4>
+                            <table class="table table-bordered" style="width: 100%;"
+                                *ngIf="selectedQuoteTemplate.length > 0">
+                                <tr>
+                                    <td style="vertical-align: top;border: 1px solid blue;"
+                                        *ngFor="let option of selectedQuoteTemplate;let j = index">
+                                        <h4 style="background: #0064BB;color: #ffff;padding: 5px;" class="mb-3">
+                                            {{option.optionName}}</h4>
+                                        <div style="padding: 5px;">
+                                            <p-dropdown class="form-control" [options]="this.decisionOptions"
+                                                placeholder="Select" optionLabel="label" optionValue="value"
+                                                id="parentTabName" [(ngModel)]="option.isAccepted" name="parentTabName"
+                                                #parentTabName="ngModel"></p-dropdown>
+                                            <ng-container *ngIf="option.isAccepted == 'Accept'">
+                                                <div class="grid mt-3">
+                                                    <div class="col-12">
+                                                        <label class="text-left">Premium</label>
+                                                        <input maxlength="20" pInputText
+                                                            [(ngModel)]="option.indicativePremium" id="moreTerm"
+                                                            #moreTerm="ngModel" name="ngModel" type="text"
+                                                            class="p-inputtext1 text-right" currencyMask
+                                                            [options]="{ prefix: '₹ ' , precision:0 }"
+                                                            class="p-inputtext1" />
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label>Brokerage %</label>
+                                                        <p-inputNumber class="text-right" id="brokarage" placeholder="0"
+                                                            [(ngModel)]="this.option.brokarage" id="brokarage"
+                                                            #brokarage="ngModel" name="brokarage" [maxlength]="2"
+                                                            [min]="0"></p-inputNumber>
+
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label>Rewards</label>
+                                                        <input maxlength="20" pInputText
+                                                            [(ngModel)]="option.rewards" id="rewards"
+                                                            #rewards="ngModel" name="ngModel" type="text"
+                                                            class="p-inputtext1"
+                                                            class="p-inputtext1" />
+
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label" id="otherDetails_Brokerage">Add Other Terms</label>
+                                                        <textarea maxlength="255" pInputText
+                                                            [(ngModel)]="option.otherTermText" id="moreTerm"
+                                                            #moreTerm="ngModel" name="ngModel" type="text"
+                                                            class="p-inputtext1 text-left"></textarea>
+                                                        <button pButton type="button" label="Add"
+                                                            class="p-button btn-primary mt-2"
+                                                            (click)="addTerms(option)"></button>
+
+                                                        <div *ngIf="option.otherTerms.length>0">
+                                                            <label><b>Other Terms</b></label>
+                                                            <table class="table table-bordered" style="width: 100%;">
+                                                                <tr style="background-color: #0064BB; color: white;">
+                                                                    <td style="border: 2px solid #0064BB;">Terms</td>
+                                                                    <td style="border: 2px solid #0064BB;width: 50px;">
+                                                                        Remove</td>
+                                                                </tr>
+                                                                <tr *ngFor="let item of option.otherTerms;"
+                                                                    style="border: 2px solid #0064BB;">
+                                                                    <td style="max-width:100px; border: 1px solid #0064BB;
+                                                                    word-wrap:break-word;">{{item}}</td>
+                                                                    <td (click)="removeTerms(option,item)"
+                                                                        style="border: 1px solid #0064BB;color: red;"><i
+                                                                            [class]="'pi pi-times'"></i></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </ng-container>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="text-right my-2 mr-3">
+                                <button class="btn btn-sm btn-primary" (click)="acceptQuoteOption()">Save</button>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div
+        *ngIf="this.quote && this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_EANDO || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_CRIME || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_CGL || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_PUBLIC || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_PRODUCT || this.quote?.productId['productTemplate'] == allowedProductTemplate.WORKMENSCOMPENSATION || this.quote?.productId['productTemplate'] == allowedProductTemplate.LIABILITY_CYBER">
+        <div class="container">
+            <div class="grid">
+                <div class="col-12 p-0 ">
+                    <p-card class="p-3">
+                        <div class="py-5">
+                            <h4>Decision</h4>
+                            <table class="table table-bordered" style="width: 100%;"
+                                *ngIf="selectedQuoteTemplate?.length > 0">
+                                <tr>
+                                    <td style="vertical-align: top;border: 1px solid blue;"
+                                        *ngFor="let option of selectedQuoteTemplate;let j = index">
+                                        <h4 style="background: #0064BB;color: #ffff;padding: 5px;" class="mb-3">
+                                            {{option.optionName}}</h4>
+                                        <div style="padding: 5px;">
+                                            <p-dropdown class="form-control" [options]="this.decisionOptions"
+                                                placeholder="Select" optionLabel="label" optionValue="value"
+                                                id="parentTabName" [(ngModel)]="option.isAccepted" name="parentTabName"
+                                                #parentTabName="ngModel"></p-dropdown>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div>
+                                <button class="btn btn-sm btn-primary" (click)="acceptQuoteOptionEnO()">Save</button>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid" style="margin: unset">
+        <div class="mb-2">
+            <h5 style="color: black; display: block;" id="PreviewDownload_Header">Preview</h5>
+            <!-- <p>
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+                Lorem Ipsum Dolor sit
+            </p> -->
+        </div>
+        <div class="p-3 w-100 mb-5 py-5 custom">
+            <app-quote-slip-template-one id="PreviewDownload_QuoteSlipTemplateOne" *ngIf="this.quote"
+                [quote]="this.quote" [quoteOption]="this.quoteOption"></app-quote-slip-template-one>
+        </div>
+        <div class="flex justify-content-end min-w-full">
+            <!-- <button class="btn btn-success mr-2" type="button">Download</button>
+            <button class="btn btn-outline-success" type="button">View</button> -->
+            <a target="_self" id="PreviewDownload_Quote" [href]="'/backend/quotes/' + this.id + '/pdf-preview'"
+                class="btn-sm btn btn-outline-success mr-2"><i class="pi pi-print"></i> Print</a>
+        </div>
+    </div>
+</div>
+<!-- <p-dialog [(visible)]="requestSentDialog" [style]="{width: '30vw'}">
+    <div class="grid">
+        <div class="col-2 p-4">
+            <i class="pi pi-check-circle" style="font-size:3rem; color:green;"></i>
+        </div>
+        <div class="col-10 p-3">
+            <h4 class="mb-3">
+                Your Quote was sent to Under Writer B for approval
+            </h4>
+            <i class="pi pi-info-circle mr-1"></i>
+            Quote is been approved for Broker A
+            <button class="btn btn-outline-blue-back mt-3" (click)="showNextDialog()">Edit Next Quote</button>
+        </div>
+    </div>
+</p-dialog> -->
+<!-- <p-dialog [(visible)]="editNextQuote" [style]="{width: '30vw'}">
+    <div class="text-center">
+        <h4>
+            Do You Want to reflect same changes as done for Broker A?
+        </h4>
+        <button class="btn btn-outline-blue-back mt-3 mr-3" (click)="navigateToEdit()">Yes</button>
+        <button class="btn btn-outline-blue-next mt-3" (click)="navigateToDashboard()">No</button>
+    </div>
+</p-dialog> -->

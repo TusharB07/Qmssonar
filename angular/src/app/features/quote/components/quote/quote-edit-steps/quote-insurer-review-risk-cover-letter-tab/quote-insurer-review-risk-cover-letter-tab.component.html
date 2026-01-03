@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="grid">
+        <!-- <div class="mb-2">
+            <h5 style="color: black; display: block;" id="PreviewDownload_Header">Preview</h5>
+        </div> -->
+        <div class="p-3 w-100 mb-5 py-5"
+            style="width:100%; border-radius: 5px; background: #cacaca;">
+            <app-risk-cover-letter-header *ngIf="this.quote" [quote]="this.quote"></app-risk-cover-letter-header>
+        </div>
+        <!-- <div>
+            <a target="_blank" id="PreviewDownload_Quote" [href]="'/backend/quotes/' + this.id + '/pdf-preview'"
+                class="btn-sm btn btn-outline-success mr-2"><i class="pi pi-print"></i> Print</a>
+        </div> -->
+    </div>
+</div>

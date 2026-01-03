@@ -1,0 +1,43 @@
+.borderbottom{
+    border-bottom: 1px solid #0462bc !important;
+}
+
+.numbercss{
+    text-align: center;
+    padding-left: 10px;
+}
+
+// .container {
+//   width: 90%;
+//   margin: 20px auto;
+//   background: #ffffff;
+//   border: 1px solid #ccc;
+//   padding: 20px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+// }
+h1 {
+  text-align: center;
+  background-color: #b0c4de;
+  padding: 10px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+table, th, td {
+  border: 1px solid #000;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+th {
+  //background-color: #e6e6e6;
+  text-align: center;
+  background-color: #0462bc;
+  color: white;
+}
+.highlight {
+  background-color: white;
+}

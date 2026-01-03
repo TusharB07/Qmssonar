@@ -1,0 +1,464 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button id="UnderWriterList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="UnderWriterList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2"
+                            (click)="this.openDeleteSelectedRecordsConfirmationDialog()"
+                            [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="UnderWriterList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+
+                        <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                            icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                        <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode"
+                            [url]="this.uploadProps.url" [method]="this.uploadProps.method"
+                            (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                            [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                            [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                            [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel"
+                            styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload>
+
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="UnderWriterList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" id="UnderWriterList_FileUpload" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="UnderWriterList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="sectorId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_SectorHeader">
+                                    Sector
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_SectorColumnFilter" type="text" field="sectorId" display="menu"
+                                        placeholder="Search by Sector ID"></p-columnFilter>
+                                    <p-sortIcon id="UnderWriterList_SectorSortIcon" field="sectorId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th style="width: 700px;" pSortableColumn="sectorId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">sector </span>
+                                <p-columnFilter field="sectorId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">sector filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedSectorId" [suggestions]="optionsSectorId"
+                                            (completeMethod)="getOptionsSectorId($event)" field="sectorId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="sectorIdHandleFilter($event)"
+                                            (onUnselect)="sectorIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                        <!-- <th pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_OccuppancyHeader">
+                                    Occupancy
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_OccupancyColumnFilter" type="text" field="occupancyId" display="menu"
+                                        placeholder="Search by occupancies"></p-columnFilter>
+                                    <p-sortIcon id="UnderWriterList_OccupancySortIcon" field="occupancyId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th style="width: 700px;" pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">occupancy </span>
+                                <p-columnFilter field="occupancyId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedOccupancyId"
+                                            [suggestions]="optionsOccupancyId"
+                                            (completeMethod)="getOptionsOccupancyId($event)" field="occupancyId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="occupancyIdHandleFilter($event)"
+                                            (onUnselect)="occupancyIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="zone">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_ZoneHeader">
+                                    Zone
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_ZoneColumnFilter" type="text" field="zone"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by Zone"></p-columnFilter>
+                                    <p-sortIcon id="UnderWriterList_ZoneSortIcon" field="zone"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_ProductHeader">
+                                    product
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_ProductColumnFilter" type="text" field="productId" display="menu"
+                                        placeholder="Search by Product Id"></p-columnFilter>
+                                    <p-sortIcon  id="UnderWriterList_ProductSortIcon" field="productId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th style="width: 700px;" pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="ProductIdHandleFilter($event)"
+                                            (onUnselect)="ProductIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fromSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_FromSIHeader">
+                                    From SI
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_FromSIColumnFilter" type="text" field="fromSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by From SI"></p-columnFilter>
+                                    <p-sortIcon field="fromSI" id="UnderWriterList_FromSISortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="toSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_ToSIHeader">
+                                    To SI
+                                </span>
+                                <div>
+                                    <p-columnFilter id="UnderWriterList_ToSIColumnFilter" type="text" field="toSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by To SI"></p-columnFilter>
+                                    <p-sortIcon id="UnderWriterList_ToSISortIcon" field="toSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter1">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter1Header">
+                                    Under Writer-1
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter1columnFilter" type="text" field="underWriter1" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter1"
+                                        id="UnderWriterList_UnderWriter1SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter2">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter2Header">
+                                    Under Writer-2
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter2ColumnFilter" type="text" field="underWriter2" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter2"
+                                        id="UnderWriterList_UnderWriter2SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter3">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter3Header">
+                                    Under Writer-3
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter3ColumnFilter" type="text" field="underWriter3" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter3"
+                                        id="UnderWriterList_UnderWriter3SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter4">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter4Header">
+                                    Under Writer-4
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter4ColumnFilter" type="text" field="underWriter4" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter4"
+                                        id="UnderWriterList_UnderWriter4SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter5">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter5Header">
+                                    Under Writer-5
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter5ColumnFilter" type="text" field="underWriter5" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter5"
+                                        id="UnderWriterList_UnderWriter5SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter6">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter6Header">
+                                    Under Writer-6
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter6ColumnFilter" type="text" field="underWriter6" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter6"
+                                        id="UnderWriterList_UnderWriter6SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter7">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter7Header">
+                                    Under Writer-7
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter7ColumnFilter" type="text" field="underWriter7" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter7"
+                                        id="UnderWriterList_UnderWriter7SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter8">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter8Header">
+                                    Under Writer-8
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter8ColumnFilter" type="text" field="underWriter8" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter8"
+                                        id="UnderWriterList_UnderWriter8SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter9">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter9Header">
+                                    Under Writer-9
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter9ColumnFilter" type="text" field="underWriter9" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter9"
+                                        id="UnderWriterList_UnderWriter9SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="underWriter10">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="UnderWriterList_UnderWriter10Header">
+                                    Under Writer-10
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter id="UnderWriterList_UnderWriter10ColumnFilter" type="text" field="underWriter10" display="menu"
+                                        placeholder="Search by UnderWriter Role Id"></p-columnFilter> -->
+                                    <p-sortIcon field="underWriter10"
+                                        id="UnderWriterList_UnderWriter10SortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item" id="UnderWriterList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <!-- <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span> {{city._id}}
+                        </td> -->
+                        <td id="UnderWriterList_Sector">
+                            <a routerLink="/backend/admin/sectors/{{item.sectorId?._id}}">{{item.sectorId?.name}}</a>
+                        </td>
+                        <td id="UnderWriterList_Occuppancy">
+                            <a
+                                routerLink="/backend/admin/occupancies/{{item.occupancyId?.occupancyType?._id}}">{{item.occupancyId?.occupancyType}}</a>
+
+                        </td>
+                        <td id="UnderWriterList_Zone">
+                            {{item.zone}}
+                        </td>
+                        <td id="UnderWriterList_Product">
+                            <a routerLink="/backend/admin/products/{{item.productId?._id}}">{{item.productId?.type}}</a>
+                        </td>
+                        <td id="UnderWriterList_FromSI">
+                            {{item.fromSI}}
+                        </td>
+                        <td id="UnderWriterList_ToSIHeader">
+                            {{item.toSI}}
+                        </td>
+                        <td id="UnderWriterList_UnderWriter1">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter1, 'false-icon pi-times-circle': !item.underWriter1}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter2">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter2, 'false-icon pi-times-circle': !item.underWriter2}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter3">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter3, 'false-icon pi-times-circle': !item.underWriter3}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter4">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter4, 'false-icon pi-times-circle': !item.underWriter4}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter5">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter5, 'false-icon pi-times-circle': !item.underWriter5}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter6">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter6, 'false-icon pi-times-circle': !item.underWriter6}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter7">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter7, 'false-icon pi-times-circle': !item.underWriter7}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter8">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter8, 'false-icon pi-times-circle': !item.underWriter8}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter9">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter9, 'false-icon pi-times-circle': !item.underWriter9}"></i>
+                        </td>
+                        <td id="UnderWriterList_UnderWriter10">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item.underWriter10, 'false-icon pi-times-circle': !item.underWriter10}"></i>
+                        </td>
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="UnderWriterList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(item)"></button>
+                                </div>
+                            </td> -->
+                            <!-- <button id="UnderWriterList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="UnderWriterList_DeleteRecordConfirmationIcon"></i>
+                <span id="UnderWriterList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want
+                    to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="UnderWriterList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="UnderWriterList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="UnderWriterList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="UnderWriterList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="UnderWriterList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="UnderWriterList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

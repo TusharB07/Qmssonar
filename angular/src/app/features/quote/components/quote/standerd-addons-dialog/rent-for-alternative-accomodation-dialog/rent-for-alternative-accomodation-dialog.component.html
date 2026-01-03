@@ -1,0 +1,36 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="this.coverForm" (ngSubmit)="submitted = true; submitForm()" id="AlternativeAccomodationDialog_Form">
+        <div class="grid">
+
+            <div class="col-12 md:col-6 mb-2">
+                <label for="" class="form-label" id="AlternativeAccomodationDialog_NoOfMonths_Label">No. of Months</label>
+                <div class="pp-dropdown-c">
+                    <p-dropdown id="AlternativeAccomodationDialog_NoOfMonths" [options]="this.optionnumberOfMonths" *ngIf="this.permissions.includes('update')" placeholder="Select No. of Months" optionLabel="label" optionValue="value" formControlName="numberOfMonth"></p-dropdown>
+                    <p-dropdown id="AlternativeAccomodationDialog_NoOfMonths" [options]="this.optionnumberOfMonths" *ngIf="!this.permissions.includes('update')" [disabled]="true" placeholder="Select No. of Months" optionLabel="label" optionValue="value" formControlName="numberOfMonth"></p-dropdown>
+                    <small id="AlternativeAccomodationDialog_NoOfMonths_ValidationMSG" class="ng-dirty ng-invalid" *ngIf="this.submitted && this.coverForm.controls['numberOfMonth']?.errors?.required">Number of Months is required.</small>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="AlternativeAccomodationDialog_SumInsured_Label">Sum Insured</label>
+                <!-- <span pTooltip="{{this.coverForm.controls['sumInsured'].value > 0 ? (toWords.convert(this.coverForm.controls['sumInsured'].value,{ currency: true ,ignoreZeroCurrency: true })) : ''}}" tooltipPosition="bottom"> -->
+                <!-- <input maxlength="11" id="AlternativeAccomodationDialog_SumInsured" pInputText formControlName="sumInsured" placeholder="" *ngIf="this.permissions.includes('update')"  currencyMask [options]="{ prefix: '₹ ', precision:0   }" class="p-inputtext1"> -->
+                <p-inputNumber 
+                    *ngIf="this.permissions.includes('update')" maxlength="11" class="p-inputtext1"id="AlternativeAccomodationDialog_SumInsured" mode="decimal" locale="en-IN" prefix="₹ "placeholder="0" formControlName="sumInsured">
+                </p-inputNumber>
+                <!-- </span> -->
+                <!-- <input maxlength="11" id="AlternativeAccomodationDialog_SumInsured" pInputText formControlName="sumInsured" placeholder="" *ngIf="!this.permissions.includes('update')" disabled="true" currencyMask [options]="{ prefix: '₹ ', precision:0   }" class="p-inputtext1"> -->
+                <p-inputNumber 
+                    *ngIf="!this.permissions.includes('update')" maxlength="11" class="p-inputtext1"id="AlternativeAccomodationDialog_SumInsured" mode="decimal" locale="en-IN" prefix="₹ "placeholder="0" formControlName="sumInsured">
+                </p-inputNumber>
+                <small id="AlternativeAccomodationDialog_SumInsured_ValidatioMSG" class="ng-dirty ng-invalid" *ngIf="this.submitted && this.coverForm.controls['sumInsured']?.errors?.required">SumInsured Fees is required.</small>
+                <small id="AlternativeAccomodationDialog_SumInsured_ValidatioMSG" class="ng-dirty ng-invalid" *ngIf="this.coverForm.controls['sumInsured']?.errors?.max">SumInsured cannot be more than 11 Characters.</small>
+
+            </div>
+            <div class="col-12 flex justify-content-end" style="padding-top: 30px;">
+                <button id="AlternativeAccomodationDialog_Save" class="btn btn-success mr-4" type="submit" *ngIf="this.permissions.includes('update') && quote?.quoteState != 'Rejected'">Save</button>
+                <button id="AlternativeAccomodationDialog_Close" class="btn btn-outline-light" type="button" (click)="cancel()">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

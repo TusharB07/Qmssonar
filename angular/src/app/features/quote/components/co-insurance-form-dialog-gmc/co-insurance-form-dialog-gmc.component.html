@@ -1,0 +1,61 @@
+<form [formGroup]="coInsurerForm" (ngSubmit)="this.submitCoInsurerForm()" #form="ngForm">
+    <div formArrayName="formArray">
+        <p-table [value]="this.formArray.controls">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th></th>
+                    <th class="text-center">Is Lead</th>
+                    <th class="text-center">Company Name</th>
+                    <th class="text-center">Share Percentage</th>
+                    <th class="text-center">City of Issuing Office</th>
+                    <th class="text-center">Division Office</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-form let-i="rowIndex">
+                <tr [formGroupName]="i">
+                    <td>{{i + 1}}</td>
+                    <td>
+                    <p-checkbox formControlName="isLead" [binary]="true"></p-checkbox>
+                    </td>
+                    <td>
+                        <input pInputText formControlName="companyName" type="text" class="p-inputtext1"
+                            placeholder="Enter Company Name">
+                    </td>
+                    <td>
+                        <input pInputText formControlName="share" type="number" class="p-inputtext1"
+                        placeholder="Enter Share Percentage" [min]="1" [max]="100" (input)="onSharePercentageChange(form, i)">
+                    <div *ngIf="form.controls.share.errors?.max" class="p-invalid">
+                        <small class="p-error">Share percentage cannot exceed 100.</small>
+                    </div>
+                    <div *ngIf="form.controls.share.errors?.min" class="p-invalid">
+                        <small class="p-error">Share percentage must be at least 1.</small>
+                    </div>
+                    </td>
+                    <td>
+                        <input pInputText formControlName="cityOfIssuingOffice" type="text" class="p-inputtext1"
+                            placeholder="Enter City of Issuing Office">
+                    </td>
+                    <td>
+                        <input pInputText formControlName="divisionOffice" type="text" class="p-inputtext1"
+                            placeholder="Enter Division Office">
+                    </td>
+                    <td>
+                        <button (click)="this.deleteFormBasedOnIndex(i)" type="button" id="BSC_card_DeleteCover"
+                            class="btn btn-danger mr-2"> <i class="pi pi-trash mr-1"></i>Delete
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="col-12 mb-5 text-right">
+        <a class="add-more" (click)="this.addFormToArray()">+ Add More Co-Insurer</a>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="flex justify-content-end">
+            <button class="btn btn-success mr-4" type="submit" id="Save_PortableEquipments_Dialog">Save</button>
+            <button class="btn btn-outline-light mt-1" type="button" (click)="cancel()">Close</button>
+        </div>
+    </div>
+</form>

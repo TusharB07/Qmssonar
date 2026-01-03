@@ -1,0 +1,55 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="QuoteLocationAddonFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="QuoteLocationAddonForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="QuoteLocationAddonForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col-12 md:col-9">
+
+                <div class="card p-fluid">
+                    <h5 id="QuoteLocationAddonForm_GeneralInformation_Header">General Information</h5>
+
+                    <div class="field">
+                        <label  id="QuoteLocationAddonForm_QuoteLabel" for="quoteId">Quote</label>
+                        <!-- <input class="form-control" type="text" pInputText id="quoteId" formControlName="quoteId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['quoteId']}" /> -->
+                        <p-autoComplete id="QuoteLocationAddonForm_Quote"  [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId'].valid}"></p-autoComplete>
+
+                        <small id="QuoteLocationAddonForm_Quote_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['quoteId']">Quote is required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="QuoteLocationAddonForm_LocationLabel" for="locationId">Location</label>
+                        <!-- <input class="form-control" type="text" pInputText id="locationId" formControlName="locationId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['locationId']}" /> -->
+                        <p-autoComplete id="QuoteLocationAddonForm_Location" [dropdown]="true" field="label" formControlName="locationId" [suggestions]="this.optionsLocations" (completeMethod)="this.searchOptionsLocations($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['locationId'].valid}"></p-autoComplete>
+                        <small id="QuoteLocationAddonForm_Location_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['locationId']">Location is required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="QuoteLocationAddonForm_AddonCoverageLabel" for="addOnCoverId">Addon Coverage</label>
+                        <!-- <input class="form-control" type="text" pInputText id="addOnCoverId" formControlName="addOnCoverId" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['addOnCoverId']}" /> -->
+                        <p-autoComplete id="QuoteLocationAddonForm_AddonCoverage" [dropdown]="true" field="label" formControlName="addOnCoverId" [suggestions]="this.optionsAddonCover" (completeMethod)="this.searchOptionsAddonCovers($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['addOnCoverId'].valid}"></p-autoComplete>
+                        <small id="QuoteLocationAddonForm_AddonCoverage_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['addOnCoverId']">Addon Coverage is required.</small>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-9 md:col-3" *ngIf="this.id != 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" id="QuoteLocationAddonForm_AuditTrail" [entityResourcePrefix]="'quote-location-addon-covers'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

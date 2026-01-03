@@ -1,0 +1,126 @@
+<div class="review-quote-details" style="max-height: 100%;" *ngIf="this.quote">
+    <div class="pdf-inner" style="height: 75vh;" *ngIf="!this.quote.quoteNo || !this.quote.riskStartDate">
+        <!-- <img -->
+        <!-- <h5 style="font-size: 40px; text-align: center;"><u>Risk Cover Letter</u></h5> -->
+        <!-- <img class="liberty-png" src="..\..\..\..\..\..\..\assets\broker\images\liberty.png" alt="" id="RiskCoverLetter_Image" width="220" height="80px"> -->
+        <!-- <div class="header-section">
+
+            <div class="mb-3">
+                <div class="header-section-inner">
+
+                    <div class="grid">
+                        <div class="col">
+                            <div class="text-center mb-3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col">
+                            <div class="riskCoverLeter-headline">
+                                <h5 style="font-size: 40px; text-align: center; " id="RiskCoverLetter_Label">Risk Cover Letter</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="proposal-number">
+                        <div class="grid">
+                            <div class="col-8">
+                                <h3 id="RiskCoverLetter_ProposalNumber"><b>Proposal Number</b></h3>
+                                <span>{{this.quote.quoteNo}}</span>
+                            </div>
+                            <div class="col-4">
+                                <h3 id="RiskCoverLetter_Date"><b>Date:</b></h3>
+                                {{this.quote.riskStartDate | date: 'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- <div class="subject">
+            <p id="RiskCoverLetter_Subject"><b>Subject:</b></p>
+            <h1 id="RiskCoverLetter_Header"><b> RISK COVER LETTER</b></h1>
+        </div> -->
+
+        <div style="padding-top:50px;" class="rcl-subject">
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5">Dear Sir/Madam,</p>
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5" *ngIf="this.quote?.fgApiResponse?.policyNumber">
+                The policy has been successfully generated. The policy number assigned to it is:
+                <b>{{this.quote?.fgApiResponse?.policyNumber}}</b>.
+                <!-- This is to confirm that we agree to issue the Risk Cover Letter for the Proposal Number: <b>{{this.quote?.fgApiResponse?.policyNumber}} </b>.
+                The Policy period shall be from <b>{{this.quote.riskStartDate | date: 'dd/MM/yyyy'}}</b>
+                to <b>{{renewalPolicyDate | date: 'dd/MM/yyyy'}}</b>. -->
+            </p>
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5" *ngIf="!this.quote?.fgApiResponse?.policyNumber">
+                The policy generation didn't quite work out this time around. Hang tight, we'll get it Alright soon!
+                Sometimes, it takes a bit of tweaking to craft the perfect document.</p>
+            <!-- <p id="RiskCoverLetter_Content" class="p-3 mb-5">
+                Premium received INR <b><span><app-currency [value]="this.quote.totalIndictiveQuoteAmtWithGst"></app-currency></span></b>
+                *(Incl. Taxes) in favor of Alwrite Insurance through <b>{{this.quote.paymentMode}}</b> mode.
+            </p> -->
+            <!-- <p id="RiskCoverLetter_Content" class="p-3 mb-5">Risk Head Letter is valid subject to the realization of payment. </p> -->
+        </div>
+
+    </div>
+    <div class="pdf-inner"  *ngIf="this.quote.quoteNo && this.quote.riskStartDate">
+        <div class="header-section">
+
+            <div class="mb-3">
+                <div class="header-section-inner">
+
+                    <!-- <img -->
+                    <div class="grid">
+                        <div class="col">
+                            <div class="text-center mb-3">
+                                <!-- <h5 style="font-size: 40px; text-align: center;"><u>Risk Cover Letter</u></h5> -->
+                                <!-- <img class="liberty-png" src="..\..\..\..\..\..\..\assets\broker\images\liberty.png" alt="" id="RiskCoverLetter_Image" width="220" height="80px"> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col">
+                            <div class="riskCoverLeter-headline">
+                                <h5 style="font-size: 40px; text-align: center; " id="RiskCoverLetter_Label">Risk Cover Letter</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="proposal-number">
+                        <div class="grid">
+                            <div class="col-8" *ngIf="this.quote.quoteNo">
+                                <h3 id="RiskCoverLetter_ProposalNumber"><b>Proposal Number</b></h3>
+                                <span>{{this.quote.quoteNo}}</span>
+                            </div>
+                            <div class="col-4" *ngIf="this.quote.riskStartDate">
+                                <h3 id="RiskCoverLetter_Date"><b>Date:</b></h3>
+                                {{this.quote.riskStartDate | date: 'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="subject">
+            <p id="RiskCoverLetter_Subject"><b>Subject:</b></p>
+            <h1 id="RiskCoverLetter_Header"><b> RISK COVER LETTER</b></h1>
+        </div>
+        <div style="padding-top:50px;" class="rcl-subject">
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5">Dear Sir/Madam,</p>
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5">
+                This is to confirm that we agree to issue the Risk Cover Letter for the Proposal Number: <b>{{this.quote.quoteNo}} </b>.
+                The Policy period shall be from <b>{{this.quote.riskStartDate | date: 'dd/MM/yyyy'}}</b>
+                to <b>{{renewalPolicyDate | date: 'dd/MM/yyyy'}}</b>.
+            </p>
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5"  *ngIf="this.quote.paymentMode">
+                Premium received INR <b><span><app-currency [value]="this.quote.totalIndictiveQuoteAmtWithGst"></app-currency></span></b>
+                *(Incl. Taxes) in favor of Alwrite Insurance through <b>{{this.quote.paymentMode}}</b> mode.
+            </p>
+            <p id="RiskCoverLetter_Content" class="p-3 mb-5">Risk Head Letter is valid subject to the realization of payment. </p>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="card tblz01">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="quoteLocationOccupacies">
+                <ng-template pTemplate="header">
+                    <tr class="">
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_locationName">Location</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_ageOfBuilding">Age of Building</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_constructionType">Construction Type</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_yearLossHistory">Year Loss History</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_fireProtection">Fire Protection</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_amcFireProtection">AMC Fire Protection</th>
+                        <th class="custom-th-font-size text-left" id="RiskInspectionDialog_HDR_distanceBetweenFireBrigade">Distance Between Fire Brigade</th>
+                        <!-- <th>Risk Covered</th> -->
+                        <th class="custom-th-font-size" id="RiskInspectionDialog_HDR_premises">Premises</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_locationName">{{ quoteLocationOccupancy?.clientLocationId?.locationName }} - {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_ageOfBuilding">{{ quoteLocationOccupancy?.ageOfBuilding }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_constructionType">{{ quoteLocationOccupancy?.constructionType }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_yearLossHistory">{{ quoteLocationOccupancy?.yearLossHistory }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_fireProtection">{{ quoteLocationOccupancy?.fireProtection }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_amcFireProtection">{{ quoteLocationOccupancy?.amcFireProtection }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_distanceBetweenFireBrigade">{{ quoteLocationOccupancy?.distanceBetweenFireBrigade }}</td>
+                        <td class="text-left" id="RiskInspectionDialog_DATA_premises">{{ quoteLocationOccupancy?.premises }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()"><i class="pi pi-download"></i> Download Sample File</button>
+                <p-fileUpload styleClass="btn btn-blue-ce" mode="basic" name="risk_inspection_status" url="{{this.uploadUrl}}" (onUpload)="this.fileUploaded()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+                <button class="btn btn-outline-primary mr-3" id="RiskInspectionDialog_Excel_Download" (click)="this.bulkImportGenerateRiskInscpectionSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button>
+                <div class="" >
+
+                    <p-fileUpload
+                    [name]="this.riskInspectionBulkImportProps.name"
+                    [mode]="this.riskInspectionBulkImportProps.mode"
+                    [url]="this.riskInspectionBulkImportProps.url"
+                    [method]="this.riskInspectionBulkImportProps.method"
+                    (onUpload)="this.riskInspectionBulkImportProps.onUpload($event.originalEvent.body)"
+                    [headers]="this.riskInspectionBulkImportProps.headers"
+                    [showCancelButton]="true"
+                    [auto]="this.riskInspectionBulkImportProps.auto"
+                    [uploadLabel]="this.riskInspectionBulkImportProps.uploadLabel"
+                    [chooseLabel]="this.riskInspectionBulkImportProps.chooseLabel"
+                    styleClass="btn btn-primary"
+                    id="RiskInspectionDialog_Excel_Upload"
+
+                    ></p-fileUpload>
+                </div>
+        </div>
+    </div>
+</div>

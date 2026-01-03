@@ -1,0 +1,55 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                <div class="card p-fluid">
+
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="FloaterCoverAddonFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="FloaterCoverAddonForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button id="FloaterCoverAddonForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </p-card>
+            </div>
+            <div class="col-6">
+            <p-card>
+
+                <div class="card p-fluid">
+                    <div class="field">
+                        <label id="FloaterCoverAddonForm_QuoteIdLabel" for="quoteId">Quote Id</label>
+                        <p-autoComplete id="FloaterCoverAddonForm_QuoteId" [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId']?.valid}"></p-autoComplete>
+                        <small id="FloaterCoverAddonForm_QuoteIdValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote ID is required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="FloaterCoverAddonForm_MaximumValueLabel" for="stockValue">Maximum Value At Any One Location</label>
+                        <input id="FloaterCoverAddonForm_MaximumValue" class="form-control" type="text" pInputText id="stockValue" formControlName="stockValue" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['stockValue']}" />
+                        <small id="FloaterCoverAddonForm_MaximumValueValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['stockValue']"> Any One Location
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="FloaterCoverAddonForm_OpenStocksLabel" for="whetherStockStoredInOpen">Whether Stock Stored In Open</label>
+                        <input id="FloaterCoverAddonForm_OpenStocks"  type="text" pInputText id="whetherStockStoredInOpen" formControlName="whetherStockStoredInOpen" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['whetherStockStoredInOpen']}" />
+                        <small id="FloaterCoverAddonForm_OpenStocksValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['whetherStockStoredInOpen']">whetherStockStoredInOpen is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="FloaterCoverAddonForm_SumInsuredLabel" for="SumInsured">SumInsured</label>
+                        <input id="FloaterCoverAddonForm_SumInsured"  type="text" pInputText id="sumInsured" formControlName="sumInsured" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['SumInsured']}" />
+                        <small id="FloaterCoverAddonForm_SumInsuredValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['SumInsured']">sumInsured is
+                            required.</small>
+                    </div>
+
+                </div>
+            </p-card>
+            </div>
+        </div>
+    </div>
+</form>

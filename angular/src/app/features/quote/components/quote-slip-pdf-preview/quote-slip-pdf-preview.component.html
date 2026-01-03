@@ -1,0 +1,6 @@
+<div class="" *ngIf="this.quote">
+    <app-quote-slip-template-one [quote]="this.quote" id="QuoteSlipPDFPreview"></app-quote-slip-template-one>
+    <script>
+        window.document.print();
+    </script>
+</div>

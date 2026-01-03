@@ -1,0 +1,219 @@
+<!-- Old_Quote -->
+<!-- <div class="grid">
+    <div class="col-8">
+        <div class="grid" *ngIf="this.quote">
+
+            <div class="col-6"> -->
+<div>
+    <!-- <app-indicative-quote-basic-card [isShowBreakupType]="true" [quote]="this.quote"></app-indicative-quote-basic-card> -->
+    <!-- <app-iar-indicative-quote-basic-card [isShowBreakupType]="true" [quote]="this.quote"></app-iar-indicative-quote-basic-card>
+                </div>
+
+                <app-iar-machinery-electrical-breakdown-crud-card [quote]="this.quote" [permissions]="this.permissions"></app-iar-machinery-electrical-breakdown-crud-card>
+
+                <p-card>
+                    <ul>
+                        <li class="list-group-item">
+                            <div class="flex align-items-center pt-3 pb-3">
+                                <div class="flex-grow-1 ">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2 " id="BSC_Tab_covers">
+                                            <h5 id="SubTemplateIar_PDSumInsured_Label"><b>Total PD Sum Insured </b></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                    <h5 id="SubTemplateIar_PDSumInsured"><b><span><app-currency [maximumFractionDigits]="0" [value]="((this.totalMaterialDamageSI + this.totalMachineryBreakdownSI))"></app-currency></span></b></h5>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </p-card>
+            </div>
+
+            <div class="col-6">
+                <app-iar-fire-loss-of-profit-crud-card [quote]="this.quote" [permissions]="this.permissions"></app-iar-fire-loss-of-profit-crud-card>
+
+                <app-iar-machinery-loss-of-profit-crud-card [quote]="this.quote" [permissions]="this.permissions"></app-iar-machinery-loss-of-profit-crud-card>
+
+                <p-card>
+                    <ul>
+                        <li class="list-group-item">
+                            <div class="flex align-items-center pt-3 pb-3">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                            <h5><b>Total BI Sum Insured</b> </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                    <h5><b><span><app-currency [maximumFractionDigits]="0" [value]="((this.bscFireLossOfProfit?.grossProfit ?? 0) + (this.machineryLossOfProfit?.grossProfit ?? 0))"></app-currency></span></b></h5>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </p-card>
+
+            </div>
+
+            <div class="col-12">
+                <p-card>
+                    <ul>
+                        <li class="list-group-item">
+                            <div class="flex align-items-center pt-3 pb-3">
+                                <div class="flex-grow-1">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                            <h5 id="SubTemplateIar_TOtalSumInsured_Label"><b>Total Sum Insured(PD+BI)</b> </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                    <h5 id="SubTemplateIar_TOtalSumInsured"><b> <span><app-currency [maximumFractionDigits]="0" [value]="((this.totalMaterialDamageSI + this.totalMachineryBreakdownSI) + ((this.bscFireLossOfProfit?.grossProfit ?? 0) + (this.machineryLossOfProfit?.grossProfit ?? 0)))"></app-currency></span></b></h5>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </p-card>
+            </div>
+
+            <div class="col-6">
+                <app-risk-inspection-report-and-location-photographs-crud-card *ngIf="this.quote" id="SubTemplateIar_RiskInspectionReportLocation" [permissions]="['read','create','update','delete']" [quote]="this.quote"></app-risk-inspection-report-and-location-photographs-crud-card>
+
+            </div>
+
+            <div class="col-6">
+                <app-total-indicative-quote-covers-opted-card id="SubTemplateIar_TotalIndicativeQuoteCovers" [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+            </div>
+
+        </div>
+    </div>
+
+</div> -->
+
+    <!-- New_Quote_Option -->
+    <div class="grid">
+        <div class="col-8">
+            <div class="grid" *ngIf="this.quoteOptionData">
+
+                <div class="col-6">
+                    <div>
+                        <app-iar-indicative-quote-basic-card [isShowBreakupType]="true"
+                            [quoteOptionData]="this.quoteOptionData"
+                            [quote]="this.quote"></app-iar-indicative-quote-basic-card>
+
+                    </div>
+
+                    <app-iar-machinery-electrical-breakdown-crud-card [quoteOptionData]="this.quoteOptionData"
+                        [quote]="this.quote"
+                        [permissions]="this.permissions"></app-iar-machinery-electrical-breakdown-crud-card>
+
+                    <p-card>
+                        <ul>
+                            <li class="list-group-item">
+                                <div class="flex align-items-center pt-3 pb-3">
+                                    <div class="flex-grow-1 ">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 ms-2 " id="BSC_Tab_covers">
+                                                <h5 id="SubTemplateIar_PDSumInsured_Label"><b>Total PD Sum Insured </b>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                        <h5 id="SubTemplateIar_PDSumInsured"><b><span><app-currency
+                                                        [maximumFractionDigits]="0"
+                                                        [value]="((this.totalMaterialDamageSI + this.totalMachineryBreakdownSI))"></app-currency></span></b>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </p-card>
+                    <p-card>
+                        <ul>
+                            <li class="list-group-item">
+                                <div class="flex align-items-center pt-3 pb-3">
+                                    <div class="flex-grow-1">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                                <h5 id="SubTemplateIar_TOtalSumInsured_Label"><b>Total Sum
+                                                        Insured(PD+BI)</b> </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                        <h5 id="SubTemplateIar_TOtalSumInsured"><b> <span><app-currency
+                                                        [maximumFractionDigits]="0"
+                                                        [value]="((this.totalMaterialDamageSI + this.totalMachineryBreakdownSI) + ((this.bscFireLossOfProfit?.grossProfit ?? 0) + (this.machineryLossOfProfit?.grossProfit ?? 0)))"></app-currency></span></b>
+                                        </h5>
+
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </p-card>
+                </div>
+
+                <div class="col-6">
+                    <app-iar-fire-loss-of-profit-crud-card [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"
+                        [permissions]="this.permissions"></app-iar-fire-loss-of-profit-crud-card>
+
+                    <app-iar-machinery-loss-of-profit-crud-card [quoteOptionData]="this.quoteOptionData"
+                        [quote]="this.quote"
+                        [permissions]="this.permissions"></app-iar-machinery-loss-of-profit-crud-card>
+
+                    <p-card>
+                        <ul>
+                            <li class="list-group-item">
+                                <div class="flex align-items-center pt-3 pb-3">
+                                    <div class="flex-grow-1">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                                <h5><b>Total BI Sum Insured</b> </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0" id="BSC_Tab_covers_Amount">
+                                        <h5><b><span><app-currency [maximumFractionDigits]="0"
+                                                        [value]="((this.bscFireLossOfProfit?.grossProfit ?? 0) + (this.machineryLossOfProfit?.grossProfit ?? 0))"></app-currency></span></b>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </p-card>
+
+                </div>
+
+           
+
+                <div class="col-6">
+                    <app-risk-inspection-report-and-location-photographs-crud-card *ngIf="this.quoteOptionData"
+                        [quote]="this.quote" id="SubTemplateIar_RiskInspectionReportLocation"
+                        [permissions]="['read','create','update','delete']"
+                        [quoteOptionData]="this.quoteOptionData"></app-risk-inspection-report-and-location-photographs-crud-card>
+
+                </div>
+
+                <div class="col-6">
+                    <app-total-indicative-quote-covers-opted-card id="SubTemplateIar_TotalIndicativeQuoteCovers"
+                        [quoteOptionData]="this.quoteOptionData"
+                        [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+                </div>
+
+               
+            </div>
+        </div>
+        <div>
+         <div class="col-10">
+            <app-deductibles-excess-card id="SubTemplateFire_IndicativeQuoteBasicCard"
+            [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-deductibles-excess-card>
+            <app-deductibles-addoncover-card id="SubTemplateFire_IndicativeQuoteBasicCard"
+            [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-deductibles-addoncover-card>
+         </div>   
+
+        </div>
+    </div>

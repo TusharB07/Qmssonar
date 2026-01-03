@@ -1,0 +1,44 @@
+<!-- Old_Quote -->
+<!-- <div class="container" *ngIf="this.quote"> -->
+<!-- <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+<!-- <div class="grid">
+        <div class="col-8">
+                <div *ngIf="this.quote">
+
+                <app-claim-experience id="RiskInspectionStatu_ClaimExperience" [quote]="this.quote" [permissions]="['read']"></app-claim-experience>
+            </div>
+           
+        </div>
+
+    </div>
+</div> -->
+
+
+<!-- New_Quote_option -->
+
+<div class="container" *ngIf="this.quote">
+    <div class="grid">
+        <div class="col-8">
+            <div *ngIf="this.quote">
+
+                <app-claim-experience id="RiskInspectionStatu_ClaimExperience" [quote]="this.quote"
+                    [quoteOptionData]="this.quoteOptionData" [permissions]="['read']"></app-claim-experience>
+            </div>
+
+        </div>
+
+    </div>
+</div>

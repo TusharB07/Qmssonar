@@ -1,0 +1,36 @@
+:host ::ng-deep p-inputnumber,
+.p-inputnumber {
+  display: inline-flex !important;
+  width: 100%;
+}
+:host ::ng-deep p-inputnumber,
+.p-inputnumber {
+  span {
+    display: inline-flex !important;
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  // border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 500px;
+  background-color: gray;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

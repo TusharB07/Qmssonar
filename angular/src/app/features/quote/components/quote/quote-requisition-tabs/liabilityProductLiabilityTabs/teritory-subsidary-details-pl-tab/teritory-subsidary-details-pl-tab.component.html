@@ -1,0 +1,202 @@
+<div class="form-container px-3 pt-3">
+    <div class="grid">
+        <div class="col-12 mx-0">
+            <!-- <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check" (click)="save()"
+                    class="btn btn-success"></button> -->
+            <div class="col-12">
+                <div class="grid">
+                    <div class="col-6">
+                        <p-card class="">
+                            <div class="grid">
+                                <div class="col-8">
+                                    <label for="" class="form-label" id="juridictionId">Jurisdiction</label>
+                                    <p-dropdown class="form-control"
+                                        [options]="this.OptionTerritoryAndJurasdiction" placeholder="Select"
+                                        optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quotePLOptions.juridictionId" #juridictionId="ngModel"
+                                        id="juridictionId" name="juridictionId" appendTo="body"></p-dropdown>
+
+                                    <!-- <input *ngIf="templateName=='LIABILITY_CYBER'" pInputText type="text"
+                                        placeholder="Worldwide"
+                                        [(ngModel)]="this.quotePLOptions.juridiction" #juridiction="ngModel"
+                                        id="juridiction" name="juridiction" [readOnly]="true" /> -->
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-8">
+                                    <label for="" class="form-label" id="territoryId">Territory</label>
+                                    <p-dropdown class="form-control"
+                                        [options]="this.OptionTerritoryAndJurasdiction" placeholder="Select"
+                                        optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quotePLOptions.territoryId" #territoryId="ngModel"
+                                        id="territoryId" name="territoryId" appendTo="body"></p-dropdown>
+
+                                    <!-- <input *ngIf="templateName=='LIABILITY_CYBER'" pInputText type="text"
+                                        placeholder="Worldwide"
+                                        [(ngModel)]="this.quotePLOptions.territory" #territory="ngModel" id="territory"
+                                        name="territory" [readOnly]="true" /> -->
+                                </div>
+                            </div>
+                            <div class="button-container" style="margin-top: 15px;" *ngIf="templateName!='LIABILITY_CYBER'">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success"></button>
+                            </div>
+                        </p-card>
+
+                        <p-card>
+                            <div class="from-row">
+                                <div class="col-14">
+                                    <div class="form-row">
+                                        <label for="" class="form-label" id="lblClientIndustry"
+                                            style="text-align: center;">Subsidiary Details</label>
+                                    </div>
+                                    <table style="margin: 0 auto; width: 100%; text-align: center;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Sr No</th>
+                                                <th style="text-align: center;width: 30% !important;">Location Name</th>
+                                                <th style="text-align: center;width: 30% !important;">Is Business
+                                                    activity not as per parent company?</th>
+                                                <th style="text-align: center;">Details of Activity</th>
+                                                <th style="text-align: center;">Action</th>
+                                                <!-- Added delete button column -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of quotePLOptions.subsidaryDetails; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>
+                                                    <p-dropdown class="form-control" [options]="this.countryList"
+                                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                                        [(ngModel)]="item.countryId" #countryIdId="ngModel"
+                                                        id="countryIdId" name="countryIdId"
+                                                        (onChange)="setCountryName(item)" appendTo="body"
+                                                        [disabled]="item.isSelected && (item.countryId!='' && item.countryId!=null)"></p-dropdown>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <p-checkbox class="mr-2" name="isSelected{{i}}"
+                                                        value="{{item.isSelected}}" id="conditionalFree_{{i}}"
+                                                        [binary]="true" [(ngModel)]="item.isSelected"
+                                                        inputId="{{item.isSelected}}"
+                                                        (onChange)="handleBusinessActivityCheckboxChange($event,item,i)">
+                                                    </p-checkbox>
+                                                </td>
+                                                <td>
+                                                    <input pInputText type="text" placeholder="Activity name"
+                                                        [(ngModel)]="item.activityName" maxlength="255"
+                                                        autocomplete="off" #activityName_{{i}}="ngModel"
+                                                        id="activityName_{{i}}" name="activityName_{{i}}"
+                                                        [disabled]="!item.isSelected || !item.countryId" />
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <button pButton pRipple label="Delete" icon="pi pi-trash"
+                                                        class="btn btn-danger" style="height: 30px; line-height: 1;"
+                                                        (click)="removeRow(i)"></button> <!-- Delete button -->
+                                                </td>
+
+                                            </tr>
+
+                                            <!-- Add more rows as needed -->
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-info add-button" (click)="addSubsidary()">
+                                        + Add More
+                                    </button>
+                                    <!-- <div>
+                                        <button class="btn btn-success mr-4" style="width: 75px; margin-top: 2%; margin-left: 78%;" type="button" id="familyComposition_Save">Save</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="button-container" style="margin-top: 15px;">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success"></button>
+                            </div>
+                        </p-card>
+
+                    </div>
+                    <div class="col-6">
+                        <p-card>
+                            <ng-template pTemplate="header">
+                                <div class="grid" style="margin-bottom: 20px;">
+                                    <div class="col-8">
+                                        <h3 class="mb-2" style="font-size: large; font-weight: bold;"
+                                            id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h3>
+                                        <label for="" id="lblClientIndustry" *ngIf="templateName=='LIABILITY_PRODUCT'"
+                                            style="font-size: xx-small;  font-weight: bold;">Liability - Product
+                                            Liability Policy</label>
+                                        <label for="" id="lblClientIndustry" *ngIf="templateName=='LIABILITY_CYBER'"
+                                            style="font-size: xx-small;  font-weight: bold;">Liability - Cyber Insurance
+                                            Policy</label>
+                                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                                            {{this.quote?.productId?.type}}</p>
+                                    </div>
+                                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium
+                                        </p>
+                                        <!-- <p class="premium-price" id="IndicativeQuoteTab_TotalPremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+                                        <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span>
+                                                <!-- <app-currency
+                                                [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency>-->
+                                                <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                    [rate]="this.quote?.dollarRate"
+                                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                    [value]='this.quotePLOptions?.totalPremiumAmt ?? 0'></app-currency-dollar-repee>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class="view-breakup h-100">
+                                <div class="grid mb-2">
+                                    <div class="col-8">
+                                        <span class="name" id="IndicativeQuoteTab_BasePremium_Label">Limit of
+                                            Liability:</span>
+                                        <!-- <span class="price" id="IndicativeQuoteTab_BasePremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                                        <!-- <span class="price" id="IndicativeQuoteTab_BasePremium"><app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency></span> -->
+                                        <span class="price"
+                                            id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                [value]='this.quotePLOptions?.limitOfLiability'></app-currency-dollar-repee></span>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3">
+                                    <!-- <div class="col-8">
+                                        <span class="name" id="IndicativeQuoteTab_PropertyValue_Label">Property Value:</span> -->
+                                    <!-- <span class="price" id="IndicativeQuoteTab_PropertyValue">{{(this.quote.totalSumAssured).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} </span> -->
+                                    <!-- <span class="price" id="IndicativeQuoteTab_PropertyValue"><app-currency [maximumFractionDigits]="0" [value]="this.quote?.totalSumAssured ?? 0"></app-currency> </span>
+                                    </div> -->
+                                </div>
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Covers Opted
+                                                (<span>{{selectedCoversCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Deductibles
+                                                (<span>{{deductibilitiesCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3">
+                                    <div class="col-12">
+                                        <button id="IndicativeQuoteTab_ViewDetailsDialog" label="View Details"
+                                            type="button" class="btn btn-primary  mr-2"
+                                            (click)="openAddOnCoversDialog()">View Details</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

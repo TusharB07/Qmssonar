@@ -1,0 +1,107 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <table class="project-table">
+    <tr>
+      <th>Field</th>
+      <th>Details</th>
+    </tr>
+    <tr *ngFor="let field of fields">
+      <td>{{ field.label }}</td>
+      <td *ngIf="field.split">
+        <input
+          type="text"
+          [formControlName]="field.nameControl"
+          placeholder="Enter name"
+          style="margin-bottom: 5px; display: block;"
+          maxlength="101"
+        />
+        <div *ngIf="projectForm.get(field.nameControl)?.touched && projectForm.get(field.nameControl)?.errors?.['required']" class="error">
+          Name is required.
+        </div>
+        <div *ngIf="projectForm.get(field.nameControl) && projectForm.get(field.nameControl)?.errors?.['maxlength']" class="error">
+          Name cannot be more than 100 Characters.
+        </div>
+        <input
+          type="text"
+          [formControlName]="field.addressControl"
+          placeholder="Enter address"
+          maxlength="101"
+        />
+        <div *ngIf="projectForm.get(field.addressControl)?.touched && projectForm.get(field.addressControl)?.errors?.['required']" class="error">
+          Address is required.
+        </div>
+        <div *ngIf="projectForm.get(field.addressControl) && projectForm.get(field.addressControl)?.errors?.['maxlength']" class="error">
+          Address cannot be more than 100 Characters.
+        </div>
+      </td>
+      <td *ngIf="!field.split && field.controlName !== 'projectPeriod' && field.controlName !== 'wetRiskInvolved' && field.controlName !== 'isbrownfieldProject'">
+        <input
+          type="text"
+          [formControlName]="field.controlName"
+          placeholder="Enter {{ field.label.toLowerCase() }}"
+          [maxlength]="field?.maxLength + 1"
+        />
+        <div *ngIf="projectForm.get(field.controlName)?.touched && projectForm.get(field.controlName)?.errors?.['required']" class="error">
+          {{ field.label }} is required.
+        </div>
+        <div *ngIf="projectForm.get(field.controlName) && projectForm.get(field.controlName)?.errors?.['maxlength']" class="error">
+          {{ field.label }} cannot be more than {{ field?.maxLength }} Characters.
+        </div>
+      </td>
+      <td *ngIf="field.controlName === 'projectPeriod'">
+        <div style="margin-top: 10px;">
+          Project Start Date
+        </div>
+        <div class="input-row">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="projectPeriodStart"
+            [(ngModel)]="this.projectStartDate"
+            max="3000-12-31"
+            [min]="minDate"
+          />
+          <p class="title ml-3" id="quote_RiskStartDate">{{this.projectStartDate | date : 'fullDate'}}</p>
+          <div *ngIf="projectForm.get('projectPeriodStart')?.touched && projectForm.get('projectPeriodStart')?.invalid" class="error">
+            Start date is required.
+          </div>
+        </div>
+        <div style="margin-top: 10px;">
+          Project End Date
+        </div>
+        <div class="input-row pt-10">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="projectPeriodEnd"
+            [(ngModel)]="this.projectEndDate"
+            [min]="minDate"
+            max="3000-12-31"
+          />
+          <p class="title ml-3" id="quote_RiskStartDate">{{this.projectEndDate | date : 'fullDate'}}</p>
+          <div *ngIf="projectForm.get('projectPeriodEnd')?.touched && projectForm.get('projectPeriodEnd')?.invalid" class="error">
+            End date is required.
+          </div>
+        </div>
+      </td>      
+      <td *ngIf="field.controlName === 'wetRiskInvolved' || field.controlName === 'isbrownfieldProject'">
+        <div class="radio-group">
+          <label>
+            <input
+              type="radio"
+              [formControlName]="field.controlName"
+              [value]="true"
+            /> Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              [formControlName]="field.controlName"
+              [value]="false"
+            /> No
+          </label>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <button type="submit" class="submit-btn" [disabled]="!projectForm.valid">Save</button>
+</form>

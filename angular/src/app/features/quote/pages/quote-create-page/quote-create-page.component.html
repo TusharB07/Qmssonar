@@ -1,0 +1,194 @@
+<div *ngIf="!isMobile">
+    <section class="blue-bg-section ">
+        <div class="main grid">
+            <div class="col-8 ">
+                <div class=" mb-2">
+                    <div class="col-12">
+                        <div class="create-quote-container" data-aos="zoom-in">
+                            <h2 id="QuoteCreate_Header">Create a Quote</h2>
+                            <h5 id="QuoteCreate_SubHeader">Select your Insurer &amp; get started</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid my-4">
+                    <div class="col-12" data-aos="zoom-in" style="z-index:1">
+                        <form [formGroup]="this.quoteCreationForm" (ngSubmit)="submitted=true; this.saveRecord();" class="create-quote" id="QuoteCreate_QuoteCreationForm">
+                            <div class="grid flex justify-content-center">
+    
+                                <div class="col-3 no-padding-top-bottom cq-col">
+    
+                                    <!-- <p-dropdown [options]="sectors" optionLabel="name" optionValue="_id" [filter]="true" filterBy="name" [showClear]="false" placeholder="Select a Sector" class="custom-dropdowns" formControlName="sectorId" required [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['sectorId'].valid}">
+                                        <ng-template let-selectedSector pTemplate="selectedItem">
+                                            <div class="country-item country-item-value" *ngIf="selectedSector">
+                                                <div>{{selectedSector.name}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown> -->
+                                    <p-dropdown [options]="sectors" optionLabel="name" id="QuoteCreate_Sector" optionValue="_id" [filter]="true" filterBy="name" [showClear]="false" placeholder="Select a Industry" class="custom-dropdowns" formControlName="sectorId" required [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['sectorId'].valid}"></p-dropdown>
+    
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && quoteCreationForm.controls['sectorId']?.errors?.required">Industry
+                                        is required.</small>
+    
+                                </div>
+                                <div class="col-6 no-padding-top-bottom cq-col">
+                                    <div class="grid search-container-wrapper">
+                                        <div class="col-8 no-padding">
+                                            <div class="search-container">
+                                                <p-autoComplete placeholder="Enter Insured Name" class="custom-dropdowns" id="QuoteCreate_ClientName" [suggestions]="this.filteredClientName" (completeMethod)="this.filterClientName($event)" field="label" [virtualScroll]="true" formControlName="clientId" [delay]="500" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true" [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['clientId'].valid}">
+                                                </p-autoComplete>
+    
+                                                <small class="ng-dirty ng-invalid" *ngIf="submitted && quoteCreationForm.controls['clientId']?.errors?.required">Insured Name
+                                                    is required.</small>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-4 no-padding">
+                                            <p-dropdown placeholder="Select a Quote Type"  id="QuoteCreate_QuoteType" [options]="optionsQuoteType" [(ngModel)]="selectedOption" optionLabel="label" optionValue="value" class="custom-dropdowns" formControlName="quoteType" required [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['quoteType'].valid}">
+                                            </p-dropdown>
+                                            <small class="ng-dirty ng-invalid" *ngIf="submitted && quoteCreationForm.controls['quoteType']?.errors?.required">Quote
+                                                type is required.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 no-padding-top-bottom cq-col">
+                                    <button pButton type="submit" label="Create Quote" id="QuoteCreate_CreateQuote" class="p-button-success btn-green"></button>
+                                    <!-- [routerLink]="['/backend/quote-details']" -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="grid justify-content-center">
+                    <div class="col-5 md:col-5">
+                        <div class="separator">
+                            <div class="line"></div>
+                            <h4>OR</h4>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid justify-content-center" data-aos="zoom-in">
+                    <div class="col-12 md:col-8">
+                        <div class="add-new-client">
+                            <div class="new-client">
+                                <div class="img">
+                                    <img src="assets/client.png" alt="">
+                                </div>
+                                <div class="detail">
+                                    <p class="title" id="QuoteCreate_clients">Want to add a new insurer?</p>
+                                    <!-- <p>Lorem ipsum dolor sit</p> -->
+                                </div>
+                            </div>
+                            <div class="add-btn">
+                                <!-- <button pButton type="button" (click)="openAddNewClientDialog()" label="Add New Client" class="p-button-outlined btn-outline-blue"></button> -->
+                                <!-- <a routerLink="/backend/create-client" pButton type="button" label="Add New Client" id="QuoteCreate_CreateNew_Client" class="p-button-outlined btn-outline-blue"></a> -->
+                                <a href="javascript:void(0)" pButton type="button" label="Add New Insurer" id="QuoteCreate_CreateNew_Client"
+                                    class="p-button-outlined btn-outline-blue" (click)="createClientDialogue()"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid justify-content-center pb-6" data-aos="fade-up">
+                    <div class="col text-center">
+    
+                        <img class="img-responsive banner" id="QuoteCreate_Banner" src="assets/add1.png" alt="">
+                    </div>
+                </div>
+                <!-- <div class="grid justify-content-center">
+                    <div class="col-5 md:col-5">
+                        <div class="separator">
+                            <div class="line"></div>
+                            <h4>OR</h4>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="grid justify-content-center"> -->
+                    <!-- <p-fileUpload
+                    [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+                    [method]="this.uploadProps.method" (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                    [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()" [showCancelButton]="true"
+                    [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload" [uploadLabel]="this.uploadProps.uploadLabel"
+                    [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"
+                    id="uploadLocationDetails_Excel"></p-fileUpload> -->
+                    <!-- <p-fileUpload name="demo[]" url="./upload.php" mode="basic" accept="image/*" chooseIcon="pi pi-upload" chooseLabel="Upload" maxFileSize="1000000" (onUpload)="onQuoteUpload($event)"></p-fileUpload>
+                </div> -->
+            </div>
+        </div>
+    </section>
+</div>
+<div *ngIf="isMobile">
+    <section class="blue-bg-section ">
+        <div class="flex flex-wrap justify-content-center">
+            <h2 id="QuoteCreate_Header" class="mt-6 mb-4">Create a quote</h2>
+        </div>
+        <div class="flex flex-wrap justify-content-center">
+            <h5 id="QuoteCreate_SubHeader" class="mb-3">Select your Insured &amp; get started</h5>
+        </div>
+        <form [formGroup]="this.quoteCreationForm" (ngSubmit)="submitted=true; this.saveRecord();" class="create-quote"
+            id="QuoteCreate_QuoteCreationForm">
+            <div class="no-padding-top-bottom mx-4 mb-4">
+                <h5 class="mb-2">Sector</h5>
+                <p-dropdown [options]="sectors" optionLabel="name" id="QuoteCreate_Sector" optionValue="_id"
+                    [filter]="true" filterBy="name" [showClear]="false" placeholder="Select a Sector"
+                    class="custom-dropdowns custom-dropdowns1" formControlName="sectorId" required
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['sectorId'].valid}"></p-dropdown>
+                <small class="ng-dirty ng-invalid"
+                    *ngIf="submitted && quoteCreationForm.controls['sectorId']?.errors?.required">Sector
+                    is required.</small>
+            </div>
+            <div class="mx-4 mb-4 flex justify-content-center">
+                <div class="w-6 mr-1">
+                    <h5 class="mb-2">Insured Name</h5>
+                    <p-autoComplete placeholder="Enter Insured Name" class="custom-dropdowns custom-dropdowns1" id="QuoteCreate_ClientName"
+                        [suggestions]="this.filteredClientName" (completeMethod)="this.filterClientName($event)"
+                        field="label" [virtualScroll]="true" formControlName="clientId" [delay]="500"
+                        [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['clientId'].valid}">
+                    </p-autoComplete>
+
+                    <small class="ng-dirty ng-invalid"
+                        *ngIf="submitted && quoteCreationForm.controls['clientId']?.errors?.required">Insured
+                        is required.</small>
+                </div>
+                <div class="no-padding w-6 ml-1">
+                    <h5 class="mb-2">Type</h5>
+                    <p-dropdown placeholder="Select a Quote Type" id="QuoteCreate_QuoteType"
+                        [options]="optionsQuoteType" [(ngModel)]="selectedOption" optionLabel="label"
+                        optionValue="value" class="custom-dropdowns custom-dropdowns1" formControlName="quoteType" required
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !quoteCreationForm.controls['quoteType'].valid}">
+                    </p-dropdown>
+                    <small class="ng-dirty ng-invalid"
+                        *ngIf="submitted && quoteCreationForm.controls['quoteType']?.errors?.required">Quote
+                        type is required.</small>
+                </div>
+            </div>
+            <div class="no-padding-top-bottom mx-4">
+                <button pButton type="submit" label="Create Quote" id="QuoteCreate_CreateQuote"
+                    class="p-button-success btn-green w-full"></button>
+            </div>
+        </form>
+        <div class="separator">
+            <div class="line"></div>
+            <h4>OR</h4>
+            <div class="line"></div>
+        </div>
+        <div class="add-new-client mx-3">
+            <div class="new-client">
+                <div class="img" style="margin-right: 10px">
+                    <img src="assets/client.png" alt="">
+                </div>
+                <div class="detail">
+                    <p class="title" id="QuoteCreate_clients">Want to add a new Insurer?</p>
+                </div>
+            </div>
+            <div class="add-btn">
+                <a href="javascript:void(0)" pButton type="button" label="Add New Client" id="QuoteCreate_CreateNew_Client"
+                    class="p-button-outlined btn-outline-blue" (click)="createClientDialogue()"></a>
+            </div>
+        </div>
+        <div class="text-center mx-4">
+            <img class="img-responsive banner" id="QuoteCreate_Banner" src="assets/add1.png" alt="">
+        </div>
+    </section>
+</div>

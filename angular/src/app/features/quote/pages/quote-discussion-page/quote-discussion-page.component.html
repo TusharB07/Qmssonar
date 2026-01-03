@@ -1,0 +1,86 @@
+<section class="main-container review-quote-details" *ngIf="this.quote">
+    <div class="wrapper">
+        <div class="content-wrapper custom-style">
+            <div class="content-details-tabs">
+                <div class="grid px-3">
+                    <div class="col mt-5 pr-4" id="left-bar" style="height: calc(100vh - 70px - 50px);">
+                        <div>
+                            <app-quote-slip-template-one id="QuoteSlipDialog_QuoteSlipTemplateOne"
+                                [quote]="this.quote" [quoteOption]="this.quoteOptionData"></app-quote-slip-template-one>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-4 pl-4" id="right-bar"
+                        style="height: calc(100vh - 70px - 50px);overflow-y: auto;">
+                        <div *ngIf="this.quote">
+                            <!-- <app-query-discussion-box *ngIf="this.quote.quoteState !=='Placment'" [quote]="this.quote"></app-query-discussion-box> -->
+                            <div *ngIf="this.quote.quoteState =='Placement'">
+                                <h2>Proceed Quote further</h2>
+                                <div class="flex justify-content-end align-items-center mt-4">
+                                    <a pButton
+                                        class=" p-blue-button" id="Dashboard_AddQuote" (click)="this.proceesedQuote()">Proceed Quote</a>
+                                </div>
+                                <h4>Risk letter head</h4>
+                                <div class="flex justify-content-end align-items-center mt-4">
+                                    <p-fileUpload
+                                     #fileUpload
+                                    [auto]="true"
+                                    id="RiskInspectionCard_RiskInspectionReport_Upload"
+                                    (onUpload)="this.onUploadRiskCoverLetterUpload()"
+                                    name="riskCoverletter_Upload"
+                                    url="{{this.uploadPolicycopyReportUrl}}"
+                                    accept=""
+                                    maxFileSize="10000000"
+                                    chooseIcon="pi pi-paperclip"
+                                    chooseLabel="Upload Risk letter head"
+                                    [headers]="this.uploadRiskcoverheadReportUrl"
+                                    method="post">
+                                    </p-fileUpload>
+                                </div>
+
+                            </div>
+                            <div *ngIf="this.quote.quoteState =='Post Placement'">
+                                <h2>Your Quote is placed</h2>
+                    
+                                <h4>Policy copy upload</h4>
+                                <div class="flex align-items-center mt-4">
+                                    <p-fileUpload
+                                     #fileUpload
+                                    [auto]="true"
+                                    id="RiskInspectionCard_RiskInspectionReport_Upload"                                   
+                                    (onUpload)="this.onUploadPolicyCopyUpload()"
+                                    name="policyCopyPSR_Upload"
+                                    url="{{this.uploadPolicycopyReportUrl}}"
+                                    accept="application/pdf"
+                                    maxFileSize="10000000"
+                                    chooseIcon="pi pi-paperclip"
+                                    chooseLabel="upload Policy copy "
+                                    [headers]="this.uploadHttpHeaders"
+                                    method="post">
+                                    </p-fileUpload>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="mt-2" *ngIf="this.quote.quoteState =='Post Placement'">
+                            <button class="btn btn-primary">Generate Sales Template</button>
+                            <div class="mt-2">
+                                <label for="policyNo">Policy No:</label>
+                                <input id="policyNo" type="text" pInputText/>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="text-black mb-0" id="OTCProductLimitDialog_ConfirmMSG">Download All Quote Option in Below Format
+                            </h4><br>
+                            <button class="btn btn-danger mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadDocument({fileFormatToGenerate: 'PDF'})">Download
+                                PDF</button>
+                            <button class="btn btn-primary mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadDocument({fileFormatToGenerate: 'DOCX'})">Download
+                                    DOCX</button>
+                            <button class="btn btn-success mr-4" id="OTCProductLimitDialog_Accept" (click)="downloadExcel()">Download
+                                Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

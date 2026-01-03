@@ -1,0 +1,69 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="BreakupMasterFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="BreakupMasterForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="BreakupMasterForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col-12 md:col-12">
+
+                <div class="card p-fluid">
+                    <h5 id="BreakupMasterForm_GeneralInformation_Header">General Information</h5>
+                    <div class="field">
+                        <label id="BreakupMasterForm_LovIdLabel" for="lovId">Lov Id</label>
+                        <input id="BreakupMasterForm_LovId" class="form-control" type="text" pInputText id="lovId" formControlName="lovId" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['lovId']}" />
+                        <small id="BreakupMasterForm_LovId_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['lovId']">Lov Id is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="BreakupMasterForm_LovKeyLabel" for="lovKey">Lov Key</label>
+                        <input id="BreakupMasterForm_LovKey" class="form-control" type="text" pInputText id="lovKey" formControlName="lovKey" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['lovKey']}" />
+                        <small id="BreakupMasterForm_LovKey_ValidationError"class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['lovKey']">Lov Value is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="BreakupMasterForm_LovTypeLabel" for="lovType">Lov Type</label>
+                        <input id="BreakupMasterForm_LovType" class="form-control" type="text" pInputText id="lovType" formControlName="lovType" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['lovType']}" />
+                        <small id="BreakupMasterForm_LovType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['lovType']">Lov Type is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="BreakupMasterForm_LovReferanceLabel" for="lovType">lovReferences</label>
+                        <input id="BreakupMasterForm_LovReferance" class="form-control" type="text" pInputText id="lovReferences" formControlName="lovReferences" autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['lovReferences']}" />
+                        <small id="BreakupMasterForm_LovReferance_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['lovReferences']">lovReferences is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="BreakupMasterForm_QuoteTypeLabel" for="quoteId">Quote Type</label>
+                        <p-autoComplete id="BreakupMasterForm_QuoteType" [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId'].valid}"></p-autoComplete>
+                        <small id="BreakupMasterForm_QuoteType_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote type is required.</small>
+                    </div>
+                    <!-- <div class="field">
+                        <label for="clientLocationId">Client Locations</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="clientLocationId" [suggestions]="this.optionsClientLocations" (completeMethod)="this.searchOptionsClientLocations($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['clientLocationId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['clientLocationId']?.errors?.required">Client Location is required.</small>
+                    </div> -->
+
+                    <div class="field">
+                        <label id="BreakupMasterForm_ValueLabel" for="value">Value</label>
+                        <input id="BreakupMasterForm_Value" class="form-control" type="text" pInputText id="value" formControlName="value"
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['value']}" />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['total']">Signage Type is
+                            required.</small> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

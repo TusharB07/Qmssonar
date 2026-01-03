@@ -1,0 +1,43 @@
+<div class="card modal-body" style="padding: 0px 16px !important;">
+    <form class="" [formGroup]="employeeFormGroup" (ngSubmit)="this.submitFidelityGuranteeForm()" #$form="ngForm">
+        <div formArrayName="formArray" *ngFor="let form of this.formArray.controls; let i = index">
+            <div [formGroupName]="i">
+                <div class="sign-in-head flex align-items-center justify-content-between"
+                    *ngIf="this.permissions.includes('update')">
+                    <a class="red-link" id="FidelityGuarantee_Form_Delete"
+                        (click)="this.deleteFormBasedOnIndex(i)">Delete</a>
+                </div>
+
+                <div class="grid mb-5">
+
+                    <div class="col-6 mb-5">
+                        <label for="" id="fidelityGurantee_dialog_SumInsured" class="form-label">Employee Name</label>
+                        <!-- TO GET THE COUNT OF VALUES IN RUPEES INSTEAD OF MILLIONS -->
+                        <input pInputText type="text" [value]="'Employee '+(i+1)" formControlName="employee"/>
+                        <!-- <small class="ng-dirty ng-invalid" id="fidelityGurantee_dialog_SumInsured_ValidationError" *ngIf="fidelityGuranteeForm.value['sumInsured']?.errors?.maxlength">Sum Insured is cannot be more than 25 Characters.</small> -->
+                        <!-- <small class="ng-dirty ng-invalid" id="fidelityGurantee_dialog_SumInsured_ValidationError" *ngIf="form.controls['sumInsured']?.errors?.max">Sum Insured is cannot be more than 11 Characters.</small> -->
+                    </div>
+
+                    <div class="col-6 mb-5">
+                        <label for="" id="fidelityGurantee_dialog_SumInsured" class="form-label">Sum Insured</label>
+                        <!-- TO GET THE COUNT OF VALUES IN RUPEES INSTEAD OF MILLIONS -->
+                        <p-inputNumber id="fidelityGurantee_dialog_SumInsured" mode="decimal" locale="en-IN" prefix="₹ "
+                            [minFractionDigits]="0" placeholder="0" formControlName="sumInsured" maxlength="21"
+                            [readonly]="!this.permissions.includes('update')"
+                            [ngClass]="{'ng-invalid ng-dirty':$form.submitted &&  !form.value['sumInsured']}">
+                        </p-inputNumber>
+                        <!-- <small class="ng-dirty ng-invalid" id="fidelityGurantee_dialog_SumInsured_ValidationError" *ngIf="fidelityGuranteeForm.value['sumInsured']?.errors?.maxlength">Sum Insured is cannot be more than 25 Characters.</small> -->
+                        <!-- <small class="ng-dirty ng-invalid" id="fidelityGurantee_dialog_SumInsured_ValidationError" *ngIf="form.controls['sumInsured']?.errors?.max">Sum Insured is cannot be more than 11 Characters.</small> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="" *ngIf="this.permissions.includes('update')">
+            <div class="text-right">
+                <a class="blue-link" id="Add_fidelityGurantee_dialog_Form" (click)="this.addFormToArray()">+ Add
+                    more</a>
+            </div>
+        </div>
+    </form>
+</div>

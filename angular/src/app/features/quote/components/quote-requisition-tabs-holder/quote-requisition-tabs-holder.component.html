@@ -1,0 +1,624 @@
+<div *ngIf="!isMobile">
+    <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <p-sidebar [(visible)]="visibleSidebar" position="right" styleClass="p-sidebar-md" [baseZIndex]="1"
+            [style]="{'width':'32%'}">
+            <app-query-discussion-box *ngIf="visibleSidebar" [quote]="this.quote"></app-query-discussion-box>
+        </p-sidebar>
+    </div>
+    <div class="content-wrapper">
+        <p-toast [style]="{'font-size' : '15px','font-weight': 'bold'}"></p-toast>
+        <div class="top-head-details">
+            <div class="grid">
+                <div class="col-3" data-aos="fade-down" id="requisitionTab_TabsLabel ">
+                    <h2 class="m-0" *ngIf="this.tabs && this.tabIndex != undefined">{{this.tabs[this.tabIndex].label }}
+                    </h2>
+                </div>
+                <div class="col-9 flex  justify-content-end" data-aos="fade-left" style="z-index:1">
+                    <div *ngIf="this.showBackToDraft">
+                        <button class="mr-3 btn btn-lg btn btn-primary" type="submit"
+                            id="requisitionTab_generateQuoteSlip" (click)="this.backToDraftPage()"><i
+                                class="pi pi-chevron-left" style="font-size: 0.8rem"></i> Back To Draft</button>
+                    </div>
+                    <!-- <div>
+                            <button class="mr-3 btn btn-lg btn btn-primary" type="submit"
+                                id="requisitionTab_generateQuoteSlip" (click)="this.pushBackTo()"><i
+                                    class="pi pi-chevron-left" style="font-size: 0.8rem"></i>Push Back</button>
+                    </div> -->
+                    <div
+                        *ngIf="this.quote.productId['productTemplate'] != AllowedProductTemplate.GMC && !isAllowedProductLiability()">
+                        <button class="mr-3 btn btn-lg btn-primary" (click)="openMoodysAPI()">
+                            Moody's Intelligence
+                        </button>
+                    </div>
+                    <!-- New_Quote_Option -->
+                    <div class="mr-3"
+                        *ngIf="this.quote.productId['productTemplate'] != AllowedProductTemplate.GMC && !isAllowedProductLiability()">
+                        <p-dropdown *ngIf="this.selectedQuoteOptionOfProperty"
+                            [(ngModel)]="this.selectedQuoteOptionOfProperty" [options]="this.allQuoteOptionDropdown"
+                            (ngModelChange)="this.onChangeQuoteOption($event)"></p-dropdown>
+                    </div>
+                    <!-- <div *ngIf="this.user.roleId['name'] != 'sales_creator_and_approver'">
+                    <div *ngIf="this.user.partnerId['brokerModeStatus'] == true" style="border: 1px solid #ececec; border-radius: 4px 0px 0px 4px; padding: 4px;
+                    cursor: pointer; position: relative; margin-right: 8px">
+                        <i class="pi pi-comments button" style="font-size: 2rem;color : blue" (click)="visible()"
+                        position="right"></i>
+                    </div>
+                    </div> -->
+                    <div *ngIf="this.user.roleId['name'] != 'sales_creator_and_approver'">
+                        <button class="mr-3 btn btn-lg btn btn-primary" (click)="pushBackTo()">Push Back</button>
+                    </div>
+                    <div class="mr-3" *ngIf="isAllowedProduct()">
+                        <button class="btn btn-lg btn btn-primary" type="button" id="requisitionTab_createOptions"
+                            (click)="createQuoteOption()">Create Quote Options</button>
+                    </div>
+                    <!-- New_Quote_Option -->
+                    <div class="mr-3">
+                        <p-dropdown *ngIf="this.selectedQuoteLocationOccupancy"
+                            [(ngModel)]="this.selectedQuoteLocationOccupancy"
+                            [options]="this.optionsQuoteLocationOccupancies" [filter]="true"
+                            (ngModelChange)="this.onChangeQuoteLocationOccupancy($event)"></p-dropdown>
+                    </div>
+
+                    <!--GMC-->
+                    <div class="mr-3" *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.GMC">
+                        <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleOptions"
+                            [(ngModel)]="this.selectedQuoteOption" (onChange)="handleQuoteOptionChange($event)"
+                            class="custom-dropdown" [options]="this.optionsQuoteOptions" field="label"></p-dropdown>
+                    </div>
+                    <div class="mr-3" *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.GMC">
+                        <button class="btn btn-lg btn btn-primary" type="button" id="requisitionTab_createOptions"
+                            (click)="createGmcQuoteOptionsDialog()">Create Options</button>
+                    </div>
+
+
+                    <!--Liability-->
+                    <div class="mr-3" *ngIf="isAllowedProductLiability()">
+                        <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleOptionsLiability"
+                            [(ngModel)]="this.selectedQuoteOption" (onChange)="handleQuoteOptionChangeLiability($event)"
+                            class="custom-dropdown" [options]="this.optionsQuoteOptions" field="label"></p-dropdown>
+                    </div>
+
+                    <div *ngIf="isAllowedProductLiability()" class="mr-3">
+                        <button class="btn btn-lg btn btn-primary" type="button"
+                            id="requisitionTab_createOptionsLiability" (click)="createQuoteOptionsDialog()">Create
+                            Options</button>
+                    </div>
+                    <div *ngIf="isAllowedProductLiability()" class="mr-3">
+                        <button class="btn btn-lg btn btn-primary" type="button" id="requisitionTab_createOptions"
+                            (click)="compareLiabilityQuoteOptionsDialog()" style="font-size: 1.2rem">Compare
+                            Options</button>
+                    </div>
+
+
+
+                    <div>
+                        <button class="btn btn-lg btn btn-success" type="submit" id="requisitionTab_generateQuoteSlip"
+                            [disabled]="this.quote.totalQuoteSIExceeded"
+                            (click)="this.generateQuoteSlip()">Save</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="grid"
+                *ngIf="[AllowedProductTemplate.LIABILITY].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_EANDO].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CRIME].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CGL].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_PUBLIC].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_PRODUCT].includes(this.quote?.productId['productTemplate']) || [AllowedProductTemplate.LIABILITY_CYBER].includes(this.quote?.productId['productTemplate'])">
+                <div class="col-12 flex  justify-content-end" data-aos="fade-down" id="requisitionTab_TabsLabel">
+                    <p-selectButton id="QuoteViewPage_ChangeView" [options]="this.optionsViewTypes"
+                        (ngModelChange)="this.changeView($event)" [(ngModel)]="this.selectedView" optionValue="code"
+                        optionLabel="icon" optionLabel="label" style="font-size: 20px;"></p-selectButton>
+                </div>
+            </div> -->
+            <div class="mb-2" data-aos="fade-right">
+                <h5>Reference No : {{this.quoteOptionData?.hasOwnProperty('qcrVersion') ? quote?.quoteNo + ' - ' +
+                    this.quoteOptionData?.qcrVersion : quote?.quoteNo}}
+                </h5>
+            </div>
+
+            <!-- <div class="mb-2" data-aos="fade-right"
+                *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.GMC || isAllowedProductLiability()">
+                <h5>
+                    Reference No:
+                    {{ this.quote?.qcrVersion === 1
+                    ? quote?.quoteNo
+                    : (quote?.quoteNo + ' - Version_' + this.quote?.qcrVersion) }}
+                </h5>
+            </div> -->
+
+        </div>
+        <div class="content-details-tabs">
+
+            <!-- <p-progressBar *ngIf="showCompareOption" [value]="progressValue"></p-progressBar> -->
+
+            <div class="grid" style="z-index: 99999;margin-top: 5px;" *ngIf="showCompareOption">
+
+                <div class="col-2">
+                    <!-- Multiselect Options -->
+                    <p-multiSelect placeholder="No Options Selected" [resetFilterOnHide]="true"
+                        id="QuoteReviewPage_selectOptions" name="QuoteReviewPage_selectOptions"
+                        [(ngModel)]="this.selectedOptions" pInputText #name="ngModel"
+                        [options]="this.optionsQuoteOptions" optionLabel="label">
+                        <ng-template pTemplate="empty">
+                            No Options Found
+                        </ng-template>
+                    </p-multiSelect>
+                </div>
+                <div class="col-8 mt-1">
+                    <button class="mr-3 btn btn-lg btn btn-primary" type="button" id="requisitionTab_createOptions"
+                        (click)="compareGmcQuoteOptionsDialog()" style="font-size: 1.2rem">Compare Options</button>
+                </div>
+                <!-- <div class="col-4 mt-1" style="margin-top: 12px;" *ngIf="this.quote.quoteType == 'new'">
+                    <h2><strong class="premium-price">Premium: <app-currency
+                                [value]="(this.selectedQuoteTemplate.calculatedPremium)"></app-currency> *(Incl.
+                            Taxes)</strong></h2>
+                </div> -->
+                <!-- <div class="col-2 mt-1" style="text-align: right;height: 23px;">
+                    <circle-progress [percent]="progressValue" [radius]="30" [outerStrokeWidth]="5"
+                        [innerStrokeWidth]="1" [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'"
+                        [animation]="true" [animationDuration]="300" [showTitle]="true" [showSubtitle]="false"
+                        [showUnits]="false"></circle-progress>
+                </div> -->
+            </div>
+            <div class="grid" style="z-index: 99999;" *ngIf="showWCDiv">
+
+                <div style="margin-top: 12px; margin-left: 20px;" *ngIf="this.quote.partnerId['isRate'] == true">
+                    <h3><strong>Total Indicative Premium: </strong><strong class="premium-price"><app-currency
+                                [value]="(this.quote.wcTemplateDataId['indicativePremium'])"></app-currency> *(Incl.
+                            Taxes)</strong></h3>
+                </div>
+            </div>
+            <div class="grid" style="z-index: 99999;" *ngIf="showOtherLiabilityDiv">
+
+                <div style="margin-top: 12px; margin-left: 20px;" *ngIf="this.quote.partnerId['isRate'] == true">
+                    <h3><strong>Total Indicative Premium: </strong><strong class="premium-price">
+                            <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                [value]='this.indicativePremiumLiability ?? 0'></app-currency-dollar-repee> *(Incl.
+                            Taxes)</strong></h3>
+                </div>
+            </div>
+            <p-tabView *ngIf="this.tabs" [scrollable]="true" [(activeIndex)]="this.tabIndex"
+                (onChange)="this.handleChange($event)">
+                <ng-container *ngFor="let tab of this.tabs, let i = index">
+                    <p-tabPanel header="1">
+                        <ng-template pTemplate="header" id="requisitionTabs">
+                            <i class="number">{{i + 1}}</i>
+                            <span>{{tab.label}}</span>
+                        </ng-template>
+                        <div class="tab-content" data-aos="fade-up">
+                            <app-sum-insured-details-tab *ngIf="tab.fragment === 'app-sum-insured-details-tab'"
+                                id="requisitionTabs_sumInsured_detailsTab"></app-sum-insured-details-tab>
+                            <app-business-suraksha-covers-tab
+                                *ngIf="tab.fragment === 'app-business-suraksha-covers-tab'"
+                                id="requisitionTabs_BusinessSurakshaCoversTab"></app-business-suraksha-covers-tab>
+                            <app-indicative-quote-tab *ngIf="tab.fragment === 'app-indicative-quote-tab'"
+                                id="requisitionTabs_BusinessSurakshaCoversTab"></app-indicative-quote-tab>
+                            <app-risk-management-feature-tab *ngIf="tab.fragment === 'app-risk-management-feature-tab'"
+                                id="requisitionTabs_Risk_Management_FeatureTab"></app-risk-management-feature-tab>
+                            <app-risk-inspection-status-and-claim-experience-tab
+                                *ngIf="tab.fragment === 'app-risk-inspection-status-and-claim-experience-tab'"
+                                id="requisitionTabs_RiskInspection_Claim_ExperienceTab"></app-risk-inspection-status-and-claim-experience-tab>
+                            <app-standard-addons-tab *ngIf="tab.fragment === 'app-standard-addons-tab'"
+                                id="requisitionTabs_Standard_AddonsTab"></app-standard-addons-tab>
+                            <app-other-details-tab *ngIf="tab.fragment === 'app-other-details-tab'"
+                                id="requisitionTabs_OtherDetailes"></app-other-details-tab>
+                            <app-gap-analysis-tab *ngIf="tab.fragment === 'app-gap-analysis-tab'"
+                                id="requisitionTabs_IndicativeQuote_Tab"></app-gap-analysis-tab>
+                            <app-installment-tab *ngIf="tab.fragment === 'app-installment-tab'" [quote]="this.quote"
+                                [quoteOptionData]="this.quoteOptionData">
+                            </app-installment-tab>
+
+                            <!-- Intergation-EB [Start] -->
+                            <app-family-composition-tab *ngIf="tab.fragment === 'app-family-composition-tab'"
+                                id="requisitionTabs_familycomposition"></app-family-composition-tab>
+                            <app-employee-demographic-tab *ngIf="tab.fragment === 'app-employee-demographic-tab'"
+                                id="requisitionTabs_empdemoraphic"></app-employee-demographic-tab>
+                            <app-gmc-covereges-tab *ngIf="tab.fragment === 'app-gmc-covereges-tab'"
+                                id="requisitionTabs_coveraes"></app-gmc-covereges-tab>'
+                            <app-gmc-enhanced-covers-tab *ngIf="tab.fragment === 'app-gmc-enhanced-covers-tab'"
+                                id="requisitionTabs_coveraes"></app-gmc-enhanced-covers-tab>'
+
+                            <app-maternity-benifits-tab *ngIf="tab.fragment === 'app-maternity-benifits-tab'"
+                                id="requisitionTabs_maternityenifits"></app-maternity-benifits-tab>
+                            <app-cost-containment-tab *ngIf="tab.fragment === 'app-cost-containment-tab'"
+                                id="requisitionTabs_costcontainment"></app-cost-containment-tab>
+                            <!-- <app-claim-analytics-tab
+                                *ngIf="tab.fragment === 'app-claim-analytics-tab' && quote.quoteType!='new'"
+                                id="requisitionTabs_claimanalytics"></app-claim-analytics-tab> -->
+                            <app-final-rater-tab
+                                *ngIf="tab.fragment === 'app-final-rater-tab' && quote.quoteType!='new'"
+                                id="requisitionTabs_finalrater"></app-final-rater-tab>
+                            <app-gmc-otherdetails-tab *ngIf="tab.fragment === 'app-gmc-otherdetails-tab'"
+                                id="requisitionTabs_otherDetails"></app-gmc-otherdetails-tab>
+                            <!-- MARINE TABS -->
+                            <app-marine-coverages-tab *ngIf="tab.fragment === 'app-marine-coverages-tab'"
+                                id="requisitionTabs_coverages-tab"></app-marine-coverages-tab>
+                            <app-marine-otherdetails-tab *ngIf="tab.fragment === 'app-marine-otherdetails-tab'"
+                                id="requisitionTabs_otherDetails"></app-marine-otherdetails-tab>
+                            <app-marine-suminsured-details-tab
+                                *ngIf="tab.fragment === 'app-marine-suminsured-details-tab'"
+                                id="requisitionTabs_suminsured-details"></app-marine-suminsured-details-tab>
+
+                            <!-- Workman Policy -->
+                            <app-workmen-details-tab *ngIf="tab.fragment === 'app-workmen-details-tab'"
+                                id="requisitionTabs_WMDetails"></app-workmen-details-tab>
+                            <app-workmen-summary-tab *ngIf="tab.fragment === 'app-workmen-summary-tab'"
+                                id="requisitionTabs_WMsummaryDetails"></app-workmen-summary-tab>
+                            <app-workmen-coverages-tab *ngIf="tab.fragment === 'app-workmen-coverages-tab'"
+                                id="requisitionTabs_WMcoveragesDetails"></app-workmen-coverages-tab>
+                            <app-workmen-teritory-tab *ngIf="tab.fragment === 'app-workmen-teritory-tab'"
+                                id="requisitionTabs_WMdeductiblesDetails"></app-workmen-teritory-tab>
+                            <app-workmen-deductibles-tab *ngIf="tab.fragment === 'app-workmen-deductibles-tab'"
+                                id="requisitionTabs_WMdeductiblesDetails"></app-workmen-deductibles-tab>
+
+                            <!-- LIABILITY D&O -->
+                            <app-basic-details-tab *ngIf="tab.fragment === 'app-basic-details-tab'"
+                                id="requisitionTabs_app-basic-details-tab"></app-basic-details-tab>
+
+                            <app-deductibles-details-tab *ngIf="tab.fragment === 'app-deductibles-details-tab'"
+                                id="requisitionTabs_app-deductibles-details-tab"></app-deductibles-details-tab>
+                            <!-- <app-exclusion-subjectivity-details-tab
+             *ngIf="tab.fragment === 'app-exclusion-subjectivity-details-tab'"
+             id="requisitionTabs_app-exclusion-subjectivity-details-tab"></app-exclusion-subjectivity-details-tab> -->
+
+                            <app-revenue-details-tab *ngIf="tab.fragment === 'app-revenue-details-tab'"
+                                id="requisitionTabs_app_revenue_details_tab">
+                            </app-revenue-details-tab>
+                            <app-exclusion-details *ngIf="tab.fragment === 'app-exclusion-details'"
+                                id="requisitionTabs_exclusions_details_tab">
+                            </app-exclusion-details>
+                            <app-teritory-subsidary-details-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-tab>
+                            <app-other-details-liability-tab *ngIf="tab.fragment === 'app-other-details-liability-tab'"
+                                id="requisitionTabs_app_other_details_tab">
+
+                            </app-other-details-liability-tab>
+
+                            <!-- LIABILITY  E&O-->
+                            <app-basic-details-eando-tab *ngIf="tab.fragment === 'app-basic-details-eando-tab'"
+                                id="requisitionTabs_app_basic_details_eando_tab"></app-basic-details-eando-tab>
+                            <app-teritory-subsidary-details-eando-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-eando-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-eando-tab>
+                            <app-exclusion-eando-details *ngIf="tab.fragment === 'app-exclusion-eando-details'"
+                                id="requisitionTabs_exclusions_details_tab">
+                            </app-exclusion-eando-details>
+
+                            <app-deductibles-eando-details-tab
+                                *ngIf="tab.fragment === 'app-deductibles-eando-details-tab'"
+                                id="requisitionTabs_app_deductibles_eando_details_tab">
+                            </app-deductibles-eando-details-tab>
+                            <app-revenue-details-eando-tab *ngIf="tab.fragment === 'app-revenue-details-eando-tab'"
+                                id="requisitionTabs_app_revenue_details_eando_tab">
+                            </app-revenue-details-eando-tab>
+
+                            <app-basic-details-cgl-tab *ngIf="tab.fragment === 'app-basic-details-cgl-tab'"
+                                id="requisitionTabs_app_basic_details_cgl_tab"></app-basic-details-cgl-tab>
+
+                            <app-teritory-subsidary-details-cgl-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-cgl-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_cgl_tab"></app-teritory-subsidary-details-cgl-tab>
+
+                            <app-revenue-details-cgl-tab *ngIf="tab.fragment === 'app-revenue-details-cgl-tab'"
+                                id="requisitionTabs_app_revenue_details_cgl_tab"></app-revenue-details-cgl-tab>
+                            <app-cgl-exclusion-details *ngIf="tab.fragment === 'app-cgl-exclusion-details'"
+                                id="requisitionTabs_app_exclusions_cgl_tab">
+                            </app-cgl-exclusion-details>
+                            <app-deductibles-cgl-tab *ngIf="tab.fragment === 'app-deductibles-cgl-tab'"
+                                id="requisitionTabs_app_deductibles_cgl_tab"></app-deductibles-cgl-tab>
+                            <!-- LIABILITY  Product-->
+                            <app-basic-details-pl-tab *ngIf="tab.fragment === 'app-basic-details-pl-tab'"
+                                id="requisitionTabs_app_basic_details_pl_tab"></app-basic-details-pl-tab>
+
+                            <app-teritory-subsidary-details-pl-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-pl-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_pl_tab"></app-teritory-subsidary-details-pl-tab>
+
+                            <app-revenue-details-pl-tab *ngIf="tab.fragment === 'app-revenue-details-pl-tab'"
+                                id="requisitionTabs_app_revenue_details_pl_tab"></app-revenue-details-pl-tab>
+                            <app-pl-exclusion-details *ngIf="tab.fragment === 'app-pl-exclusion-details'"
+                                id="requisitionTabs_app_revenue_details_pl_tab">
+                            </app-pl-exclusion-details>
+                            <app-deductibles-pl-details-tab *ngIf="tab.fragment === 'app-deductibles-pl-details-tab'"
+                                id="requisitionTabs_app_deductibles_details_pl_tab"></app-deductibles-pl-details-tab>
+                        </div>
+                    </p-tabPanel>
+                </ng-container>
+            </p-tabView>
+            <!-- <app-moodys-pdf [style] ="{'display' : 'none'}" [earthquakeRiskScore]="earthquakeRiskScore" [earthquakeLossCosts]="earthquakeLossCosts" [FloodRiskScore]="FloodRiskScore" [FloodLossCosts]="FloodLossCosts"></app-moodys-pdf> -->
+        </div>
+    </div>
+</div>
+<div *ngIf="isMobile">
+    <div class="mx-4" style="width:92vw">
+        <p-toast [style]="{'font-size' : '15px','font-weight': 'bold'}"></p-toast>
+        <div class="mt-5 mb-2">
+            <h5>Quote ID: {{quote?.quoteNo}}</h5>
+        </div>
+        <div class="content-details-tabs mt-4">
+            <p-tabView *ngIf="this.tabs" [scrollable]="true" [(activeIndex)]="this.tabIndex"
+                (onChange)="this.handleChange($event)">
+                <ng-container *ngFor="let tab of this.tabs, let i = index">
+                    <p-tabPanel header="1">
+                        <ng-template pTemplate="header" id="requisitionTabs">
+                            <i class="number">{{i + 1}}</i>
+                            <span>{{tab.label}}</span>
+                        </ng-template>
+                        <div class="tab-content">
+                            <app-sum-insured-details-tab *ngIf="tab.fragment === 'app-sum-insured-details-tab'"
+                                id="requisitionTabs_sumInsured_detailsTab"></app-sum-insured-details-tab>
+                            <app-business-suraksha-covers-tab
+                                *ngIf="tab.fragment === 'app-business-suraksha-covers-tab'"
+                                id="requisitionTabs_BusinessSurakshaCoversTab"></app-business-suraksha-covers-tab>
+                            <app-indicative-quote-tab *ngIf="tab.fragment === 'app-indicative-quote-tab'"
+                                id="requisitionTabs_BusinessSurakshaCoversTab"></app-indicative-quote-tab>
+                            <app-risk-management-feature-tab *ngIf="tab.fragment === 'app-risk-management-feature-tab'"
+                                id="requisitionTabs_Risk_Management_FeatureTab"></app-risk-management-feature-tab>
+                            <app-risk-inspection-status-and-claim-experience-tab
+                                *ngIf="tab.fragment === 'app-risk-inspection-status-and-claim-experience-tab'"
+                                id="requisitionTabs_RiskInspection_Claim_ExperienceTab"></app-risk-inspection-status-and-claim-experience-tab>
+                            <app-standard-addons-tab *ngIf="tab.fragment === 'app-standard-addons-tab'"
+                                id="requisitionTabs_Standard_AddonsTab"></app-standard-addons-tab>
+                            <app-other-details-tab *ngIf="tab.fragment === 'app-other-details-tab'"
+                                id="requisitionTabs_OtherDetailes"></app-other-details-tab>
+                            <app-gap-analysis-tab *ngIf="tab.fragment === 'app-gap-analysis-tab'"
+                                id="requisitionTabs_IndicativeQuote_Tab"></app-gap-analysis-tab>
+
+                            <!-- Intergation-EB [Start] -->
+                            <app-family-composition-tab *ngIf="tab.fragment === 'app-family-composition-tab'"
+                                id="requisitionTabs_familycomposition"></app-family-composition-tab>
+                            <app-employee-demographic-tab *ngIf="tab.fragment === 'app-employee-demographic-tab'"
+                                id="requisitionTabs_empdemoraphic"></app-employee-demographic-tab>
+                            <app-gmc-covereges-tab *ngIf="tab.fragment === 'app-gmc-covereges-tab'"
+                                id="requisitionTabs_coveraes"></app-gmc-covereges-tab>'
+                            <app-maternity-benifits-tab *ngIf="tab.fragment === 'app-maternity-benifits-tab'"
+                                id="requisitionTabs_maternityenifits"></app-maternity-benifits-tab>
+                            <app-cost-containment-tab *ngIf="tab.fragment === 'app-cost-containment-tab'"
+                                id="requisitionTabs_costcontainment"></app-cost-containment-tab>
+                            <!-- <app-claim-analytics-tab *ngIf="tab.fragment === 'app-claim-analytics-tab' && quote.quoteType!='new'"
+                                id="requisitionTabs_claimanalytics"></app-claim-analytics-tab> -->
+                            <app-final-rater-tab
+                                *ngIf="tab.fragment === 'app-final-rater-tab' && quote.quoteType!='new'"
+                                id="requisitionTabs_finalrater"></app-final-rater-tab>
+                            <app-gmc-otherdetails-tab *ngIf="tab.fragment === 'app-gmc-otherdetails-tab'"
+                                id="requisitionTabs_otherDetails"></app-gmc-otherdetails-tab>
+                            <!-- MARINE TABS -->
+                            <app-marine-coverages-tab *ngIf="tab.fragment === 'app-marine-coverages-tab'"
+                                id="requisitionTabs_coverages-tab"></app-marine-coverages-tab>
+                            <app-marine-otherdetails-tab *ngIf="tab.fragment === 'app-marine-otherdetails-tab'"
+                                id="requisitionTabs_otherDetails"></app-marine-otherdetails-tab>
+                            <app-marine-suminsured-details-tab
+                                *ngIf="tab.fragment === 'app-marine-suminsured-details-tab'"
+                                id="requisitionTabs_suminsured-details"></app-marine-suminsured-details-tab>
+
+                            <!-- Workman Policy -->
+                            <app-workmen-details-tab *ngIf="tab.fragment === 'app-workmen-details-tab'"
+                                id="requisitionTabs_WMDetails"></app-workmen-details-tab>
+                            <app-workmen-summary-tab *ngIf="tab.fragment === 'app-workmen-summary-tab'"
+                                id="requisitionTabs_WMsummaryDetails"></app-workmen-summary-tab>
+                            <app-workmen-coverages-tab *ngIf="tab.fragment === 'app-workmen-coverages-tab'"
+                                id="requisitionTabs_WMcoveragesDetails"></app-workmen-coverages-tab>
+                            <!-- LIABILITY D&O -->
+                            <app-basic-details-tab *ngIf="tab.fragment === 'app-basic-details-tab'"
+                                id="requisitionTabs_app-basic-details-tab"></app-basic-details-tab>
+                            <app-deductibles-details-tab *ngIf="tab.fragment === 'app-deductibles-details-tab'"
+                                id="requisitionTabs_app-deductibles-details-tab"></app-deductibles-details-tab>
+                            <!-- <app-exclusion-subjectivity-details-tab
+                *ngIf="tab.fragment === 'app-exclusion-subjectivity-details-tab'"
+                id="requisitionTabs_app-exclusion-subjectivity-details-tab"></app-exclusion-subjectivity-details-tab> -->
+
+                            <app-revenue-details-tab *ngIf="tab.fragment === 'app-revenue-details-tab'"
+                                id="requisitionTabs_app_revenue_details_tab">
+                            </app-revenue-details-tab>
+
+                            <app-teritory-subsidary-details-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-tab>
+
+                            <!-- LIABILITY  E&O-->
+                            <app-basic-details-eando-tab *ngIf="tab.fragment === 'app-basic-details-eando-tab'"
+                                id="requisitionTabs_app_basic_details_eando_tab"></app-basic-details-eando-tab>
+                            <app-teritory-subsidary-details-eando-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-eando-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-eando-tab>
+                            <app-deductibles-eando-details-tab
+                                *ngIf="tab.fragment === 'app-deductibles-eando-details-tab'"
+                                id="requisitionTabs_app_deductibles_eando_details_tab">
+                            </app-deductibles-eando-details-tab>
+                            <app-revenue-details-eando-tab *ngIf="tab.fragment === 'app-revenue-details-eando-tab'"
+                                id="requisitionTabs_app_revenue_details_eando_tab">
+
+                            </app-revenue-details-eando-tab>
+                            <app-basic-details-cgl-tab *ngIf="tab.fragment === 'app-basic-details-cgl-tab'"
+                                id="requisitionTabs_app_basic_details_cgl_tab"></app-basic-details-cgl-tab>
+
+                            <app-teritory-subsidary-details-cgl-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-cgl-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_cgl_tab"></app-teritory-subsidary-details-cgl-tab>
+
+                            <app-revenue-details-cgl-tab *ngIf="tab.fragment === 'app-revenue-details-cgl-tab'"
+                                id="requisitionTabs_app_revenue_details_cgl_tab"></app-revenue-details-cgl-tab>
+
+                            <!-- LIABILITY  Product-->
+                            <app-basic-details-pl-tab *ngIf="tab.fragment === 'app-basic-details-pl-tab'"
+                                id="requisitionTabs_app_basic_details_pl_tab"></app-basic-details-pl-tab>
+
+                            <app-teritory-subsidary-details-pl-tab
+                                *ngIf="tab.fragment === 'app-teritory-subsidary-details-pl-tab'"
+                                id="requisitionTabs_app_teritory_subsidary_details_pl_tab"></app-teritory-subsidary-details-pl-tab>
+
+                            <app-revenue-details-pl-tab *ngIf="tab.fragment === 'app-revenue-details-pl-tab'"
+                                id="requisitionTabs_app_revenue_details_pl_tab"></app-revenue-details-pl-tab>
+
+                            <app-deductibles-pl-details-tab *ngIf="tab.fragment === 'app-deductibles-pl-details-tab'"
+                                id="requisitionTabs_app_deductibles_details_pl_tab"></app-deductibles-pl-details-tab>
+                        </div>
+                    </p-tabPanel>
+                </ng-container>
+            </p-tabView>
+        </div>
+        <div class="grid">
+            <i class="pi pi-sliders-h mobile-filters" (click)="displayLocations = true"></i>
+        </div>
+        <div class="mobile-quote-create">
+            <div class="grid">
+                <div class="col-6 pl-6 pr-3">
+                    <button class="mb-2 h-4rem font-bold btn btn-lg btn-success w-full" pButton pRipple type="button"
+                        id="Login_Submit" label="Generate Quote Placement" (click)="this.generateQuoteSlip()"></button>
+                </div>
+                <div class="col-6 pl-3 pr-6">
+                    <button class="mb-2 h-4rem font-bold w-full" pButton pRipple type="button" id="Login_Submit"
+                        label="Add-ons, Coverages & Clauses"
+                        style="background: #2156c2; border-color: #2156c2;width:65px"
+                        (click)="this.toggleSidebar()"></button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 12px; margin-left: 20px;">
+            <h3><strong>Total Indicative Premium: </strong><strong class="premium-price"><app-currency
+                        [value]="(this.quote.wcTemplateDataId['indicativePremium'])"></app-currency> *(Incl.
+                    Taxes)</strong></h3>
+        </div>
+    </div>
+    <p-tabView *ngIf="this.tabs" [scrollable]="true" [(activeIndex)]="this.tabIndex"
+        (onChange)="this.handleChange($event)">
+        <ng-container *ngFor="let tab of this.tabs, let i = index">
+            <p-tabPanel header="1">
+                <ng-template pTemplate="header" id="requisitionTabs">
+                    <i class="number">{{i + 1}}</i>
+                    <span>{{tab.label}}</span>
+                </ng-template>
+                <div class="tab-content" data-aos="fade-up">
+                    <app-sum-insured-details-tab *ngIf="tab.fragment === 'app-sum-insured-details-tab'"
+                        id="requisitionTabs_sumInsured_detailsTab"></app-sum-insured-details-tab>
+                    <app-business-suraksha-covers-tab *ngIf="tab.fragment === 'app-business-suraksha-covers-tab'"
+                        id="requisitionTabs_BusinessSurakshaCoversTab"></app-business-suraksha-covers-tab>
+                    <app-indicative-quote-tab *ngIf="tab.fragment === 'app-indicative-quote-tab'"
+                        id="requisitionTabs_BusinessSurakshaCoversTab"></app-indicative-quote-tab>
+                    <app-gap-analysis-tab *ngIf="tab.fragment === 'app-gap-analysis-tab'"
+                        id="requisitionTabs_IndicativeQuote_Tab"></app-gap-analysis-tab>
+                    <app-risk-management-feature-tab *ngIf="tab.fragment === 'app-risk-management-feature-tab'"
+                        id="requisitionTabs_Risk_Management_FeatureTab"></app-risk-management-feature-tab>
+                    <app-risk-inspection-status-and-claim-experience-tab
+                        *ngIf="tab.fragment === 'app-risk-inspection-status-and-claim-experience-tab'"
+                        id="requisitionTabs_RiskInspection_Claim_ExperienceTab"></app-risk-inspection-status-and-claim-experience-tab>
+                    <app-standard-addons-tab *ngIf="tab.fragment === 'app-standard-addons-tab'"
+                        id="requisitionTabs_Standard_AddonsTab"></app-standard-addons-tab>
+                    <app-other-details-tab *ngIf="tab.fragment === 'app-other-details-tab'"
+                        id="requisitionTabs_OtherDetailes"></app-other-details-tab>
+                    <!-- Intergation-EB [Start] -->
+                    <!-- <app-family-composition-tab *ngIf="tab.fragment === 'app-family-composition-tab'"
+                        id="requisitionTabs_familycomposition" (parentFun)="parentFun()"></app-family-composition-tab> -->
+                    <app-family-composition-tab *ngIf="tab.fragment === 'app-family-composition-tab'"
+                        id="requisitionTabs_familycomposition"></app-family-composition-tab>
+                    <app-employee-demographic-tab *ngIf="tab.fragment === 'app-employee-demographic-tab'"
+                        id="requisitionTabs_empdemoraphic"></app-employee-demographic-tab>
+                    <app-gmc-covereges-tab *ngIf="tab.fragment === 'app-gmc-covereges-tab'"
+                        id="requisitionTabs_coveraes"></app-gmc-covereges-tab>'
+                    <app-maternity-benifits-tab *ngIf="tab.fragment === 'app-maternity-benifits-tab'"
+                        id="requisitionTabs_maternityenifits"></app-maternity-benifits-tab>
+                    <app-cost-containment-tab *ngIf="tab.fragment === 'app-cost-containment-tab'"
+                        id="requisitionTabs_costcontainment"></app-cost-containment-tab>
+                    <!-- <app-claim-analytics-tab
+                        *ngIf="tab.fragment === 'app-claim-analytics-tab' && quote.quoteType!='new'"
+                        id="requisitionTabs_claimanalytics"></app-claim-analytics-tab> -->
+                    <app-final-rater-tab *ngIf="tab.fragment === 'app-final-rater-tab' && quote.quoteType!='new'"
+                        id="requisitionTabs_finalrater"></app-final-rater-tab>
+                    <app-gmc-otherdetails-tab *ngIf="tab.fragment === 'app-gmc-otherdetails-tab'"
+                        id="requisitionTabs_otherDetails"></app-gmc-otherdetails-tab>
+                    <!-- MARINE TABS -->
+                    <app-marine-coverages-tab *ngIf="tab.fragment === 'app-marine-coverages-tab'"
+                        id="requisitionTabs_coverages-tab"></app-marine-coverages-tab>
+                    <app-marine-otherdetails-tab *ngIf="tab.fragment === 'app-marine-otherdetails-tab'"
+                        id="requisitionTabs_otherDetails"></app-marine-otherdetails-tab>
+                    <app-marine-suminsured-details-tab *ngIf="tab.fragment === 'app-marine-suminsured-details-tab'"
+                        id="requisitionTabs_suminsured-details"></app-marine-suminsured-details-tab>
+
+                    <!-- Workman Policy -->
+                    <app-workmen-details-tab *ngIf="tab.fragment === 'app-workmen-details-tab'"
+                        id="requisitionTabs_WMDetails"></app-workmen-details-tab>
+                    <app-workmen-summary-tab *ngIf="tab.fragment === 'app-workmen-summary-tab'"
+                        id="requisitionTabs_WMsummaryDetails"></app-workmen-summary-tab>
+                    <app-workmen-coverages-tab *ngIf="tab.fragment === 'app-workmen-coverages-tab'"
+                        id="requisitionTabs_WMcoveragesDetails"></app-workmen-coverages-tab>
+                    <!-- LIABILITY D&O -->
+                    <app-basic-details-tab *ngIf="tab.fragment === 'app-basic-details-tab'"
+                        id="requisitionTabs_app-basic-details-tab"></app-basic-details-tab>
+                    <app-deductibles-details-tab *ngIf="tab.fragment === 'app-deductibles-details-tab'"
+                        id="requisitionTabs_app-deductibles-details-tab"></app-deductibles-details-tab>
+                    <!-- <app-exclusion-subjectivity-details-tab
+                    *ngIf="tab.fragment === 'app-exclusion-subjectivity-details-tab'"
+                    id="requisitionTabs_app-exclusion-subjectivity-details-tab"></app-exclusion-subjectivity-details-tab> -->
+                    <app-revenue-details-tab *ngIf="tab.fragment === 'app-revenue-details-tab'"
+                        id="requisitionTabs_app_revenue_details_tab">
+                    </app-revenue-details-tab>
+                    <app-teritory-subsidary-details-tab *ngIf="tab.fragment === 'app-teritory-subsidary-details-tab'"
+                        id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-tab>
+                    <!-- LIABILITY  E&O-->
+                    <app-basic-details-eando-tab *ngIf="tab.fragment === 'app-basic-details-eando-tab'"
+                        id="requisitionTabs_app_basic_details_eando_tab"></app-basic-details-eando-tab>
+                    <app-teritory-subsidary-details-eando-tab
+                        *ngIf="tab.fragment === 'app-teritory-subsidary-details-eando-tab'"
+                        id="requisitionTabs_app_teritory_subsidary_details_tab"></app-teritory-subsidary-details-eando-tab>
+                    <app-deductibles-eando-details-tab *ngIf="tab.fragment === 'app-deductibles-eando-details-tab'"
+                        id="requisitionTabs_app_deductibles_eando_details_tab">
+                    </app-deductibles-eando-details-tab>
+                    <app-revenue-details-eando-tab *ngIf="tab.fragment === 'app-revenue-details-eando-tab'"
+                        id="requisitionTabs_app_revenue_details_eando_tab">
+                    </app-revenue-details-eando-tab>
+
+                    <!-- LIABILITY  CGL-->
+                    <app-basic-details-cgl-tab *ngIf="tab.fragment === 'app-basic-details-cgl-tab'"
+                        id="requisitionTabs_app_basic_details_cgl_tab"></app-basic-details-cgl-tab>
+
+                    <app-teritory-subsidary-details-cgl-tab
+                        *ngIf="tab.fragment === 'app-teritory-subsidary-details-cgl-tab'"
+                        id="requisitionTabs_app_teritory_subsidary_details_cgl_tab"></app-teritory-subsidary-details-cgl-tab>
+
+                    <app-revenue-details-cgl-tab *ngIf="tab.fragment === 'app-revenue-details-cgl-tab'"
+                        id="requisitionTabs_app_revenue_details_cgl_tab"></app-revenue-details-cgl-tab>
+                    <!-- LIABILITY  Product-->
+                    <app-basic-details-pl-tab *ngIf="tab.fragment === 'app-basic-details-pl-tab'"
+                        id="requisitionTabs_app_basic_details_pl_tab"></app-basic-details-pl-tab>
+
+                    <app-teritory-subsidary-details-pl-tab
+                        *ngIf="tab.fragment === 'app-teritory-subsidary-details-pl-tab'"
+                        id="requisitionTabs_app_teritory_subsidary_details_pl_tab"></app-teritory-subsidary-details-pl-tab>
+
+                    <app-revenue-details-pl-tab *ngIf="tab.fragment === 'app-revenue-details-pl-tab'"
+                        id="requisitionTabs_app_revenue_details_pl_tab"></app-revenue-details-pl-tab>
+
+                    <app-deductibles-pl-details-tab *ngIf="tab.fragment === 'app-deductibles-pl-details-tab'"
+                        id="requisitionTabs_app_deductibles_details_pl_tab"></app-deductibles-pl-details-tab>
+                </div>
+            </p-tabPanel>
+        </ng-container>
+    </p-tabView>
+    <div class="grid">
+        <i class="pi pi-sliders-h mobile-filters" (click)="displayLocations = true"></i>
+    </div>
+    <div class="mobile-quote-create">
+        <div class="grid">
+            <div class="col-6 pl-6 pr-3">
+                <button class="mb-2 h-4rem font-bold btn btn-lg btn-success w-full" pButton pRipple type="button"
+                    id="Login_Submit" label="Generate Quote Placement" (click)="this.generateQuoteSlip()"></button>
+            </div>
+            <div class="col-6 pl-3 pr-6">
+                <button class="mb-2 h-4rem font-bold w-full" pButton pRipple type="button" id="Login_Submit"
+                    label="Add-ons, Coverages & Clauses" style="background: #2156c2; border-color: #2156c2;width:65px"
+                    (click)="this.toggleSidebar()"></button>
+            </div>
+        </div>
+    </div>
+    <p-dialog class="custom-dialog" [(visible)]="displayLocations" position="bottom" [modal]="true"
+        [style]="{width: '100vw', margin: 'unset', overflow:'hidden', height:'88vh'}" [draggable]="false"
+        [resizable]="false">
+        <div class="my-2">
+            <h5>Location</h5>
+        </div>
+        <div class="w-full" *ngIf="this.tabs[this.tabIndex].fragment != 'app-other-details-tab'">
+            <p-dropdown *ngIf="this.selectedQuoteLocationOccupancy" [(ngModel)]="this.selectedQuoteLocationOccupancy"
+                [options]="this.optionsQuoteLocationOccupancies" [filter]="true"
+                (ngModelChange)="this.onChangeQuoteLocationOccupancy($event)"></p-dropdown>
+        </div>
+    </p-dialog>
+</div>

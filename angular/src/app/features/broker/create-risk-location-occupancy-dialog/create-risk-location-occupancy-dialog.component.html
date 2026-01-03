@@ -1,0 +1,715 @@
+<div *ngIf="!isMobile">
+    <div class="card step3-inner">
+        <!-- <p-toast></p-toast> -->
+        <p-dialog header="Location" [(visible)]="isMapVisible" [style]="{'width': '700px', 'height': '600px','max-height':'unset'}">
+            <div class="">
+                <div class="map-container">
+                    <!-- <input id="search-box" type="text" placeholder="Search for places" /> -->
+                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" (mapClick)="onChoseLocation($event)">
+                      <agm-marker *ngFor="let m of markers; let i = index"
+                        (markerClick)="clickedMarker(m.label, i)"
+                        [latitude]="m.lat"
+                        [longitude]="m.lng"
+                        [label]="m.label"
+                        [markerDraggable]="m.draggable">
+                        <agm-info-window>
+                          <strong>Label: {{m.label}}</strong><br/>
+                          <strong>Latitude: {{m.lat}}</strong><br/>
+                          <strong>Longitude: {{m.lng}}</strong>
+                        </agm-info-window>
+                      </agm-marker>
+                    </agm-map>
+                  </div>
+                  
+            </div>
+        </p-dialog>
+
+        <div class="field mb-3">
+            <div class="title flex justify-content-between align-items-center">
+                <label for="clientLocationId" id="CreateRiskLocation_Header">Client Locations</label>
+            <i *ngIf="this.isCreateClientLocation" class="pi pi-map" style="font-size: 2rem" (click)="openMap()"></i>
+                <!-- <a *ngIf="!this.isCreateClientLocation" (click)='this.openCreateClientLocationDialog()'><i class="pi pi-plus"></i> Create</a> -->
+                <p-splitButton *ngIf="!this.isCreateClientLocation"
+                    styleClass="p-button-outlined mr-2 mb-2 custom-create-btn" label="Create" icon="pi pi-plus"
+                    (onClick)="openCreateClientLocationDialog()" [model]="this.importOptions"
+                    id="CreateRiskLocation_openCreateClientLocationDialog"></p-splitButton>
+                <!-- <a *ngIf="this.isCreateClientLocation" (click)='this.openCreateClientLocationDialog()'><i class="pi pi-times"></i> Cancel</a> -->
+            </div>
+            <div class="grid" *ngIf="!this.isCreateClientLocation">
+                <div class="col-12">
+                    <p-autoComplete class="form-control custom-dropdown" placeholder="Select Client Location"
+                        [(ngModel)]="this.selectedClientLocation" (onSelect)="this.selectClientLocation($event)"
+                        [dropdown]="true" field="label" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                        [forceSelection]="true" field="label" name="clientLocationId"
+                        id="CreateRiskLocation_ClientLocation" [suggestions]="this.optionsClientLocations"
+                        (completeMethod)="this.searchOptionsClientLocations($event)"></p-autoComplete>
+                </div>
+
+            </div>
+
+            <form class="grid" *ngIf="this.isCreateClientLocation" [formGroup]="this.recordForm"
+                (ngSubmit)="this.createClientLocation()">
+                <div class="col-12">
+                    <div class="field">
+                        <label for="locationName" id="CreateRiskLocation_location_Name_label">Location Name</label>
+                        <input maxlength="255" class="form-control" type="text" placeholder="Enter Location Name"
+                            id="CreateRiskLocation_location_Name" pInputText id="locationName"
+                            formControlName="locationName" required autofocus
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['locationName'] }" />
+                        <small *ngIf="this.recordForm.controls['locationName'].errors?.required" class="ng-invalid">This
+                            field is Required.</small>
+                        <small *ngIf="this.recordForm.controls['locationName'].errors?.pattern" class="ng-invalid">Only
+                            Alphabets are allowed.</small>
+                        <!-- <small *ngIf="this.recordForm.controls['locationName'].errors?.maxlength" class="ng-invalid">Only 255 Characters Allowed.</small> -->
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <div class="field">
+                        <label for="address " id="CreateRiskLocation_Address_label">Address</label>
+                        <input maxlength="255" class="form-control" type="text" id="CreateRiskLocation_Address_label"
+                            placeholder="Enter Address" pInputText id="address" formControlName="address" required
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['address'] }" />
+                        <small *ngIf="this.recordForm.controls['address'].errors?.required" class="ng-invalid">This
+                            field is
+                            Required.</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field">
+                        <label for="pincodeId" id="CreateRiskLocation_PinCode_label">Pincode</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_PinCode"
+                            placeholder="Select Pincode" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="pincodeId" [dropdown]="true"
+                            [suggestions]="this.optionsPincodes" field="label"
+                            (completeMethod)="this.searchOptionsPincodes($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['pincodeId'].errors?.required" class="ng-invalid">This field is Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="stateId" [disabled]="true" id="CreateRiskLocation_State_label">State</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_State"
+                            placeholder="Select State" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="stateId" [dropdown]="true"
+                            [suggestions]="this.optionsStates" field="label"
+                            (completeMethod)="this.searchOptionsStates($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['stateId'].errors?.required" class="ng-invalid">This
+                            field is
+                            Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+
+                    <div class="field">
+                        <label for="cityId" [disabled]="true" id="CreateRiskLocation_City_label">City</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_City"
+                            placeholder="Select City" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="cityId" [dropdown]="true"
+                            [suggestions]="this.optionsCities" field="label"
+                            (completeMethod)="this.searchOptionsCities($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['cityId'].errors?.required" class="ng-invalid">This field
+                            is
+                            Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="countryId" [disabled]="true" id="CreateRiskLocation_Country_label">Country</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_Country"
+                            placeholder="Select Country" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="countryId" [dropdown]="true"
+                            [suggestions]="this.optionsCountries" field="label"
+                            (completeMethod)="this.searchOptionsCountries($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['countryId'].errors?.required" class="ng-invalid">This field is Required.</small>
+                    </div>
+
+                </div>
+                <!-- <div class="col-6">
+                    <div class="field"> -->
+                <!-- <label for="isHeadOffice">
+                            <p-checkbox class="form-control custom-dropdown" formControlName="isHeadOffice">
+                            </p-checkbox>
+                        </label>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['countryId']">Country is required.</small> -->
+
+                <!-- </div>
+    
+                </div> -->
+                <div class="col-6">
+                    <div class="field">
+                        <div class="field-checkbox">
+                            <p-checkbox [(ngModel)]="checked" [binary]="true" id="CreateRiskLocation_HeadOffice"
+                                inputId="binary" class="form-control custom-dropdown" value="Head Office"
+                                formControlName="isHeadOffice"></p-checkbox>
+                            <label for="isHeadOffice" id="CreateRiskLocation_HeadOffice_label">Head Office</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12">
+                    <div class="flex justify-content-between">
+                        <button type="button" (click)="this.openCreateClientLocationDialog()"
+                            id="CreateRiskLocation_Cancel" pButton pRipple label="Cancel" icon="pi pi-times"
+                            class="btn-red-sm"></button>
+                        <button type="submit" [disabled]="this.recordForm.invalid" pButton pRipple
+                            id="CreateRiskLocation_Save" label="Create Client Location" icon="pi pi-check"
+                            class="btn btn-success"></button>
+                    </div>
+                </div>
+
+
+
+            </form>
+
+
+            <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['clientLocationId']?.errors?.required">Client Location is required.</small> -->
+        </div>
+
+        <div class="mb-3" *ngIf="!this.isCreateClientLocation">
+            <div class="flex align-items-center justify-content-between">
+                <div class="title" id="CreateRiskLocation_RiskOccupancies">Risk Occupancies</div>
+                <!-- <div class="flex align-items-center">
+                    <p-checkbox label="Master" [binary]="true" [(ngModel)]="this.isMaster" id="CreateRiskLocation_Master_CheckBox"(ngModelChange)="this.loadData()"></p-checkbox>
+                    <div class="info-holder ml-2">
+    
+                        <a href="javascript:0"><img src="../../../../assets/icons/info.png" alt=""></a>
+                        <div class="info-show" style="z-index: 50">
+                            <div class="top-header">
+                                Select to Load Occupancies from System Data
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="box-border" *ngIf="this.selectedOccupancyRate?._id">
+                <p class="">Selected Occupancy</p>
+                <div class="grid">
+                    <div class="col-11">
+                        <div class="grid ">
+                            <!-- {{occupancy._id}} -->
+
+                            <div class="col-6">
+                                <div class="flex">
+                                    <div class="check-box">
+                                        <i class="pi pi-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="risk-name" id="CreateRiskLocation_SelectedRiskOccupancie">
+                                            {{this.selectedOccupancyRate.occupancyType}}
+                                        </h3>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-6 flex justify-content-end risk-code">
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Risk Code:</strong>{{this.selectedOccupancyRate.riskCode}}</span>
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Rate Code:</strong>{{this.selectedOccupancyRate.rateCode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div class="">
+                            <div class="btn-red-sm" id="Delte_CreateRiskLocation_selectedRiskOccupancies"
+                                (click)="selectedOccupancyRate = null; selectedSubOccupancy = null">
+                                <i class="pi pi-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-border" *ngIf="!this.selectedOccupancyRate?._id">
+
+                <p-dataView #dv [value]="occupancies" [loading]="loading" [totalRecords]="totalRecords"
+                    [filterBy]="'occupancyType,flexaiib'">
+                    <ng-template pTemplate="header">
+                        <div class="grid align-items-center">
+                            <div class="col-12">
+                                <!-- <input type="search" pInputText placeholder="Search ..." ng-model-options="{ allowInvalid: true, debounce: 200 }" [ngModel]="search"  (ngModelChange)="setSearch($event)" /> -->
+                                <input pInputText placeholder="Search for more occupancy" class="form-control"
+                                    [(ngModel)]="userQuestion" type="text" name="userQuestion" id="userQuestions"
+                                    (ngModelChange)="this.userQuestionUpdate.next($event)" />
+                            </div>
+                            <!-- <div class="col-6 text-end">
+                                <p-selectButton (onChange)="loadData()" [options]="[{label: 'My Occupancies', value: true}, {label: 'All Occupancies', value: false}]   " optionLabel="label" optionValue="value" [(ngModel)]="this.isMaster"></p-selectButton>
+                            </div> -->
+                        </div>
+
+                    </ng-template>
+
+
+                    <ng-template let-occupancy pTemplate="listItem">
+                        <div class=" occupancy-row" style="width: 100%;">
+                            <div class="grid" (click)="this.selectOccupancyRate(occupancy)">
+                                <!-- {{occupancy._id}} -->
+
+                                <div class="col-6">
+                                    <div class="flex">
+                                        <div class="check-box">
+                                            <i class="pi "
+                                                [ngClass]="this.selectedOccupancyRate?._id == occupancy._id ?'pi-check-circle': 'pi-circle' "></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="risk-name" id="CreateRiskLocation_RiskOccupancies_Types">
+                                                {{occupancy.occupancyType}} - {{occupancy.iibOccupancyCode}}
+                                            </h3>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- <p class="">{{occupancy.gradedRetention}}</p> -->
+
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>TacCode:</strong> {{occupancy.tacCode}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>Flexa IIB:</strong> {{occupancy.flexaiib}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>STFI Rate:</strong> {{occupancy.stfiRate}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>section:</strong> {{occupancy.section}}</p>
+                                        </div> -->
+                                <div class="col-6 flex justify-content-end risk-code">
+                                    <span class="" id="CreateRiskLocation_RiskCode"><strong>Risk Code:</strong>
+                                        {{occupancy.riskCode}}</span>
+                                    <span class="" id="CreateRiskLocation_RateCode"><strong>Rate Code:</strong>
+                                        {{occupancy.rateCode}}</span>
+                                </div>
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>Policy Type:</strong> {{occupancy.policyType}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>Special Remark:</strong> {{occupancy.specialRemark}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>Special Excess GIC:</strong> {{occupancy.specialExcessGIC}}</p>
+                                        </div> -->
+                                <!-- <div class="col-3">
+                                            <p class=""><strong>IIB Occupancy Code:</strong> {{occupancy.iibOccupancyCode}}</p>
+                                        </div> -->
+                            </div>
+                        </div>
+                    </ng-template>
+                    <!-- <ng-template let-occupancy pTemplate="gridItem">
+                        <div class="col-12 md:col-3">
+                            {{occupancy._id}}
+                        </div>
+                    </ng-template> -->
+                </p-dataView>
+            </div>
+        </div>
+
+        <div class="mb-3" *ngIf="!this.isCreateClientLocation && this.quote?.productId['isOccupancySubTypeShow'] && this.selectedOccupancyRate">
+            <div class="flex align-items-center justify-content-between">
+                <div class="title" id="CreateRiskLocation_RiskOccupancies">Sub Occupancy</div>
+            </div>
+            <div class="box-border" *ngIf="this.selectedSubOccupancy?._id">
+                <p class="">Selected Shop</p>
+                <div class="grid">
+                    <div class="col-11">
+                        <div class="grid ">
+                            <div class="col-6">
+                                <div class="flex">
+                                    <div class="check-box">
+                                        <i class="pi pi-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="risk-name" id="CreateRiskLocation_SelectedRiskOccupancie">
+                                            {{this.selectedSubOccupancy?.shopName}}
+                                        </h3>
+                                    </div>
+                                    <div *ngIf="this.selectedSubOccupancy?.shopName == 'Others'" class="flex-grow-1">
+                                        <input pInputText type="text" id="others" [(ngModel)]="typeOfShopDescription" placeholder="Description of Shop" maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 flex justify-content-end risk-code">
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Risk Code:</strong> {{this.selectedSubOccupancy.riskCode}}</span>
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Rate Code:</strong> {{this.selectedSubOccupancy.rateCode}}</span>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div class="">
+                            <div class="btn-red-sm" id="Delte_CreateRiskLocation_selectedRiskOccupancies"
+                                (click)="selectedSubOccupancy = null">
+                                <i class="pi pi-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-border" *ngIf="!this.selectedSubOccupancy?._id">
+                <!-- <p-dataView #dvs [value]="suboccupancies" [loading]="subloading" [totalRecords]="totalSubOccupancies" [filterBy]="">
+                    <ng-template pTemplate="header">
+                        <div class="grid align-items-center">
+                            <div class="col-12">
+                                <input pInputText placeholder="Search ..." class="form-control" [(ngModel)]="userSubOccupancy" type="text" name="userSubOccupancy" id="userQuestions" (ngModelChange)="this.userSubOccupancyUpdate.next($event)"/>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-suboccupancy pTemplate="listItem">
+                        <div class=" occupancy-row" style="width: 100%;">
+                            <div class="grid" (click)="this.selectsubOccupancyRate(suboccupancy)">
+                                <div class="col-6">
+                                    <div class="flex">
+                                        <div class="check-box">
+                                            <i class="pi " [ngClass]="this.selectedSubOccupancy?._id == suboccupancy._id ?'pi-check-circle': 'pi-circle' "></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="risk-name" id="CreateRiskLocation_RiskOccupancies_Types">
+                                                {{suboccupancy?.shopName}}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView> -->
+                <div class="grid" *ngIf="!this.isCreateClientLocation">
+                    <div class="col-12">
+                        <p-autoComplete class="form-control custom-dropdown" placeholder="Select Sub Occupancy"
+                            [(ngModel)]="this.selectedSubOccupancy" (onSelect)="this.selectsubOccupancyRate($event)"
+                            [dropdown]="true" field="shopName" [virtualScroll]="false" [delay]="500"
+                            [showEmptyMessage]="true" [forceSelection]="true" name="suboccupancyId"
+                            id="CreateRiskLocation_ClientLocation" [suggestions]="this.suboccupancies"
+                            (completeMethod)="this.loadSuboccupancyData($event)"></p-autoComplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field mb-3" *ngIf="!this.isCreateClientLocation">
+            <div class="title"><label for="sumInsured" id="CreateRiskLocation_SumInsured_label">Sum Insured</label>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="currency-input-holder">
+                        <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="CreateRiskLocation_SumInsured"
+                            locale="en-IN" [ngModel]="this.sumInsured" (onInput)="this.setSumInsured($event.value)"
+                            [minFractionDigits]="0" (keydown)="onKeyDown($event)"></p-inputNumber>
+                    </div>
+                    <p style="color:red; margin-top: 5px;">{{sumInsuredValidateMsg}}</p>
+                    <p class="text-left mt-3 title" id="CreateRiskLocation_SumInsured_InWords">{{this?.sumInsured > 0 ?
+                        (toWords.convert(this.sumInsured,{ currency: true ,ignoreZeroCurrency: true })) : ''}} </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex justify-content-between" *ngIf="!this.isCreateClientLocation">
+            <div class="">
+                <button *ngIf="this.mode == 'edit'" id="Delete_CreateRiskLocation" (click)="this.deleteRecord()" pButton
+                    pRipple label="Delete" icon="pi pi-trash" class="btn-red-sm"></button>
+            </div>
+
+            <div class="">
+                <button *ngIf="this.mode == 'new'" type="submit"
+                    id="CreateRiskLocation_SubmitAndAddOther" (click)="this.submitAndAddOther()" pButton pRipple
+                    label="Save And Another" icon="pi pi-check" class="btn btn-outline-success mr-3"></button>
+                <button type="submit" (click)="this.submit()" id="CreateRiskLocation_Save" pButton pRipple label="Save"
+                    icon="pi pi-check" class="btn btn-success" [disabled]="!(this.sumInsured > 0)"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isMobile">
+    <div class="card step3-inner">
+        <div class="field mb-3">
+            <div class="title flex justify-content-between align-items-center">
+                <label for="clientLocationId" id="CreateRiskLocation_Header">Client Locations</label>
+                <p-splitButton *ngIf="!this.isCreateClientLocation"
+                    styleClass="p-button-outlined custom-create-btn" label="Create" icon="pi pi-plus"
+                    (onClick)="openCreateClientLocationDialog()" [model]="this.importOptions"
+                    id="CreateRiskLocation_openCreateClientLocationDialog"></p-splitButton>
+            </div>
+            <div class="grid" *ngIf="!this.isCreateClientLocation">
+                <div class="col-12">
+                    <p-autoComplete class="form-control custom-dropdown custom-panel-style" placeholder="Select Client Location"
+                        [(ngModel)]="this.selectedClientLocation" (onSelect)="this.selectClientLocation($event)"
+                        [dropdown]="true" field="label" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                        [forceSelection]="true" field="label" name="clientLocationId"
+                        id="CreateRiskLocation_ClientLocation" [suggestions]="this.optionsClientLocations"
+                        (completeMethod)="this.searchOptionsClientLocations($event)"></p-autoComplete>
+                </div>
+            </div>
+            <form class="grid" *ngIf="this.isCreateClientLocation" [formGroup]="this.recordForm"
+                (ngSubmit)="this.createClientLocation()">
+                <div class="col-12">
+                    <div class="field">
+                        <label for="locationName" id="CreateRiskLocation_location_Name_label">Location Name</label>
+                        <input maxlength="255" class="form-control" type="text" placeholder="Enter Location Name"
+                            id="CreateRiskLocation_location_Name" pInputText id="locationName"
+                            formControlName="locationName" required autofocus
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['locationName'] }" />
+                        <small *ngIf="this.recordForm.controls['locationName'].errors?.required" class="ng-invalid">This
+                            field is Required.</small>
+                        <small *ngIf="this.recordForm.controls['locationName'].errors?.pattern" class="ng-invalid">Only
+                            Alphabets are allowed.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field">
+                        <label for="address " id="CreateRiskLocation_Address_label">Address</label>
+                        <input maxlength="255" class="form-control" type="text" id="CreateRiskLocation_Address_label"
+                            placeholder="Enter Address" pInputText id="address" formControlName="address" required />
+                        <small *ngIf="this.recordForm.controls['address'].errors?.required" class="ng-invalid">This
+                            field is
+                            Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="pincodeId" id="CreateRiskLocation_PinCode_label">Pincode</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_PinCode"
+                            placeholder="Select Pincode" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="pincodeId" [dropdown]="true"
+                            [suggestions]="this.optionsPincodes" field="label"
+                            (completeMethod)="this.searchOptionsPincodes($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['pincodeId'].errors?.required" class="ng-invalid">This
+                            field
+                            is Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="stateId" [disabled]="true" id="CreateRiskLocation_State_label">State</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_State"
+                            placeholder="Select State" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="stateId" [dropdown]="true"
+                            [suggestions]="this.optionsStates" field="label"
+                            (completeMethod)="this.searchOptionsStates($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['stateId'].errors?.required" class="ng-invalid">This
+                            field is
+                            Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="cityId" [disabled]="true" id="CreateRiskLocation_City_label">City</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_City"
+                            placeholder="Select City" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="cityId" [dropdown]="true"
+                            [suggestions]="this.optionsCities" field="label"
+                            (completeMethod)="this.searchOptionsCities($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['cityId'].errors?.required" class="ng-invalid">This field
+                            is
+                            Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label for="countryId" [disabled]="true" id="CreateRiskLocation_Country_label">Country</label>
+                        <p-autoComplete class="form-control custom-dropdown" id="CreateRiskLocation_Country"
+                            placeholder="Select Country" [virtualScroll]="true" [delay]="500" [showEmptyMessage]="true"
+                            [forceSelection]="true" formControlName="countryId" [dropdown]="true"
+                            [suggestions]="this.optionsCountries" field="label"
+                            (completeMethod)="this.searchOptionsCountries($event)"
+                            [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['countryId'].errors?.required" class="ng-invalid">This
+                            field
+                            is Required.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <div class="field-checkbox">
+                            <p-checkbox [(ngModel)]="checked" [binary]="true" id="CreateRiskLocation_HeadOffice"
+                                inputId="binary" class="form-control custom-dropdown" value="Head Office"
+                                formControlName="isHeadOffice"></p-checkbox>
+                            <label for="isHeadOffice" id="CreateRiskLocation_HeadOffice_label">Head Office</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex justify-content-between">
+                        <button type="button" (click)="this.openCreateClientLocationDialog()"
+                            id="CreateRiskLocation_Cancel" pButton pRipple label="Cancel" icon="pi pi-times"
+                            class="btn-red-sm"></button>
+                        <button type="submit" [disabled]="this.recordForm.invalid" pButton pRipple style="width: 150px;"
+                            id="CreateRiskLocation_Save" label="Create Client Location" icon="pi pi-check"
+                            class="btn btn-success"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="mb-3" *ngIf="!this.isCreateClientLocation">
+            <div class="flex align-items-center justify-content-between">
+                <div class="title" id="CreateRiskLocation_RiskOccupancies">Risk Occupancies</div>
+            </div>
+            <div class="box-border mt-0" *ngIf="this.selectedOccupancyRate?._id">
+                <p class="">Selected Occupancy</p>
+                <div class="grid">
+                    <div class="col-10">
+                        <div class="grid ">
+                            <div class="col-12">
+                                <div class="flex">
+                                    <div class="check-box">
+                                        <i class="pi pi-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="risk-name" id="CreateRiskLocation_SelectedRiskOccupancie">
+                                            {{this.selectedOccupancyRate.occupancyType}}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 flex justify-content-center risk-code">
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Risk Code:</strong>
+                                    {{this.selectedOccupancyRate.riskCode}}</span>
+                                <span class="" id="CreateRiskLocation_RateCode"><strong>Rate Code:</strong>
+                                    {{this.selectedOccupancyRate.rateCode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="">
+                            <div class="btn-red-sm" id="Delte_CreateRiskLocation_selectedRiskOccupancies"
+                                (click)="selectedOccupancyRate = null; selectedSubOccupancy = null">
+                                <i class="pi pi-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-border mt-0" *ngIf="!this.selectedOccupancyRate?._id">
+                <p-dataView #dv [value]="occupancies" [loading]="loading" [totalRecords]="totalRecords"
+                    [filterBy]="'occupancyType,flexaiib'">
+                    <ng-template pTemplate="header">
+                        <div class="grid align-items-center">
+                            <div class="col-12">
+                                <input pInputText placeholder="Search ..." class="form-control"
+                                    [(ngModel)]="userQuestion" type="text" name="userQuestion" id="userQuestions"
+                                    (ngModelChange)="this.userQuestionUpdate.next($event)" />
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-occupancy pTemplate="listItem">
+                        <div class=" occupancy-row" style="width: 100%;">
+                            <div class="grid" (click)="this.selectOccupancyRate(occupancy)">
+                                <div class="col-12">
+                                    <div class="flex">
+                                        <div class="check-box">
+                                            <i class="pi "
+                                                [ngClass]="this.selectedOccupancyRate?._id == occupancy._id ?'pi-check-circle': 'pi-circle' "></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="risk-name" id="CreateRiskLocation_RiskOccupancies_Types">
+                                                {{occupancy.occupancyType}}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 flex justify-content-center risk-code">
+                                    <span class="" id="CreateRiskLocation_RiskCode"><strong>Risk Code:</strong>
+                                        {{occupancy.riskCode}}</span>
+                                    <span class="" id="CreateRiskLocation_RateCode"><strong>Rate Code:</strong>
+                                        {{occupancy.rateCode}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </div>
+        <div class="mb-3"
+            *ngIf="!this.isCreateClientLocation && this.productName =='Business Suraksha Shop' && this.selectedOccupancyRate">
+            <div class="flex align-items-center justify-content-between">
+                <div class="title" id="CreateRiskLocation_RiskOccupancies">Sub Occupancy</div>
+            </div>
+            <div class="box-border" *ngIf="this.selectedSubOccupancy?._id">
+                <p class="">Selected Shop</p>
+                <div class="grid">
+                    <div class="col-10">
+                        <div class="grid ">
+                            <div class="col-12">
+                                <div class="flex">
+                                    <div class="check-box">
+                                        <i class="pi pi-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="risk-name" id="CreateRiskLocation_SelectedRiskOccupancie">
+                                            {{this.selectedSubOccupancy?.shopName}}
+                                        </h3>
+                                    </div>
+                                    <div *ngIf="this.selectedSubOccupancy?.shopName == 'Others'" class="flex-grow-1">
+                                        <input pInputText type="text" id="others" [(ngModel)]="typeOfShopDescription" placeholder="Description of Shop" maxlength="100"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="">
+                            <div class="btn-red-sm" id="Delte_CreateRiskLocation_selectedRiskOccupancies"
+                                (click)="selectedSubOccupancy = null">
+                                <i class="pi pi-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-border" *ngIf="!this.selectedSubOccupancy?._id">
+                <div class="grid" *ngIf="!this.isCreateClientLocation">
+                    <div class="col-12">
+                        <p-autoComplete class="form-control custom-dropdown" placeholder="Select Sub Occupancy"
+                            [(ngModel)]="this.selectedSubOccupancy" (onSelect)="this.selectsubOccupancyRate($event)"
+                            [dropdown]="true" field="shopName" [virtualScroll]="false" [delay]="500"
+                            [showEmptyMessage]="true" [forceSelection]="true" name="suboccupancyId"
+                            id="CreateRiskLocation_ClientLocation" [suggestions]="this.suboccupancies"
+                            (completeMethod)="this.loadSuboccupancyData($event)"></p-autoComplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field mb-3" *ngIf="!this.isCreateClientLocation">
+            <div class="title"><label for="sumInsured" id="CreateRiskLocation_SumInsured_label">Sum Insured</label>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="currency-input-holder">
+                        <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="CreateRiskLocation_SumInsured"
+                            locale="en-IN" [ngModel]="this.sumInsured" (onInput)="this.setSumInsured($event.value)"
+                            [minFractionDigits]="0" (keydown)="onKeyDown($event)"></p-inputNumber>
+                    </div>
+                    <p style="color:red; margin-top: 5px;">{{sumInsuredValidateMsg}}</p>
+                    <p class="text-left mt-3 title" id="CreateRiskLocation_SumInsured_InWords">{{this?.sumInsured > 0 ?
+                        (toWords.convert(this.sumInsured,{ currency: true ,ignoreZeroCurrency: true })) : ''}} </p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-center" *ngIf="!this.isCreateClientLocation">
+            <div class="" *ngIf="this.mode == 'edit'">
+                <button id="Delete_CreateRiskLocation" (click)="this.deleteRecord()" pButton pRipple label="Delete"
+                    icon="pi pi-trash" class="btn-red-sm mr-3"></button>
+            </div>
+            <div class="">
+                <button *ngIf="this.mode == 'new'" type="submit"
+                    id="CreateRiskLocation_SubmitAndAddOther" (click)="this.submitAndAddOther()" pButton pRipple
+                    label="Save And Another" icon="pi pi-check" class="btn btn-outline-success mr-3"></button>
+            </div>
+            <div>
+                <button type="submit" (click)="this.submit()" id="CreateRiskLocation_Save" pButton pRipple label="Save"
+                    icon="pi pi-check" class="btn btn-success" [disabled]="!(this.sumInsured > 0)"></button>
+            </div>
+        </div>
+    </div>
+</div>

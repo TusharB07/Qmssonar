@@ -1,0 +1,424 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();" id="MyUser_Form">
+    <div class="form-container px-3 pt-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <div>
+                        <p-toast></p-toast>
+                        <p-toolbar styleClass="">
+                            <ng-template pTemplate="left">
+                                <h3 class="mb-0" id="UserFormRecordName">{{this.recordSingularName}}</h3>
+                            </ng-template>
+                            <ng-template pTemplate="right">
+                                <button id="UserForm_SaveButton" type="submit" [disabled]="this.recordForm.invalid"
+                                    pButton pRipple label="Save" icon="pi pi-check"
+                                    class="p-button-success mr-2"></button>
+                                <button id="UserForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                    class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                            </ng-template>
+                        </p-toolbar>
+                    </div>
+                </p-card>
+            </div>
+
+            <div class="col">
+                <div class="grid">
+                    <div class="col">
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="UserForm_GeneralInformation_Header">General Information</h5>
+                                <div class="field">
+                                    <label id="UserForm_NameLabel" for="name">Name*</label>
+                                    <input maxlength="100" id="UserForm_NameInput" class="form-control" type="text"
+                                        pInputText id="name" formControlName="name" required autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['name'].valid}" />
+                                    <small id="UserForm_Name_ValidationError"
+                                        *ngIf="this.recordForm.controls['name'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                    <small id="UserForm_Name_ValidationError"
+                                        *ngIf="this.recordForm.controls['name'].errors?.pattern" class="ng-invalid">Name
+                                        is invalid, special characters not allowed.</small>
+                                    <small class="ng-dirty ng-invalid" *ngIf="recordForm.controls['name'].errors?.maxlength">Name cannot be more than 100 Characters..</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_EmailLabel" for="name">Log In Email/IMD Code *</label>
+                                    <input id="UserForm_EmailInput" class="form-control" type="text" pInputText
+                                        id="email" formControlName="email" required autofocus  maxlength="64"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['email'].valid}" />
+                                    <small id="UserForm_Email_ValidationError"
+                                        *ngIf="this.recordForm.controls['email'].errors?.required"
+                                        class="ng-invalid">This field Required.</small><br>
+                                    <small id="UserForm_Email_ValidationError"
+                                        *ngIf="this.recordForm.controls['email'].errors?.maxLength"
+                                        class="ng-invalid">Max Limit Reached.</small>
+                                    <small id="CreateClient_Name_ValidationError2"
+                                        *ngIf="this.recordForm.controls['email'].errors?.['invalidEmail']"
+                                        class="ng-invalid">Invalid Email.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_EmailLabel" for="name">Email*</label>
+                                    <input id="UserForm_EmailInput" class="form-control" type="text" pInputText
+                                        id="email" formControlName="userEmail" required autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['userEmail'].valid}" />
+                                    <small id="UserForm_Email_ValidationError"
+                                        *ngIf="this.recordForm.controls['userEmail'].errors?.required"
+                                        class="ng-invalid">This field Required.</small><br>
+                                    <small id="CreateClient_Name_ValidationError2"
+                                        *ngIf="this.recordForm.controls['userEmail'].errors?.['invalidEmail']"
+                                        class="ng-invalid">Invalid Email.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_MobileNumberLabel" for="name">Mobile*</label>
+                                    <input id="UserForm_MobileNumberInput" class="form-control" type="number" pInputText
+                                        id="mobileNumber" formControlName="mobileNumber" required autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['mobileNumber'].valid}" />
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['mobileNumber'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['mobileNumber'].errors?.pattern"
+                                        class="ng-invalid">Enter Valid Mobile Number.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_BranchCodeLabel" for="name">Branch Code</label>
+                                    <input id="UserForm_BranchCodeInput" class="form-control" type="text" pInputText
+                                        id="branchCode" formControlName="branchCode" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['branchCode'].valid}" />
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['branchCode'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                    <small id="UserForm_Name_ValidationError"
+                                        *ngIf="this.recordForm.controls['branchCode'].errors?.pattern" class="ng-invalid">Branch Code
+                                        is invalid, special characters not allowed.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="PartnerForm_agentCodeLabel" for="agentCode">Agent
+                                        <Code></Code></label>
+                                    <input id="PartnerForm_agentCode" class="form-control" type="text" pInputText
+                                        id="agentCode" formControlName="agentCode" />
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['agentCode'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="PartnerForm_vendorNameLabel" for="vendorName">Vendor Name</label>
+                                    <input id="PartnerForm_vendorName" class="form-control" type="text" pInputText
+                                        id="vendorName" formControlName="vendorName" />
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['vendorName'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                </div>
+<!--                                <div class="field">-->
+<!--                                    <label id="UserForm_BranchCodeLabel" for="name">Branch Code</label>-->
+<!--                                    <input id="UserForm_BranchCodeInput" class="form-control" type="number" pInputText-->
+<!--                                        id="branchCode" formControlName="branchCode" autofocus-->
+<!--                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['branchCode'].valid}" />-->
+<!--                                </div>-->
+                                <div class="field">
+                                    <label id="UserForm_StaffCodeLabel" for="name">Staff Code</label>
+                                    <input id="UserForm_StaffCodeInput" class="form-control" type="number" pInputText
+                                        id="staffCode" formControlName="staffCode" autofocus [min]="0"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['staffCode'].valid}" />
+                                </div>
+
+                                <div class="field">
+                                    <label id="UserForm_AgeLabel" for="name">Age</label>
+                                    <input id="UserForm_AgeInput" class="form-control" type="number" pInputText id="age"
+                                        formControlName="age" autofocus [min]="0" />
+                                    <!-- <small *ngIf="this.recordForm.controls['age'].errors?.required" class="ng-invalid">This field Required.</small> -->
+                                    <small id="UserForm_MobileNumber_ValidationError"
+                                        *ngIf="this.recordForm.controls['age'].errors?.max" class="ng-invalid">Enter
+                                        Currect Age.</small>
+                                </div>
+
+                                <div class="field">
+                                    <label id="UserForm_ActiveLabel" for="configMenuType">Active?</label>
+                                    <p-toggleButton id="UserForm_Active" class="form-control" formControlName="active"
+                                        [onLabel]="'User active'" [offLabel]="'User inactive'" [onIcon]="'pi pi-check'"
+                                        offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                </div>
+
+                                <div class="field">
+                                    <label id="UserForm_attempCountLabel" for="name">Attempted Count</label>
+                                    <input id="UserForm_attemptCountInput" class="form-control" type="number" pInputText id="attemptCount"
+                                        formControlName="attemptCount" autofocus />
+                                    <!-- <small *ngIf="this.recordForm.controls['age'].errors?.required" class="ng-invalid">This field Required.</small> -->
+                                </div>
+
+                                <div class="field flex align-items-center">
+                                    <label class="mr-3" id="UserForm_ActiveLabel" for="configMenuType">IsLocked?</label>
+                                    <p-inputSwitch formControlName="isLocked"></p-inputSwitch>
+                                    <!-- <p-toggleButton id="UserForm_Active" class="form-control" formControlName="isLocked"
+                                        [onLabel]="'User is Locked'" [offLabel]="'User is not Locked'" [onIcon]="'pi pi-check'"
+                                        offIcon="pi pi-times" iconPos="right"></p-toggleButton> -->
+                                </div>
+
+
+
+                                <!-- <div class="field" *ngIf="isEditAllowed">
+                                    <label for="partnerId">PartnerId</label>
+                                    <p-dropdown [dropdown]="true" field="label" id="partnerId" formControlName="partnerId" placeholder="Select Partner Id" class="custom-dropdowns" [options]="this.partnerId" (completeMethod)="this.searchPartnerId($event)"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['roleId']?.errors?.required">Role is required.</small>
+                                </div> -->
+
+
+                                <!-- <div class="field">
+                                    <label for="role">Role</label>
+                                    <p-dropdown class="form-control" [options]="this.optionsRoles" placeholder="Select a role" optionLabel="label" optionValue="value" [showClear]="true" formControlName="role" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['role'].valid}"></p-dropdown>
+                                </div> -->
+
+                            </div>
+                        </p-card>
+                                    <p-card>
+                                        <div class="card p-fluid">
+                                            <h5 id="MyUserForm_AddressInformation_Label">Address Information</h5>
+                                    
+                                            <div class="field">
+                                                <label for="name" id="MyUserForm_PinCode_Label">Pincode</label>
+                                                <p-autoComplete [dropdown]="true" field="label" id="MyUserForm_PinCode"
+                                                    formControlName="pincodeId" [suggestions]="this.optionsPincodes"
+                                                    (completeMethod)="this.searchOptionsPincodes($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"></p-autoComplete>
+                                            </div>
+                                            <div class="field">
+                                                <label for="address" id="MyUserForm_Address_Label">Address</label>
+                                                <input maxlength="255" class="form-control" type="text" pInputText id="address"
+                                                    id="MyUserForm_Address" formControlName="address" required autofocus />
+                                                <!-- <small *ngIf="recordForm.controls['address'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                                    
+                                            </div>
+                                    
+                                            <div class="field">
+                                                <label for="name" id="MyUserForm_City_Label">City</label>
+                                                <p-autoComplete [dropdown]="true" field="label" id="MyUserForm_City" formControlName="cityId"
+                                                    [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"></p-autoComplete>
+                                    
+                                            </div>
+                                    
+                                            <div class="field">
+                                                <label for="name" id="MyUserForm_District_Label">District</label>
+                                                <p-autoComplete [dropdown]="true" field="label" id="MyUserForm_District"
+                                                    formControlName="districtId" [suggestions]="this.optionsDistricts"
+                                                    (completeMethod)="this.searchOptionsDistricts($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['districtId'].valid }"></p-autoComplete>
+                                            </div>
+                                    
+                                            <div class="field">
+                                                <label for="name" id="MyUserForm_State_Label">State</label>
+                                                <p-autoComplete [dropdown]="true" field="label" id="MyUserForm_State" formControlName="stateId"
+                                                    [suggestions]="this.optionsStates" (completeMethod)="this.searchOptionsStates($event)"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"></p-autoComplete>
+                                    
+                                            </div>
+                                            <div class="field">
+                                                <label for="name" id="MyUserForm_Country_Label">Country</label>
+                                                <p-autoComplete [dropdown]="true" field="label" id="MyUserForm_Country"
+                                                    formControlName="countryId"
+                                                    [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['countryId'].valid }"></p-autoComplete>
+                                    
+                                            </div>
+                                    
+                                        </div>
+                                    </p-card>
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="UserForm_AuthenticationHeader">Authentication</h5>
+                                <div class="field">
+                                    <label id="UserForm_PasswordLabel" for="password">Password*</label>
+                                    <p-password id="UserForm_Password" [toggleMask]="true" pInputText [feedback]="false"
+                                        class="p-password-m" formControlName="password" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && mode === 'new' && !recordForm.controls['password'].valid}"></p-password>
+                                    <small id="UserForm_Password_ValidationError"
+                                        *ngIf="this.recordForm.controls['password'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                    <small id="UserForm_Password_ValidationError"
+                                        *ngIf="this.recordForm.controls['password'].errors?.invalidPassword"
+                                        class="ng-invalid">Password should contain atleast an Uppercase, a Lowercase, a Numeric and a special character.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_ConfirmPasswordLabel" for="password">Confirm Password*</label>
+                                    <p-password id="UserForm_ConfirmPassword" [toggleMask]="true" pInputText [feedback]="false"
+                                        class="p-password-m" formControlName="passwordConfirm" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && mode === 'new' && !recordForm.controls['passwordConfirm'].valid}"></p-password>
+                                    <small id="UserForm_ConfirmPassword_ValidationError"
+                                        *ngIf="this.recordForm.controls['passwordConfirm'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                    <small id="UserForm_ConfirmPassword_ValidationError"
+                                        *ngIf="this.recordForm.controls['passwordConfirm'].errors?.confirmPasswordValidator"
+                                        class="ng-invalid">Password does not match.</small>
+
+                                </div>
+
+                            </div>
+                        </p-card>
+
+
+                    </div>
+
+                    <div class="col">
+
+                        <!-- <div class="card p-fluid">
+                            <h5>Configuration</h5>
+
+                            <div class="field">
+                                <label for="configMenuType">Menu Type</label>
+
+                                <p-dropdown class="form-control" [options]="this.optionsMenuTypes" placeholder="Select a menu type" optionLabel="label" optionValue="value" [showClear]="true" formControlName="configMenuType" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['configMenuType'].valid}"></p-dropdown>
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['configMenuType']?.errors?.required">Menu Type is required.</small>
+                            </div>
+
+                            <div class="field">
+                                <label class="mb-3">Color Scheme</label>
+
+                                <div class="field-radiobutton col-6 mb-1" *ngFor="let scheme of this.optionsColorSchemes">
+                                    <p-radioButton name="configColorScheme" formControlName="configColorScheme" form [value]="scheme.value" [inputId]="scheme.value"></p-radioButton>
+                                    <label [for]="scheme.value">{{scheme.label}}</label>
+                                </div>
+
+                            </div>
+
+                        </div> -->
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="UserForm_AccessRoleHeader">Access and Role</h5>
+
+                                <div class="field">
+                                    <label id="UserForm_PartnerLabel" for="name">Partner*</label>
+                                    <p-autoComplete id="UserForm_Partner" [dropdown]="true" optionValue="value"
+                                        field="label" formControlName="partnerId" [suggestions]="this.optionsPartners"
+                                        (completeMethod)="this.searchOptionsPartners($event)"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"
+                                        [disabled]="this.partnerReadonly.name != 'admin'"></p-autoComplete>
+                                    <small id="UserForm_Partner_ValidationError"
+                                        *ngIf="this.recordForm.controls['partnerId'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_RoleLabel" for="roleId">User Type*</label>
+                                    <p-dropdown id="UserForm_Role" placeholder="Select a User Type" [options]="optionsRoles"
+                                        optionLabel="label" class="custom-dropdowns text-capitalize"
+                                        formControlName="roleId" (completeMethod)="this.searchOptionsRoles($event)"
+                                        [ngClass]="submitted && recordForm.controls['roleId']?.errors?.required"></p-dropdown>
+                                    <small id="UserForm_Role_ValidationError"
+                                        *ngIf="this.recordForm.controls['roleId'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                </div>
+                                <div class="field">
+                                    <label id="UserForm_RoleLabel" for="userRole">User Role*</label>
+                                    <p-dropdown id="UserForm_Role" placeholder="Select a User Role" [options]="optionsUserRoles"
+                                        optionLabel="label" class="custom-dropdowns text-capitalize"
+                                        formControlName="userRole"
+                                        [ngClass]="submitted && recordForm.controls['userRole']?.errors?.required"></p-dropdown>
+                                    <small id="UserForm_Role_ValidationError"
+                                        *ngIf="this.recordForm.controls['userRole'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                </div>
+
+                                <!-- <div class="field" *ngIf="recordForm.controls['roleId']?.value?.value =='insurer_underwriter'"> -->
+                                <div class="field" *ngIf="recordForm.controls['underWriterLevel'].enabled">
+                                    <label id="UserForm_UnderWriteLevelLabel" for="name">Under Writer Level</label>
+                                    <input id="UserForm_UnderWriteLevelInput" class="form-control" type="number"
+                                        pInputText id="underWriterLevel" formControlName="underWriterLevel" required
+                                        autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['underWriterLevel'].valid}" />
+                                    <small id="UserForm_UnderWriteLevel_ValidationError"
+                                        *ngIf="this.recordForm.controls['underWriterLevel'].errors?.required"
+                                        class="ng-invalid">This field Required.</small>
+                                </div>
+                            </div>
+                        </p-card>
+
+                        <p-card>
+                            <div class="card p-fluid">
+                                <h5 id="UserForm_ZoneHeader">Zone and Branch Code</h5>
+
+                                <div class="field">
+                                    <label id="UserForm_ZoneLabel" for="zone">Zone</label>
+                                    <p-dropdown id="UserForm_ZoneDropdown" placeholder="Select a Zone" [options]="zoneOptions" optionLabel="label"
+                                                class="custom-dropdowns" formControlName="zone"></p-dropdown>
+                                    <!-- You may need to define 'zoneOptions' in your component class with values like [{label: 'I', value: 1}, ...] -->
+                                    <small id="UserForm_Zone_ValidationError" *ngIf="this.recordForm.controls['zone'].errors?.required"
+                                           class="ng-invalid">This field Required.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="UserForm_BranchNameDropdown">Branch Name</label>
+                                    <p-dropdown id="UserForm_BranchNameDropdown" placeholder="Select a Branch Name" [options]="branchName" optionLabel="label"
+                                                formControlName="branchName" [style]="{'width':'100%'}"></p-dropdown>
+                                </div>
+
+                                <div class="field">
+                                    <label id="UserForm_BranchCodeLabel" for="branchCode">Branch Code</label>
+                                    <input id="UserForm_BranchCodeInput" class="form-control" type="number" pInputText
+                                           id="branchCode" formControlName="branchCode" autofocus
+                                           [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['branchCode'].valid}" disabled/>
+                                </div>
+
+                            </div>
+                        </p-card>
+
+                        <p-card *ngIf="this.id !== 'new'">
+                            <div class="field" *ngIf="!this.userPhoto">
+                            <label for="" id="PortableEquipments_Dialog_SumInsured_label">Photo</label>
+                            <input style="display: none" type="text" formControlName="photo" />
+                            <p-fileUpload
+                                mode="advanced"
+                                name="photo"
+                                maxFileSize="10000000"
+                                styleClass="upload-outline-light"
+                                [style]="{ width: '100%' }"
+                                chooseIcon="pi pi-paperclip"
+                                chooseLabel="Upload Photo"
+                                (onSelect)="onBasicUpload($event)"
+                                (onClear)="clear()"
+                            ></p-fileUpload>
+                            </div>
+                            <div *ngIf="this.userPhoto">
+                            <label for="" id="PortableEquipments_Dialog_SumInsured_label">Photo :</label>
+                            <div class="flex mt-1">
+                                <div class="mr-4">
+                                <a [href]="recordForm.value['photo']" class="rt-hr"><i class="pi pi-eye"> View</i></a>
+                                </div>
+                                <div>
+                                <i class="pi pi-trash" style="font-size: 1rem; color: red" (click)="deletefile()"> Delete</i>
+                                </div>
+                            </div>
+                            </div>
+                        </p-card>
+                        <div class="">
+                            <p-card>
+                                <div class="card p-fluid">
+                                    <h5 id="UserForm_ZoneHeader">Mapped Placement Users</h5>
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <p-multiSelect id="QuoteViewPage_UpdatedQuoteStages" [options]="this.mappedPlacementUsers"
+                                         optionValue="value"
+                                        optionLabel="label" formControlName="mappedPlacementUsers" placeholder="select mappedPlacementUsers"
+                                        class="multiSelect"></p-multiSelect>
+                                </div>
+                              </div>  
+                            </p-card>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-9 md:col-3" *ngIf="this.id != 'new'">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <app-audit-trail id="UserForm_AuditTrail" [entityId]="this.id"
+                            [entityResourcePrefix]="'users'"></app-audit-trail>
+                    </div>
+                </p-card>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>

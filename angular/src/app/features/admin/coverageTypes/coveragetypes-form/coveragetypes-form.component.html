@@ -1,0 +1,54 @@
+
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ExclusionFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="CoverageTypeForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <!-- <button id="CoverageTypeForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button> -->
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                    <div class="field">
+                        <label id="CoverageTypeForm_CTLabel" for="CoverageType">Coverage Type</label>
+                            <input maxlength="100"  id="CoverageTypeForm_CT" type="text"  pInputText id="coverageType" formControlName="coverageType" required
+                                 autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['coverageType']}" />
+                                    <small id="CoverageTypeForm_CTValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['coverageType']">Coverage Type is required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="CoverageTypeForm_abbreviation" for="abbreviation">Abbreviation</label>
+                        <input maxlength="100" id="CoverageTypeForm_abbreviation" class="form-control" type="text" pInputText id="abbreviation" formControlName="abbreviation" required [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['abbreviation']}" />
+                        <small id="CoverageTypeForm_abbreviationValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['abbreviation']">Abbreviation is required.</small>
+ 
+                    </div>
+
+                    <div class="field">
+                        <label id="CoverageTypeForm_isEmployer" for="isEmployer">Is Employer</label>
+                        <p-toggleButton id="CoverageTypeForm_isEmployer" class="form-control" formControlName="isEmployer" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+
+                    <div class="field">
+                        <label id="CoverageTypeForm_StatusLabel" for="status">Status</label>
+                        <p-toggleButton id="CoverageTypeForm_Status" class="form-control" formControlName="status" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

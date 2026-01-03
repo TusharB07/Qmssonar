@@ -1,0 +1,109 @@
+<p-card >
+    <ng-template pTemplate="header">
+        <!-- <div class="grid">
+            <div class="col-8">
+                <h6 class="mb-2" id="AppIndicativeQuote_Header">Indicative Quote</h6>
+                <p class="sub-head" id="AppIndicativeQuote_ProductType">{{this.quote?.productId?.type}}</p>
+            </div>
+            <div class="col-4 text-right">
+                <p class="premium" id="AppIndicativeQuote_TotalPremium_Label">Total Premium</p>
+                <p dirCurrency class="premium-price text-nowrap" id="AppIndicativeQuote_TotalPremium">
+                    <app-currency [value]="this.totalPremium"></app-currency>
+                </p>
+            </div>
+        </div> -->
+        <div class="flex flex-row flex-nowrap">
+            <div>
+                <h6 class="mb-2" id="AppIndicativeQuote_Header">Indicative Quote</h6>
+                <p class="sub-head" id="AppIndicativeQuote_ProductType">{{this.quote?.productId?.type}}</p>
+            </div>
+            <div class="flex-grow-1 flex justify-content-end" *ngIf="this.quote.partnerId['isRate'] == true">
+                <div>
+                    <p class="premium text-right" id="AppIndicativeQuote_TotalPremium_Label">Total Premium</p>
+                    <p dirCurrency class="premium-price text-nowrap" id="AppIndicativeQuote_TotalPremium">
+                        <app-currency [value]="this.totalPremium"></app-currency>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div class="view-breakup" style="height: 149px">
+        <div class="grid">
+            <div class="col-8">
+                <button (click)="this.openSumInsuredSplitDialog()" id="AppIndicativeQuote_SumInsuredSplitDialog"
+                    label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i
+                        class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+            </div>
+        </div>
+
+        <div class="flex align-items-center mb-3 pt-3" *ngIf="this.isShowBreakupType">
+            <div class="flex-grow-1">
+                <div class="flex">
+                    <div class="flex align-items-center justify-content-between mb-3">
+                        <h4 class="m-0" id="SubTemplateIar_PropertyDamageHeader"><b>Section <span>&#8544;</span>:
+                            Property Damage (PD)</b></h4>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="text-right">
+                <h4 id="SubTemplateIar_MachineryBreakDown_Stock">
+                    <app-currency [maximumFractionDigits]="0" [value]="this.quote?.locationBasedCovers?.quoteLocationOccupancy?.sumAssured ?? 0"></app-currency>
+
+                </h4>
+
+            </div> -->
+        </div>
+
+        <div class="pt-5">
+            <ul>
+                <li class="list-group-item">
+                    <div class="flex flex-column">
+                        <div class="flex-nowrap">
+                            <div class="flex">
+                                <div class="w-2rem">
+                                    <h5 style="font-weight: 900;"><b>(A)</b></h5>
+                                </div>
+                                <div class="" id="BSC_Tab_covers">
+                                    <h5 style="font-weight: 900;" id="SubTemplateIar_MaterialDamageSection_Header">
+                                        <b>Material damage Section <span style="color: blue;">*</span></b>
+                                    </h5>
+
+                                </div>
+                                <div class="flex-grow-1 text-right">
+                                    <h4 id="SubTemplateIar_MachineryBreakDown_Stock"><span>
+                                            <app-currency [value]="this.total " [maximumFractionDigits]="0">
+                                            </app-currency>
+                                        </span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="grid mb-2" *ngIf="!(this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR)">
+            <div class="col-8">
+                <span class="name" id="AppIndicativeQuote_BasePremium_Label">Base Premium:</span>
+                <span class="price" id="AppIndicativeQuote_BasePremium">
+                    <app-currency [value]="this.totalPremium"></app-currency>
+                </span>
+            </div>
+            <!-- <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div> -->
+        </div>
+        <div class="grid mb-3" *ngIf="!(this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR)">
+            <div class="col-8">
+                <span class="name" id="AppIndicativeQuote_SumInsured_Label">Sum Insured:</span>
+                <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                <span class="price" id="AppIndicativeQuote_SumInsured">
+                    <!-- Old_Quote -->
+                    <!-- <app-currency [maximumFractionDigits]="0" [value]="this.quote?.totalSumAssured"></app-currency> -->
+
+                    <!-- New_Quote_Option -->
+                    <app-currency [maximumFractionDigits]="0" [value]="this.quoteOptionData?.totalSumAssured"></app-currency>
+                </span>
+            </div>
+        </div>
+
+    </div>
+</p-card>

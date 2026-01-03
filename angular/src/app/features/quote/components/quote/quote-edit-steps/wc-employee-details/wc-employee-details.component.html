@@ -1,0 +1,287 @@
+<div class="px-5">
+    <p-card class="">
+        <div class="inner-container">
+            <div class="tblz02-pdf">
+                <p-table [value]="this.wcRatesInfo" responsiveLayout="scroll" dataKey="id"
+                    styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                    <ng-template pTemplate="caption">
+                        <h4 class="text-center text-black" id="WCPSubTemplate_EmployementDetails_Header">
+                            Employment Details
+                        </h4>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngIf="isNamed" class="tableBorder" class="text-center text-black">
+                                Name
+                            </th>
+                            <th *ngIf="isNamed" class="tableBorder" class="text-center text-black">
+                                Age
+                            </th>
+                            <th class="tableBorder" class="text-center text-black">
+                                Type of Industry
+                            </th>
+                            <th class="tableBorder" class="text-center text-black">
+                                Occupation of Employees
+                            </th>
+                            <th *ngIf="!isNamed" class="tableBorder" class="text-center text-black">
+                                Total Number of Employees
+                            </th>
+                            <th class="tableBorder" class="text-center text-black">
+                                Total Earnings
+                            </th>
+                            <!-- <th class="tableBorder" class="text-center text-black">
+                                Period Covered In Months
+                            </th> -->
+                            <!-- <th class="tableBorder" class="text-center text-black">
+                                Description Of Employees
+                            </th> -->
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-wcRatesRecord>
+                        <tr class="no-border">
+                            <td *ngIf="isNamed" id="wcRates_natureOfWork" class="text-left"> {{wcRatesRecord.name }}
+                            </td>
+                            <td *ngIf="isNamed" id="wcRates_natureOfWork" class="text-left"> {{wcRatesRecord.age }}</td>
+                            <td id="wcRates_natureOfWork" class="text-left"> {{wcRatesRecord.natureOfWork }}</td>
+                            <td id="wcRates_natureOfWork" class="text-left"> {{wcRatesRecord.typeOfEmployees }}</td>
+                            <td *ngIf="!isNamed" id="wcRates_typeOfEmployees" class="text-right">
+                                {{wcRatesRecord.noOfEmployees }}</td>
+                            <td id="wcRates_salaryPerMonth" class="text-right text-nowrap"><span><app-currency
+                                        [value]="(wcRatesRecord.salaryPerMonth ?? 0)"></app-currency></span></td>
+                            <!-- <td id="wcRates_noOfEmployees" class="text-right">{{wcRatesRecord.PeriodCoveredInMonths}}
+                            </td> -->
+                            <!-- <td id="wcRates_noOfEmployees" class="text-left">{{wcRatesRecord.typeOfEmployees}}</td> -->
+                            <!-- <td id="wcRates_descriptionOfEmployees" class="text-left">
+                                {{wcRatesRecord.descriptionOfEmployees}}</td> -->
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td class="text-center text-right text-nowrap" [attr.colspan]="isNamed ? 3 : 2">
+                                <span style="font-size:1rem; font-weight: bold; color: black;">Total:</span>
+                            </td>
+                            <td class="text-center text-right text-nowrap" *ngIf="!isNamed">
+                                <span style="font-weight: bold; color: black;">{{ getTotalEmployee() }}</span>
+                            </td>
+                            <td *ngIf="isNamed"></td>
+                            <td class="text-center text-right text-nowrap">
+                                <span style="font-weight: bold; color: black;">
+                                    <app-currency [value]="getTotalSalary() ?? 0"></app-currency>
+                                </span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td [attr.colspan]="5" id="WCSubTemplate_NoRecordsFoundMSG">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+                <div class="m-3 tblz02-pdf" *ngIf="this.safetyMeasuresInfo.length>0">
+                    <p-table [value]="this.safetyMeasuresInfo" responsiveLayout="scroll"
+                        styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            <h6 class="text-center text-black" style="font-size: small;">
+                                Safety Measures
+                            </h6>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-sf>
+                            <tr class="no-border">
+                                <td id="wcRates_safertymeasures" class="text-center text-left">{{sf}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+            </div>
+        </div>
+    </p-card>
+
+    <p-card *ngIf="!showEditOption">
+        <!-- Broker Attachments Section -->
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr style="background-color:#0048bc; color: white !important;">
+                <td class="text-black" id="basicDetails_uploadedAttachments">
+                    <h4 style="color: white;">Uploaded Attachments</h4>
+                </td>
+            </tr>
+            <div class="grid">
+                <div class="col-12">
+                    <div *ngIf="wcTemplateModel.basicDetailsAttchments.length > 0">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">Attachment Type</th>
+                                    <th style="text-align: center;">File Name</th>
+                                    <th style="text-align: center;">View</th>
+                                    <th style="text-align: center;">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let attachment of wcTemplateModel.basicDetailsAttchments">
+                                    <td>{{ attachment.attachmentSubType + ' - ' + attachment.attachmentType }}</td>
+                                    <td>{{ attachment.fileName }}</td>
+                                    <td style="text-align: center;">
+                                        <i class="pi pi-eye" style="cursor: pointer; color: blue; font-size: 18px;"
+                                            (click)="downloadBasicDetailsAttachmentsDetails(attachment.id)"
+                                            title="View"></i>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <i class="pi pi-download" style="cursor: pointer; color: blue; font-size: 18px;"
+                                            (click)="downloadBasicDetailsAttachmentsDetailsfile(attachment.id)"
+                                            title="Download"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="wcTemplateModel.basicDetailsAttchments.length == 0">
+                        <h6 style="font-size: small; font-weight: bold;">No documents uploaded</h6>
+                    </div>
+                </div>
+            </div>
+        </table>
+    </p-card>
+
+    <p-card *ngIf="showEditOption">
+        <div class="grid">
+            <div class="col-8">
+                <h3 style="font-size: medium; font-weight: bold;">Upload Underwriter Attachments</h3>
+            </div>
+        </div>
+        <!-- <h4 class="mb-2" id="basicdetails_uploadAttachments">Upload Attachments</h4> -->
+        <div class="grid">
+            <div class="col-12">
+                <p-dropdown class="form-control" [options]="this.optionAttachmentTypes" placeholder="Select Type"
+                    optionLabel="label" optionValue="value" [(ngModel)]="selectedAttachment"
+                    #uploadAttachmentddl="ngModel" id="uploadAttachmentddl" name="uploadAttachmentddl" appendTo="body"
+                    (onChange)="onAttachmentTypeChange($event)"></p-dropdown>
+
+
+                <div class="col-8 text-left mt-1" *ngIf="selectedAttachment=='Others'">
+                    <div class="ml-auto">
+                        <input maxlength="255" pInputText id="attachemntTypeOther" autocomplete="off"
+                            [(ngModel)]="attachemntTypeOther" name="attachemntTypeOther" type="text"
+                            placeholder="Type here" class="p-inputtext1 text-left mt-1"
+                            (focusout)="onOtherAttachmentInputFocusOut()" />
+                    </div>
+                </div>
+
+                <div>
+                    <p-fileUpload #fileUpload *ngIf="checkIfFileUploadVisible()"
+                        id="basicDeatilscard_Attachments_Upload" [auto]="true"
+                        (onUpload)="this.onUploadBasicDetailsAttachmentUpload()" styleClass="upload-outline-light"
+                        (onError)="this.errorHandler($event, fileUpload)" name="basic_deatils_WC_files_upload"
+                        mode="advanced" url="{{this.uploadbasicDetailsAttachmentUrl}}" accept="application/pdf"
+                        maxFileSize="10000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload Attachment"
+                        [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div *ngIf="wcTemplateModel.basicDetailsAttchments.length>0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Attachment Type</th>
+                                <th style="text-align: center;">File Name</th>
+                                <th style="text-align: center;">View</th>
+                                <th style="text-align: center;">Download</th>
+                                <th style="text-align: center;">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let attachment of wcTemplateModel.basicDetailsAttchments">
+                                <td>{{ attachment.attachmentSubType + ' - ' +
+                                    attachment.attachmentType }}</td>
+                                <td>{{ attachment.fileName }}</td>
+                                <td style="text-align: center;">
+                                    <i class="pi pi-eye" style="cursor: pointer; color: blue; font-size: 18px;"
+                                        (click)="downloadBasicDetailsAttachmentsDetails(attachment.id)"
+                                        title="View"></i>
+                                </td>
+                                <td style="text-align: center;">
+                                    <i class="pi pi-download" style="cursor: pointer; color: blue; font-size: 18px;"
+                                        (click)="downloadBasicDetailsAttachmentsDetailsfile(attachment.id)"
+                                        title="Download"></i>
+                                </td>
+                                <td style="text-align: center;">
+                                    <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                                        (click)="deleteBasicDetailsAttachmentsDetails(attachment.id)"
+                                        title="Delete"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </p-card>
+    <p-card>
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr style="background-color:#0048bc; color: white !important;">
+                <td class="text-black" id="DandOSubTemplate_Details">
+                    <h4 style="color: white;"> Add-Ons Covers</h4>
+                </td>
+            </tr>
+        </table>
+        <div style="text-align: right;" *ngIf="showEditOption">
+            <button class="btn btn-lg btn btn-success" type="button" id="requisitionTab_EditOptions"
+                (click)="openFlexaCoversDialog()" style="margin-top: 15px; margin-bottom: 15px;">Edit
+                Coverages</button>
+        </div>
+        <p-table [value]="liabiltyCovers" responsiveLayout="scroll" dataKey="id"
+            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <h4 class="text-center text-black" id="WCPSubTemplate_EmployementDetails_Header">
+                    Add-Ons Covers
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="tableBorder" class="text-center text-black">
+                        Covers Name
+                    </th>
+                    <th class="tableBorder" class="text-center text-black">
+                        Covered/Not Covered
+                    </th>
+                    <th class="tableBorder" class="text-center text-black">
+                        Activity Name
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr style="border-top: 1px solid #dee2e6;">
+                    <td style="width: 40%;" id="conditionalFreeAddOnDialog_CoverIdName">
+                        {{rowData?.name}}
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        {{rowData.optionSelected}}
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        {{rowData.description}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="5" id="wcSubTemplate_NoRecordsFoundMSG">
+                        No AddOn Covers were selected
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+
+</div>

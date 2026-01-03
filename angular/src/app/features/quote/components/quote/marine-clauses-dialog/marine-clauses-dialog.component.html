@@ -1,0 +1,53 @@
+<div class="grid">
+    <div class="col-6 my-2">
+        <div class="panel-heading mb-3"><strong>Select Addons</strong></div>
+        <ul class="list-group p-3" style="border: 1px solid #303f9f; border-radius: 23px;min-height: 300px;"
+            id="SectorPaidAddons_AddOnsCovers">
+            <ng-container *ngFor="let item of filteredClaused">
+                <li *ngIf="showClause(item)" draggable [dragData]="item" class="list-group-item my-2">
+                    <i class="pi pi-check-circle"></i> {{item.clauseName}}
+                </li>
+            </ng-container>
+
+        </ul>
+    </div>
+
+    <div class="col-6 my-2">
+        <div class="panel-heading mb-3"><strong>Drop Items here</strong></div>
+        <div class="panel panel-default p-3" droppable (onDrop)="onItemDrop($event)"
+            style="border: 1px dotted #303f9f; border-radius: 23px;min-height: 300px;">
+            <div class="panel-body" *ngIf="droppedItems.length> 0">
+                <li *ngFor="let item of droppedItems" class="list-group-item my-2"
+                    id="SectorPaidAddons_AddOnsCovers_ListItem">
+                    <div class="flex justify-content-between align-items-center">
+                        <div>
+                            <div class="inline-block mr-4" id="SectorPaidAddons_AddOnsCovers_Name">
+                                <i class="pi pi-check-circle"></i> {{item.clauseName}}
+                            </div>
+                            <div class="inline-block mr-4">
+                                <input class="form-control" type="text" pInputText
+                                    [(ngModel)]="item.selectedDescription" id="selectedDescription" />
+
+                            </div>
+
+                        </div>
+                        <span class="btn btn-danger mr-2" (click)="removeDroppedItems(item)">
+                            <i class="pi pi-minus-circle" style="background-color: red; font-weight: bolder;"
+                                aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-end">
+                <div class="flex align-items-center">
+                    <button type="button" class="btn btn-success" id="SectorPaidAddons_CloseModel"
+                        (click)="saveTabs()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

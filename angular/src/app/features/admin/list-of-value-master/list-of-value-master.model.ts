@@ -1,0 +1,307 @@
+import { AllowedTaskStatus } from "../earthquake-rate/earthquake-rate.model";
+import { IPartner } from "../partner/partner.model";
+import { IProduct } from "../product/product.model";
+import { AllowedOtcTypes } from "../product-partner-ic-configuration/product-partner-ic-configuration.model";
+
+export enum AllowedListOfValuesMasters {
+    QUOTE_LOCATION_BREAKUP_L1 = "QUOTE_LOCATION_BREAKUP_L1",
+    QUOTE_LOCATION_BREAKUP_L2 = "QUOTE_LOCATION_BREAKUP_L2",
+    QUOTE_LOCATION_BREAKUP_L3 = "QUOTE_LOCATION_BREAKUP_L3",
+    QUOTE_LOCATION_BREAKUP_L4 = "QUOTE_LOCATION_BREAKUP_L4",
+    RENEWAL_POLICY_PERIOD = "RENEWAL_POLICY_PERIOD",
+    QUOTE_AGE_OF_BUILDING = "QUOTE_AGE_OF_BUILDING",
+    QUOTE_CONSTRUCTION_TYPE = "QUOTE_CONSTRUCTION_TYPE",
+    QUOTE_THREE_YEAR_LOSS_HISTORY = "QUOTE_THREE_YEAR_LOSS_HISTORY",
+    QUOTE_FIRE_PROTECTION = "QUOTE_FIRE_PROTECTION",
+    QUOTE_AMC_FOR_FIRE_PROTECTION = "QUOTE_AMC_FOR_FIRE_PROTECTION",
+    QUOTE_DISTANCE_TO_NEAREST_FIRE_BRIGADE = "QUOTE_DISTANCE_TO_NEAREST_FIRE_BRIGADE",
+    QUOTE_PREMISES_FLOOR = "QUOTE_PREMISES_FLOOR",
+    BSC_PORTABLE_EQUIPMENT_TYPE = "BSC_PORTABLE_EQUIPMENT_TYPE",
+    BSC_FIXED_PLATE_GLASS_TYPE = "BSC_FIXED_PLATE_GLASS_TYPE",
+    BSC_ACCOMPANIED_BAGGAGE_TYPE = "BSC_ACCOMPANIED_BAGGAGE_TYPE",
+    BSC_FIDELITY_GURANTEE_RISK_TYPE = "BSC_FIDELITY_GURANTEE_RISK_TYPE",
+    BSC_SIGNAGE_TYPE = "BSC_SIGNAGE_TYPE",
+    BSC_LIABILITY_SECTION_RISK_TYPE = "BSC_LIABILITY_SECTION_RISK_TYPE",
+    BSC_BURGLARY_AND_HOUSEBREAKING_TYPE = "BSC_BURGLARY_AND_HOUSEBREAKING_TYPE",
+    BSC_PERSONAL_ACCIDENT_TYPE = "BSC_PERSONAL_ACCIDENT_TYPE",
+    BSC_WORKMEN_COMPENSATION_RISK_TYPE = "BSC_WORKMEN_COMPENSATION_RISK_TYPE",
+    BSC_PEDAL_CYCLE_TYPE = "BSC_PEDAL_CYCLE_TYPE",
+    BSC_RISK_ALL_TYPE = "BSC_RISK_ALL_TYPE"
+}
+
+export enum AllowedLovReferences {
+    BSC_BURGLARY_AND_HOUSEBREAKING_OTHER_CONTENTS = 'BSC_BURGLARY_AND_HOUSEBREAKING_OTHER_CONTENTS',
+    BSC_BURGLARY_AND_HOUSEBREAKING_STOCKS = 'BSC_BURGLARY_AND_HOUSEBREAKING_STOCKS',
+    FLOATER_ADDON_STOCKS = 'FLOATER_ADDON_STOCKS',
+    BMA = 'BMA',
+    MACHINERY_BREAKDOWN = 'MACHINERY_BREAKDOWN',
+    PROPERTY_DAMAGE = 'PROPERTY_DAMAGE',
+    BUSINESS_INTERRUPTION = 'BUSINESS_INTERRUPTION'
+
+}
+
+export interface IListOfValueMaster {
+    _id?: string,
+    // sequenceNumber?: string,
+    lovType: AllowedListOfValuesMasters,
+    lovKey: string,
+    lovValue: string,
+    // lovReference?: AllowedLovReferences,
+    lovReferences?: AllowedLovReferences[],
+    // parentLovType?: string,
+    parentLovId?: string | IListOfValueMaster,
+    productId?: string | IProduct;
+    children: IListOfValueMaster[];
+    partnerId?: string | IPartner;
+    taskStatus: AllowedTaskStatus;
+    failedMessage?: string;
+    fromSI?: number;
+    toSI?: number;
+    isRequired?: boolean;
+    isRemark?: boolean;
+    maxEmployeeNo?: number;
+    maxSumInsured: number;
+    createSumInsuredForEmp?: number;
+    // otcRangeFrom?: number;
+    // otcRangeTo?: number;
+    perEmployeeLimit?: number;
+    EmployeemaxLimit?: number;
+    EmployeeMinLimit?: number;
+    active: boolean;
+}
+
+export const OPTIONS_LIST_OF_VALUES = [
+    { label: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L1, value: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L1 },
+    { label: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L2, value: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L2 },
+    { label: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L3, value: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L3 },
+    { label: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L4, value: AllowedListOfValuesMasters.QUOTE_LOCATION_BREAKUP_L4 },
+    { label: AllowedListOfValuesMasters.RENEWAL_POLICY_PERIOD, value: AllowedListOfValuesMasters.RENEWAL_POLICY_PERIOD },
+    { label: AllowedListOfValuesMasters.QUOTE_AGE_OF_BUILDING, value: AllowedListOfValuesMasters.QUOTE_AGE_OF_BUILDING },
+    { label: AllowedListOfValuesMasters.QUOTE_CONSTRUCTION_TYPE, value: AllowedListOfValuesMasters.QUOTE_CONSTRUCTION_TYPE },
+    { label: AllowedListOfValuesMasters.QUOTE_FIRE_PROTECTION, value: AllowedListOfValuesMasters.QUOTE_FIRE_PROTECTION },
+    { label: AllowedListOfValuesMasters.QUOTE_THREE_YEAR_LOSS_HISTORY, value: AllowedListOfValuesMasters.QUOTE_THREE_YEAR_LOSS_HISTORY },
+    { label: AllowedListOfValuesMasters.QUOTE_AMC_FOR_FIRE_PROTECTION, value: AllowedListOfValuesMasters.QUOTE_AMC_FOR_FIRE_PROTECTION },
+    { label: AllowedListOfValuesMasters.QUOTE_DISTANCE_TO_NEAREST_FIRE_BRIGADE, value: AllowedListOfValuesMasters.QUOTE_DISTANCE_TO_NEAREST_FIRE_BRIGADE },
+    { label: AllowedListOfValuesMasters.QUOTE_PREMISES_FLOOR, value: AllowedListOfValuesMasters.QUOTE_PREMISES_FLOOR },
+    { label: AllowedListOfValuesMasters.BSC_PORTABLE_EQUIPMENT_TYPE, value: AllowedListOfValuesMasters.BSC_PORTABLE_EQUIPMENT_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_ACCOMPANIED_BAGGAGE_TYPE, value: AllowedListOfValuesMasters.BSC_ACCOMPANIED_BAGGAGE_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_FIDELITY_GURANTEE_RISK_TYPE, value: AllowedListOfValuesMasters.BSC_FIDELITY_GURANTEE_RISK_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_FIXED_PLATE_GLASS_TYPE, value: AllowedListOfValuesMasters.BSC_FIXED_PLATE_GLASS_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_LIABILITY_SECTION_RISK_TYPE, value: AllowedListOfValuesMasters.BSC_LIABILITY_SECTION_RISK_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_SIGNAGE_TYPE, value: AllowedListOfValuesMasters.BSC_SIGNAGE_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_BURGLARY_AND_HOUSEBREAKING_TYPE, value: AllowedListOfValuesMasters.BSC_BURGLARY_AND_HOUSEBREAKING_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_PERSONAL_ACCIDENT_TYPE, value: AllowedListOfValuesMasters.BSC_PERSONAL_ACCIDENT_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_WORKMEN_COMPENSATION_RISK_TYPE, value: AllowedListOfValuesMasters.BSC_WORKMEN_COMPENSATION_RISK_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_PEDAL_CYCLE_TYPE, value: AllowedListOfValuesMasters.BSC_PEDAL_CYCLE_TYPE },
+    { label: AllowedListOfValuesMasters.BSC_RISK_ALL_TYPE, value: AllowedListOfValuesMasters.BSC_RISK_ALL_TYPE }
+];
+
+export const OPTIONS_LOV_REFERENCES = [
+    { label: AllowedLovReferences.BSC_BURGLARY_AND_HOUSEBREAKING_OTHER_CONTENTS, value: AllowedLovReferences.BSC_BURGLARY_AND_HOUSEBREAKING_OTHER_CONTENTS },
+    { label: AllowedLovReferences.BSC_BURGLARY_AND_HOUSEBREAKING_STOCKS, value: AllowedLovReferences.BSC_BURGLARY_AND_HOUSEBREAKING_STOCKS },
+    { label: AllowedLovReferences.FLOATER_ADDON_STOCKS, value: AllowedLovReferences.FLOATER_ADDON_STOCKS },
+    { label: AllowedLovReferences.BMA, value: AllowedLovReferences.BMA },
+    { label: AllowedLovReferences.MACHINERY_BREAKDOWN, value: AllowedLovReferences.MACHINERY_BREAKDOWN },
+    { label: AllowedLovReferences.PROPERTY_DAMAGE, value: AllowedLovReferences.PROPERTY_DAMAGE },
+    { label: AllowedLovReferences.BUSINESS_INTERRUPTION, value: AllowedLovReferences.BUSINESS_INTERRUPTION },
+];
+
+export enum WCAllowedListOfValuesMasters {
+    //WC
+    WC_COVERAGE_FOR_MEDICAL_EXPENSES = "WC_COVERAGE_FOR_MEDICAL_EXPENSES",
+    WC_SUBJECTIVITY = "WC_SUBJECTIVITY",
+    WC_MAJOR_EXCLUSIONS = "WC_MAJOR_EXCLUSIONS",
+    WC_INSURED_BUSINESS_ACTIVITY = "WC_INSURED_BUSINESS_ACTIVITY",
+    WC_DEDUCTIBLES = "WC_DEDUCTIBLES",
+    
+    //D&O
+    LIABILITY_TURNOVER_THRESHOLD = "D&O_TURNOVER_THRESHOLD",
+    LIABILITY_TYPE_OF_POLICY = "D&O_TYPE_OF_POLICY",
+    LIABILITY_NATURE_OF_BUSINESS = "D&O_NATURE_OF_BUSINESS",
+    LIABILITY_AGE_OF_COMPANY = "D&O_AGE_OF_COMPANY",
+    LIABILITY_RETROACTIVE_COVER = "D&O_RETROACTIVE_COVER",
+    LIABILITY_AOA_AOY = "D&O_AOA_AOY",
+    LIABILITY_BUSINESS_AS_PER_PARENT_COMPANY = "D&O_BUSINESS_AS_PER_PARENT_COMPANY",
+    LIABILITY_INSURED_BUSINESS_ACTIVITY = "D&O_INSURED_BUSINESS_ACTIVITY",
+    LIABILITY_DEDUCTIBLES = "D&O_DEDUCTIBLES",
+    LIABILITY_SUBSIDIARY_LOCATION = "D&O_SUBSIDIARY_LOCATION",
+    LIABILITY_SUBJECTIVITY = "D&O_SUBJECTIVITY",
+    LIABILITY_MAJOR_EXCLUSIONS = "D&O_MAJOR_EXCLUSIONS",
+    
+    //E&O
+    EANDO_INSURED_BUSINESS_ACTIVITY = "E&O_INSURED_BUSINESS_ACTIVITY",
+    EANDO_TYPE_OF_POLICY = "E&O_TYPE_OF_POLICY",
+    EANDO_NUMBER_OF_EXPERIENCE = "E&O_NUMBER_OF_EXPERIENCE",
+    EANDO_RETROACTIVE_COVER = "E&O_RETROACTIVE_COVER",
+    EANDO_SUBSIDIARY_LOCATION = "E&O_SUBSIDIARY_LOCATION",
+    EANDO_TERRITORY_AND_JURISDICTION = "E&O_TERRITORY_&_JURISDICTION",
+    EANDO_SUBJECTIVITY = "E&O_SUBJECTIVITY",
+    EANDO_MAJOR_EXCLUSIONS = "E&O_MAJOR_EXCLUSIONS",
+    EANDO_DEDUCTIBLES = "EANDO_DEDUCTIBLES",
+    //CGL
+    CGL_INSURED_BUSINESS_ACTIVITY = "CGL_INSURED_BUSINESS_ACTIVITY",
+    CGL_TYPE_OF_POLICY = "CGL_TYPE_OF_POLICY",
+    CGL_TYPE_OF_PRODUCT  = "CGL_TYPE_OF_PRODUCT",
+    CGL_RETROACTIVE_COVER = "CGL_RETROACTIVE_COVER",
+    //CGL_DETAILS_OF_PRODUCT_AND_USAGE = "CGL_DETAILS_OF_PRODUCT_&_USAGE",
+    CGL_TERRITORY_AND_JURISDICTION = "CGL_TERRITORY_&_JURISDICTION",
+    CGL_SUBSIDIARY_LOCATION = "CGL_SUBSIDIARY_LOCATION",
+    CGL_SUBJECTIVITY = "CGL_SUBJECTIVITY",
+    CGL_MAJOR_EXCLUSIONS = "CGL_MAJOR_EXCLUSIONS",
+    CGL_DEDUCTIBLES = "CGL_DEDUCTIBLES",
+
+    //Product Liability
+    PRODUCT_LIABILITY_INSURED_BUSINESS_ACTIVITY = "PRODUCT_LIABILITY_INSURED_BUSINESS_ACTIVITY",
+    PRODUCT_LIABILITY_TYPE_OF_POLICY = "PRODUCT_LIABILITY_TYPE_OF_POLICY",
+    PRODUCT_LIABILITY_RETROACTIVE_COVER = "PRODUCT_LIABILITY_RETROACTIVE_COVER",
+    PRODUCT_LIABILITY_TERRITORY_AND_JURISDICTION = "PRODUCT_LIABILITY_TERRITORY_&_JURISDICTION",
+    PRODUCT_LIABILITY_SUBSIDIARY_LOCATION = "PRODUCT_LIABILITY_SUBSIDIARY_LOCATION",
+    PRODUCT_LIABILITY_SUBJECTIVITY = "PRODUCT_LIABILITY_SUBJECTIVITY",
+    PRODUCT_LIABILITY_MAJOR_EXCLUSIONS = "PRODUCT_LIABILITY_MAJOR_EXCLUSIONS",
+    PRODUCT_LIABILITY_DEDUCTIBLES = "PRODUCT_LIABILITY_DEDUCTIBLES",
+
+    //CYBER Liability
+    CYBER_LIABILITY_INSURED_BUSINESS_ACTIVITY = "CYBER_LIABILITY_INSURED_BUSINESS_ACTIVITY",
+    CYBER_LIABILITY_TYPE_OF_POLICY = "CYBER_LIABILITY_TYPE_OF_POLICY",
+    CYBER_LIABILITY_NUMBER_OF_EXPERIENCE = "CYBER_LIABILITY_NUMBER_OF_EXPERIENCE",
+    CYBER_LIABILITY_RETROACTIVE_COVER = "CYBER_LIABILITY_RETROACTIVE_COVER",
+    CYBER_LIABILITY_SUBSIDIARY_LOCATION = "CYBER_LIABILITY_SUBSIDIARY_LOCATION",
+    CYBER_LIABILITY_SUBJECTIVITY = "CYBER_LIABILITY_SUBJECTIVITY",
+    CYBER_LIABILITY_MAJOR_EXCLUSIONS = "CYBER_LIABILITY_MAJOR_EXCLUSIONS",
+    CYBER_LIABILITY_TERRITORY_AND_JURISDICTION = "CYBER_LIABILITY_TERRITORY_&_JURISDICTION",
+    CYBER_DEDUCTIBLES = "CYBER_DEDUCTIBLES",
+
+
+    //PUBLIC Liability
+    PUBLIC_LIABILITY_INSURED_BUSINESS_ACTIVITY = "PUBLIC_LIABILITY_INSURED_BUSINESS_ACTIVITY",
+    PUBLIC_LIABILITY_SUBJECTIVITY = "PUBLIC_LIABILITY_SUBJECTIVITY",
+    PUBLIC_LIABILITY_MAJOR_EXCLUSIONS = "PUBLIC_LIABILITY_MAJOR_EXCLUSIONS",
+    PUBLIC_LIABILITY_AOA_AOY = "PUBLIC_LIABILITY_AOA_AOY",
+    PUBLIC_RETROACTIVE_COVER = "PUBLIC_RETROACTIVE_COVER",
+    PUBLIC_DEDUCTIBLES = "PUBLIC_DEDUCTIBLES",
+
+
+    //Crime
+    CRIME_LIABILITY_TYPE_OF_POLICY = "CRIME_LIABILITY_TYPE_OF_POLICY",
+    CRIME_LIABILITY_RETROACTIVE_COVER = "CRIME_LIABILITY_RETROACTIVE_COVER",
+    CRIME_LIABILITY_SUBSIDIARY_LOCATION = "CRIME_LIABILITY_SUBSIDIARY_LOCATION",
+    CRIME_DEDUCTIBLES = "CRIME_DEDUCTIBLES",
+    CRIME_TERRITORY_AND_JURISDICTION = "CRIME_TERRITORY_&_JURISDICTION",
+    CRIME_LIABILITY_SUBJECTIVITY = "CRIME_LIABILITY_SUBJECTIVITY",
+    CRIME_LIABILITY_MAJOR_EXCLUSIONS = "CRIME_LIABILITY_MAJOR_EXCLUSIONS",
+    CRIME_LIABILITY_INSURED_BUSINESS_ACTIVITY = "CRIME_LIABILITY_INSURED_BUSINESS_ACTIVITY",
+
+
+}
+
+
+export const WC_OPTIONS_LIST_OF_VALUES = [
+    //WC
+    { label: WCAllowedListOfValuesMasters.WC_COVERAGE_FOR_MEDICAL_EXPENSES, value: WCAllowedListOfValuesMasters.WC_COVERAGE_FOR_MEDICAL_EXPENSES },
+    { label: WCAllowedListOfValuesMasters.WC_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.WC_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.WC_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.WC_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.WC_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.WC_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.WC_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.WC_DEDUCTIBLES },
+
+    //D&O
+    { label: WCAllowedListOfValuesMasters.LIABILITY_TURNOVER_THRESHOLD, value: WCAllowedListOfValuesMasters.LIABILITY_TURNOVER_THRESHOLD },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.LIABILITY_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_NATURE_OF_BUSINESS, value: WCAllowedListOfValuesMasters.LIABILITY_NATURE_OF_BUSINESS },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_AGE_OF_COMPANY, value: WCAllowedListOfValuesMasters.LIABILITY_AGE_OF_COMPANY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.LIABILITY_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_AOA_AOY, value: WCAllowedListOfValuesMasters.LIABILITY_AOA_AOY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_BUSINESS_AS_PER_PARENT_COMPANY, value: WCAllowedListOfValuesMasters.LIABILITY_BUSINESS_AS_PER_PARENT_COMPANY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.LIABILITY_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.LIABILITY_DEDUCTIBLES },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.LIABILITY_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.LIABILITY_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.LIABILITY_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.LIABILITY_MAJOR_EXCLUSIONS },
+    //E&O
+    { label: WCAllowedListOfValuesMasters.EANDO_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.EANDO_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.EANDO_NUMBER_OF_EXPERIENCE, value: WCAllowedListOfValuesMasters.EANDO_NUMBER_OF_EXPERIENCE },
+    { label: WCAllowedListOfValuesMasters.EANDO_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.EANDO_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.EANDO_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.EANDO_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.EANDO_TERRITORY_AND_JURISDICTION, value: WCAllowedListOfValuesMasters.EANDO_TERRITORY_AND_JURISDICTION },
+    { label: WCAllowedListOfValuesMasters.EANDO_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.EANDO_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.EANDO_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.EANDO_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.EANDO_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.EANDO_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.EANDO_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.EANDO_DEDUCTIBLES },
+
+
+    
+    //CGL
+    { label: WCAllowedListOfValuesMasters.CGL_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.CGL_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.CGL_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.CGL_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.CGL_TYPE_OF_PRODUCT, value: WCAllowedListOfValuesMasters.CGL_TYPE_OF_PRODUCT },
+    { label: WCAllowedListOfValuesMasters.CGL_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.CGL_RETROACTIVE_COVER },
+    //{ label: WCAllowedListOfValuesMasters.CGL_DETAILS_OF_PRODUCT_AND_USAGE, value: WCAllowedListOfValuesMasters.CGL_DETAILS_OF_PRODUCT_AND_USAGE },
+    { label: WCAllowedListOfValuesMasters.CGL_TERRITORY_AND_JURISDICTION, value: WCAllowedListOfValuesMasters.CGL_TERRITORY_AND_JURISDICTION },
+    { label: WCAllowedListOfValuesMasters.CGL_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.CGL_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.CGL_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.CGL_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.CGL_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.CGL_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.CGL_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.CGL_DEDUCTIBLES },
+
+
+    //PRODUCT LIABILITY
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_TERRITORY_AND_JURISDICTION, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_TERRITORY_AND_JURISDICTION },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.PRODUCT_LIABILITY_DEDUCTIBLES },
+
+
+
+    //CYBER LIABILITY
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_NUMBER_OF_EXPERIENCE, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_NUMBER_OF_EXPERIENCE },
+    { label: WCAllowedListOfValuesMasters.CYBER_LIABILITY_TERRITORY_AND_JURISDICTION, value: WCAllowedListOfValuesMasters.CYBER_LIABILITY_TERRITORY_AND_JURISDICTION },
+    { label: WCAllowedListOfValuesMasters.CYBER_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.CYBER_DEDUCTIBLES },
+
+
+
+
+    //PUBLIC Liability
+    { label: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_INSURED_BUSINESS_ACTIVITY },
+    { label: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_AOA_AOY, value: WCAllowedListOfValuesMasters.PUBLIC_LIABILITY_AOA_AOY },
+    { label: WCAllowedListOfValuesMasters.PUBLIC_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.PUBLIC_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.PUBLIC_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.PUBLIC_DEDUCTIBLES },
+
+    //Crime
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_TYPE_OF_POLICY, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_TYPE_OF_POLICY },
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_RETROACTIVE_COVER, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_RETROACTIVE_COVER },
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_SUBSIDIARY_LOCATION, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_SUBSIDIARY_LOCATION },
+    { label: WCAllowedListOfValuesMasters.CRIME_DEDUCTIBLES, value: WCAllowedListOfValuesMasters.CRIME_DEDUCTIBLES },
+    { label: WCAllowedListOfValuesMasters.CRIME_TERRITORY_AND_JURISDICTION, value: WCAllowedListOfValuesMasters.CRIME_TERRITORY_AND_JURISDICTION },
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_SUBJECTIVITY, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_SUBJECTIVITY },
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_MAJOR_EXCLUSIONS, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_MAJOR_EXCLUSIONS },
+    { label: WCAllowedListOfValuesMasters.CRIME_LIABILITY_INSURED_BUSINESS_ACTIVITY, value: WCAllowedListOfValuesMasters.CRIME_LIABILITY_INSURED_BUSINESS_ACTIVITY },
+
+];
+
+
+export interface IWCListOfValueMaster {
+    _id?: string,
+    lovType: WCAllowedListOfValuesMasters,
+    lovKey: string,
+    lovValue: string,
+    otcType?: AllowedOtcTypes;
+    productId?: string | IProduct;
+    partnerId?: string | IPartner;
+    taskStatus: AllowedTaskStatus;
+    failedMessage?: string;
+    fromSI?: number;
+    toSI?: number;
+    perEmployeeLimit?: number;
+    EmployeemaxLimit?: number;
+    EmployeeMinLimit?: number;
+}

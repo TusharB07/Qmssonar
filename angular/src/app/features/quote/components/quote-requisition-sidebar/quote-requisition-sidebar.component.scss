@@ -1,0 +1,36 @@
+::ng-deep .p-tabview .p-tabview-nav-btn.p-link {
+    background: #ffffff !important;
+    width: 10px;
+    height: 10px;
+    padding: 12px;
+    border-radius: 100%;
+    margin-top: 10px;
+}
+
+.custom-info {
+    color: #FFFFFF;
+    margin: 7px 20px 7px 5px;
+    font-size: 1.5rem;
+}
+
+.custom-anchor {
+    font: normal normal normal 1rem/21px OpenSans-Regular;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin: 5px 0px;
+}
+
+.basic-details-quote .clr-blue {
+    color: #A8C7E9;
+    font-size: 1.2em;
+}
+
+@media screen and (min-width: 769px) {
+    :host ::ng-deep .p-multiselect-items-wrapper {
+        max-height: 155px !important;
+    }
+}
+
+:host ::ng-deep .sidebar .mobile-sidebar .p-sidebar.p-sidebar-left {
+    width: 100vw;
+}

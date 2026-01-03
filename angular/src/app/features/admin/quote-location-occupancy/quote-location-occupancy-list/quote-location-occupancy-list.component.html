@@ -1,0 +1,263 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="QuoteLocationOccupancyList_CreateRecord" pButton pRipple label="New"
+                            icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="QuoteLocationOccupancyList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2"
+                            (click)="this.openDeleteSelectedRecordsConfirmationDialog()"
+                            [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="QuoteLocationOccupancyList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="QuoteLocationOccupancyList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="QuoteLocationOccupancyList_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox
+                                id="QuoteLocationOccupancyList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="quoteId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_QuoteHeader">
+                                    Quote
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_QuoteColumnFilter" type="text"
+                                        field="quoteId" display="menu" placeholder="Search by Quote"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_QuoteSortIcon"
+                                        field="quoteId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+
+                        <th pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_OccupancyHeader">
+                                    Occupancy
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_OccupancyColumnFilter" type="text"
+                                        field="occupancyId" display="menu"
+                                        placeholder="Search by Occupancy"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_OccupancySortIcon"
+                                        field="occupancyId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="clientLocationId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_ClientLocationHeader">
+                                    Client Location
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_ClientLocationColumnFilter"
+                                        type="text" field="clientLocationId" display="menu"
+                                        placeholder="Search by Client Location"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_ClientLocationSortIcon"
+                                        field="clientLocationId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="sumAssured">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_SumAssuredHeader">
+                                    Sum Insured
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_SumAssuredColumnFilter" type="text"
+                                        field="sumAssured" display="menu"
+                                        placeholder="Search by Flexa Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_SumAssuredSortIcon"
+                                        field="sumAssured"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="flexaPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_FlexaPremiumHeader">
+                                    Flexa Premium
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_FlexaPremiumColumnFilter" type="text"
+                                        field="flexaPremium" display="menu"
+                                        placeholder="Search by Flexa Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_FlexaPremiumSortIcon"
+                                        field="flexaPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="STFIPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_STFIPremiumHeader">
+                                    STFI Premium
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_STFIPremiumColumnFilter" type="text"
+                                        field="STFIPremium" display="menu"
+                                        placeholder="Search by STFI Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_STFIPremiumSortIcon"
+                                        field="STFIPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="earthquakePremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_EarthquakePremiumHeader">
+                                    Earthquake Premium
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_EarthquakePremiumColumnFilter"
+                                        type="text" field="earthquakePremium" display="menu"
+                                        placeholder="Search by Earthquake Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_EarthquakePremiumSortIcon"
+                                        field="earthquakePremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="terrorismPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_TerrorismPremiumHeader">
+                                    Terrorism Premium
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_TerrorismPremiumColumnFilter"
+                                        type="text" field="terrorismPremium" display="menu"
+                                        placeholder="Search by Terrorism Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_TerrorismPremiumSortIcon"
+                                        field="terrorismPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="totalPremium">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="QuoteLocationOccupancyList_TotalPremiumHeader">
+                                    Total Premium
+                                </span>
+                                <div>
+                                    <p-columnFilter id="QuoteLocationOccupancyList_TotalPremiumColumnFilter" type="text"
+                                        field="totalPremium" display="menu"
+                                        placeholder="Search by Total Premium"></p-columnFilter>
+                                    <p-sortIcon id="QuoteLocationOccupancyList_TotalPremiumSortIcon"
+                                        field="totalPremium"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item"
+                                id="QuoteLocationOccupancyList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_Quote">
+                            <a routerLink="/backend/admin/quote/{{item.quoteId?._id}}">{{item.quoteId?.quoteNo}}</a>
+                        </td>
+
+
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_Occupancy">
+                            <a
+                                routerLink="/backend/admin/occupancy-rates/{{item.occupancyId?._id}}">{{item.occupancyId?.occupancyType}}</a>
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_ClientLocation">
+                            <a
+                                routerLink="/backend/admin/client-locations/{{item.clientLocationId?._id}}">{{item.clientLocationId?.address}}</a>
+                        </td>
+
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_SumAssured">
+                            {{item.sumAssured}}
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_FlexaPremium">
+                            {{item.flexaPremium}}
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_STFIPremium">
+                            {{item.STFIPremium}}
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_EarthquakePremium">
+                            {{item.earthquakePremium}}
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_TerrorismPremium">
+                            {{item.terrorismPremium}}
+                        </td>
+                        <td style="  min-width:8rem;" id="QuoteLocationOccupancyList_TotalPremium">
+                            {{item.totalPremium}}
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="QuoteLocationOccupancyList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(item)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="QuoteLocationOccupancyList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="QuoteLocationOccupancyList_DeleteRecordConfirmationIcon"></i>
+                <span id="QuoteLocationOccupancyList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you
+                    sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="QuoteLocationOccupancyList_DeleteRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="QuoteLocationOccupancyList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="QuoteLocationOccupancyList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="QuoteLocationOccupancyList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="QuoteLocationOccupancyList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="QuoteLocationOccupancyList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

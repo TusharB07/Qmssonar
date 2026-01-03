@@ -1,0 +1,112 @@
+<p-card *ngIf="this.permissions.includes('read')" [style]="{'min-height':'325px','max-height':'325px'}">
+    <form [formGroup]="this.machineryElectricalBreakdownForm"
+        (ngSubmit)="this.submitMachineryElectricalBreakdownCover()">
+        <div class="flex align-items-center justify-content-between mb-3">
+            <!-- <h4 class="m-0" id="SubTemplateIar_PropertyDamageHeader"><b>Section <span>&#8544;</span>: Property Damage (PD)</b></h4> -->
+            <!-- <button *ngIf="this.permissions.includes('update')" class="btn btn-sm btn-success" pRipple id="SubTemplateIar_PropertyDamage_Save" [disabled]="!this.machineryElectricalBreakdownForm?.dirty || this.machineryElectricalBreakdownForm?.invalid">Save</button> -->
+
+        </div>
+        <div class="">
+            <ul>
+                <li class="list-group-item">
+                    <div class="flex flex-column">
+                        <div class="flex-nowrap mb-4">
+                            <div class="flex">
+                                <div class="w-2rem">
+                                    <h5 style="font-weight: 900;"><b>(B)</b></h5>
+                                </div>
+                                <div class="" id="BSC_Tab_covers">
+                                    <h5 style="font-weight: 900;" id="SubTemplateIar_MachineryBreakDown_Header">
+                                        <b>Machinery / Electrical BreakDown<span style="color: blue;">*</span></b>
+                                    </h5>
+
+                                </div>
+                                <div class="flex-grow-1 text-right">
+                                    <h4 id="SubTemplateIar_MachineryBreakDown_Stock"><span><app-currency
+                                                [value]="(this.totalSI ?? 0)"
+                                                [maximumFractionDigits]="0"></app-currency></span></h4>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="flex-nowrap">
+                            <div class="flex">
+                                <div class="w-2rem">
+                                    <h5 style="font-weight: 900;"><b></b></h5>
+                                </div>
+                                <div class="" id="BSC_Tab_covers">
+                                    <h5 style="font-weight: 900;" id="SubTemplateIar_MachineryBreakDown_Header">
+                                        <b>Reduced Machinery / Electrical Breakdown<span
+                                                style="color: blue;">*</span></b>
+                                    </h5>
+
+                                </div>
+                                <div class="flex-grow-1 text-right">
+                                    <h4 id="SubTemplateIar_MachineryBreakDown_Stock"><span><app-currency
+                                                [value]="(this.totalSI ?? 0)"
+                                                [maximumFractionDigits]="0"></app-currency></span></h4>
+
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="pt-2">
+            <ul>
+                <li class="list-group-item">
+                    <div class="flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                                <div class="grid align-items-center mt-5 mb-8">
+                                    <!-- <div class="col-2">
+                                        <h6><u>Less</u></h6>
+                                    </div>
+                                    <div class="col-4" id="SubTemplateIar_Reduction" >
+                                        <p>Reduction in Sum Insured on accountof piping etc</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <input formControlName="machineryPercentage" *ngIf="this.permissions.includes('update')" id="SubTemplateIar_MachineryPercentage" type="number" placeholder="0" pInputText />
+                                        <input formControlName="machineryPercentage" disabled *ngIf="!this.permissions.includes('update')" id="SubTemplateIar_MachineryPercentage" type="text" placeholder="0" pInputText />
+
+                                    </div>
+                                    <div class="col-1" id="SubTemplateIar_Percentage">
+                                        %
+
+                                    </div>
+                                    <div class="col-3" id="SubTemplateIar_SumInsurred">
+                                        <input formControlName="sumInsurred" type="text" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" placeholder="0" [readonly]="true" pInputText />
+                                    </div> -->
+                                    <div class="col-12" style="display: grid; place-items: start;"
+                                        id="SubTemplateIar_SumInsurred">
+                                        <!-- <h5><a (click)="openMachineryBreakDown()"><u>View All Machinery
+                                                    BreakDown</u></a></h5> -->
+                                        <button id="" label="View All Machinery BreakDown" type="button"
+                                            class="btn btn-primary mr-2" (click)="openMachineryBreakDown()">
+                                            <i class="pi pi-pencil mr-1"></i> View All Machinery BreakDown</button>
+                                        <!-- <input formControlName="sumInsurred" type="text" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" placeholder="0" [readonly]="true" pInputText /> -->
+                                    </div>
+                                </div>
+                                <div class="grid pb-4" *ngIf="this.quote.partnerId['isRate'] == true">
+                                    <div class="col-2">
+                                        <h5 id="SubTemplateIar_PropertyDamageTotalLabel"><b>Total</b></h5>
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <h5 id="SubTemplateIar_PropertyDamageTotal"><b><span><app-currency
+                                                        [value]="(this.totalPermium ?? 0)"></app-currency></span></b>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+
+</p-card>

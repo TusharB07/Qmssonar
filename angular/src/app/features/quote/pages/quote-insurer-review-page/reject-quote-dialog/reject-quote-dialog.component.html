@@ -1,0 +1,16 @@
+<div class="flex m-3 w-full">
+    <div class="input-container-row w-full">
+        <div class="w-full">
+            <label for="Login_Email" class="font-bold">Reason for Quote Rejection</label>
+            <input id="Login_Email" type="text" [(ngModel)]="reason" autocomplete="off" class="mt-3 w-7" pInputText
+                placeholder="Reason of Rejection" />
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-8"></div>
+    <div class="col-4">
+        <button id="QuoteEditPage_ToPreview" class="btn btn-primary mb-3" [disabled]="!reason"
+            (click)="rejectQuote()">Submit</button>
+    </div>
+</div>

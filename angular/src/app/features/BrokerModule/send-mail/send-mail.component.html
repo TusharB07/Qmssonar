@@ -1,0 +1,97 @@
+<div class="mailBox">
+  <h1 class="mb-6">Send email for Quote</h1>
+  <form [formGroup]="sendMailForm" (ngSubmit)="onSubmit(sendMailForm.value)">
+    <div class="input-container">
+      <div>
+        <label>From:</label>
+      </div>
+      <div>
+        <p-chips formControlName="sendFrom" [(ngModel)]="this.userEmailFrom" [addOnTab]="true"></p-chips>
+      </div>
+    </div>
+    <div class="input-container">
+      <div>
+        <label>To:</label>
+      </div>
+      <div>
+        <p-chips formControlName="sendTo" [addOnTab]="true" [(ngModel)]="this.userEmailTo">
+        </p-chips>
+      </div>
+      <!-- <div>
+        <span (click)="openCC()" *ngIf="!isCCAvailable">CC</span>
+        <span (click)="openBCC()" *ngIf="!isBCCAvailable">BCC</span>
+      </div> -->
+    </div>
+    <!-- <div>
+      <div *ngIf="isCCAvailable" class="cc-box">
+        <div>
+          <label>CC:</label>
+        </div>
+        <div>
+          <p-chips formControlName="recieverCC"></p-chips>
+        </div>
+      </div>
+      <div *ngIf="isBCCAvailable" class="cc-box">
+        <div>
+          <label>BCC:</label>
+        </div>
+        <div>
+          <p-chips formControlName="recieverBCC"></p-chips>
+        </div>
+      </div>
+    </div> -->
+    <div class="input-container">
+      <label>Subject:</label>
+      <input type="text" pInputText formControlName="subject" />
+    </div>
+    <!-- <div class="textarea-container">
+      <textarea rows="5" cols="30" formControlName="mailBody" pInputTextarea [autoResize]="true"></textarea>
+    </div> -->
+    <div>
+      <p-editor formControlName="mailBody">
+        <p-header>
+          <span class="ql-formats">
+            <select class="ql-header" tabindex="-1">
+              <option value="1" tabindex="-1">Heading</option>
+              <option value="2" tabindex="-1">Subheading</option>
+              <option selected tabindex="-1">Normal</option>
+            </select>
+            <select class="ql-font" tabindex="-1">
+              <option selected tabindex="-1">Sans Serif</option>
+              <option value="serif" tabindex="-1">Serif</option>
+              <option value="monospace" tabindex="-1">Monospace</option>
+            </select>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-bold" aria-label="Bold" tabindex="-1"></button>
+            <button class="ql-italic" aria-label="Italic" tabindex="-1"></button>
+            <button class="ql-underline" aria-label="Underline" tabindex="-1"></button>
+          </span>
+          <span class="ql-formats">
+            <select class="ql-color" tabindex="-1"></select>
+            <select class="ql-background" tabindex="-1"></select>
+          </span>
+        </p-header>
+      </p-editor>
+    </div>
+    <div class="mail-body">
+      <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput multiple="true"
+        formControlName="file" accept="application/pdf" />
+
+    </div>
+    <div *ngFor="let selected of listOfFiles; let index = index">
+      <span>{{ selected }}</span>
+      <span>
+        <i class="pi pi-trash" style="color: red; font-size: 13px" (click)="removeSelectedFile(index)"></i>
+      </span>
+    </div>
+    <span class="pi pi-paperclip p-button-icon" (click)="fileInput.click()"></span>
+    <span style="color: red;font-size: 15px;">{{this.attachement}}_{{this.selectInsurer}}.pdf</span>
+    <!-- <br />
+    <span class="pi pi-paperclip p-button-icon" (click)="fileInput.click()"></span>
+    <span style="color: green;font-size: 15px;">{{this.attachement}}_{{this.selectInsurer}}_Employee.xlsx</span> -->
+    <div class="btn-send">
+      <button type="submit" [loading]="loading" pButton>Send</button>
+    </div>
+  </form>
+</div>

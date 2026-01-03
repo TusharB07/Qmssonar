@@ -1,0 +1,395 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button *ngIf="this.user?.partnerId?.partnerType == 'self'" id="TerrorismRateList_CreateRecord"
+                            pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="this.createRecord()"></button>
+                        <!-- <button id="TerrorismRateList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="TerrorismRateList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+
+                        <!-- <button
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                            icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                        <p-fileUpload
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+                            [method]="this.uploadProps.method"
+                            (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                            [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                            [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                            [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel"
+                            styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload> -->
+                        <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action"
+                            [(ngModel)]="this.selectedOption" optionLabel="name" (onChange)="selectAction($event)"
+                            (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="TerrorismRateList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" accept="image/*" id="TerrorismRateList_FileUpload"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="TerrorismRateList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+                        <th pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="SubOccupancy_OccupancyTypeHeader">
+                                    Occupancy
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="partnerId" display="menu" [showClearButton]="false"
+                                    [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false"
+                                    [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">OccupancyId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedOccupancyId" [suggestions]="optionsOccupancyId"
+                                            (completeMethod)="getOptionOccupancyId($event)" field="occupancyId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="occupancyHandleFilter($event)"
+                                            (onUnselect)="occupancyHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                                    <p-sortIcon id="SubOccupancy_OccupancyTypeSortIcon"
+                                        field="occupancyId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="industryTypeId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_NameHeader">
+                                    Industry Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="industryTypeId" matchMode="equals" display="menu" type="text" [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Industry Type filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete  [(ngModel)]="selectedIndustryTypeName" [suggestions]="optionsIndustryTypeName" (completeMethod)="getOptionsIndustryTypeName($event)" field="industryTypeId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="industryTypeNameHandleFilter($event)" (onUnselect)="industryTypeNameHandleFilter($event)">
+                                              <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                              <span style="font-size:18px">{{group.label}}</span>
+                                          </ng-template>
+                                            </p-autoComplete>
+                                             </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon field="industryTypeId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fromSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_FromSIHeader">
+                                    From SI
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="TerrorismRateList_FromSIColumnFilter" type="text" field="fromSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by From SI"></p-columnFilter>
+                                    <p-sortIcon id="TerrorismRateList_FromSISortIcon" field="fromSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="toSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_ToSIHeader">
+                                    To SI
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="TerrorismRateList_ToSIColumnFilter" type="text" field="toSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by To SI"></p-columnFilter>
+                                    <p-sortIcon id="TerrorismRateList_ToSISortIcon" field="toSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="ratePerMile">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_RatePerMileHeader">
+                                    Rate Per Mile
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="TerrorismRateList_RatePerMileColumnFilter" type="text"
+                                        field="ratePerMile" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Rate Per Mile"></p-columnFilter>
+                                    <p-sortIcon id="TerrorismRateList_RatePerMileSortIcon"
+                                        field="ratePerMile"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="addValue">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_AddValueHeader">
+                                    Add Value
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="TerrorismRateList_AddValueColumnFilter" type="text"
+                                        field="addValue" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and"
+                                        placeholder="Search by Add Value"></p-columnFilter>
+                                    <p-sortIcon id="TerrorismRateList_AddValueSortIcon" field="addValue"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="remark">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Remark
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="remark" display="menu"
+                                        placeholder="Search by Remark"></p-columnFilter>
+                                    <p-sortIcon field="remark"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TerrorismRateList_ProductHeader">
+                                    Product
+                                </span>
+                                <div style="white-space: nowrap"> -->
+                        <!-- <p-columnFilter type="text" field="productId" display="menu" placeholder="Search by ProductId"></p-columnFilter> -->
+                        <!-- <p-sortIcon field="productId"></p-sortIcon> -->
+                        <!-- </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Partner Id </span>
+                                <p-columnFilter field="partnerId" matchMode="equals" display="menu" type="text"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">partnerId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedPartners" [suggestions]="optionsPartners"
+                                            (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="partnerIdHandleFilter($event)"
+                                            (onUnselect)="partnerIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="TerrorismRateListtaskStatusList_taskStatusHeader">
+                                    TaskStatus
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="TerrorismRateList_RateColumnFilter" type="text"
+                                        field="taskStatus" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by status"></p-columnFilter>
+                                    <p-sortIcon id="TerrorismRateList_RateSortIcon" field="taskStatus"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap"
+                                    id="TerrorismRateListtaskStatusfailedMessage_failedMessageHeader">
+                                    FailedMessage
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-sortIcon id="TerrorismRateList_RateSortIcon" field="failedMessage"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-terrorismRate>
+                    <tr (click)="this.editRecord(terrorismRate)">
+                        <td>
+                            <p-tableCheckbox id="TerrorismRateList_ItemCheckBox"
+                                [value]="terrorismRate"></p-tableCheckbox>
+                        </td>
+                        <!-- <td><span class="p-column-title">Id</span> {{terrorismRate._id}}
+                        </td> -->
+                        <td id="SubOccupancy_OccupancyType">
+                            {{terrorismRate?.occupancyId?.occupancyType ?? "-"}}
+                        </td>
+                        <td id="TerrorismRateList_Name">
+                            {{terrorismRate.industryTypeId?.industryTypeName}}
+                            <!-- <a routerLink="/backend/admin/industry-types/{{terrorismRate.industryTypeId?._id}}">{{terrorismRate.industryTypeId?.industryTypeName}}</a> -->
+                        </td>
+
+                        <td id="TerrorismRateList_FromSI">
+                            {{terrorismRate.fromSI}}
+                        </td>
+
+                        <td id="TerrorismRateList_ToSI">
+                            {{terrorismRate.toSI}}
+                        </td>
+
+                        <td id="TerrorismRateList_RatePerMile">
+                            {{terrorismRate.ratePerMile}}
+                        </td>
+
+                        <td id="TerrorismRateList_AddValue">
+                            {{terrorismRate.addValue}}
+                        </td>
+
+                        <!-- <td>
+                            {{terrorismRate.remark}}
+                        </td> -->
+
+                        <td style="min-width: 300px" id="TerrorismRateList_Product">
+                            {{terrorismRate.productId.type}}
+                            <!-- <a routerLink="/backend/admin/products/{{terrorismRate.productId._id}}">{{terrorismRate.productId.type}}</a> -->
+                        </td>
+                        <td>
+                            {{terrorismRate?.partnerId?.name}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{terrorismRate?.taskStatus ?? '-'}}
+                        </td>
+
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{terrorismRate?.failedMessage ?? '-'}}
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="TerrorismRateList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(terrorismRate)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="TerrorismRateList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(terrorismRate)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="TerrorismRateList_DeleteRecordConfirmationIcon"></i>
+                <span id="TerrorismRateList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you
+                    want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="TerrorismRateList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="TerrorismRateList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="TerrorismRateList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="TerrorismRateList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="TerrorismRateList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times"
+                    class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="TerrorismRateList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check"
+                    class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

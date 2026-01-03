@@ -1,0 +1,84 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ClausesFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="ClausesForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="ClausesForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field">
+                            <label for="headId">Head</label>
+                            <p-autoComplete autofocus [dropdown]="true" [suggestions]="this.optionsHeads" field="label"
+                                formControlName="headId" (completeMethod)="this.searchOptionsHeads($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['headId'].valid}"></p-autoComplete>
+                        </div>
+                        <div class="field">
+                            <label id="ClausesForm_clauseLabel" for="Clausesname">Clause Name</label>
+                            <input id="ClausesForm_Clausesname" type="text" pInputText id="clauseName"
+                                formControlName="clauseName" required
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['clauseName']}" />
+                            <small id="ClausesForm_ClausesnameValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['clauseName']">Clause Name is required.</small>
+                        </div>
+                        <div class="field">
+                            <label id="ClausesForm_transitTypesLabel" for="transitTypes">Transit Types</label>
+                            <p-multiSelect id="ClausesForm_transitTypes" [options]="this.optionsTransitTypes"
+                                formControlName="transitTypes"
+                                (onChange)="this.transitTypesWiseFilterChanged($event.value)"
+                                [(ngModel)]="this.selectedTransitTypes" optionLabel="label"></p-multiSelect>
+
+
+                        </div>
+
+                        <div class="field">
+                            <label id="ClausesForm_interestsLabel" for="interests">Interests</label>
+                            <p-multiSelect id="ClausesForm_interests" [options]="this.optionsInterests"
+                                formControlName="interests" (onChange)="this.InterestsWiseFilterChanged($event.value)"
+                                [(ngModel)]="this.selectedInterests" optionLabel="label"></p-multiSelect>
+                        </div>
+
+                        <div class="field">
+                            <label id="ClausesForm_packagingsLabel" for="packagings">Packagings</label>
+                            <p-multiSelect id="ClausesForm_packagings" [options]="this.optionsPackagings"
+                                formControlName="packagings" (onChange)="this.packagingsWiseFilterChanged($event.value)"
+                                [(ngModel)]="this.selectedPackagings" optionLabel="label"></p-multiSelect>
+                        </div>
+
+                        <div class="field">
+                            <label id="ClausesForm_conveyancesLabel" for="conveyances">Conveyances</label>
+                            <p-multiSelect id="ClausesForm_conveyances" [options]="this.optionsConveyances"
+                                formControlName="conveyances"
+                                (onChange)="this.conveyancesWiseFilterChanged($event.value)"
+                                [(ngModel)]="this.selectedConveyances" optionLabel="label"></p-multiSelect>
+                        </div>
+                        <div class="field">
+                            <label id="ClausesForm_StatuClausesstatus" for="status">Status</label>
+                            <p-toggleButton id="ClausesForm_Status" class="form-control" formControlName="isActive"
+                                onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times"
+                                iconPos="right"></p-toggleButton>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

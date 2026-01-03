@@ -1,0 +1,446 @@
+<div class="form-container px-3 pt-3">
+    <div class="grid">
+        <div class="col-12 mx-0">
+            <div class="col-12">
+                <div class="grid">
+                    <div class="col-6">
+                        <p-card>
+
+                            <div class="grid">
+                                <div class="col-10">
+                                    <label class="form-label">Details of Business Activity <span
+                                            style="color: red;">*</span></label>
+                                    <input pInputText type="text" placeholder="Type here"
+                                        [(ngModel)]="this.quoteCGLOptions.detailsOfBusinessActivity"
+                                        #detailsOfBusinessActivity="ngModel" id="detailsOfBusinessActivity"
+                                        name="detailsOfBusinessActivity" />
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="grid" *ngIf="templateName=='LIABILITY_PUBLIC'">
+                                <div class="col-10">
+                                    <label class="form-label">Type of Policy <span style="color: red;">*</span></label>
+                                    <input pInputText type="text" placeholder="Occurrence form only"
+                                        [(ngModel)]="this.quoteCGLOptions.typeOfPolicy" #typeOfPolicy="ngModel"
+                                        id="typeOfPolicy" name="typeOfPolicy" [readOnly]="true" />
+                                </div>
+                            </div> -->
+
+                            <div class="grid" *ngIf="templateName=='LIABILITY_PUBLIC'">
+                                <div class="col-10">
+                                    <label class="form-label">Details of Hazardous Chemical <span
+                                            style="color: red;">*</span></label>
+                                    <input pInputText type="text" placeholder="Type here"
+                                        [(ngModel)]="this.quoteCGLOptions.detailsOfHazardousChemical"
+                                        #detailsOfHazardousChemical="ngModel" id="detailsOfHazardousChemical"
+                                        name="detailsOfHazardousChemical" />
+                                    <div style="text-align: right; margin-top: 5px;">
+                                        <a href="assets/List_of_Hazardous_Chemicals.pdf" target="_blank">
+                                            <button type="button" id="btn_Save" pButton pRipple label="View Doc"
+                                                icon="pi pi-check" class="btn btn-success">
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid" *ngIf="templateName=='LIABILITY_CGL'">
+                                <div class="col-10">
+                                    <label class="form-label">Type of Policy <span style="color: red;">*</span></label>
+                                    <p-dropdown class="form-control" [options]="this.optionsTypeOfPolicy"
+                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                        (onChange)="onTypeOfPolicyChange()"
+                                        [(ngModel)]="this.quoteCGLOptions.typeOfPolicyId" #typeOfPolicyId="ngModel"
+                                        id="typeOfPolicyId" name="typeOfPolicyId" appendTo="body"></p-dropdown>
+                                </div>
+                            </div>
+
+                            <!-- <div class="grid" *ngIf="templateName=='LIABILITY_CGL'">
+                                <div class="col-10">
+                                    <label class="form-label">Details of product and usage <span
+                                            style="color: red;">*</span></label>
+                                    <input pInputText type="text" placeholder="Type here"
+                                        [(ngModel)]="this.quoteCGLOptions.detailsOfProductAndUsage"
+                                        #detailsOfProductAndUsage="ngModel" id="detailsOfProductAndUsage"
+                                        name="detailsOfProductAndUsage" />
+                                </div>
+                            </div> -->
+
+                            <div class="grid" *ngIf="isOccuranceFormSelected &&  templateName=='LIABILITY_CGL'">
+                                <div class="col-10">
+                                    <label for="" class="form-label" style="margin-top: 1rem ;"
+                                        id="retroactiveCover">Retroactive Details <span
+                                            style="color: red;">*</span></label>
+                                    <p-dropdown class="form-control" [options]="this.optionsRetroactiveCover"
+                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteCGLOptions.retroactiveCoverId"
+                                        #retroactiveCoverId="ngModel" id="retroactiveCoverId" name="retroactiveCoverId"
+                                        appendTo="body"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="grid" *ngIf="isOccuranceFormSelected && templateName=='LIABILITY_CGL'">
+                                <div class="col-10 p-inputtext1 text-left">
+                                    <label for="" class="form-label" style="margin-top: 1rem ;"
+                                        id="retroactiveDate">Retroactive Date <span style="color: red;">*</span></label>
+                                    <p-calendar id="retroactiveDate" aria-placeholder="Select Date"
+                                        [(ngModel)]="quoteCGLOptions.retroactiveDate" [showIcon]="true"
+                                        name="retroactiveDate" #retroactiveDate="ngModel"
+                                        class="text-left"></p-calendar>
+                                </div>
+                            </div>
+
+                            <div class="grid" *ngIf="templateName=='LIABILITY_PUBLIC'">
+                                <div class="col-10">
+                                    <label for="" class="form-label" style="margin-top: 1rem ;"
+                                        id="retroactiveCover">Retroactive Details <span
+                                            style="color: red;">*</span></label>
+                                    <p-dropdown class="form-control" [options]="this.optionsRetroactiveCover"
+                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteCGLOptions.retroactiveCoverId"
+                                        #retroactiveCoverId="ngModel" id="retroactiveCoverId" name="retroactiveCoverId"
+                                        appendTo="body"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="grid" *ngIf="templateName=='LIABILITY_PUBLIC'">
+                                <div class="col-10 p-inputtext1 text-left">
+                                    <label for="" class="form-label" style="margin-top: 1rem ;"
+                                        id="retroactiveDate">Retroactive Date <span style="color: red;">*</span></label>
+                                    <p-calendar id="retroactiveDate" aria-placeholder="Select Date"
+                                        [(ngModel)]="quoteCGLOptions.retroactiveDate" [showIcon]="true"
+                                        name="retroactiveDate" #retroactiveDate="ngModel"
+                                        class="text-left"></p-calendar>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="col-10 p-inputtext1 text-left">
+                                    <label class="form-label">Any Additional Information ?</label>
+                                    <textarea pInputText type="text" placeholder="Type here"
+                                        [(ngModel)]="this.quoteCGLOptions.additionalInformation"
+                                        #additionalInformation="ngModel" id="additionalInformation"
+                                        name="additionalInformation"></textarea>
+                                </div>
+                            </div>
+                            <div class="button-aacontainer " style="margin-top: 10px;">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success"></button>
+                            </div>
+                        </p-card>
+
+                        <p-card>
+                            <div class="grid">
+                                <div class="col-8">
+                                    <h3 style="font-size: medium; font-weight: bold;">Upload Attachments</h3>
+                                </div>
+                            </div>
+                            <!-- <h4 class="mb-2" id="basicdetails_uploadAttachments">Upload Attachments</h4> -->
+                            <div class="grid">
+                                <div class="col-12">
+
+                                    <p-dropdown class="form-control" [options]="this.optionAttachmentTypes"
+                                        placeholder="Select Type" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="selectedAttachment" #uploadAttachmentddl="ngModel"
+                                        id="uploadAttachmentddl" name="uploadAttachmentddl" appendTo="body"
+                                        (onChange)="onAttachmentTypeChange($event)"></p-dropdown>
+
+                                    <div class="col-8 text-left mt-1" *ngIf="selectedAttachment=='Others'">
+                                        <div class="ml-auto">
+                                            <input maxlength="255" pInputText id="attachemntTypeOther"
+                                                autocomplete="off" [(ngModel)]="attachemntTypeOther"
+                                                name="attachemntTypeOther" type="text" placeholder="Type here"
+                                                class="p-inputtext1 text-left mt-1"
+                                                (focusout)="onOtherAttachmentInputFocusOut()" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p-fileUpload #fileUpload *ngIf="checkIfFileUploadVisible()"
+                                            id="basicDeatilscard_Attachments_Upload" [auto]="true"
+                                            (onUpload)="this.onUploadBasicDetailsAttachmentUpload()"
+                                            styleClass="upload-outline-light"
+                                            (onError)="this.errorHandler($event, fileUpload)"
+                                            name="basic_deatils_files_upload_cgl" mode="advanced"
+                                            url="{{this.uploadbasicDetailsAttachmentUrl}}" accept=""
+                                            maxFileSize="10000000" chooseIcon="pi pi-paperclip"
+                                            chooseLabel="Upload Attachment" [headers]="this.uploadHttpHeaders"
+                                            method="post"></p-fileUpload>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div *ngIf="savedBasicDetailsAttachment.length>0">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Attachment Type</th>
+                                                    <th style="text-align: center;">File Name</th>
+                                                    <th style="text-align: center;">View</th>
+                                                    <th style="text-align: center;">Download</th>
+                                                    <th style="text-align: center;">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let attachment of savedBasicDetailsAttachment">
+                                                    <td>{{ attachment.attachmentSubType + ' - ' +
+                                                        attachment.attachmentType }}</td>
+                                                    <td>{{ attachment.fileName }}</td>
+                                                    <td style="text-align: center;">
+                                                        <i class="pi pi-eye" style="cursor: pointer; color: blue; font-size: 18px;"
+                                                            (click)="downloadBasicDetailsAttachmentsDetails(attachment.id)"
+                                                            title="View"></i>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <i class="pi pi-download" style="cursor: pointer; color: blue; font-size: 18px;"
+                                                            (click)="downloadBasicDetailsAttachmentsDetailsfile(attachment.id)"
+                                                            title="Download"></i>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                                                            (click)="deleteBasicDetailsAttachmentsDetails(attachment.id)"
+                                                            title="Delete"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                    <div class="col-6">
+
+                        <p-card>
+                            <ng-template pTemplate="header">
+                                <div class="grid" style="margin-bottom: 20px;">
+                                    <div class="col-8">
+                                        <h3 class="mb-2" style="font-size: large; font-weight: bold;"
+                                            id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h3>
+                                        <label for="" id="lblClientIndustry"
+                                            style="font-size: xx-small;  font-weight: bold;"
+                                            *ngIf="templateName=='LIABILITY_CGL'">Liability - Commercial General
+                                            Liability</label>
+                                        <label for="" id="lblClientIndustry"
+                                            style="font-size: xx-small;  font-weight: bold;"
+                                            *ngIf="templateName=='LIABILITY_PUBLIC'">Liability - Public Liability
+                                            Policy</label>
+                                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                                            {{this.quote?.productId?.type}}</p>
+                                    </div>
+                                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium
+                                        </p>
+                                        <!-- <p class="premium-price" id="IndicativeQuoteTab_TotalPremium" pTooltip="{{this.toWords.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+                                        <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span>
+                                                <!-- <app-currency
+                                                        [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency>-->
+                                                <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                    [rate]="this.quote?.dollarRate"
+                                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                    [value]='this.quoteCGLOptions?.totalPremiumAmt ?? 0'></app-currency-dollar-repee>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class="view-breakup h-100">
+                                <div class="grid mb-2">
+                                    <div class="col-8">
+                                        <span class="name" id="IndicativeQuoteTab_BasePremium_Label">Limit of
+                                            Liability:</span>
+                                        <span class="price"
+                                            id="IndicativeQuoteTab_BasePremium"><app-currency-dollar-repee
+                                                [maximumFractionDigits]="0" [rate]="this.quote?.dollarRate"
+                                                [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                [value]='this.quoteCGLOptions.limitOfLiability'></app-currency-dollar-repee></span>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3">
+
+                                </div>
+                                <div class="grid" *ngIf="templateName=='LIABILITY_CGL'">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Covers Opted
+                                                (<span>{{selectedCoversCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="grid" *ngIf="templateName=='LIABILITY_CGL'">
+                                    <div class="col-12">
+                                        <ul class="covers-list font-size:small">
+                                            <li id="IndicativeQuoteTab_CoversOpted">Deductibles
+                                                (<span>{{deductibilitiesCount}}</span>)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="grid mb-3" *ngIf="templateName=='LIABILITY_CGL'">
+                                    <div class="col-12">
+                                        <button id="IndicativeQuoteTab_ViewDetailsDialog" label="View Details"
+                                            type="button" class="btn btn-primary  mr-2"
+                                            (click)="openFlexaCoversDialog()">View Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+
+
+                        <!-- <p-card *ngIf="templateName=='LIABILITY_PUBLIC'">
+                            <div class="grid">
+                                <div class="col-8">
+                                    <h3 style="font-size: medium; font-weight: bold;">Limit of Liability</h3>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-6">
+                                    <label for="" class="form-label" id="aoaAoy">AOA : AOY <span
+                                            style="color: red;">*</span></label>
+                                    <p-dropdown class="form-control" [options]="this.optionsAoaAoy"
+                                        placeholder="Select Type" optionLabel="label" optionValue="value"
+                                        [(ngModel)]="this.quoteCGLOptions.aoaAoyId" #aoaAoyId="ngModel" id="aoaAoyId"
+                                        name="aoaAoyId" appendTo="body"
+                                        (onChange)="onDropdownAOAChange($event)"></p-dropdown>
+                                </div>
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency != '$ Dollar'">
+                                    <label for="" class="form-label" id="limitOfLiabilitylbl">Limit of
+                                        Liability</label>
+                                    <input maxlength="255" pInputText id="limitlimitOfLiabilityCGLOfLiability"
+                                        name="limitOfLiabilityCGL" placeholder="₹ 0" currencyMask
+                                        [(ngModel)]="this.quoteCGLOptions.limitOfLiabilityCGL" #limitOfLiabilityCGL="ngModel"
+                                        [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1 text-left"
+                                        readonly />
+                                </div>
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency == '$ Dollar'">
+                                    <label for="" class="form-label" id="limitOfLiabilitylbl">Limit of
+                                        Liability</label>
+                                    <input maxlength="255" pInputText id="limitOfLiabilityAOAAOY"
+                                        name="limitOfLiabilityAOAAOY" placeholder="$ 0" currencyMask
+                                        [(ngModel)]="this.limitOfLiabilityAOAAOY" #limitOfLiabilitylbl="ngModel"
+                                        [options]="{ prefix: '$ ' , precision:0 }" class="p-inputtext1 text-left"
+                                        readonly />
+
+                                </div>
+                            </div>
+                            <div class="grid ">
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency!='$ Dollar'">
+                                    <label for="" class="form-label" id="anyOneAccident">Any One Accident</label>
+                                    <input pInputText type="text" placeholder="Upload Here"
+                                        [(ngModel)]="this.quoteCGLOptions.anyOneAccident" currencyMask
+                                        [options]="{ prefix: '₹ ' , precision:0 }" #anyOneAccident="ngModel"
+                                        id="anyOneAccident" name="anyOneAccident" readonly />
+
+                                </div>
+
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency =='$ Dollar'">
+                                    <label for="" class="form-label" id="anyOneAccidentAOAAOY">Any One Accident</label>
+                                    <input pInputText type="text" placeholder="$ 0"
+                                        [(ngModel)]="this.anyOneAccidentAOAAOY" currencyMask
+                                        [options]="{ prefix: '$ ' , precision:0 }" #anyOneAccidentAOAAOYY="ngModel"
+                                        id="anyOneAccidentAOAAOY" name="anyOneAccidentAOAAOY" readonly />
+
+                                </div>
+
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency !='$ Dollar'">
+                                    <label for="" class="form-label" id="inTheAggregate">Any one Year</label>
+                                    <input pInputText type="text" placeholder="Upload Here"
+                                        [(ngModel)]="this.quoteCGLOptions.inTheAggregate" currencyMask
+                                        [options]="{ prefix: '₹ ' , precision:0 }" #inTheAggregate="ngModel"
+                                        id="inTheAggregate" name="inTheAggregate" readonly />
+                                </div>
+
+                                <div class="col-6" *ngIf="this.quote?.selectedCurrency =='$ Dollar'">
+                                    <label for="" class="form-label" id="inTheAggregateAOAAOY">Any one Year</label>
+                                    <input pInputText type="text" placeholder="$ 0"
+                                        [(ngModel)]="this.inTheAggregateAOAAOY" currencyMask
+                                        [options]="{ prefix: '$ ' , precision:0 }" #inTheAggregateAOAAOYY="ngModel"
+                                        id="inTheAggregateAOAAOY" name="inTheAggregateAOAAOY" readonly />
+                                </div>
+                            </div>
+                            <div class="button-container " style="margin-top: 10px;">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success"></button>
+                            </div>
+                        </p-card> -->
+
+
+                        <p-card *ngIf="templateName=='LIABILITY_CGL'">
+                            <div class="grid">
+                                <div class="col-8">
+                                    <h3 style="font-size: medium; font-weight: bold;">List of Locations</h3>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div class="col-8 text-left mt-1">
+                                        <div class="ml-auto">
+                                            <input maxlength="255" pInputText id="listOfLocationsInput"
+                                                autocomplete="off" [(ngModel)]="listOfLocationsInput"
+                                                name="listOfLocationsInput" type="text" placeholder="Type here"
+                                                class="p-inputtext1 text-left mt-1"
+                                                (focusout)="onListOfLocationsFocusOut()" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p-fileUpload #fileUploadListOfLocations id="ListOfLocations_Attachments_Upload"
+                                            [auto]="true" (onUpload)="this.onUploadListOfLocationsAttachmentUpload()"
+                                            styleClass="upload-outline-light"
+                                            (onError)="this.errorHandler($event, fileUploadListOfLocations)"
+                                            name="list_of_locations_files_upload_cgl" mode="advanced"
+                                            url="{{this.uploadListOfLocationsAttachmentUrl}}"  accept=".xls, .xlsx"
+                                            maxFileSize="10000000" chooseIcon="pi pi-paperclip"
+                                            chooseLabel="Upload Locations" [headers]="this.uploadHttpHeaders"
+                                            method="post"></p-fileUpload>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div *ngIf="quoteCGLOptions.listOfLocations?.length>0">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Location</th>
+                                                    <th style="text-align: center;">File Name</th>
+                                                    <!-- <th style="text-align: center;">View</th> -->
+                                                    <th style="text-align: center;">Download</th>
+                                                    <th style="text-align: center;">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let attachment of quoteCGLOptions.listOfLocations">
+                                                    <td>{{ attachment.listofLocation }}</td>
+                                                    <td>{{ attachment.fileName }}</td>
+                                                    <!-- <td style="text-align: center;">
+                                                        <i class="pi pi-eye"
+                                                            style="cursor: pointer; color: blue; font-size: 18px;"
+                                                            (click)="downloadBasicDetailsAttachmentsDetails(attachment.id)"
+                                                            title="View"></i>
+                                                    </td> -->
+                                                    <td style="text-align: center;">
+                                                        <i class="pi pi-download"
+                                                            style="cursor: pointer; color: blue; font-size: 18px;"
+                                                            (click)="downloadListOfLocationsAttachmentsDetailsfile(attachment.id)"
+                                                            title="Download"></i>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <i class="pi pi-trash"
+                                                            style="cursor: pointer; color: red; font-size: 18px;"
+                                                            (click)="deleteListOfLocationAttachmentsDetails(attachment.id)"
+                                                            title="Delete"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

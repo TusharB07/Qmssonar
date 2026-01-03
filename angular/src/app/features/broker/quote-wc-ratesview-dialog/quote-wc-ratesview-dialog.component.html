@@ -1,0 +1,88 @@
+<!--TODO: Add Datatable-->
+<div class="row">
+  <div class="content">
+    <div class="grid">
+      <div class="col-12 md:col-12 mb-5">
+        <div class="col-12">
+          <p-table #dt [value]="this.wcRatesInfo" class="table" id="wcratesInfo" responsiveLayout="scroll"
+            dataKey="_id">
+            <ng-template pTemplate="header">
+              <tr class="tableBorder tableHeaderRow" style="color: white;">
+                <th class="tableBorder" style="width: 15rem;text-align: center;color: white" *ngIf="this.isNamed">
+                  Name
+                </th>
+                <th class="tableBorder" style="width: 15rem;text-align: center;color: white" *ngIf="this.isNamed">
+                  Age
+                </th>
+                <th class="tableBorder" style="width: 15rem;text-align: center;color: white">
+                  Type of Industry
+                </th>
+                <th class="tableBorder" style="width: 10rem;text-align: center;color: white">
+                  Occupation of Employee
+                </th>
+                <th class="tableBorder" style="width: 10rem;text-align: center;color: white"*ngIf="!this.isNamed">
+                  Total number of Employees
+                </th>
+                <th class="tableBorder" style="width: 8rem;text-align: center;color: white">
+                  Total Earnings
+                </th>
+
+                <!-- <th class="tableBorder" style="width: 8rem;text-align: center;color: white">
+                  Salary Per Month
+                </th> -->
+                <!-- <th class="tableBorder" style="width: 8rem;text-align: center;color: white;">
+                  No of Employees
+                </th> -->
+                <!-- <th class="tableBorder" style="width: 8rem;text-align: center;color: white;">
+                  Period Covered (In Months)
+                </th> -->
+                <!-- <th class="tableBorder" style="width: 6;text-align: center;color: white;">
+                  Total Salary
+                </th>
+                <th class="tableBorder" style="width: 10rem;text-align: center;color: white;">
+                  Total Salary Upto 15000
+                </th>
+                <th class="tableBorder" style="width: 10rem;text-align: center;color: white;">
+                  Total Salary Above 15000
+                </th> -->
+                <!-- <th class="tableBorder" style="width: 8rem;text-align: center;color: white;">
+                  Rate (upto 15000)
+                </th>
+                <th class="tableBorder" style="width: 8rem;text-align: center;color: white;">
+                  Rate (above 15000)
+                </th> -->
+                <!-- <th class="tableBorder" style="width: 4rem;text-align: center;color: white;">
+                  Net Premium
+                </th> -->
+
+
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-wcRatesRecord>
+              <tr style="border: 1px solid #0064BB;">
+                <td class="tableBorder" id="wcRates_natureOfWork" style="width: 15rem;" *ngIf="this.isNamed">{{wcRatesRecord.name }}</td>
+                <td class="tableBorder" id="wcRates_natureOfWork" style="width: 15rem;" *ngIf="this.isNamed">{{wcRatesRecord.age }}</td>
+                <td class="tableBorder" id="wcRates_natureOfWork" style="width: 15rem;"> {{wcRatesRecord.natureOfWork }}</td>
+                <td class="tableBorder" id="wcRates_typeOfEmployees" style="width: 10rem;">{{wcRatesRecord.typeOfEmployees }}</td>
+                <td class="tableBorder" id="wcRates_noOfEmployees" style="width: 8rem;text-align: right;"*ngIf="!this.isNamed">{{wcRatesRecord.noOfEmployees}}</td>
+                <td class="tableBorder" id="wcRates_salaryPerMonth" style="width: 8rem;text-align: right;">
+                  <span><app-currency [value]="(wcRatesRecord.salaryPerMonth ?? 0)"></app-currency></span>
+                </td>
+                <!-- <td class="tableBorder" id="wcRates_descriptionOfEmployees" style="width: 10rem;">{{wcRatesRecord.descriptionOfEmployees}}</td> -->
+                <!-- <td class="tableBorder" id="wcRates_classificationNo" style="width: 8rem;text-align: right;">{{wcRatesRecord.classificationNo}}</td> -->
+                <!-- <td class="tableBorder" id="wcRates_PeriodCoveredInMonths" style="width: 8rem;text-align: right;">{{wcRatesRecord.PeriodCoveredInMonths}}</td> -->
+                <!-- <td class="tableBorder" id="wcRates_totalSalary" style="width: 6rem;text-align: right;">{{wcRatesRecord.totalSalary}}</td>
+                <td class="tableBorder" id="wcRates_totalSalaryUptoFT" style="width: 10rem;text-align: right;">{{wcRatesRecord.totalSalaryUptoFT}}</td>
+                <td class="tableBorder" id="wcRates_totalSalaryAboveFT" style="width: 10rem;text-align: right;">{{wcRatesRecord.totalSalaryAboveFT}}</td> -->
+                <!-- <td class="tableBorder" id="wcRates_rateUptoFT" style="width: 8rem;text-align: right;">{{wcRatesRecord.rateUptoFT}}</td>
+                <td class="tableBorder" id="wcRates_rateAboveFT" style="width: 8rem;text-align: right;">{{wcRatesRecord.rateAboveFT}}</td> -->
+                <!-- <td class="tableBorder" id="wcRates_netPremium" style="width: 4rem;text-align: right;">{{wcRatesRecord.netPremium}}</td> -->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

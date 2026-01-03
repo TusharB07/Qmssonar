@@ -1,0 +1,16 @@
+<div class="p-5 mx-5">
+    <p-dropdown [options]="optionsProducts" class="p-button-outlined ml-2" placeholder="Select Product" 
+        (onChange)="selectProduct($event)" [showClear]="false"></p-dropdown>
+</div>
+<div class="p-5 flex justify-content-center">
+    <div class="mb-5">
+        <button
+            *ngIf="this.config.data.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.config.data.user.roleId?.name == AllowedRoles.ADMIN"
+            pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2" icon="pi pi-download"
+            (click)="this.bulkImportGenerateSample()"></button>
+    </div>
+    <div class="ml-2">
+        <button class="btn btn-primary" type="button" id="ElectronicEquipments_Dialog_Close"
+            (click)="cancel()">Close</button>
+    </div>
+</div>

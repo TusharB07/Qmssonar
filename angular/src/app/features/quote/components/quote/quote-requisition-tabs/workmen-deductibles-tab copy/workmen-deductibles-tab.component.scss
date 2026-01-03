@@ -1,0 +1,82 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+th {
+  background-color: #f2f2f2;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container button {
+  margin: 0 5px; /* Adjust the space between buttons as needed */
+}
+
+.button-container {
+display: flex;
+justify-content: flex-end;
+margin-top: auto;
+margin-bottom: 1rem;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+.scrollable-container {
+  height: 200px; /* Fixed height */
+  width: 100%; /* Full width of the parent */
+  overflow-y: auto; /* Enable vertical scrollbar */
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive cards */
+  gap: 16px; /* Spacing between cards */
+  padding: 16px;
+  border: 1px solid #0064BB; /* Border for the container */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f9f9f9; /* Light background for better visibility */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.product-card {
+  border: 1px solid #ccc; /* Border for individual cards */
+  padding: 12px;
+  text-align: center; /* Center text in cards */
+  border-radius: 4px;
+  background-color: #ffffff; /* White background for cards */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  height: 50px;
+}
+
+.product-card:hover {
+  background-color: #e6f4ff; /* Light blue hover effect */
+  border-color: #0064BB;
+}
+
+/* Scrollbar Styling (Optional) */
+.scrollable-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #0064BB; /* Scrollbar thumb color */
+  border-radius: 4px; /* Rounded scrollbar thumb */
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Scrollbar track color */
+}

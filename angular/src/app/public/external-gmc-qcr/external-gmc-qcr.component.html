@@ -1,0 +1,54 @@
+<div [hidden]="!showTableForExcel">
+    <table id="execeltbl" *ngIf="questionAnswerList.length > 0" style="font-size: 11px;">
+        <tbody>
+            <tr style="border: 1px solid #0064BB;">
+                <td [attr.colspan]="ques.colspan"
+                    style="border: 1px solid #0064BB;text-align: center; font-weight: 900;"
+                    *ngFor="let ques of qcrHeadersLst">
+                    {{ques.label}}
+                </td>
+            </tr>
+            <tr style="border: 1px solid #0064BB; font-weight: 900;">
+                <td *ngFor="let quest of qcrHeaderTwoLst" [attr.colspan]="quest.colspan"
+                    style="border: 1px solid #0064BB;text-align: center; font-weight: 900; width: 70px;">
+                    <b>{{quest.label}}</b>
+                </td>
+            </tr>
+            <tr style="border: 1px solid #0064BB; font-weight: 900;">
+                <td *ngFor="let quest of qcrHeaderTwoLst"
+                    style="border: 1px solid #0064BB; text-align: center; font-weight: 900;">
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let quest of qcrHeaderTwoLst"
+                    style="border: 1px solid #0064BB;text-align: center; font-weight: 900;">
+                    <p class="btn btn-sm btn-info  p-0 px-2"
+                        *ngIf="quest.quoteId!='' && quest.quoteFor=='IC' && quest.indicativePremium>0">
+                        {{quest.indicativePremium | currency:'INR'}}</p>
+                </td>
+
+            </tr>
+            <tr *ngFor="let ques of questionAnswerList" style="border: 1px solid #0064BB;">
+
+                <td style="border: 1px solid #0064BB;width: 70px;text-wrap: initial;"
+                    [attr.colspan]="ques.colspan">
+                    <span *ngIf="ques.isSubHeader">
+                        <h5 style="margin-top: 2px;margin-bottom: 2px;">
+                            &nbsp;&nbsp;{{ques.question}}</h5>
+
+                    </span>
+                    <!-- <span *ngIf="ques.isHeader" style="padding-left: 5px;">
+                    <h3>{{ques.question}}</h3>
+                </span> -->
+                    <span *ngIf="ques.isLabel"><i class="pi pi-circle-on"
+                            style="font-size: 5px;margin-left: 8px;"></i>&nbsp;&nbsp;&nbsp;{{ques.question}}</span>
+                </td>
+                <td *ngFor="let ans of ques.answer"
+                    style="border: 1px solid #0064BB; width: 50px;text-wrap: auto;">
+                    <span [ngClass]="{'redText': ans.isChanged === true}">
+                        {{ans.answer}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

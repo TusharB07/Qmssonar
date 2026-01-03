@@ -1,0 +1,19 @@
+@media (max-width: 768px) {
+    :host ::ng-deep .p-card .p-card-body {
+        width: 86vw;
+    }
+}
+
+.reqHeader
+{
+    margin-top: 16px;
+    color: #ffffff;
+    margin-bottom: 9px;
+    background: #2156C2;
+    padding: 4px;
+}
+#claimExperience{
+    font: normal normal 1.5rem / 33px OpenSans-Bold;
+    margin-bottom: 7px;
+    color: #000;
+}

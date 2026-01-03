@@ -1,0 +1,11 @@
+version: "3"
+services:
+  inexchg-angular-app:
+    platform: linux/amd64
+    build: 
+      context: .
+      args:
+        - NODE_ENV=production
+        - SERVER_NAME=https://quote.alwrite.com
+        # - NGINX_CONF="./nginx/default.conf"
+    image: adityal1/inexchg-angular-app

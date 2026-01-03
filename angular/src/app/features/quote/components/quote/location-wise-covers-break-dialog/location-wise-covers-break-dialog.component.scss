@@ -1,0 +1,145 @@
+// ::ng-deep .customPopup.p-dialog .p-accordion p-accordiontab:first-child .p-accordion-header .p-accordion-header-link{
+//     display: flex;
+// }
+
+.breakup-indicative-container.card{
+    margin-bottom: 0;
+}
+.breakup-indicative-collapse {
+    color: #6C7888;
+    font: normal normal 600 14px/19px OpenSans-SemiBold;
+    margin-left: 30px;
+}
+.breakup-indicative-collapse > div {
+    padding-bottom: 10px;
+}
+.breakup-indicative-collapse .flex-grow-1:first-child{
+    text-align: left;
+}
+.breakup-indicative-collapse .flex-grow-1{
+    text-align: right;
+    width: 34%;
+}
+.breakup-indicative-container ul.status-list {
+    margin-top: 10px;
+}
+.breakup-indicative-container ul.status-list li {
+    padding: 0 0 5px 20px;
+    min-height: auto;
+    display: inline-block;
+    margin-right: 10px;
+    background: url(/assets/icons/tick-yellow.png) no-repeat left center;
+    min-width: 30%;
+    font: normal normal normal 12px/17px OpenSans-Regular;
+    color: #6C7888;
+}
+.breakup-indicative-container ul.status-list li strong {
+    font-family: OpenSans-SemiBold;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link{
+    font: normal normal bold 1.25rem/27px OpenSans-SemiBold;
+    color: #000000;
+    background-color: transparent;
+    border: 0;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon{
+    display: inherit;
+    width: 18px;
+    height: 18px;
+}
+.breakup-indicative-container ::ng-deep p-accordiontab:nth-of-type(odd) {
+    background: #F8F8F8;
+    display: block
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    border-color: transparent;
+}
+.breakup-indicative-container.card .header-section {
+    font: normal normal bold 1.25rem/27px OpenSans-Bold;
+    color: #000000;
+    background-color: transparent;
+    padding: 0px 20px 20px 35px;
+    width: 100%;
+}
+.breakup-indicative-container.card .header-section .flex-grow-1:first-child, .breakup-indicative-container.card .total-section .flex-grow-1:first-child{
+    text-align: left;
+}
+.breakup-indicative-container.card .header-section .flex-grow-1, .breakup-indicative-container.card .total-section .flex-grow-1{
+    text-align: right;
+    width: 34%;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link .flex-grow-1{
+    text-align: right;
+    width: 34%;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link .flex-grow-1:first-child{
+    text-align: left;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-content {
+    border: transparent;
+    background: transparent;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .pi-chevron-right:before {
+    flex-shrink: 0;
+    width: 16px;
+    height: 15px;
+    margin-left: auto;
+    content: "";
+    background-image: url(/assets/icons/open-arrow-yellow.svg);
+    background-repeat: no-repeat;
+    transition: transform .2s ease-in-out;
+    padding-left: 30px;
+}
+.breakup-indicative-container ::ng-deep .p-accordion .p-accordion-header .pi-chevron-down:before {
+    content: "";
+    background-image: url(/assets/icons/close-arrow-yellow.svg);
+    width: 16px;
+    height: 15px;
+    display: inline-block;
+}
+.breakup-indicative-container .total-section {
+    font: normal normal bold 1.25rem/27px OpenSans-Bold;
+    color: #000000;
+    background-color: transparent;
+    padding: 0px 14px 0 42px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.currency::first-letter{
+    padding-right: 0.3em;
+}
+
+// <!--This is for only for Griha Lite Start-->
+.bandcHeader{
+    font-size: 16px;
+    margin-bottom: 10px;
+    background: #F8F8F8;
+    font-weight: bold;
+    height: 35px;
+    padding-top: 5px;
+    direction: rtl;
+}
+
+.bandcFooter{
+    background: #F8F8F8;
+    font-weight: bold;
+    height: 35px;
+    font-size: 16px;
+    padding-top: 6px;
+    display: flex;
+}
+
+.bandcFooter .total{
+    margin-left: 36px;
+}
+.bandcFooter .builingTotal{
+    margin-left: 432px !important;
+}
+.bandcFooter .contentTotal{
+    margin-left: 189px !important;
+}
+
+.marginLeft{
+    margin-left: -6px;
+}

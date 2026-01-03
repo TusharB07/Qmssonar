@@ -1,0 +1,20 @@
+<!-- <span class="currency " style="text-align: right;" pTooltip="{{this.toWord.convert(Number(this.value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}"> -->
+<!-- <span class="currency " style="text-align: right;">
+    {{(this.value ?? 0).toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits:this.maximumFractionDigits,
+        minimumFractionDigits: this.minimumFractionDigits,
+        currencyDisplay: 'symbol',
+        localeMatcher: 'lookup'
+    })}}
+</span> -->
+
+<span class="text-nowrap" style="text-align: right;">
+    {{ '₹ ' + (this.value)?.toLocaleString('en-IN', {
+        maximumFractionDigits: this.maximumFractionDigits,
+        minimumFractionDigits: this.minimumFractionDigits,
+        localeMatcher: 'lookup'
+    }) }}
+</span>
+

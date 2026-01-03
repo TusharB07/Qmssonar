@@ -1,0 +1,50 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                <div class="card p-fluid">
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="DeclarationPolicyFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="DeclarationPolicyForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button id="DeclarationPolicyForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </p-card>
+            </div>
+            <div class="col-6">
+                <p-card>
+                <div class="card p-fluid">
+                    <h5 id="DeclarationPolicyForm_GeneralInformation">General Information</h5>
+
+                    <div class="field">
+                        <label id="DeclarationPolicyForm_QuoteIdLabel" for="quoteId">Quote Id</label>
+                        <p-autoComplete id="DeclarationPolicyForm_QuoteId" [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId']?.valid}"></p-autoComplete>
+                        <small id="DeclarationPolicyForm_QuoteIdValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote ID is required.</small>
+                    </div>
+                    <!-- <div class="field">
+                        <label for="quoteId">Quote Id</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsQuotes" field="label" formControlName="quoteId" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                    </div> -->
+                    <div class="field">
+                        <label id="DeclarationPolicyForm_StockLabel" for="stock">Stock</label>
+                        <input id="DeclarationPolicyForm_Stock" class="form-control" type="text" pInputText id="stock" formControlName="stock" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['stock']}" />
+                        <small id="DeclarationPolicyForm_StockValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['stock']">stock required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="DeclarationPolicyForm_SumInsuredLabel" for="sumInsured">SumInsured</label>
+                        <input id="DeclarationPolicyForm_SumInsured"  type="text" pInputText id="sumInsured" formControlName="sumInsured" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sumInsured']}" />
+                        <small id="DeclarationPolicyForm_SumInsuredValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sumInsured']">sumInsured is required.</small>
+                    </div>
+                </div>
+            </p-card>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,700 @@
+<!-- <div class="container multilocation-annexure"> -->
+<!-- <div class="grid mb-6 p-3 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+<!-- <div class="grid"> -->
+<!-- <p-tabView [style]="{'width':'100%'}" [(activeIndex)]="activeIndex2" [scrollable]="true" (onChange)="handleChange($event)">
+                <p-tabPanel *ngFor="let tab of this.optionsQuoteLocationOccupancies; let index;" [header]="tab?.label">
+                    <div class="grid">
+
+                    </div>
+                </p-tabPanel>
+            </p-tabView> -->
+<!-- <div class="col-8 p-4">
+
+            <div class="grid">
+                <div class="col-6">
+                    <div class="mb-3">
+
+                        <h6 class="inline-block mr-2" id="Multilocation_RiskLocation_Label">Risk Location Address:</h6>
+                        <span id="Multilocation_RiskLocation">{{quote.locationBasedCovers?.quoteLocationOccupancy.locationName}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2"id="Multilocation_PinCode_Label">Pin Code:</h6>
+                        <span id="Multilocation_PinCode">{{quote.locationBasedCovers?.quoteLocationOccupancy.pincodeId?.name}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2" id="Multilocation_EQZone_Label">EQ Zone:</h6>
+                        <span id="Multilocation_EQZone">{{quote.locationBasedCovers?.quoteLocationOccupancy.pincodeId?.earthquakeZone}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2" id="Multilocation_IndustryName_Label">Industry</h6>
+                        <span id="Multilocation_IndustryName">{{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.industryTypeId?.industryTypeName}}</span>
+                    </div>
+
+
+                </div>
+                    <div class="col-6"> -->
+
+<!-- <div class="mb-1">
+                        <div class="grid">
+                            <div class="col-7">
+                                <h6 class="inline-block mr-2">Earthquake Coverage Opted:</h6>
+                            </div>
+                            <div class="col-5">
+                                <div class="field-radiobutton inline-block mr-3">
+                                    <p-radioButton name="earthquake" [value]="true" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isEarthquake" inputId="true">
+                                    </p-radioButton>
+                                    <label for="true">Yes</label>
+                                </div>
+                                <div class="field-radiobutton inline-block">
+                                    <p-radioButton name="earthquake" [value]="false" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isEarthquake" inputId="false"></p-radioButton>
+                                    <label for="false">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <div class="grid">
+                            <div class="col-7">
+                                <h6 class="inline-block mr-2">STFI Coverage Opted:</h6>
+                            </div>
+                            <div class="col-5">
+                                <div class="field-radiobutton inline-block mr-3">
+                                    <p-radioButton name="STFI" [value]="true" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isStfi" inputId="true">
+                                    </p-radioButton>
+                                    <label for="true">Yes</label>
+                                </div>
+                                <div class="field-radiobutton inline-block">
+                                    <p-radioButton name="STFI" [value]="false" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isStfi" inputId="false">
+                                    </p-radioButton>
+                                    <label for="false">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <div class="grid">
+                            <div class="col-7">
+                                <h6 class="inline-block mr-2">Terrorism Coverage Opted:</h6>
+                            </div>
+                            <div class="col-5">
+                                <div class="field-radiobutton inline-block mr-3">
+                                    <p-radioButton name="terrorism" [value]="true" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isTerrorism" inputId="true">
+                                    </p-radioButton>
+                                    <label for="true">Yes</label>
+                                </div>
+                                <div class="field-radiobutton inline-block">
+                                    <p-radioButton name="terrorism" [value]="false" [(ngModel)]="quote.locationBasedCovers?.quoteLocationOccupancy.isTerrorism" inputId="false">
+                                    </p-radioButton>
+                                    <label for="false">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+<!-- <app-toggle-cover-opted-radio id="Multilocation_ToggleCover"></app-toggle-cover-opted-radio>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-4 flex align-items-baseline justify-content-start"> -->
+<!-- <h6 class="inline-block mr-2">Occupancy:</h6> -->
+<!-- <p-dropdown class="maxw-85" [disabled]="true" [options]="optionsQuoteLocationOccupancies" [(ngModel)]="selectedQuoteLocationOccpancyId"
+                optionLabel="label"></p-dropdown> -->
+<!-- <span>{{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId?.occupancyType}}</span> -->
+<!-- </div>
+        <div class="col-12 custom-detail-header p-4" style="border-radius: unset;">
+            <div class="grid">
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_PolicyRate_Label">Policy Rate:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_PolicyRate">{{quote.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.stfiRate +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.flexaiib +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.terrorismRate | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_NATCAT_Label">NATCAT=EQ+STFI:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_NATCAT">{{quote.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.stfiRate | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_FlexaRate_Label">Flexa Rate:</h6> -->
+<!-- <p >(Including 10% loading for floater)</p> -->
+<!-- </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_FlexaRate">{{quote.locationBasedCovers?.quoteLocationOccupancy.flexaiib | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_STFI_Label">STFI Rate:</h6> -->
+<!-- <p>(Including 10% loading for floater)</p> -->
+<!-- </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_STFI">{{quote.locationBasedCovers?.quoteLocationOccupancy.stfiRate | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TerrorismRate_Label">Terrorism Rate:</h6> -->
+<!-- <p >(Including 10% loading for floater)</p> -->
+<!-- </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_TerrorismRate">{{quote.locationBasedCovers?.quoteLocationOccupancy.terrorismRate | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_EQRate_Label">EQ Rate:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_EQRate">{{quote.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate | number}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Occupancy:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Occupancy"> {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId?.occupancyType}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_NATCATPremium_Label">NATCAT Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2" > -->
+<!-- <span id="Multilocation_NATCATPremium">{{quote.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium +
+                        <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true" >
+                             <span id="Multilocation_NATCATPremium">{{quote.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.STFIPremium ?? 0 |
+                                currency:'INR'}}</span> -->
+<!-- <span id="Multilocation_NATCATPremium"><app-currency [value]="quote.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium +
+                                quote.locationBasedCovers?.quoteLocationOccupancy.STFIPremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_FlexaPremium_Label">Flexa Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+                            <span id="Multilocation_FlexaPremium"><app-currency [value]="quote.locationBasedCovers?.quoteLocationOccupancy.flexaPremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_STFIPremium_Label">STFI Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+                            <span id="Multilocation_STFIPremium"><app-currency [value]="quote.locationBasedCovers?.quoteLocationOccupancy.STFIPremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TerrorismPREMIUM_Label">Terrorism Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+                            <span id="Multilocation_TerrorismPREMIUM"><app-currency [value]="quote.locationBasedCovers?.quoteLocationOccupancy.terrorismPremium ?? 0"> </app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_EQPREMIUM_Label">EQ Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+                            <span id="Multilocation_EQPREMIUM"><app-currency [value]="quote.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TotalPremium_Label">Total Premium:</h6>
+                            <p>(excluding <span *ngIf="tab.data.earthquakeOpted==='No'">Earthquake, </span><span *ngIf="tab.data.STFIOpted==='No'">STFI, </span><span *ngIf="tab.data.earthquakeOpted==='No'">Terrorism </span>)</p> -->
+<!-- </div> -->
+<div class="grid">
+    <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+        <span id="Multilocation_TotalPremium"><app-currency
+                [value]="quote?.totalIndictiveQuoteAmtWithGst ?? 0"></app-currency></span>
+    </div>
+</div>
+<!-- <div class="grid">
+    <div class="col-6 mb-2">
+        <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Discounted Amount:</h6>
+    </div>
+    <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+        <span id="Multilocation_Occupancy"> {{quote.locationBasedCovers?.quoteLocationOccupancy.totalPremiumWithDiscount
+            ?? 0}}</span>
+    </div>
+</div> -->
+<!-- <div class="grid">
+    <div class="col-6 mb-2">
+        <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Total Discount:</h6>
+    </div>
+    <div class="col-6 mb-2" *ngIf="this.quote.partnerId['isRate'] == true">
+        <span id="Multilocation_Occupancy"> {{quote.locationBasedCovers?.quoteLocationOccupancy.totalDiscount ?? 0}}
+            %</span>
+    </div>
+</div> -->
+<div class="grid" *ngIf="this.quote.productId['isOccupancySubTypeShow']">
+    <div class="col-6 mb-2">
+        <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Shop Name
+            <span
+                *ngIf="this.quote.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName=='Others'">
+                <i class="pi pi-circle-fill" style="font-size: 0.75rem ;color :red"></i>
+            </span>
+            :
+        </h6>
+    </div>
+    <div class="col-6 mb-2">
+        <span id="Multilocation_Occupancy"> {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancySubTypeId ?
+            quote.locationBasedCovers?.quoteLocationOccupancy.occupancySubTypeId?.shopName : '-'}}
+            {{this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']
+            ?'('+this.quote?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']+ ')' : ''}}</span>
+    </div>
+</div>
+<!-- <div class="grid">
+    <div class="col-6 mb-2">
+        <h6 class=" mr-2" id="Multilocation_TotalSI_Label">Total SI:</h6>
+    </div>
+    <div class="col-6 mb-2">
+        <span id="Multilocation_TotalSI"><app-currency [maximumFractionDigits]="0"
+                [value]="quote.locationBasedCovers?.quoteLocationOccupancy.sumAssured ?? 0"></app-currency></span>
+    </div>
+</div> -->
+<div class="grid">
+    <div class="col-6 mb-2">
+        <h6 class=" mr-2" id="Multilocation_FloaterStock_Label">Total Floater SI of Stocks & Stocks I Process:</h6>
+    </div>
+</div>
+<!-- <div class="col-6 mb-2" id="Multilocation_FloaterStock"> -->
+<!-- <span>Lorem Ipsum Dolor Sit</span> -->
+<!-- </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Single LocationStock_Label">Max Stock at Single location:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Single LocationStock">{{quote.locationBasedCovers?.quoteLocationOccupancy.maxStock}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_GICEnforsement_Label">Special Excess to GIC enforsement as per Circular dated 21st Feb 2019</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_GICEnforsement">{{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.specialExcessGIC ?? 'NA'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="col-12">
+            <div class="grid">
+                <div class="col-4">
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_FireSection_Label">Fire Section:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_FireSection">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.tacCode}}
+                    </div>
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_SubRiskCode_Label">Sub-risk Code:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_SubRiskCode">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.subriskCode}}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_RateCode_Label">Rate Code:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_RateCode">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.rateCode}}
+                    </div>
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2"id="Multilocation_GradedRetention_Label">Graded Retention:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_GradedRetention">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.gradedRetention}}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="inline-block col-6" >
+                        <h6 class="mr-2" id="Multilocation_RiskCode_Label">Risk Code:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_RiskCode">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId.riskCode}}
+                    </div>
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_HazardCategory_Label">Hazard Category:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_HazardCategory_Label">
+                        {{quote.locationBasedCovers?.quoteLocationOccupancy.occupancyId?.hazardCategoryId?.category}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-5">
+<app-fire-floater-cover-addon-card id="Multilocation_FloaterCover_Card" *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.FIRE && this.occupancyCount > 1" [quote]="this.quote"></app-fire-floater-cover-addon-card>
+</div> -->
+
+
+<!-- New_Quote_option -->
+<div class="container multilocation-annexure">
+    <div class="grid">
+        <div class="col-8 p-4">
+
+            <div class="grid">
+                <div class="col-6">
+                    <div class="mb-3">
+
+                        <h6 class="inline-block mr-2" id="Multilocation_RiskLocation_Label">Risk Location
+                            Address:</h6>
+                        <span
+                            id="Multilocation_RiskLocation">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.locationName}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2" id="Multilocation_PinCode_Label">Pin Code:</h6>
+                        <span
+                            id="Multilocation_PinCode">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.pincodeId?.name}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2" id="Multilocation_EQZone_Label">EQ Zone:</h6>
+                        <span
+                            id="Multilocation_EQZone">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.pincodeId?.earthquakeZone}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="inline-block mr-2" id="Multilocation_IndustryName_Label">Industry</h6>
+                        <span
+                            id="Multilocation_IndustryName">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.industryTypeId?.industryTypeName}}</span>
+                    </div>
+
+
+                </div>
+                <div class="col-6">
+                    <app-toggle-cover-opted-radio id="Multilocation_ToggleCover"></app-toggle-cover-opted-radio>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-4 flex align-items-baseline justify-content-start">
+        </div>
+        <div class="col-12 custom-detail-header p-4" style="border-radius: unset;" *ngIf="!this.isLockton">
+            <div class="grid">
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_PolicyRate_Label">Policy Rate:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_PolicyRate">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate
+                                +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.stfiRate +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.flexaiib +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.terrorismRate |
+                                number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_NATCAT_Label">NATCAT=EQ+STFI:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_NATCAT">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate
+                                +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.stfiRate |
+                                number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_FlexaRate_Label">Flexa Rate:</h6>
+                            <!-- <p >(Including 10% loading for floater)</p> -->
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_FlexaRate">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.flexaiib
+                                | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_STFI_Label">STFI Rate:</h6>
+                            <!-- <p>(Including 10% loading for floater)</p> -->
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_STFI">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.stfiRate
+                                |
+                                number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TerrorismRate_Label">Terrorism Rate:</h6>
+                            <!-- <p >(Including 10% loading for floater)</p> -->
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_TerrorismRate">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.terrorismRate
+                                | number}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_EQRate_Label">EQ Rate:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_EQRate">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.earthquakeRate
+                                | number}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Occupancy:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Occupancy">
+                                {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId?.occupancyType}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_NATCATPremium_Label">NATCAT Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <!-- <span id="Multilocation_NATCATPremium">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.STFIPremium ?? 0 |
+                                currency:'INR'}}</span> -->
+                            <span id="Multilocation_NATCATPremium"><app-currency
+                                    [value]="quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.earthquakePremium +
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.STFIPremium"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_FlexaPremium_Label">Flexa Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_FlexaPremium"><app-currency
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.flexaPremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_STFIPremium_Label">STFI Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_STFIPremium"><app-currency
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.STFIPremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TerrorismPREMIUM_Label">Terrorism Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_TerrorismPREMIUM"><app-currency
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.terrorismPremium ?? 0">
+                                </app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_EQPREMIUM_Label">EQ Premium:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_EQPREMIUM"><app-currency
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.earthquakePremium ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TotalPremium_Label">Total Premium:</h6>
+                            <!-- <p>(excluding <span *ngIf="tab.data.earthquakeOpted==='No'">Earthquake, </span><span *ngIf="tab.data.STFIOpted==='No'">STFI, </span><span *ngIf="tab.data.earthquakeOpted==='No'">Terrorism </span>)</p> -->
+                        </div>
+                        <div class="col-6 mb-2">
+                            <!-- <span id="Multilocation_TotalPremium"><app-currency
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalPremium ? (quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalPremium ?? 0 + quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalPremiumWithDiscount ?? 0) : (quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalPremiumWithDiscount ?? 0)"></app-currency>
+                            </span> -->
+                            <span id="Multilocation_TotalPremium">
+                                <app-currency
+                                  [value]="0"
+                                ></app-currency>
+                              </span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Discounted Amount:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Occupancy">
+                                {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalPremiumWithDiscount
+                                ??
+                                0}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Total Discount:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Occupancy">
+                                {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.totalDiscount ??
+                                0}}
+                                %</span>
+                        </div>
+                    </div>
+                    <div class="grid" *ngIf="this.quote.productId['isOccupancySubTypeShow']">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Occupancy_Label">Shop Name
+                                <span
+                                    *ngIf="this.quoteOptionData.locationBasedCovers?.quoteLocationOccupancy?.occupancySubTypeId?.shopName=='Others'">
+                                    <i class="pi pi-circle-fill" style="font-size: 0.75rem ;color :red"></i>
+                                </span>
+                                :
+                            </h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_Occupancy">
+                                {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancySubTypeId
+                                ?
+                                quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancySubTypeId?.shopName
+                                : '-'}}
+                                {{this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']
+                                ?'('+this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy['typeOfShopDescription']+
+                                ')' : ''}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_TotalSI_Label">Total SI:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span id="Multilocation_TotalSI"><app-currency [maximumFractionDigits]="0"
+                                    [value]="quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.sumAssured ?? 0"></app-currency></span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_FloaterStock_Label">Total Floater SI of Stocks &
+                                Stocks
+                                I Process:</h6>
+                        </div>
+                        <div class="col-6 mb-2" id="Multilocation_FloaterStock">
+                            <!-- <span>Lorem Ipsum Dolor Sit</span> -->
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_Single LocationStock_Label">Max Stock at Single
+                                location:</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_Single LocationStock">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.maxStock}}</span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-6 mb-2">
+                            <h6 class=" mr-2" id="Multilocation_GICEnforsement_Label">Special Excess to GIC
+                                enforsement
+                                as per Circular dated 21st Feb 2019</h6>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <span
+                                id="Multilocation_GICEnforsement">{{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.specialExcessGIC
+                                ?? 'NA'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" *ngIf="!this.isLockton">
+            <div class="grid">
+                <div class="col-4">
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_FireSection_Label">Fire Section:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_FireSection">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.tacCode}}
+                    </div>
+                    <!-- <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_SubRiskCode_Label">Sub-risk Code:</h6>
+                    </div> -->
+                    <!-- <div class="inline-block col-6" id="Multilocation_SubRiskCode">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.subriskCode}}
+                    </div> -->
+                </div>
+                <div class="col-4">
+                    <!-- <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_RateCode_Label">Rate Code:</h6>
+                    </div> -->
+                    <!-- <div class="inline-block col-6" id="Multilocation_RateCode">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.rateCode}}
+                    </div> -->
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_GradedRetention_Label">Graded Retention:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_GradedRetention">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.gradedRetention}}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <!-- <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_RiskCode_Label">Risk Code:</h6>
+                    </div> -->
+                    <!-- <div class="inline-block col-6" id="Multilocation_RiskCode">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId.riskCode}}
+                    </div> -->
+                    <div class="inline-block col-6">
+                        <h6 class="mr-2" id="Multilocation_HazardCategory_Label">Hazard Category:</h6>
+                    </div>
+                    <div class="inline-block col-6" id="Multilocation_HazardCategory_Label">
+                        {{quoteOptionData.locationBasedCovers?.quoteLocationOccupancy.occupancyId?.hazardCategoryId?.category}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-5">
+    <app-fire-floater-cover-addon-card id="Multilocation_FloaterCover_Card"
+        *ngIf="this.quote.productId['productTemplate'] == AllowedProductTemplate.FIRE && this.occupancyCount > 1"
+        [quoteOptionData]="this.quoteOptionData"></app-fire-floater-cover-addon-card>
+</div>

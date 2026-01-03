@@ -1,0 +1,35 @@
+.container
+{
+    // text-align: end;
+    // margin-top: -10px ;
+    display: flex;
+    // grid-template-columns: 1fr 1fr;
+}
+h5
+{
+     text-align: end;
+     margin-right: 0px;
+
+}
+
+#container-btn{
+    text-align: end;
+}
+.p-progressbar .p-progressbar-value {
+    background-color: #fff;
+}
+
+.currency::first-letter{
+    padding-right: 0.3em;
+}
+
+@media (max-width: 768px) {
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        opacity: 1 !important;
+        margin: 0;
+        width: 15px;
+        height: 35px;
+    }
+}

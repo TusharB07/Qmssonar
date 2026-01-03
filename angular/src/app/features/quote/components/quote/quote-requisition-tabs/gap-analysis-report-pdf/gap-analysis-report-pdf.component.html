@@ -1,0 +1,255 @@
+<div *ngIf="this.quote">
+    <button class="btn btn-primary mb-4 ml-3" (click)="navigateBack($event)" style="width: 90px;">Back</button>
+<div class="review-analysis-details">
+        <div class="header-section">
+            <div class="pdf-inner">
+                <div class="p-5" style="background-color: #3f51b5; margin-bottom: 10px;">
+                <div class="grid">
+                    <div class="col-6">
+                        <img [src]="this.user.partnerId.logo" alt="" width="280px" height="120px">
+                    </div>
+                    <div class="col-6">
+                        <div class="grid">
+                         <div class="col-11">
+                                <h6 style="font-size: 24px;font-weight: 800 !important; width:max-content; float: right; color: whitesmoke;">Gap Analysis and <br> Risk Mangement <br> Recommendations Report</h6>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div  class="grid p-3">
+                    <h3 class="text-center">GAP ANALYSIS AND RISK MANAGEMENT RECOMMENDATIONS REPORT</h3>
+                <p>At {{insurerName}} Limited, our aim is to simplify the complex world of insurance for you. Our team
+                    of experts helps you to minimize/mitigate your risks and improve the overall standard and quality of your risk
+                    management practices.</p>
+                <p>A Gap Analysis Report intends to evaluate current risk covers in order to identify gaps and areas in need for
+                    improvement. It is usually from the perspective of existing abilities, competence, exposures and protection covers
+                    - where moving from a current state to a desired future state would be both beneficial and prudent. It highlights
+                    the ‘gap’ by which the need exceeds the resources and what may be required to be optimally protected.</p>
+                <p>This Gap Analysis Report will help you understand <span class="red-text">“What Is” and “What Should Be”</span>!</p>
+            </div>
+            <div class="card">
+                <!-- <h5>PREPARED FOR</h5>    -->
+                <p-table [value]="preparedFor" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll">
+                    <ng-template pTemplate="caption">
+                        <h4 class="text-center" style="color: #3f51b5;" id="Prepared_for">
+                            PREPARED FOR
+                        </h4>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr style="background: #3f51b5; color: white;">
+                            <th style="background: #3f51b5; color: white; width: 30%;" id="GapAnalysisTab_Coverages_Label">Particulars</th>
+                            <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-preparedFor>
+                        <tr>
+                            <td id="GapAnalysisTab_Coverages" >{{preparedFor?.particulars}}</td>
+                            <td id="GapAnalysisTab_CoveragesDetails">{{preparedFor?.description}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td [attr.colspan]="4" id="GapAnalysisTab_NoRecordsFound">
+                                No records found
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+                <!-- <p-table [value]="data">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="color: white; background-color: #3F51B5;text-align: center;">Particulars</th>
+                            <th style="color: white; background-color: #3F51B5;text-align: center;">Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr *ngFor="let row of rowData">
+                            <td>{{ row.particulars }}</td>
+                            <td>{{ row.description }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table> -->
+         
+         
+            </div>
+
+         
+
+     <!-- must-to-have -->
+       <div class="card" *ngIf="coditionalCoversMustHave.length > 0">
+            <p-table [value]="coditionalCoversMustHave" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll">
+                <ng-template pTemplate="caption">
+                    <h4 class="text-center" style="color: #3f51b5;" id="Must_have">
+                        EXISTING COVERS AND CLAUSES (MUST HAVE)
+                    </h4>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr style="background: #3f51b5; color: white;">
+                        <th style="background: #3f51b5; color: white; width: 7%;" id="SrNo_Column">Sr. No.</th>
+                        <th style="background: #3f51b5; color: white; width: 40%;" id="GapAnalysisTab_Coverages_Label">Covers</th>
+                        <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Coverage Details</th>
+                        <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Sector AVG</th>
+                        <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Market AVG</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                        <td id="SrNo_Column">{{rowIndex + 1}}</td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName">{{rowData?.addOnCoverId?.name}} </td>
+                        <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                            <span *ngIf="rowData?.isChecked; then optedContent else notOptedContent"></span>
+                            <ng-template #optedContent>Opted</ng-template>
+                            <ng-template #notOptedContent>Not Opted</ng-template>
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                        <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="4" id="GapAnalysisTab_NoRecordsFound">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+     <!-- good-to-have -->
+         <div class="card" *ngIf="coditionalCoversGoodToHave.length > 0">
+        <p-table [value]="coditionalCoversGoodToHave" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <h4 class="text-center" style="color: #3f51b5;" id="Must_have">
+                    EXISTING COVERS AND CLAUSES (GOOD TO HAVE)
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr style="background: #3f51b5; color: white;">
+                    <th style="background: #3f51b5; color: white; width: 7%;" id="SrNo_Column">Sr. No.</th>
+                    <th style="background: #3f51b5; color: white; width: 40%;" id="GapAnalysisTab_Coverages_Label">Covers</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Coverage Details</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Sector AVG</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Market AVG</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                    <td id="SrNo_Column">{{rowIndex + 1}}</td>
+                    <td id="conditionalFreeAddOnDialog_CoverIdName">{{rowData?.addOnCoverId?.name}} </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        <span *ngIf="rowData?.isChecked; then optedContent else notOptedContent"></span>
+                        <ng-template #optedContent>Opted</ng-template>
+                        <ng-template #notOptedContent>Not Opted</ng-template>
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="4" id="GapAnalysisTab_NoRecordsFound">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+         </div>
+
+    <!-- could-to-have -->
+          <div class="card" *ngIf="coditionalCoversCouldHave.length > 0">
+        <p-table [value]="coditionalCoversCouldHave" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <h4 class="text-center" style="color: #3f51b5;" id="Must_have">
+                    EXISTING COVERS AND CLAUSES (COULD HAVE)
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr style="background: #3f51b5; color: white;">
+                    <th style="background: #3f51b5; color: white; width: 7%;" id="SrNo_Column">Sr. No.</th>
+                    <th style="background: #3f51b5; color: white; width: 40%;" id="GapAnalysisTab_Coverages_Label">Covers</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Coverage Details</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Sector AVG</th>
+                    <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Market AVG</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                    <td id="SrNo_Column">{{rowIndex + 1}}</td>
+                    <td id="conditionalFreeAddOnDialog_CoverIdName">{{rowData?.addOnCoverId?.name}} </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">
+                        <span *ngIf="rowData?.isChecked; then optedContent else notOptedContent"></span>
+                        <ng-template #optedContent>Opted</ng-template>
+                        <ng-template #notOptedContent>Not Opted</ng-template>
+                    </td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                    <td id="conditionalFreeAddOnDialog_FreeUpToText">100%</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="4" id="GapAnalysisTab_NoRecordsFound">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+          </div>
+
+     <!-- genaral-table -->
+        <div class="card" *ngIf="conditionalFreeCovers.length > 0">
+            <p-table [value]="conditionalFreeCovers" styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll">
+                <ng-template pTemplate="caption">
+                    <h4 class="text-center" style="color: #3f51b5;" id="Must_have">
+                        RECOMMENDATIONS
+                    </h4>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr style="background: #3f51b5; color: white;">
+                        <th style="background: #3f51b5; color: white; width: 7%;" id="SrNo_Column">Sr. No.</th>
+                        <th style="background: #3f51b5; color: white; width: 40%;" id="GapAnalysisTab_Coverages_Label">Covers</th>
+                        <th style="background: #3f51b5; color: white;" id="GapAnalysisTab_CoveragesDetails_Label">Coverage Details</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                        <td id="SrNo_Column">{{rowIndex + 1}}</td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName">{{rowData?.addOnCoverId?.name}} </td>
+                        <td id="conditionalFreeAddOnDialog_FreeUpToText">{{rowData?.addOnCoverId?.description}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="4" id="GapAnalysisTab_NoRecordsFound">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        
+            <footer>
+                <div class="p-5">
+                    Disclaimer                   
+                  <span>
+                   <textarea class="disclaimer-text" placeholder="Add your content"></textarea>
+                  </span>
+                  <hr style="background: black;">
+                </div>
+
+              </footer>
+              <div class="grid justify-content-center p-3">
+                <a style="align-items: center;" (click)="printpdf()"  class="btn-sm btn btn-outline-success"><i class="pi pi-print"></i> Print</a>
+              </div>
+        </div>
+        </div>
+</div>
+<script>
+    window.document.print();
+</script>
+</div>

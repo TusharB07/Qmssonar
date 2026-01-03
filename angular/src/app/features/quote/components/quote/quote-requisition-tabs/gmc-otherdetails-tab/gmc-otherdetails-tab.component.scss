@@ -1,0 +1,44 @@
+
+.radio-inline-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust spacing between radio buttons */
+  }
+  
+  .radio-inline {
+    display: flex;
+    align-items: center;
+  }
+
+  .installment-tenure {
+    margin: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .reqHeader
+{
+    margin-top: 16px;
+    color: #ffffff;
+    margin-bottom: 9px;
+    background: #2156C2;
+    padding: 4px;
+}

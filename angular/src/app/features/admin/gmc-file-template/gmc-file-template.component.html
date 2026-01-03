@@ -1,0 +1,577 @@
+<form [formGroup]="this.gmcForm" (ngSubmit)="submitted=true; this.onSubmit();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h4 class="mb-0" id="ClausesFormRecordName">GMC File Template Configuration</h4>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="ClausesForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="ClausesForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <h3>Custom Headers</h3>
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>ID
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(empId)"
+                                        style="text-align: center;"></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="empId">
+                                        <div *ngFor="let control of empId.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="ID" id="empid"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(empId, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Employee ID
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(empType)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="empType">
+                                        <div *ngFor="let control of empType.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Employee Id" id="empType"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(empType, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Member Names
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(memberName)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="memberName">
+                                        <div *ngFor="let control of memberName.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Member Name"
+                                                        id="memberName" type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(memberName, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Designation/Grade
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(designation)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="designation">
+                                        <div *ngFor="let control of designation.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Designation"
+                                                        id="designation" type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(designation, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Date of Birth
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(dob)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="dob">
+                                        <div *ngFor="let control of dob.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="DOB" id="dob"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(dob, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Gender
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(gender)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="gender">
+                                        <div *ngFor="let control of gender.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Gender" id="gender"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(gender, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Relationship to Self
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(relationShip)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="relationShip">
+                                        <div *ngFor="let control of relationShip.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Relation Ship"
+                                                        id="relationShip" type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(relationShip, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Salary
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(salary)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="salary">
+                                        <div *ngFor="let control of salary.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Salary" id="salary"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(salary, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>SI
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(SI)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="SI">
+                                        <div *ngFor="let control of SI.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="SI" id="SI"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(SI, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </p-card>
+            </div>
+            <div class="col">
+                <p-card>
+                    <h3>Custom Values</h3>
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Self
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(self)"
+                                        style="text-align: center;"></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="self">
+                                        <div *ngFor="let control of self.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Self" id="self"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(self, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Spouse
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(spouse)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="spouse">
+                                        <div *ngFor="let control of spouse.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Spouse" id="spouse"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(spouse, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Child
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(child)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="child">
+                                        <div *ngFor="let control of child.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Child" id="child"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(child, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Siblings
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(siblings)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="siblings">
+                                        <div *ngFor="let control of siblings.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Siblings" id="siblings"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(siblings, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Parent
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(parent)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="parent">
+                                        <div *ngFor="let control of parent.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Parent" id="parent"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(parent, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Male
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(male)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="male">
+                                        <div *ngFor="let control of male.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Male" id="male"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(male, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br />
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <div class="grid">
+                                <div class="col-6 md:col-6">
+                                    <h4>Female
+                                    </h4>
+                                </div>
+                                <div class="col-1 md:col-1">
+                                    <button type="button" icon="pi pi-plus" pButton pRipple class="p-button-text"
+                                        label="Add" class="p-button-success" (click)="addField(female)"
+                                        style="text-align: center; "></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div formArrayName="female">
+                                        <div *ngFor="let control of female.controls; let i = index">
+                                            <div class="grid">
+                                                <div class="col-8 md:col-6">
+                                                    <input [formControlName]="i" placeholder="Female" id="female"
+                                                        type="text" pInputText>
+                                                </div>
+                                                <div class="col-2 md:col-6">
+                                                    <button pButton pRipple icon="pi pi-times" class="p-button-danger"
+                                                        (click)="removeField(female, i)"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </p-card>
+            </div>
+
+        </div>
+    </div>
+</form>

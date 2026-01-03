@@ -1,0 +1,160 @@
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width: 700px">
+      <table class="static-table" cellpadding="0" cellspacing="0">
+        <ng-container *ngFor="let option of selectedQuoteTemplate;let k = index">
+            <hr style="padding: -80%; width: calc(100% + 24px); margin-left: -12px;" />
+            <tr *ngIf="this.quote.quoteType != 'new' && k==0" style="border: 2px solid #0064BB;">
+                <td>
+                    <ng-container>
+                        <div class="mb-4">
+                            <h4><b><u>Final Rater</u></b></h4>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Premium Paid Till Date
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.premiumPaidTillDate | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Claims as on Date
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.claimAsOnDate | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Claims Paid + Outstanding
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.claimsPaidOutStanding | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    One Time Claims
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.oneTimeClaims | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Covid Claims
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.covidClaims | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Claims due to Death of Employee
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.claimsDuetoDeathOfEmployee | currency:"INR"}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Adjustment % for increase in life
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.adjustmentpercentage}}
+                            </div>
+                        </div>
+
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    IBNR (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.ibnr}}
+                            </div>
+                        </div>
+
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Medical Inflation (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.medicalInflation}}
+                            </div>
+                        </div>
+
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    TPA Loading (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.tpaLoading}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Brokerage (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.brokerage}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Insurer Margin (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.insurerMargin}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Investment Income (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.investmentIncome}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    Overall Loading discount (%)
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.overAllLoadingDiscount}}
+                            </div>
+                        </div>
+                        <div class="grid ml-4">
+                            <div class="col-10">
+                                <p><i class="pi pi-circle-on" style="font-size: 5px"></i>
+                                    <b>Total Premium</b>
+                            </div>
+                            <div class="col-2">
+                                {{option.finalRater.grandTotalAmount | currency:"INR"}}
+                            </div>
+                        </div>
+                    </ng-container>
+                </td>
+            </tr>
+
+        </ng-container>
+    </table>
+    </div>
+  </div>
+  
+  
+  <!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->

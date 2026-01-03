@@ -1,0 +1,145 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="StateList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="StateList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="StateList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="StateList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="StateList_FileUpload" accept="image/*" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="StateList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="StateList_StateNameHeader">
+                                    Name
+                                </span>
+                                <div>
+                                    <p-columnFilter id="StateList_NameColumnFilter" type="text" field="name"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by name"></p-columnFilter>
+                                    <p-sortIcon id="StateList_NameSortIcon" field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="stateCode">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="StateList_StatestateCodeHeader">
+                                    State Code
+                                </span>
+                                <div>
+                                    <p-columnFilter id="StateList_stateCodeColumnFilter" type="text" field="stateCode"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by State Code"></p-columnFilter>
+                                    <p-sortIcon id="StateList_stateCodeSortIcon" field="stateCode"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="countryId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="StateList_CountryNameHeader">
+                                    Country Name
+                                </span>
+                                <!-- <div>
+                                    <p-columnFilter type="text" field="countryId" display="menu" placeholder="Search by countryId"></p-columnFilter>
+                                    <p-sortIcon field="countryId"></p-sortIcon>
+                                </div> -->
+                            </div>
+                        </th>
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-state>
+                    <tr (click)="this.editRecord(state)">
+                        <td>
+                            <p-tableCheckbox [value]="state" id="StateList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="StateList_StateName">
+                            {{state.name}}
+                        </td>
+                        <td style="width:50%; min-width:10rem;" id="StateList_StatestateCode">
+                            {{state.stateCode}}
+                        </td>
+                        <td style="width:50%; min-width:8rem;" id="StateList_Country">
+                            <a
+                                routerLink="/backend/admin/countries/{{state.countryId._id}}">{{state.countryId.name}}</a>
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="StateList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(state)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="StateList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(state)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"
+                    id="StateList_DeleteRecordConfirmationIcon"></i>
+                <span id="StateList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to
+                    delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="StateList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="StateList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="StateList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="StateList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="StateList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="StateList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

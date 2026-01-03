@@ -1,0 +1,33 @@
+input {
+  height: calc(3.5rem + 2px);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.custom-height {
+  height: 89vh;
+}
+
+.left-container {
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.sign-in-slider .login-image {
+  overflow: auto;
+}
+
+.p-input-icon-right > i:last-of-type {
+  right: 0.571rem;
+  color: #676B89;
+  top:100%
+}

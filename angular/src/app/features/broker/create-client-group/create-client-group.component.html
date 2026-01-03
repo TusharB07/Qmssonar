@@ -1,0 +1,132 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="sign-in-container">
+            <form [formGroup]="this.clientGroupForm" (ngSubmit)="submittedClientGroupForm = true; this.onSaveClientGroup()" class="form-style1" id="CreateClientGroup_Form">
+                <div class="col-12">
+                    <div class="card p-fluid">
+                        <div class="grid">
+                            <div class="col-12">
+                                <div class="sign-in-head text-center">
+                                    <h2 class="head3" id="CreateClientGroup_Header">Add a new Client Group</h2>
+                                    <!-- <p id="CreateClientGroup_SubHeader">Make a new Client Group</p> -->
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="vin" class="label-row" id="CreateClientGroup_Vin_Label">Vin</label>
+                                    <input class="form-control" type="text" pInputText id="vin" id="CreateClientGroup_Vin" formControlName="vin" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['vin'] }" />
+                                    <small class="ng-invalid" *ngIf="clientGroupForm.controls['vin'].errors?.required">Vin is
+                                        required.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="clientGroupName" class="label-row" id="CreateClientGroup_ClientGroup_Label">Client Group Name</label>
+                                    <input maxlength="100" class="form-control" type="text" pInputText id="clientGroupName" id="CreateClientGroup_ClientGroup" formControlName="clientGroupName" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['clientGroupName'] }" />
+                                    <small id="CreateClient_clientGroupName_ValidationError1" *ngIf="clientGroupForm.controls['clientGroupName'].errors?.required" class="ng-invalid">Client Group Name is required.</small>
+                                    <!-- <small id="CreateClient_clientGroupName_ValidationError2" *ngIf="clientGroupForm.controls['clientGroupName'].errors?.maxlength" class="ng-invalid">Cannot be More than 100.</small> -->
+                                    <small id="CreateClient_clientGroupName_ValidationError3" *ngIf="clientGroupForm.controls['clientGroupName'].errors?.pattern" class="ng-invalid">Only Alphabets are allowed.</small>
+                                </div>
+                            </div>
+
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="clientGroupContactName" class="label-row" id="CreateClientGroup_ClientGroupContact_Label">Client Group Contact Name</label>
+                                    <input maxlength="60" class="form-control" type="text" pInputText id="clientGroupContactName" required id="CreateClientGroup_ClientGroupContact" formControlName="clientGroupContactName" [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['clientGroupContactName'] }" autofocus />
+                                    <small id="CreateClient_clientGroupName_ValidationError1" *ngIf="clientGroupForm.controls['clientGroupContactName'].errors?.required" class="ng-invalid">Client Group Contact Name is required.</small>
+                                    <!-- <small id="CreateClient_clientGroupName_ValidationError2" *ngIf="clientGroupForm.controls['clientGroupContactName'].errors?.maxlength" class="ng-invalid">Cannot be More than 60.</small> -->
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="address" class="label-row" id="CreateClientGroup_Address_Label">Address</label>
+                                    <input maxlength="255" class="form-control" type="text" pInputText id="address" id="CreateClientGroup_Address" formControlName="address" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['address'] }" />
+                                    <small id="CreateClient_clientGroupName_ValidationError1" *ngIf="clientGroupForm.controls['address'].errors?.required" class="ng-invalid">Address is required.</small>
+                                    <!-- <small id="CreateClient_clientGroupName_ValidationError2" *ngIf="clientGroupForm.controls['address'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label id="CreateClient_Pincode_Label" for="name" class="label-row">Pincode</label>
+                                    <p-autoComplete id="CreateClient_Pincode" class="custom-dropdown" [delay]="500" [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true" field="label" formControlName="pincodeId" [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)" [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['pincodeId'].valid }"> </p-autoComplete>
+                                    <small id="CreateClient_Pincode_ValidationError1" *ngIf="clientGroupForm.controls['pincodeId'].errors?.required" class="ng-invalid">This field is Required.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label id="CreateClient_State_Label" for="name" class="label-row">State</label>
+                                    <p-autoComplete id="CreateClient_State" [disabled]="true" class="custom-dropdown" [delay]="500" [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true" field="label" formControlName="stateId" [suggestions]="this.optionsStates" (completeMethod)="this.searchOptionsStates($event)" [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['stateId'].valid }"> </p-autoComplete>
+                                    <small id="CreateClient_State_ValidationError1" *ngIf="clientGroupForm.controls['stateId'].errors?.required" class="ng-invalid">This field is Required.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label id="CreateClient_City_Label" for="name" class="label-row">City</label>
+                                    <p-autoComplete id="CreateClient_City" [disabled]="true" class="custom-dropdown" [delay]="500" [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true" field="label" formControlName="cityId" [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)" [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['cityId'].valid }"> </p-autoComplete>
+                                    <small id="CreateClient_City_ValidationError1" *ngIf="clientGroupForm.controls['cityId'].errors?.required" class="ng-invalid">This field is Required.</small>
+                                </div>
+                            </div>
+                            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label for="name" class="label-row" id="CreateClientGroup_City_Label">City</label>
+                                <p-autoComplete class="custom-dropdown" [dropdown]="true" id="CreateClientGroup_City" field="label" formControlName="cityId"
+                                    [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)"
+                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['cityId'].valid }">
+                                </p-autoComplete>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="submittedClientGroupForm && clientGroupForm.controls['cityId']?.errors?.required">City is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label for="name" class="label-row" id="CreateClientGroup_Pincode_Label">Pincode</label>
+                                <p-autoComplete class="custom-dropdown" id="CreateClientGroup_Pincode" [dropdown]="true" field="label" formControlName="pincodeId"
+                                    [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)"
+                                    [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.controls['pincodeId'].valid }">
+                                </p-autoComplete>
+                                <small class="ng-dirty ng-invalid"
+                                    *ngIf="submittedClientGroupForm && clientGroupForm.controls['pincodeId']?.errors?.required">Pincode
+                                    is required.</small>
+                            </div>
+                        </div> -->
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="email" class="label-row" id="CreateClientGroup_Email_Label">Email</label>
+                                    <input class="form-control" type="email" id="CreateClientGroup_Email" ngModel email pInputText id="email" formControlName="email" required autofocus [ngClass]="{ 'ng-invalid ng-dirty': submittedClientGroupForm && !clientGroupForm.value['email'] }" />
+                                    <small class="ng-dirty ng-invalid" *ngIf="clientGroupForm.controls['address'].errors?.required">Email is required.</small>
+                                    <small class="ng-dirty ng-invalid" *ngIf="clientGroupForm.controls['address'].errors?.email">Invalid Email.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <label for="active" class="label-row" id="CreateClientGroup_Active_Label">Active?</label>
+                                    <div>
+                                        <p-toggleButton class="form-control" formControlName="active" id="CreateClientGroup_Active" onLabel="{{ 'Client Group active' }}" offLabel="{{ 'Client Group inactive' }}" onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <!-- <button pButton type="submit" icon="pi pi-check" label="Create Client"
+                        class="btn-green mr-4"></button> -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: end;">
+                    <button type="submit" pButton label="Save" id="CreateClientGroup_Form_Submit" icon="pi pi-check" class="btn btn-success mr-4"></button>
+                    <!-- <a href="#" class="blue-link">Create Client Master</a> -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <div class="col-6">
+        <div class="banner-rt">
+            <img class="img-fluid" src="../../../../assets/create-clent-group.png" alt="">
+        </div>
+    </div> -->
+</div>

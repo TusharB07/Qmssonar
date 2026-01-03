@@ -1,0 +1,52 @@
+:host ::ng-deep  .p-tabview .p-tabview-nav-btn.p-link {
+    display: none;
+}
+
+.mobile-quote-create {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100vw;
+    background:inherit;
+}
+
+.mobile-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.mobile-tabs-index {
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    margin-right: 15px;
+    border: 2px dashed rgb(218, 218, 218);;
+}
+
+.mobile-tabs-index:hover {
+    background: blue;
+}
+
+.custom-chart {
+    height: 100px; /* Set the desired height */
+    width: 100px;  /* Optionally set the width */
+  }
+
+  ::ng-deep .p-chart {
+    height: 100px; /* Set the desired height */
+    width: 100px;  /* Optionally set the width */
+  }
+
+  .chart-container {
+    position: relative;
+    height: 100px; /* Set the desired height */
+    width: 100px;  /* Optionally set a width if needed */
+  }
+  
+  .chart-container canvas {
+    height: 100% !important;
+    width: 100% !important;
+  }

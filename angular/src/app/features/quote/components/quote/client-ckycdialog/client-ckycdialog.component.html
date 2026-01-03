@@ -1,0 +1,481 @@
+<p-toast></p-toast>
+<div class="px-4">
+    <h4 class="text-black mt-4 mb-3" id="ClientCKYC_Header">CKYC Details</h4>
+    <form [formGroup]="this.clientForm" (ngSubmit)="submitted = true;this.onSaveClient()" class="form-style1 mt-5"
+        id="CreateClientCKYC">
+        <div class="grid">
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_ClientType_Label" for="clientType" class="label-row">Client Type</label>
+                    <p-dropdown id="CreateClient_ClientType" class="custom-dropdown" [options]="this.optionsClientTypes"
+                        placeholder="Select a Client Type" optionLabel="label" optionValue="value" [showClear]="true"
+                        formControlName="clientType" [disabled]="true"></p-dropdown>
+                    <small id="CreateClient_ClientType_ValidationError"
+                        *ngIf="submitted && this.clientForm.controls['clientType'].errors?.required"
+                        class="ng-invalid">This field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field" *ngIf="this.clientForm.controls['clientGroupId']">
+
+                    <label for="name" class="label-row">
+                        <div class="flex justify-content-between">
+                            <span id="CreateClient_ClientGroup_Label">Client Group {{
+                                this.clientForm.controls['clientGroupId'].enabled ? '*' :
+                                ''}}</span>
+                            <a id="CreateClient_ClientGroup" *ngIf="this.clientForm.controls['clientGroupId'].enabled"
+                                (click)='this.openCreateClientGroupDialog()'><i class="pi pi-plus"></i> Create</a>
+                        </div>
+                    </label>
+
+
+                    <p-autoComplete id="CreateClient_ClientGroupId" [virtualScroll]="true" [delay]="500"
+                        [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        placeholder="Enter Client Group Name" class="custom-dropdown"
+                        [suggestions]="this.optionsClientGroups"
+                        (completeMethod)="this.searchOptionsClientGroups($event)" field="label" optionValue="value"
+                        formControlName="clientGroupId"></p-autoComplete>
+                    <small id="CreateClient_ClientGroupId_ValidationError"
+                        *ngIf="submitted && this.clientForm.controls['clientGroupId'].errors?.required"
+                        class="ng-invalid">This field
+                        is Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_NameLabel" for="name" class="label-row">Name *</label>
+                    <input maxlength="100" id="CreateClient_Name" class="form-control" type="text" pInputText id="name"
+                        formControlName="name" />
+                    <small id="CreateClient_Name_ValidationError1"
+                        *ngIf="submitted && this.clientForm.controls['name'].errors?.required" class="ng-invalid">This
+                        field
+                        Required.</small>
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['name'].errors?.pattern" class="ng-invalid">Only Alphabets are
+                        allowed.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6" *ngIf="this.clientForm.controls['clientType'].value == 'individual'">
+                <div class="field">
+                    <label id="CreateClient_NameLabel" for="lastName" class="label-row">Last Name
+                    </label>
+                    <input maxlength="100" id="CreateClient_Name" class="form-control" type="text" pInputText
+                        id="lastName" formControlName="lastName" />
+                    <small id="CreateClient_Name_ValidationError1"
+                        *ngIf="submitted && this.clientForm.controls['lastName'].errors?.required"
+                        class="ng-invalid">This field
+                        Required.</small>
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['lastName'].errors?.pattern" class="ng-invalid">Only Alphabets
+                        are allowed.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_kycType_Label" for="kycType" class="label-row">KYC
+                        Type</label>
+                    <p-dropdown id="CreateClient_kycType" class="custom-dropdown"
+                        [options]="this.clientForm.controls['clientType'].value == 'individual'? this.optionKycTypes : this.optionKycTypesForCompanyAndGroup"
+                        placeholder="Select a kyc type" optionLabel="label" optionValue="value" [showClear]="true"
+                        formControlName="kycType"></p-dropdown>
+                    <small id="CreateClient_kycType_ValidationError"
+                        *ngIf="this.clientForm.controls['kycType'].errors?.required" class="ng-invalid">This
+                        field is Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_kycNumberLabel" for="kycNumber" class="label-row">KYC
+                    </label>
+                    <input maxlength="100" id="CreateClient_kycNumber" class="form-control" type="text" pInputText
+                        id="kycNumber" formControlName="kycNumber" oninput="this.value = this.value.toUpperCase()" />
+                    <small id="CreateClient_Name_ValidationError1"
+                        *ngIf="submitted && this.clientForm.controls['kycNumber'].errors?.required"
+                        class="ng-invalid">This field
+                        Required.</small>&nbsp;
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidPAN']" class="ng-invalid">Invalid
+                        PAN No.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6" *ngIf="this.fgiClientId != null">
+                <div class="field">
+                    <label id="CreateClient_kycNumberLabel" for="kycNumber" class="label-row">FGI Client Id
+                    </label>
+                    <input maxlength="100" id="CreateClient_kycNumber" class="form-control" type="text" pInputText 
+                        id="fgiClientId" formControlName="fgiClientId" [readonly]="true" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex justify-content-end">
+                    <div>
+                        <button type="button" (click)="getClientDetais()"
+                            [disabled]="this.clientForm.controls['kycType'].errors?.required"
+                            class="btn btn-success">Fetch Client Details</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_ShortName_Label" for="shortName" class="label-row">Short
+                        Name</label>
+                    <input maxlength="8" id="CreateClient_ShortName" class="form-control" type="text" pInputText
+                        id="shortName" formControlName="shortName" />
+                    <small id="CreateClient_ShortName_ValidationError1"
+                        *ngIf="this.clientForm.controls['shortName'].errors?.required" class="ng-invalid">This field is
+                        Required.</small>
+                    <small id="CreateClient_ShortName_ValidationError2"
+                        *ngIf="this.clientForm.controls['shortName'].errors?.pattern" class="ng-invalid">Only Alphabets
+                        are allowed.</small>
+                </div>
+            </div> -->
+            <!-- <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_NameLabel" for="firstName" class="label-row">First Name
+                        *</label>
+                    <input maxlength="100" id="CreateClient_Name" class="form-control" type="text"
+                        pInputText id="firstName" formControlName="firstName" />
+                    <small id="CreateClient_Name_ValidationError1"
+                        *ngIf="this.clientForm.controls['firstName'].errors?.required"
+                        class="ng-invalid">This field Required.</small>
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['firstName'].errors?.pattern"
+                        class="ng-invalid">Only Alphabets are allowed.</small>
+                </div>
+            </div> -->
+            <div class="col-12 md:col-6" *ngIf="this.clientForm.controls['clientType'].value == 'individual'">
+                <div class="field">
+                    <label id="CreateClient_NameLabel" for="gender" class="label-row">Gender</label>
+                    <p-dropdown id="CreateClient_Gender" class="custom-dropdown" [options]=" this.optionGender"
+                        placeholder="Select Gender" optionLabel="label" optionValue="value" [showClear]="true"
+                        formControlName="gender"></p-dropdown>
+                    <small id="CreateClient_Name_ValidationError1"
+                        *ngIf="submitted && this.clientForm.controls['gender'].errors?.required" class="ng-invalid">This
+                        field
+                        Required.</small>
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['gender'].errors?.pattern" class="ng-invalid">Only Alphabets are
+                        allowed.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6" style="display: none;">
+                <div class="field">
+                    <label id="CreateClient_Email_Label" for="street" class="label-row">varifiedKycNumber</label>
+                    <input id="CreateClient_Email" class="form-control" type="text" ngModel pInputText id=""
+                        formControlName="varifiedKycNumber" />
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_Email_Label" for="street" class="label-row">Email</label>
+                    <input id="CreateClient_Email" class="form-control" type="email" ngModel email pInputText id="email"
+                        formControlName="email" />
+                    <small id="CreateClient_Email_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['email'].errors?.required" class="ng-invalid">This field
+                        is
+                        Required.</small>&nbsp;
+                    <small id="CreateClient_Name_ValidationError2"
+                        *ngIf="this.clientForm.controls['email'].errors?.['invalidEmail']" class="ng-invalid">Invalid
+                        Email.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_contactno_Label" for="street" class="label-row">Contact No</label>
+                    <input id="CreateClient_contactno" class="form-control" type="number" ngModel pInputText id="email"
+                        formControlName="contactNo" />
+                    <small id="CreateClient_contactno_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['contactNo'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>&nbsp;
+                    <small id="CreateClient_PhoneNo_ValidationError2"
+                        *ngIf="clientForm.controls['contactNo'].errors?.pattern" class="ng-invalid">Invalid Phone
+                        Number.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_Email_Label" for="email" class="label-row">Address
+                    </label>
+                    <input id="CreateClient_Email" class="form-control" type="text" ngModel pInputText id="street"
+                        formControlName="street" />
+                    <small id="CreateClient_contactno_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['street'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_Email_Label" for="street2" class="label-row">Address
+                        1</label>
+                    <input id="CreateClient_Email" class="form-control" type="text" ngModel pInputText id="street2"
+                        formControlName="street2" />
+                    <small id="CreateClient_contactno_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['street2'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_Email_Label" for="street3" class="label-row">Address
+                        2</label>
+                    <input id="CreateClient_Email" class="form-control" type="text" ngModel pInputText id="street3"
+                        formControlName="street3" />
+                    <small id="CreateClient_contactno_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['street3'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_Pincode_Label" for="name" class="label-row">Pincode</label>
+                    <p-autoComplete id="CreateClient_Pincode" class="custom-dropdown" [delay]="500"
+                        [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        field="label" formControlName="pincodeId" [suggestions]="this.optionsPincodes"
+                        (completeMethod)="this.searchOptionsPincodes($event)"
+                        [ngClass]="{ 'ng-invalid ng-dirty': !clientForm.controls['pincodeId'].valid }">
+                    </p-autoComplete>
+                    <small id="CreateClient_Pincode_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['pincodeId'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_State_Label" for="name" class="label-row">State</label>
+                    <p-autoComplete id="CreateClient_State" [disabled]="true" class="custom-dropdown" [delay]="500"
+                        [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        field="label" formControlName="stateId" [suggestions]="this.optionsStates"
+                        (completeMethod)="this.searchOptionsStates($event)"
+                        [ngClass]="{ 'ng-invalid ng-dirty':  !clientForm.controls['stateId'].valid }">
+                    </p-autoComplete>
+                    <small id="CreateClient_State_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['stateId'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_City_Label" for="name" class="label-row">City</label>
+                    <p-autoComplete id="CreateClient_City" [disabled]="true" class="custom-dropdown" [delay]="500"
+                        [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        field="label" formControlName="cityId" [suggestions]="this.optionsCities"
+                        (completeMethod)="this.searchOptionsCities($event)"
+                        [ngClass]="{ 'ng-invalid ng-dirty': !clientForm.controls['cityId'].valid }">
+                    </p-autoComplete>
+                    <small id="CreateClient_City_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['cityId'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_City_Label" for="name" class="label-row">District</label>
+                    <p-autoComplete id="CreateClient_City" [disabled]="true" class="custom-dropdown" [delay]="500"
+                        [virtualScroll]="true" [showEmptyMessage]="true" [forceSelection]="true" [dropdown]="true"
+                        field="label" formControlName="districtId"
+                        [ngClass]="{ 'ng-invalid ng-dirty': !clientForm.controls['districtId'].valid }">
+                    </p-autoComplete>
+                    <small id="CreateClient_City_ValidationError1"
+                        *ngIf="submitted && clientForm.controls['districtId'].errors?.required" class="ng-invalid">This
+                        field is
+                        Required.</small>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label id="CreateClient_ReferredCompany_Label" for="referredCompany"
+                        class="label-row">{{this.clientForm.controls['clientType'].value ==
+                        'individual'? 'Date Of Birth':'Date Of InCorporation'}}</label>
+                    <p-calendar id="CreateClient_doi" type="date" class="form-control" [showIcon]="true"
+                        id="dateOfIncorporation" formControlName="dateOfIncorporation"
+                        dateFormat="yy-mm-dd"></p-calendar>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex justify-content-between">
+                    <button [disabled]="this.clientForm.invalid || !isDataFetched" id="CreateClient_Submit"
+                        type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                        class="btn btn-success mr-4"></button>
+                    <div>
+                     <button *ngIf="!this.isClientPresent" type="button" (click)="checkClientKyc()"
+                             class="btn btn-success"><i
+                                class="pi pi-check"></i>Save & ClientCKC</button>
+                        <button *ngIf="this.isClientPresent" type="button" (click)="saveFGIClient()"
+                            [disabled]="this.clientForm.invalid" class="btn btn-success"><i class="pi pi-check"></i>Save
+                            & Proceed</button>
+                        <!--  <button type="button" (click)="openVerificatioModeDialog(true)" class="ml-2 btn btn-primary"
+                            [disabled]="this.uploadUsingURL"><i class="pi pi-plus mr-1"
+                                style="font-size: 1rem"></i>Upload
+                            Document</button> -->
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="sign-in-head">
+                        <h4 class="head4" id="CreateClient_BusinessDetails_Header">Business Details</h4>
+                    </div> -->
+
+            <!-- <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidAadhar']"
+                            class="ng-invalid">Invalid Aadhar No.</small>
+                        <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidDL']"
+                            class="ng-invalid">Invalid Driving Licnse No.</small>
+                        <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidPassport']"
+                            class="ng-invalid">Invalid Passport No.</small>
+                        <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidCIN']"
+                            class="ng-invalid">Invalid CIN.</small>
+                        <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.clientForm.controls['kycNumber'].errors?.['invalidVoterID']"
+                            class="ng-invalid">Invalid VoterID.</small> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_PAN_Label" for="pan" class="label-row">PAN *</label>
+                                <input id="CreateClient_PAN" class="form-control" type="text" pInputText
+                                    id="pan" formControlName="pan" />
+                                <small id="CreateClient_PAN_ValidationError1"
+                                    *ngIf="this.clientForm.controls['pan'].errors?.required"
+                                    class="ng-invalid">This field is Required.</small>
+                                <small id="CreateClient_PAN_ValidationError2"
+                                    *ngIf="this.clientForm.controls['pan'].errors?.pattern"
+                                    class="ng-invalid">Invalid PAN Number.</small>
+                            </div>
+                        </div> -->
+
+            <!-- <div class="col-12 md:col-6"> -->
+            <!-- <div class="field">
+                                <label for="copyOfPan" class="label-row">Copy Of PAN</label>
+                                <div class="custom-file">
+                                    <input formControlName="copyOfPan" id="copyOfPan" type="file" class="custom-file-input" (change)="onCopyOfPanFileChange($event)" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Upload here</label>
+                                </div>
+                                <small class="ng-dirty ng-invalid" *ngIf="submittedClientForm && !clientForm.value['copyOfPan']">copyOfPan is required.</small>
+                            </div> -->
+            <!-- </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_GSTNumber_Label" for="gst" class="label-row">GST Number
+                                </label>
+                                <input id="CreateClient_GSTNumber" class="form-control" type="text" pInputText id="gst"
+                                    formControlName="gst" />
+                                <small id="CreateClient_GSTNumber_ValidationError1"
+                                    *ngIf="this.clientForm.controls['gst'].errors?.required" class="ng-invalid">This field
+                                    is Required.</small>
+                                <small id="CreateClient_GSTNumber_ValidationError2"
+                                    *ngIf="this.clientForm.controls['gst'].errors?.pattern" class="ng-invalid">Invalid GST
+                                    Number.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_PANNumber_Label" for="gst" class="label-row">PAN CARD
+                                </label>
+                                <input id="CreateClient_PANNumber" class="form-control" type="text" pInputText id="gst"
+                                    formControlName="pancard" oninput="this.value = this.value.toUpperCase()"/>
+                                <small id="CreateClient_PANNumber_ValidationError1"
+                                    *ngIf="this.clientForm.controls['pancard'].errors?.required" class="ng-invalid">Total Premium is greater than 1 lakh.</small>
+                                <small id="CreateClient_Name_ValidationError2"
+                                    *ngIf="this.clientForm.controls['pancard'].errors?.['invalidPAN']"
+                                    class="ng-invalid">Invalid PAN No.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_CIN_Label" for="vin" class="label-row">CIN *</label>
+                                <input id="CreateClient_CIN" class="form-control" type="text" pInputText id="vin" formControlName="vin" />
+                                <small id="CreateClient_CIN_ValidationError" *ngIf="this.clientForm.controls['vin'].errors?.required" class="ng-invalid">This field is Required.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_LeadGenerator_Label" for="leadGenerator" class="label-row">Lead
+                                    Generator</label>
+                                <input maxlength="25" id="CreateClient_LeadGenerator" class="form-control" type="text"
+                                    pInputText id="leadGenerator" formControlName="leadGenerator" />
+                                <small id="CreateClient_LeadGenerator_ValidationError1"
+                                    *ngIf="this.clientForm.controls['leadGenerator'].errors?.pattern"
+                                    class="ng-invalid">Only Alphabets are Allowed.</small>
+                                 <small id="CreateClient_LeadGenerator_ValidationError2" *ngIf="this.clientForm.controls['leadGenerator'].errors?.maxlength" class="ng-invalid">Only 25 Characters Allowed.</small> 
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_NatureOfBusiness_Label" for="natureOfBusiness"
+                                    class="label-row">Nature Of Business *</label>
+                                <input maxlength="25" id="CreateClient_NatureOfBusiness" class="form-control" type="text"
+                                    pInputText id="natureOfBusiness" formControlName="natureOfBusiness" />
+                                <small id="CreateClient_NatureOfBusiness_ValidationError1"
+                                    *ngIf="this.clientForm.controls['natureOfBusiness'].errors?.required"
+                                    class="ng-invalid">This field is Required.</small>
+                                <small id="CreateClient_NatureOfBusiness_ValidationError2"
+                                    *ngIf="this.clientForm.controls['natureOfBusiness'].errors?.pattern"
+                                    class="ng-invalid">Only Alphabets are Allowed.</small>
+                                <small id="CreateClient_NatureOfBusiness_ValidationError3" *ngIf="this.clientForm.controls['natureOfBusiness'].errors?.maxlength" class="ng-invalid">Only 25 Characters Allowed.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_ClaimsManager_Label" for="claimsManager" class="label-row">Claims
+                                    Manager</label>
+                                <input maxlength="25" id="CreateClient_ClaimsManager" class="form-control" type="text"
+                                    pInputText id="claimsManager" formControlName="claimsManager" />
+                                <small id="CreateClient_ClaimsManager_ValidationError2"
+                                    *ngIf="this.clientForm.controls['claimsManager'].errors?.pattern"
+                                    class="ng-invalid">Only Alphabets are Allowed.</small>
+                                <small id="CreateClient_ClaimsManager_ValidationError3" *ngIf="this.clientForm.controls['claimsManager'].errors?.maxlength" class="ng-invalid">Only 25 Characters Allowed.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_ReferralRM_Label" for="referralRM" class="label-row">Referral
+                                    RM</label>
+                                <input maxlength="25" id="CreateClient_ReferralRM" class="form-control" type="text"
+                                    pInputText id="referralRM" formControlName="referralRM" />
+                                <small id="CreateClient_ReferralRM_ValidationError2"
+                                    *ngIf="this.clientForm.controls['referralRM'].errors?.pattern" class="ng-invalid">Only
+                                    Alphabets are Allowed.</small>
+                                <small id="CreateClient_ReferralRM_ValidationError3" *ngIf="this.clientForm.controls['referralRM'].errors?.maxlength" class="ng-invalid">Only 25 Characters Allowed.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_ReferredCompany_Label" for="referredCompany"
+                                    class="label-row">Referred Company</label>
+                                <input maxlength="25" id="CreateClient_ReferredCompany" class="form-control" type="text"
+                                    pInputText id="referredCompany" formControlName="referredCompany" />
+                                <small id="CreateClient_ReferredCompany_ValidationError2"
+                                    *ngIf="this.clientForm.controls['referredCompany'].errors?.pattern"
+                                    class="ng-invalid">Only Alphabets are Allowed.</small>
+                                <small id="CreateClient_ReferredCompany_ValidationError3" *ngIf="this.clientForm.controls['referredCompany'].errors?.maxlength" class="ng-invalid">Only 25 Characters Allowed.</small>
+                            </div>
+                        </div> -->
+            <!-- <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label id="CreateClient_EmployeeStrength_Label" for="employeeStrength"
+                                    class="label-row">Employee Strength * </label>
+                                <input id="CreateClient_EmployeeStrength" class="form-control" type="number" pInputText
+                                    id="employeeStrength" formControlName="employeeStrength" />
+                                <small id="CreateClient_EmployeeStrength_ValidationError1"
+                                    *ngIf="this.clientForm.controls['employeeStrength'].errors?.required"
+                                    class="ng-invalid">This field is Required.</small>
+                                <small id="CreateClient_EmployeeStrength_ValidationError2"
+                                    *ngIf="this.clientForm.controls['employeeStrength'].errors?.min"
+                                    class="ng-invalid">Cannot be less than 0.</small>
+                                <small id="CreateClient_EmployeeStrength_ValidationError3"
+                                    *ngIf="this.clientForm.controls['employeeStrength'].errors?.max"
+                                    class="ng-invalid">Employee Strength cannot be more than 10,00,000.</small>
+                            </div>
+                        </div> -->
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,310 @@
+<div class="grid" *ngIf="this.quote">
+    <div class="col-5">
+        <!-- <div class="">Debug::() - quote_id: {{quote_id}}</div>
+        <div class="">Debug::() - clientLocationId: {{clientLocationId}}</div> -->
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="suminInsuredTab_quote_header">Indicative Quote</h6>
+                        <p class="sub-head" id="suminInsuredTab_quote_product">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="premium" id="suminInsuredTab_quote_total">Total Premium</p>
+                        <!-- <p class="premium-price" id="suminInsuredTab_quote_total_premium" pTooltip="{{this.toWord.convert(this.quote?.totalFlexa + this.quote?.totalStfi + this.quote?.totalEarthquake +this.quote?.totalTerrorism, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+                        <!-- <p class="premium-price" id="suminInsuredTab_quote_total_premium" pTooltip="{{this.toWord.convert(this.quote?.totalFlexa + this.quote?.totalStfi + this.quote?.totalEarthquake +this.quote?.totalTerrorism, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+                        <span><app-currency [value]="(this.quote?.totalIndictiveQuoteAmt ?? 0)">  </app-currency></span>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="view-breakup h-100">
+                <div class="grid mb-2">
+                    <div class="col-8">
+                        <span class="name" id="suminInsuredTab_quote_Base">Base Premium:</span>
+                        <!-- <span class="price" id="suminInsuredTab_quote_Base_premium" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                        <!-- <span class="price" id="suminInsuredTab_quote_Base_premium" pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                        <span><app-currency [value]="(this.quote?.totalIndictiveQuoteAmt ?? 0)">  </app-currency></span>
+                    </div>
+                    <!-- <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div> -->
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-8">
+                        <span class="name">Sum Insured:</span>
+                        <!-- <span class="price" id="suminInsuredTab_quote_suminsured"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span>
+                            <span class="price" id="suminInsuredTab_quote_suminsured_premium" pTooltip="{{this.toWord.convert(this.quote?.totalSumAssured, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote.totalSumAssured ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                            <!-- <span class="price" id="suminInsuredTab_quote_suminsured"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                            <!-- <span class="price" id="suminInsuredTab_quote_suminsured_premium"><app-currency [maximumFractionDigits]="0" [value]="(this.quote.totalSumAssured ?? 0)">  </app-currency></span> -->
+                            <span class="price" id="suminInsuredTab_quote_suminsured_premium"><app-currency [maximumFractionDigits]="0" [value]="(this.quote.totalSumAssured ?? 0)">  </app-currency></span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-8" id="suminInsuredTab_suminsured_split">
+                        <button (click)="this.openSumInsuredSplitDialog()" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <p-card class="card-height-100">
+            <div class="h-100">
+                <div class="grid mb-4">
+                    <div class="col-12">
+                        <p class="head" id="suminInsuredTab_Risk_inspection_report">Risk inspection report</p>
+                        <div class="custom-file" >
+                            <label for="customFile" class="custom-file-label" id="suminInsuredTab_Risk_Upload_imageLabel"> Upload Files
+                                <p-fileUpload #fubauto mode="basic" id="suminInsuredTab_Risk_Upload_image" name="demo[]" url="./" accept="" maxFileSize="10000000" (onUpload)="onUpload($event)" [auto]="true" chooseLabel=""></p-fileUpload>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid mb-3">
+                    <div class="col-12">
+                        <p class="head">Location Photographs</p>
+                        <div class="custom-file" >
+                            <label for="customFile" class="custom-file-label" id="suminInsuredTab_Risk_Upload_ExcelLabel"> Upload Photos
+                                <p-fileUpload #fubauto mode="basic" id="suminInsuredTab_Risk_Upload_Excel" name="demo[]" url="./" accept="image/*" maxFileSize="10000000" (onUpload)="onUpload($event)" [auto]="true" chooseLabel=""></p-fileUpload>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+    <div class="col-5 combined-quote-wrapped">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col">
+                        <h6 class="mb-2" id="suminInsuredTab_Total_Indicative">Total Indicative Quote</h6>
+                        <p class="sub-head">Combined Quote of all sections</p>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="h-100">
+                <div class="grid mb-3">
+                    <div class="col-12">
+                        <div class="combined-quote">
+                            <ul class="list-group mb-1">
+                                <li class="list-group-item head">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_Cover_Opted">
+                                                    <span>COVERS OPTED</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_Cover_Opted_Amount">
+                                            <span>AMOUNT (₹)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_Indicative_ProductType">
+                                                    <span>{{this.quote?.productId?.type}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <!-- <span pTooltip="{{this.toWord.convert((this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="(this.quote?.totalFlexa ?? 0) + (this.quote?.totalStfi ?? 0) + (this.quote?.totalEarthquake ?? 0) + (this.quote?.totalTerrorism ?? 0) ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_FireLossOfProfit">
+                                                    <span>Fire Loss of Profit</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_FireLossOfProfit_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalFireLossOfProfit, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalFireLossOfProfit ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalFireLossOfProfit ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_Burglary&Housebreaking">
+                                                    <span>Burglary & Housebreaking</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_Burglary&Housebreaking_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalBurglaryHouse, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalBurglaryHouse ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalBurglaryHouse ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_MoneyInSafe/Till">
+                                                    <span>Money in Safe / Till</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_MoneyInSafe/Till_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalMoneySafeTill, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalMoneySafeTill ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalMoneySafeTill ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_MoneyInTransit">
+                                                    <span>Money in Transit</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_MoneyInTransit_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalMoneyTransit, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalMoneyTransit ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalMoneyTransit ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_ElectronicEquipment">
+                                                    <span>Electronic Equipment</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_ElectronicEquipment_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalelectronicEquipment, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalelectronicEquipment ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalelectronicEquipment ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_PortableEquipments">
+                                                    <span>Portable Equipments</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_PortableEquipments_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalPortableEquipment, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalPortableEquipment ?? 0 ).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalPortableEquipment ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_FixedPlateGlass">
+                                                    <span>Fixed Plate Glass</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_FixedPlateGlass_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalFixedPlateGlass, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalFixedPlateGlass ?? 0) .toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalFixedPlateGlass ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_AccompaniedBaggage">
+                                                    <span>Accompanied Baggage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_AccompaniedBaggage_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalAccompaniedBaggage, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalAccompaniedBaggage ?? 0) .toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalAccompaniedBaggage ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_FidelityGurantee">
+                                                    <span>Fidelity Guarantee</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_FidelityGurantee_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalFidelityGuarantee, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalFidelityGuarantee ?? 0) .toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalFidelityGuarantee ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_Signage">
+                                                    <span>Signage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_Signage_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalSignage, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalSignage ?? 0) .toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalSignage ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_LiabilitySection">
+                                                    <span>Liability Section</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0" id="suminInsuredTab_LiabilitySection_Amount">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalLiabilitySection, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.quote?.totalLiabilitySection ?? 0) .toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalLiabilitySection ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item footer">
+                                    <div class="flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0 ms-2" id="suminInsuredTab_TotalPremimum">
+                                                    <span>TOTAL PREMIUM</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <!-- <span pTooltip="{{this.toWord.convert(this.quote?.totalIndictiveQuoteAmt, { currency: true ,ignoreZeroCurrency: true })}}" class="clr-green">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</span> -->
+                                                <span><app-currency [value]="this.quote?.totalIndictiveQuoteAmt ?? 0">  </app-currency></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- <li class="list-group-item">
+                                    <small class="small">{{toWord.convert(this.quote?.totalIndictiveQuoteAmt) }}</small>
+
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<!-- <div id="container">
+    <button  pButton pRipple label="% Configure Discount " class="btn btn-primary mr-2" (click)="opneConfigureDiscountDialoge()"></button>
+</div> -->

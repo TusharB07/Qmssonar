@@ -1,0 +1,14 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5 id="TestError_ErrorPage_Header">Error Page</h5>
+            <p id="TestError_ErrorPage_SubHeader">This is your error page template to test the error handling scenarios.</p>
+        </div>
+        <div class="card">
+            <button pButton pRipple id="TestError_ErrorTest500" type="button" label="Test 500" class="mr-3" (click)="this.get500Error()"></button>
+            <button pButton pRipple id="TestError_ErrorTest404" type="button" label="Test 404" class="p-button-danger mr-3" (click)="this.get404Error()"></button>
+            <button pButton pRipple id="TestError_ErrorTest400" type="button" label="Test 400" class="p-button-warning mr-3" (click)="this.get400Error()"></button>
+            <button pButton pRipple id="TestError_ErrorTest401" type="button" label="Test 401" class="p-button-help mr-3" (click)="this.get401Error()"></button>
+        </div>
+    </div>
+</div>

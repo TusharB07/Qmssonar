@@ -1,0 +1,89 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+                    <div class="field">
+                        <label for="name">Partner</label>
+                        <p-autoComplete [disabled]="this.mode == 'edit'" [dropdown]="true" optionValue="value"
+                            field="label" formControlName="partnerId" [suggestions]="this.optionsPartners"
+                            (completeMethod)="this.searchOptionsPartners($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                        <small *ngIf="this.recordForm.controls['partnerId'].errors?.required" class="ng-invalid">This
+                            field Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="productId">Product</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsProducts" field="label"
+                            formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}">
+                        </p-autoComplete>
+
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['productId']">Product
+                            is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="url">URL</label>
+                        <input class="form-control" type="string" pInputText id="url" formControlName="url" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['url']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['url']">This field
+                            is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="jsonString">JSON String</label>
+                        <input class="form-control" type="text" pInputText id="jsonString" formControlName="jsonString"
+                            required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['jsonString']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['jsonString']">Rate per
+                            Mile is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="sequenceNumber">Sequence Number</label>
+                        <input class="form-control" type="number" pInputText id="sequenceNumber"
+                            formControlName="sequenceNumber" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sequenceNumber']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sequenceNumber']">This
+                            field is
+                            required.</small>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" [entityResourcePrefix]="'cities'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

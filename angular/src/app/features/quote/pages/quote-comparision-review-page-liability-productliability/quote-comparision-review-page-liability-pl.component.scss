@@ -1,0 +1,506 @@
+:host ::ng-deep .p-sidebar.p-sidebar-right {
+    border-radius: unset;
+    background-color: white;
+    top: 80px;
+    height: 90vh;
+  }
+  
+  .custom-step-header {
+    height: 93vh;
+    position: fixed;
+  }
+  
+  .custom-step-content {
+    position: relative;
+    left: 320px;
+  }
+  
+  :host ::ng-deep .p-steps-item {
+    padding-bottom: 15px;
+    justify-content: unset !important;
+  }
+  
+  :host ::ng-deep .p-steps ul {
+    display: block;
+  }
+  
+  :host ::ng-deep .p-steps ul li a {
+    display: inline;
+  }
+  
+  :host ::ng-deep .p-steps ul li a .p-steps-number {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+  }
+  
+  :host ::ng-deep .p-steps ul li a .p-steps-title {
+    display: inline;
+  }
+  
+  :host ::ng-deep .p-steps .p-steps-item:before {
+    content: none;
+  }
+  
+  // top bar
+  .edit-quote-link-container .d-flex {
+    display: flex;
+    justify-content: space-between; /* Align sections */
+    align-items: center; /* Vertically center content */
+  }
+  
+  .edit-quote-link-container p-dropdown {
+    min-width: 200px; /* Set consistent width for dropdowns */
+  }
+  
+  .edit-quote-link-container .mr-3 {
+    margin-right: 1rem; /* Add spacing between dropdowns and buttons */
+  }
+  
+  .edit-quote-link-container button,
+  .edit-quote-link-container i {
+    white-space: nowrap; /* Prevent wrapping of button text */
+  }
+  //
+  
+  .fixed-width-dropdown {
+    width: 200px; /* Fixed width for the dropdown */
+  }
+  
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  a:focus {
+    color: #0064bb;
+  }
+  
+  .custom-anchor-index {
+    background-color: #0064bb;
+    color: #fff;
+    min-height: 20px;
+    min-width: 20px;
+    border-radius: 10px;
+  }
+  
+  ul.edit-quote-links li {
+    display: inline-block;
+    margin: 0 50px;
+    position: relative;
+  }
+  
+  ul.edit-quote-links li:first-child {
+    margin-left: 0px !important;
+  }
+  
+  ul.edit-quote-links li:last-child {
+    margin-right: 0 !important;
+  }
+  
+  ul.edit-quote-links li a {
+    font: normal normal bold 1.188rem/26px OpenSans-Bold;
+    color: #6c7888;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  
+  ul.edit-quote-links li a .number {
+    border: 2px dashed #6c7888;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 30px;
+    font: normal normal bold 0.875rem/19px OpenSans-Bold;
+    color: #6c7888;
+    text-align: center;
+    padding-top: 3px;
+    margin-right: 7px;
+  }
+  
+  ul.edit-quote-links li.p-highlight a .number {
+    background: #2156c2;
+    border: 2px solid #2156c2;
+    color: #ffffff;
+  }
+  
+  ul.edit-quote-links li.p-highlight a,
+  ul.edit-quote-links li.p-highlight a,
+  li a:not(.p-highlight):not(.p-disabled):hover {
+    color: #2156c2;
+    // border-bottom: 3px solid #2156C2;
+  }
+  
+  ul.edit-quote-links li:not(:last-child):after {
+    content: "";
+    position: absolute;
+    right: -95px;
+    top: 50%;
+    width: 80px;
+    border: 2px dashed #6c7888;
+    transform: translateY(-50%);
+    border-top: 0;
+  }
+  
+  ul.edit-quote-links {
+    padding: 10px 0;
+  }
+  
+  .edit-quote-link-container .flex {
+    justify-content: space-between;
+  }
+  
+  .action .button {
+    border: 1px solid #ececec;
+    border-radius: 4px 0px 0px 4px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .action .button .taskcount {
+    margin: 0 10px;
+    font: normal normal 600 18px/24px OpenSans-bold;
+  }
+  
+  .action .status-button {
+    min-height: 54px;
+  }
+  
+  .action .status-button img {
+    margin-left: -15px;
+  }
+  
+  .action .status-button img:first-child {
+    margin-left: 0;
+  }
+  
+  .sidebar {
+    box-shadow: 2px 0px 8px #e5edfee0;
+  
+    .tab-item {
+      color: var(--unnamed-color-6c7888);
+      text-align: left;
+      font: normal normal bold 14px/20px OpenSans-Bold;
+      color: #6c7888;
+      cursor: pointer;
+      margin-bottom: 5px;
+  
+      &:hover,
+      &.active {
+        color: #2156c2;
+      }
+    }
+  }
+  
+  .redText {
+    color: red;
+  }
+  
+  button.btn-info:hover {
+    background-color: #dde6fc !important;
+  }
+  
+  .quickView {
+    position: fixed;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px #00000024;
+    overflow-y: auto;
+    max-height: 600px;
+    background-color: white;
+    z-index: 1000;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black; /* Semi-transparent black background */
+    z-index: 999; /* Ensure it's above other content */
+    opacity: 0.4;
+  }
+  
+  .quote-comparision-table {
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  
+    table {
+      width: 100%;
+      border-collapse: collapse; /* Ensures that table cells don't have borders */
+      border: none; /* Ensure no border for the table */
+    }
+  
+    .header {
+      background: linear-gradient(180deg, #0064bb 0%, #633cd2 100%);
+      color: white;
+    }
+  
+    th {
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  
+    td {
+      padding: 1rem;
+      vertical-align: middle;
+      text-align: left; /* Default alignment for cells */
+    }
+  
+    .text-left {
+      text-align: left;
+    }
+  
+    .text-right {
+      text-align: right;
+    }
+  
+    /* Ensuring button alignment and height */
+    // button,
+    // .btn-primary {
+    //   display: inline-flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   padding: auto 1.5rem; /* Uniform padding for equal height */
+    //   font-weight: bold;
+    //   background-color: #0064bb;
+    //   color: white;
+    //   border: none;
+    //   border-radius: 0.375rem;
+    //   transition: background-color 0.2s ease;
+    //   height: 25px; /* Ensure all buttons have the same height */
+    //   text-align: center;
+    // }
+  
+    // button:hover,
+    // .btn-primary:hover {
+    //   background-color: #004385;
+    // }
+  
+    // /* Align buttons in one line (for button groups) */
+    // .btn-group {
+    //   display: flex;
+    //   gap: 1rem; /* Ensure space between buttons */
+    //   align-items: center;
+    //   justify-content: flex-start;
+    // }
+  
+    .quickViewHeaderWrapper {
+      background: linear-gradient(180deg, #0064bb 0%, #633cd2 100%);
+      padding: 0rem;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  
+    .quickViewHeader {
+      color: white;
+      padding: 0.5rem 1rem;
+    }
+  
+    .redText {
+      color: red;
+    }
+  
+    .pi {
+      font-size: 1rem;
+    }
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  tr,
+  td {
+    border: 1px solid #0064bb;
+    padding: 2px;
+  }
+  
+  .edit-quote-link-container {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    .header-title {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+  
+      a {
+        color: #0064bb;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.25rem;
+  
+        i {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  
+    .header-bottom {
+      padding: 1rem 2.5rem;
+    }
+  
+    /* Dropdowns section */
+    .header-dropdowns {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Ensures even spacing between dropdowns */
+      gap: 2rem; /* Equal gap between each dropdown group */
+      width: 100%;
+    }
+  
+    .dropdown-group {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      gap: 1rem; /* Space between label and dropdown */
+      flex: 1;
+    }
+  
+    .dropdown-label {
+      font-weight: 700;
+      color: #333;
+      font-size: 1.5rem;
+      white-space: nowrap; /* Prevent label from wrapping */
+      min-width: fit-content;
+    }
+  
+    ::ng-deep p-dropdown {
+      width: 100%; /* Takes full remaining space in the group */
+      min-width: 200px;
+  
+      .p-dropdown {
+        width: 100%;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+  
+        &:hover {
+          border-color: #0064bb;
+        }
+  
+        .p-dropdown-label {
+          padding: 0.5rem 1rem;
+        }
+      }
+    }
+  
+    /* Header actions section */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem; /* Increased gap between buttons for consistency */
+  
+      .btn-custom {
+        display: inline-flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 0.5rem 1rem;
+        background-color: #edf2ff;
+        color: #0064bb;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: bold; /* Ensure the font is bold */
+        transition: all 0.2s;
+        white-space: nowrap;
+  
+        &:hover {
+          cursor: pointer;
+          background-color: #dbe4ff;
+        }
+  
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+  
+    /* Apply global button styles */
+    .btn-primary {
+      padding: 0.5rem 1rem;
+      background-color: #0064bb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.375rem;
+      font-weight: bold; /* Ensure the font is bold */
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+  
+    .btn-primary:hover {
+      background-color: #0064bb; /* Change to a darker color for hover effect */
+    }
+  
+    /* Header top section styles */
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      border-bottom: 1px solid #e2e8f0;
+      gap: 3rem;
+    }
+  
+    .header-top > div {
+      &:not(:last-child) {
+        margin-right: auto; /* Push elements apart */
+      }
+    }
+  
+    .header-title {
+      flex: 0 0 auto; /* Prevent shrinking or growing */
+      min-width: 250px; /* Ensure title has a minimum width */
+    }
+  
+    .header-actions {
+      display: flex;
+      align-items: flex-end; /* Aligns all items to the bottom */
+      flex: 0 0 auto;
+      gap: 2rem; /* Adjusted to create a more consistent gap */
+      height: 100%; /* Ensures that the container takes up full height */
+    }
+  
+    .header-approval {
+      flex: 0 0 auto;
+      margin-left: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+  
+  :host ::ng-deep {
+    /* Custom dropdown panel styles */
+    .p-dropdown-panel {
+      .p-dropdown-items {
+        padding: 0.5rem;
+  
+        .p-dropdown-item {
+          padding: 0.5rem;
+          border-radius: 0.25rem;
+  
+          &:hover {
+            background-color: #edf2ff;
+          }
+        }
+      }
+    }
+  }
+  
+  
+  
+  

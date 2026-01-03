@@ -1,0 +1,57 @@
+<h3 class="mt-3 text-black" id="Coverage_Header" style="margin-bottom: 10px; text-align: center;">You can create options
+  for your current quote</h3>
+  <div class="merge-container mt-4 inline-container">
+    <label style="font-size: 13px;" for="mergeDropdown" class="inline-item">Select an option to merge with expired:</label>
+    <p-dropdown
+      id="mergeDropdown"
+      [options]="mergeOptions"
+      [(ngModel)]="selectedMergeOption"
+      placeholder="Select an option"
+      [disabled]="!expiredOptionAvailable || isExpiryDisable"
+      class="inline-item">
+    </p-dropdown>
+    <button
+      class="btn btn-primary inline-item"
+      [disabled]="!selectedMergeOption || !expiredOptionAvailable"
+      (click)="mergeOptionsWithExpired()">
+      Merge with Expired
+    </button>
+    <div *ngIf="templateSelected" class="save-button">
+      <button class="btn btn-success" (click)="SaveOptions()">Save</button>
+    </div>
+  </div>
+<div *ngFor="let itemCover of quoteOptionsLst; let i = index" class="option-item">
+  <div class="option-header">
+    <span class="bullet-icon"></span>
+    <h5 class="option-name text-black">{{ itemCover.optionName }}</h5>
+    <div *ngIf="quoteOptionsLst.length > 1" class="inline-expired">
+      <label class="expired-label">Expired</label>
+      <p-checkbox style="padding-right: 15px;" [binary]="true"
+        [disabled]="(selectedExpiredOption && selectedExpiredOption !== itemCoverOption) || isExpiryDisable"
+        [(ngModel)]="itemCover.isExpired" (onChange)="onExpiredOptionChange(itemCover)"></p-checkbox>
+      <i *ngIf="(itemCover.optionIndex != 1 && itemCover._id) && !isExpiryDisable" class="pi pi-trash delete-icon"  
+        (click)="deleteOptions(itemCover, i)" title="Delete"></i>
+    </div>
+  </div>
+
+  <div class="option-content" *ngIf="!itemCover._id">
+    <div *ngFor="let itemCoverOption of itemCover.options; let j = index" class="radio-option">
+      <input type="radio" style="cursor: pointer;" name="option" (change)="onRadioChange(j+1)" [value]="itemCoverOption"
+        id="option{{j}}" />
+      <label for="option{{j}}">
+        <h5>{{ itemCoverOption }}</h5>
+      </label>
+    </div>
+  </div>
+  <div class="option-content" *ngIf="itemCover._id && itemCover.optionIndex != 1">
+    <label for="option{{i}}-{{j}}">
+      <h5>Replicated from Option: {{ itemCover.selectedFromOptionNo }}</h5>
+    </label>
+  </div>
+</div>
+
+
+<div *ngIf="!isAdded" class="add-more">
+  <h4 (click)="addMoreOptions();isAdded=true">Add More</h4>
+</div>
+

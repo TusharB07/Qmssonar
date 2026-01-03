@@ -1,0 +1,140 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <!-- <button id="TransactionHistory_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button> -->
+                        <!-- <button id="TransactionHistory_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="TransactionHistory_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="TransactionHistory_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="TransactionHistory_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" [paginator]="true" responsiveLayout="scroll" [value]="this.TransactionHistory" [lazy]="true"
+                (onLazyLoad)="this.loadRecords($event)" #dt [rowsPerPageOptions]="[10, 20, 30]" [rows]="20"
+                [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name', 'email']">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="TransactionHistoryList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th> -->
+                        <!-- <th pSortableColumn="_id">
+                        <div class="flex justify-content-between align-items-center">
+                            <span> Id </span>
+                        </div>
+                    </th> -->
+
+
+
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TransactionHistoryList_PartnerHeader">
+                                    Partner
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="TransactionHistoryList_PartnerColumnFilter" type="text"
+                                        field="partnerId" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by Partner"></p-columnFilter>
+                                    <p-sortIcon field="Partner"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="transaction_Date">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TransactionHistoryList_dateHeader">
+                                    Transaction Date
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <!-- <p-columnFilter type="text" field="TransactionHistoryTemplate" display="menu" placeholder="Search by to SI"></p-columnFilter> -->
+                                    <p-sortIcon field="date"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="transaction_No">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TransactionHistoryList_FromHeader">Transaction
+                                    No</span>
+                                <div>
+                                    <p-columnFilter id="TransactionHistoryList_fromFilter" type="text" field="from"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by Transaction No"></p-columnFilter>
+                                    <p-sortIcon field="From"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="quoteId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap" id="TransactionHistoryList_ToHeader">Quote No</span>
+                                <div>
+                                    <p-columnFilter id="TransactionHistoryList_toFilter" type="text" field="to"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by QuoteNo"></p-columnFilter>
+                                    <p-sortIcon field="To"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="TransactionHistoryList_StatusHeader"> Status </span>
+                                <div>
+                                    <!-- <p-columnFilter type="boolean" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+                                    <p-sortIcon field="status"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <!-- <ng-template pTemplate="body" let-TransactionHistory> -->
+                <ng-template pTemplate="body" let-TransactionHistory>
+                    <tr>
+                        <!-- <td>
+                                <p-tableCheckbox [value]="TransactionHistory" id="TransactionHistoryList_ItemCheckBox"></p-tableCheckbox>
+                            </td> -->
+                        <!-- <td style="width: 14%; min-width: 10rem">
+                        <span class="p-column-title">Id</span>
+                        {{ TransactionHistory._id }}
+                    </td> -->
+                        <td id="TransactionHistoryList_Partner">
+                            {{TransactionHistory.partnerId}}
+                        </td>
+                        <td id="TransactionHistoryList_transaction_Date">
+                            {{ TransactionHistory.transaction_Date | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td id="TransactionHistoryList_transaction_No">
+                            {{TransactionHistory.transaction_No}}
+                        </td>
+                        <td id="TransactionHistoryList_quoteId">
+                            {{TransactionHistory.quoteId}}
+                        </td>
+                        <td id="TransactionHistoryList_Status">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': TransactionHistory.status == status.SUCCESS, 'false-icon pi-times-circle': TransactionHistory.status == status.FAIL}"></i>
+
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

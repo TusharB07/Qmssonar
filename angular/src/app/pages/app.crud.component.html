@@ -1,0 +1,246 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New"  id ="AppCrud_OpenNew" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Delete"  id ="AppCrud_DeleteSelectedProducts" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search" id ="AppCrud_SearchIcon"></i>
+                            <input pInputText type="text" id ="AppCrud_SearchBar" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" id ="AppCrud_FileUpload" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="20" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="AppCrud_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="code">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_CodeHeader">
+                                    Code
+                                </span>
+                                <div>
+                                    <p-columnFilter id="AppCrud_CodecolumnFilter" type="text" field="code" display="menu" placeholder="Search by code"></p-columnFilter>
+                                    <p-sortIcon id="AppCrud_CodesortIcon" field="code"></p-sortIcon>
+                                </div>
+                            </div>
+
+                        </th>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_NameHeader">
+                                    Name
+                                </span>
+                                <div>
+                                    <p-columnFilter  id="AppCrud_NameColumnFilter" type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+                                    <p-sortIcon  id="AppCrud_NameSortIcon" field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th>Image</th>-->
+                        <th pSortableColumn="price">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_PriceHeader">
+                                    Price
+                                </span>
+                                <div>
+                                    <p-columnFilter id="AppCrud_PriceColumnFilter" type="numeric" field="price" display="menu" placeholder="Search by price"></p-columnFilter>
+                                    <p-sortIcon id="AppCrud_PriceSortIcon" field="price"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th pSortableColumn="category">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_CategoryHeader">
+                                    Category
+                                </span>
+                                <div>
+                                    <p-columnFilter id="AppCrud_CategorycolumnFilter" type="text" field="category" display="menu" placeholder="Search by category"></p-columnFilter>
+                                    <p-sortIcon id="AppCrud_CategorysortIcon" field="category"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th pSortableColumn="rating">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_ReviewsHeader">
+                                    Reviews
+                                </span>
+                                <div>
+                                    <p-columnFilter  id="AppCrud_ReviewscolumnFilter" type="text" field="reviews" display="menu" placeholder="Search by reviews"></p-columnFilter>
+                                    <p-sortIcon  id="AppCrud_ReviewssortIcon" field="rating"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th pSortableColumn="inventoryStatus">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="AppCrud_StatusHeader">
+                                    Status
+                                </span>
+                                <div>
+                                    <!-- <p-columnFilter type="text" field="status" display="menu" placeholder="Search by status"></p-columnFilter> -->
+
+                                    <p-columnFilter field="status" matchMode="equals" display="menu">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-dropdown [ngModel]="value" [options]="statuses" id="AppCrud_label" (onChange)="filter($event.value)" placeholder="Any" [style]="{'min-width': '12rem'}">
+                                                <ng-template let-option pTemplate="item">
+                                                    <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                                                </ng-template>
+                                            </p-dropdown>
+                                        </ng-template>
+                                    </p-columnFilter>
+
+                                    <p-sortIcon field="inventoryStatus" id="AppCrud_StatusSortIcon"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="product" id="AppCrud_CheckBox"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title" id="AppCrud_Code">Code</span> {{product.code || product.id}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title" id="AppCrud_Name">Name</span> {{product.name}}
+                        </td>
+                        <!-- 
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Image</span>
+                            <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" />
+                        </td>
+                         -->
+                        <td style="width:14%; min-width:8rem;" id="AppCrud_Price">
+                            <span class="p-column-title" >Price</span> {{product.price | currency:'USD'}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;" id="AppCrud_Category">
+                            <span class="p-column-title">Category</span> {{product.category}}
+                        </td>
+                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title" id="AppCrud_Reviews">Reviews</span>
+                            <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                        </td>
+                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title" id="AppCrud_Status">Status</span>
+                            <span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" id="AppCrud_EditProduct" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-trash" id="AppCrud_DeleteProduct" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid" id="AppCrud_ProductDialog">
+            <ng-template pTemplate="content">
+                <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image">
+                <div class="field">
+                    <label id="AppCrud_ProductName_Label" for="name">Name</label>
+                    <input id="AppCrud_ProductName" type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}" />
+                    <small id="AppCrud_ProductName_ValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                </div>
+                <div class="field">
+                    <label id="AppCrud_ProductDescription_Label" for="description">Description</label>
+                    <textarea id="description" pInputTextarea id="AppCrud_ProductDescription" [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="status" id="AppCrud_ProductInventoryStatus_Header">Inventory Status</label>
+                    <p-dropdown id="status" [options]="statuses" optionLabel="label" id="AppCrud_ProductInventoryStatus" [(ngModel)]="product.inventoryStatus" placeholder="Select a Status">
+                        <ng-template pTemplate="selectedItem">
+                            <span *ngIf="product && product.inventoryStatus" [class]="'product-badge status-' + product.inventoryStatus.value" id="AppCrud_ProductInventoryStatus_Label">{{product.inventoryStatus.label}}</span>
+                        </ng-template>
+                        <ng-template let-status pTemplate="status">
+                            <span [class]="'product-badge status-' + status.value.toLowerCase()" id="AppCrud_ProductStatus_Label">{{status.label}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="field">
+                    <label class="mb-3" id="AppCrud_Category_Header">Category</label>
+                    <div class="formgrid grid">
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category1" id="AppCrud_Accessories" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category1" id="AppCrud_Accessories_Label">Accessories</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category2" id="AppCrud_Clothing" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category2" id="AppCrud_Clothing_Label">Clothing</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category3" id="AppCrud_Electronics" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category3" id="AppCrud_Electronics_Label">Electronics</label>
+                        </div>
+                        <div class="field-radiobutton col-6">
+                            <p-radioButton id="category4" name="category" id="AppCrud_Fitness" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
+                            <label for="category4" id="AppCrud_Fitness_Label">Fitness</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="price" id="AppCrud_ProductPrice_Label">Price</label>
+                        <p-inputNumber id="price" id="AppCrud_ProductPrice" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+                    </div>
+                    <div class="field col">
+                        <label for="quantity" id="AppCrud_ProductQuantity_Label">Quantity</label>
+                        <p-inputNumber id="quantity" id="AppCrud_ProductQuantity" [(ngModel)]="product.quantity"></p-inputNumber>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" id="AppCrud_HideDialog" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" id="AppCrud_SaveProduct" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}" id="AppCrud_ConfirmDialog">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" id="AppCrud_ConfirmIcon"></i>
+                <span *ngIf="product" id="AppCrud_ConfirmProduct">Are you sure you want to delete <b>{{product.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple id="AppCrud_DeleteProductDialog" icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple id="AppCrud_ConfirmDelete" icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}" id="AppCrud_ConfirmDialog">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" id="AppCrud_ConfirmIcon"></i>
+                <span id="AppCrud_ConfirmProduct">Are you sure you want to delete selected products?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple id="AppCrud_DeleteProductDialog" icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple id="AppCrud_ConfirmDelete" icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

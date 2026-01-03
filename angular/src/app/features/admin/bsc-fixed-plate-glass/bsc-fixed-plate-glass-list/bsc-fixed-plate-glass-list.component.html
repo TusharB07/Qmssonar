@@ -1,0 +1,190 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+                        <th pSortableColumn="quoteId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Quote Id
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="quoteId" display="menu" placeholder="Search by Quote Id"></p-columnFilter>
+                                    <p-sortIcon field="quoteId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="plateGlassType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Plate Glass Type
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="plateGlassType" display="menu" placeholder="Search by Plate Glass Type"></p-columnFilter>
+                                    <p-sortIcon field="plateGlassType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="description">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Description
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="description" display="menu" placeholder="Search by Description"></p-columnFilter>
+                                    <p-sortIcon field="description"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sumInsured">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Sum Insured
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="sumInsured" display="menu" placeholder="Search by Sum Insured"></p-columnFilter>
+                                    <p-sortIcon field="sumInsured"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="total">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Total
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="total" display="menu" placeholder="Search by total"></p-columnFilter>
+                                    <p-sortIcon field="total"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="clientLocationId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Client Location Id
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="clientLocationId" display="menu" placeholder="Search by Client Location Id"></p-columnFilter>
+                                    <p-sortIcon field="clientLocationId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="ratePerMile">
+                            <div class="flex justify-content-between align-items-center">
+                                <span>
+                                    Rate Per Mile
+                                </span>
+                                <div>
+                                    <p-columnFilter type="text" field="ratePerMile" display="menu" placeholder="Search by Rate Per Mile"></p-columnFilter>
+                                    <p-sortIcon field="ratePerMile"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <!-- <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span> {{item._id}}
+                        </td> -->
+                        <td>
+                            <!-- {{item.quoteId}} -->
+                            <a routerLink="/backend/admin/quote/{{ item.quoteId._id }}">{{ item.quoteId.quoteNo }}</a>
+                        </td>
+                        <td>
+                            {{item.plateGlassType}}
+                        </td>
+                        <td>
+                            {{item.description}}
+                        </td>
+                        <td>
+                            {{item.sumInsured}}
+                        </td>
+                        <td>
+                            {{item.total}}
+                        </td>
+                        <!-- <td>
+                            <a routerLink="/backend/client-locations/{{ item.clientLocationId._id }}">{{ item.clientLocationId.locationName }}</a>
+                        </td> -->
+                        <td>
+                            {{item.ratePerMile}}
+                        </td>
+                        <!-- <td style="width:50%; min-width:10rem;">
+                            <a routerLink="/backend/states/{{item.stateId?._id}}">{{item.stateId?.name}}</a>
+                        </td> -->
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(item)"></button>
+                            </div>
+                        </td> -->
+                        <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

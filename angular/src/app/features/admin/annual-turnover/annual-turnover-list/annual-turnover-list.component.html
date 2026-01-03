@@ -1,0 +1,155 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2">
+                            <button id="AnnualTurnOverList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <button id="AnnualTurnOverList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button>
+                            <button id="AnnualTurnOverList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="AnnualTurnOverList_FilterGlobal" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="AnnualTurnOverList_FileUpload" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['turnoverFrom','turnoverTo','formattedString']">                   
+                 <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="AnnualTurnOverList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+
+                            <th pSortableColumn="turnoverFrom">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="AnnualTurnOverList_turnoverFromHeader">
+                                        Turnover From
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="AnnualTurnOverList_turnoverFromColumnFilter" type="number" field="turnoverFrom" display="menu" placeholder="Search by Turnover From"></p-columnFilter>
+                                        <p-sortIcon id="AnnualTurnOverList_turnoverFromSortIcon" field="turnoverFrom"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="turnoverTo">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="AnnualTurnOverList_turnoverToHeader">
+                                        Turnover To
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="AnnualTurnOverList_turnoverToColumnFilter" type="number" field="turnoverTo" display="menu" placeholder="Search by Turnover To"></p-columnFilter>
+                                        <p-sortIcon id="AnnualTurnOverList_turnoverToSortIcon" field="turnoverTo"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="formattedString">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="AnnualTurnOverList_formattedStringHeader">
+                                        Annual Turnover
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="AnnualTurnOverList_formattedStringColumnFilter" type="text" field="formattedString" display="menu" placeholder="Search by Annual Turnover"></p-columnFilter>
+                                        <p-sortIcon id="AnnualTurnOverList_formattedStringSortIcon" field="formattedString"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="active">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="AnnualTurnOverList_StatusHeader"> Status </span>
+                                    <div>
+                                        <p-columnFilter type="boolean" field="active" display="menu" placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon field="active"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-annualTurnOver>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox [value]="annualTurnOver" id="AnnualTurnOverList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+
+                            <td  id="AnnualTurnOverList_turnoverFrom">
+                                {{annualTurnOver.turnoverFrom}}
+
+                            </td>
+                            <td  id="AnnualTurnOverList_turnoverTo">
+                                {{annualTurnOver.turnoverTo}}
+
+                            </td>
+                            <td  id="AnnualTurnOverList_annualTurnOver">
+                                {{annualTurnOver.formattedString}}
+
+                            </td>
+                            <td id="AnnualTurnOverList_active">
+                                <i class="pi" [ngClass]="{'true-icon pi-check-circle': annualTurnOver.active, 'false-icon pi-times-circle': !annualTurnOver.active}"></i>
+
+                            </td>
+                            <td>
+                                <div class="flex">
+                                    <button id="AnnualTurnOverList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(annualTurnOver)"></button>
+                                    <button id="AnnualTurnOverList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(annualTurnOver)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="AnnualTurnOverList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="AnnualTurnOverList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.formattedString}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="AnnualTurnOverList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="AnnualTurnOverList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="AnnualTurnOverList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="AnnualTurnOverList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="AnnualTurnOverList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="AnnualTurnOverList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

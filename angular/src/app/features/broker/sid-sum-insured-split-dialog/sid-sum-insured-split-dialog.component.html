@@ -1,0 +1,84 @@
+<!-- <div class="" *ngIf="this.quote">
+    <app-quote-location-breakup-dialog [quote]="this.quote"></app-quote-location-breakup-dialog>
+</div> -->
+<div class="card tblz02">
+    <div class="grid">
+        <div class="col-12">
+            <p-treeTable [value]="files1">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <ng-container *ngFor="let item of cols; index as i;">
+                            <th [ngStyle]="!item.clientLocation ? {'width' : '300px'} : {}" id="SidSumInsured_Split_Address">
+                                {{item.clientLocation?.locationName}} - {{item.pincode?.name}}
+
+                                <a *ngIf="item.clientLocation" href="javascript:0"><img src="../../../../assets/icons/info.png" alt=""></a>
+                                <div class="info-show" style="z-index: 50">
+                                    <div class="top-header">
+                                        <img src="../../../../assets/icons/info.png" alt=""> {{item.clientLocation.locationName}}
+                                    </div>
+                                    <div class="details">
+                                        <p id="SidSumInsured_Split_ClientLocation"><span> Address:</span> {{item.clientLocation.address}}.</p>
+                                        <p id="SidSumInsured_Split_OccupancytType"><span> Occupancy:</span> {{item.occupancy.occupancyType}}</p>
+                                    </div>
+                                </div>
+                                <!-- <p class="small">{{item.sumAssured | currency: 'INR' : true : '1.0-0'}}</p> -->
+                                <!-- <p class="small" id="SidSumInsured_Split_sumAssured" >{{(item.sumAssured)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</p> -->
+                                <p class="small" id="SidSumInsured_Split_sumAssured" ><span> <app-currency [maximumFractionDigits]="0" [value]="(item.sumAssured)">  </app-currency></span></p>
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr [ttRow]="rowNode">
+                        <td>
+                            <div style="width: 300px;">
+
+                                <div class="flex">
+                                    <p-treeTableToggler [rowNode]="rowNode" id="SidSumInsured_Split_Name"></p-treeTableToggler>
+                                    {{rowData.name}}
+
+                                </div>
+                            </div>
+                        </td>
+                        <ng-container *ngFor="let col of cols; index as i;">
+                            <td *ngIf="col._id && !rowData[col._id]?.readonly">
+                                <div *ngIf="this.permissions.includes('update')">
+                                    <input pInputText id="SidSumInsured_Split_SumInsured" (blur)="this.valueUpdated(
+                                        col._id,
+                                        rowData[col._id]?.lovId,
+                                        rowData[col._id]?.lovType,
+                                        rowData[col._id]?.lovKey,
+                                        rowData[col._id]?.lovReferences,
+                                        rowData[col._id]?._id ?? ''
+
+                                    )" [(ngModel)]="this.model[rowData[col._id]?.lovId][col._id]" [max]="this.col.sumAssured" currencyMask [options]="{ prefix: '₹ ' , precision:0 }" />
+                                </div>
+                                <div *ngIf="!this.permissions.includes('update')">
+                                        <P currencyMask id="SidSumInsured_Split_SumInsured" [options]="{ prefix: '₹ ' , precision:0 }">{{model[rowData[col._id]?.lovId][col._id]| currency: 'INR'}}</P>
+                                </div>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <th>Total Sum Insured</th>
+                        <ng-container *ngFor="let col of cols; index as i;">
+                            <th *ngIf="col._id" id="SidSumInsured_Split_Totel_SumInsured">
+                                <!-- {{this.sum[col._id] && this.sum[col._id]['calculatedSumAssured'].toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} -->
+                                <span> <app-currency [maximumFractionDigits]="0" [value]="this.sum[col._id] && this.sum[col._id]['calculatedSumAssured']">  </app-currency></span>
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <button  class="btn btn-info mr-4" id="SidSumInsured_Split_Download" (click)="this.downloadSampleFile()"><i class="pi pi-download"></i> Download Sample File</button> <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="!this.permissions.includes('update')" [disabled]="true"><i class="pi pi-download"  ></i> Download Sample File</button> -->
+            <p-fileUpload styleClass="btn btn-primary" id="SidSumInsured_Split_Upload" name="quote_location_breakup" (onUpload)="this.fileUploaded($event)" mode="basic" url="{{this.uploadUrl}}" maxFileSize="10000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="patch"></p-fileUpload>
+
+        </div>
+    </div>
+</div>

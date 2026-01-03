@@ -1,0 +1,122 @@
+<!-- <section class="main-container">
+    <div class="grid">
+        <div class="col-12 lg:col-4 flex justify-content-center">
+            <div><img src="assets/step3-pic.png" alt="" /></div>
+        </div>
+        <div class="col-12 lg:col-8">
+            <div class="rt step3-inner">
+                <div>
+                    <h2 class="head44">You're just 3 steps away from getting an indicative quote</h2>
+                    <p class="para23">You'll be able to see quotes from various insurers after entering below details</p>
+                </div>
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="box-row">
+                            <div class="title">
+                                <span *ngIf="!this.quote?.productId?._id" class="non-selected-icon"></span>
+                                <span *ngIf="this.quote?.productId?._id" class="selected-icon"></span>
+                                Product
+                            </div>
+                            <div class="content">
+                                <div class="grid" *ngIf="this.products">
+                                    <div class="col-6" *ngFor="let product of this.products">
+                                        <div (click)="this.updateQuoteProduct(product._id)" class="btn-product" [ngClass]="this.quote?.productId?._id === product._id ? 'active' : ''">
+                                            <div class="flex">
+                                                <div class="label-icon">
+                                                    <img src="assets/icons/fire.svg" alt="" />
+                                                </div>
+                                                <div class="label-text">{{product.type}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-row">
+                            <div class="title flex justify-content-between">
+                                <div class="flex">
+                                    <span *ngIf="this.location?.length == 0" class="non-selected-icon"></span>
+                                    <span *ngIf="this.location?.length != 0" class="selected-icon"></span>
+                                    Risk Occupancy Location
+                                </div>
+
+                                <div class="text-right">
+                                    <div class="flex">
+                                        <div class="mr-2">
+                                        </div>
+                                        <div class="">
+                                            <p-splitButton styleClass="p-button-outlined mr-2 mb-2" label="Create" icon="pi pi-plus" (onClick)="openRiskLocationOccupancyDialog()" [model]="this.importOptions"></p-splitButton>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <p-dataView [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="this.loadQuoteLocationOccupancyList($event)" #dv [value]="location" [paginator]="true" [rows]="6" layout="grid" emptyMessage="No Occupancy Found Click on above add button to and create new occupancy">
+                                    <ng-template let-locationOccupancy pTemplate="gridItem">
+                                        <div class="col-6 xl:col-4">
+                                            <div class="product-grid-item card risk-occupancy-location" (click)="this.openRiskLocationOccupancyDialog(locationOccupancy._id)">
+                                                <h4 class="py-2">{{locationOccupancy.clientLocationId.locationName}}</h4>
+                                                <div class="product-grid-item-content">
+                                                    <ul>
+                                                        <li>
+                                                            <p class="">Sum Insured</p>
+                                                        </li>
+                                                        <li>
+                                                            <p class="sum-price">{{locationOccupancy.sumAssured | currency : 'INR'}}</p>
+                                                        </li>
+                                                        <li>
+                                                            <p class="">Sum Insured In Words</p>
+                                                        </li>
+                                                        <li>
+                                                            <p class="sum-price">{{(toWords.convert(locationOccupancy?.sumAssured ?? 0,{ currency: true ,ignoreZeroCurrency: true }))}}</p>
+                                                        </li>
+                                                        <li>
+                                                            <p>Occupancy: </p>
+                                                        </li>
+                                                        <li>
+                                                            <p>{{locationOccupancy.occupancyId.occupancyType}}</p>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-dataView>
+                            </div>
+                        </div>
+
+                        <div class="box-row">
+                            <div class="title">
+                                <span *ngIf="!quote?.totalSumAssured" class="non-selected-icon"></span>
+                                <span *ngIf="quote?.totalSumAssured" class="selected-icon"></span>
+
+                                Sum Assured
+                            </div>
+                            <div class="content last">
+                                <div class="grid flex align-items-center justify-content-between">
+                                    <div class="col-12">
+                                        <div class="input-row flex align-items-center">
+                                            <input readonly class="form-control" value="{{quote?.totalSumAssured}}" />
+                                            <div class="ml-4">
+                                                <p class="title">{{(quote?.totalSumAssured ?? 0) | currency: 'INR'}}</p>
+                                                <p class="title m-0">{{(toWords.convert(quote?.totalSumAssured ?? 0,{ currency: true ,ignoreZeroCurrency: true }))}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-right mt-5">
+                                        <div class="btn-div ml-auto">
+                                            <button (click)="this.getIndicativeQuote()" class="btn btn-lg btn-green"> Get Indicative Quote</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->

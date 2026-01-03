@@ -1,0 +1,72 @@
+<div class="container">
+  <h3 class="mt-3" id="Coverage_Header">You can create option for your current quote</h3>
+   <!-- Existing Code for Options -->
+
+   <div class="merge-container mt-4 inline-container">
+    <label for="mergeDropdown" class="inline-item">Select an option to merge with expired:</label>
+    <p-dropdown
+      id="mergeDropdown"
+      [options]="mergeOptions"
+      [(ngModel)]="selectedMergeOption"
+      placeholder="Select an option"
+      [disabled]="!expiredOptionAvailable"
+      class="inline-item">
+    </p-dropdown>
+    <button
+      class="btn btn-primary inline-item"
+      [disabled]="!selectedMergeOption || !expiredOptionAvailable"
+      (click)="mergeOptionsWithExpired()">
+      Merge with Expiry
+    </button>
+  </div>
+  
+
+  <div *ngFor="let itemCover of quoteGmcOptionsLst; let i = index" class="option-container">
+    <!-- Option Header -->
+    <div class="grid p-2 mb-3 align-items-center header-container">
+      <div class="col-10">
+        <h3 class="option-title">{{ itemCover.optionName }}</h3>
+      </div>
+      <div class="col-2 text-right" *ngIf="i != 0">
+        <i class="pi pi-trash delete-icon" (click)="deleteOptions(itemCover, i)" title="Delete">
+        </i>
+      </div>
+    </div>
+
+    <!-- Option Items -->
+    <div class="grid mb-3 option-item-container" *ngFor="let itemCoverOption of itemCover.options; let j = index">
+
+      <!-- Radio Button -->
+      <div class="field-radiobutton inline-block">
+        <p-radioButton name="options" [value]="itemCoverOption" [(ngModel)]="itemCover.selectedFromOptionNo"
+          inputId="option1" (onClick)="onRadioChange(j + 1)">
+        </p-radioButton>
+      </div>
+
+      <!-- Option Label -->
+      <div class="col-8 option-label">
+        <label for="option1">
+          {{ itemCoverOption }}
+        </label>
+      </div>
+
+      <!-- Expired Checkbox -->
+      <div class="field-checkbox inline-block" *ngIf="itemCover._id!=undefined && quoteGmcOptionsLst.length > 1">
+        <label class="expired-label">Expiry</label>
+        <p-checkbox [binary]="true" [disabled]="selectedExpiredOption && selectedExpiredOption !== itemCoverOption"
+          [(ngModel)]="itemCover.isExpired" (onChange)="onExpiredOptionChange(itemCover)">
+        </p-checkbox>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="!isAdded" class="grid justify-content-end "><label class="link-sample-text cursor"
+      (click)="addMoreOptions();isAdded=true">
+      <h4>Add More</h4>
+    </label></div>
+
+  <div *ngIf="isAdded" class="grid justify-content-center p-4"><button class="btn btn-success"
+      (click)="SaveOptions()">Save</button></div>
+</div>

@@ -1,0 +1,61 @@
+<div *ngIf="!isMobile">
+    <div class="grid content-details-tabs" *ngIf="this.quote">
+        <div style="width:420px" class="mx-3" id="BSC_Tab">
+            <!-- <div class="">Debug::() - quote_id: {{quote_id}}</div>
+            <div class="">Debug::() - clientLocationId: {{clientLocationId}}</div> -->
+
+            <!-- <div class="p-card-multiple p-0 py-3"> -->
+            <!-- <div id="bscCoversTab" class="scrollable" (scroll)="scrollHandler($event)"> -->
+
+            <app-bsc-cover-card *ngFor="let cover of this.covers" [isView]="cover.viewDialogFunction"
+                [user]="this.currentUser" [modelname]="cover.modelname" (openViewDialog)="cover.viewDialogFunction()"
+                (openFormDialog)="cover.formDialogFunction()" [label]="cover.label"
+                (deleteDialog)="this.deleteCover($event)" [productName]="cover.productName"
+                [permissions]="cover.permissions" [premium]="cover.premium" [isNonOtc]="cover.isNonOtc"
+                [modelId]="cover.modelId" [sumInsured]="cover.sumInsured"
+                [description]="cover.description"></app-bsc-cover-card>
+
+
+            <div *ngIf="this.covers.length == 0" class="m-5  text-center">
+                <h2 class="text-muted">No Covers Selected</h2>
+                <button *ngIf="this.currentUser.partnerId['partnerType'] != 'insurer'"
+                    class="btn btn-primary mt-1 w-full" (click)="openSidebar()">Select Add-on Covers</button>
+                <p></p>
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+
+        </div>
+        <div style="width:420px" class="mx-3 combined-quote-wrapped" *ngIf="this.showIndicativeQuote"
+            id="BSC_Total_Indicative">
+            <!-- Old_Quote -->
+            <!-- <app-total-indicative-quote-covers-opted-card
+                [quote]="this.quote"></app-total-indicative-quote-covers-opted-card> -->
+            <!-- New_Quote_Option -->
+            <app-total-indicative-quote-covers-opted-card
+                [quoteOptionData]="this.quoteOptionData"></app-total-indicative-quote-covers-opted-card>
+
+        </div>
+    </div>
+</div>
+<div *ngIf="isMobile">
+    <div class="" *ngIf="this.quote">
+        <div id="BSC_Tab">
+            <app-bsc-cover-card *ngFor="let cover of this.covers" [isView]="cover.viewDialogFunction"
+                [user]="this.currentUser" (openViewDialog)="cover.viewDialogFunction()"
+                (openFormDialog)="cover.formDialogFunction()" [label]="cover.label" [productName]="cover.productName"
+                [permissions]="cover.permissions" [premium]="cover.premium" [isNonOtc]="cover.isNonOtc"
+                [sumInsured]="cover.sumInsured"></app-bsc-cover-card>
+            <div *ngIf="this.covers.length == 0" class="m-5  text-center">
+                <h2 class="text-muted">No Covers Selected</h2>
+                <button *ngIf="this.currentUser.partnerId['partnerType'] != 'insurer'"
+                    class="btn btn-primary mt-1 w-full" (click)="openSidebar()">Select Add-on Covers</button>
+                <p></p>
+            </div>
+        </div>
+        <div class="combined-quote-wrapped" *ngIf="this.showIndicativeQuote" id="BSC_Total_Indicative">
+            <app-total-indicative-quote-covers-opted-card
+                [quote]="this.quote"></app-total-indicative-quote-covers-opted-card>
+        </div>
+    </div>
+</div>

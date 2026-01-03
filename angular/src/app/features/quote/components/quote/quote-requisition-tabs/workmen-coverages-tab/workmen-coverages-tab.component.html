@@ -1,0 +1,276 @@
+<div class="grid">
+    <div class="col-12 mx-0">
+        <div class="grid mt-1">
+            <div class="col-5">
+                <p-card class="card">
+                    <div class="grid">
+                        <!--Coverage-->
+                        <div class="col-10">
+                            <h4 id="RiskManagementsFeatures_Label" class="mb-3">
+                                Coverages Extension
+                            </h4>
+                        </div>
+                        <div class="col-2">
+                            <button pButton pRipple type="button" label="Covers Included"
+                                class="custom-button p-button-outlined p-button-success"></button>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-8">
+                            <div class="" *ngFor="let item of wccoverageTypesFree">
+                                <div *ngIf="item.coverageType !='Medical Expenses'">
+                                    <h5><i class="pi pi-info-circle mr-2" id="covers_Icon" style="color: blue;"></i>
+                                        {{item.coverageType}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="grid">
+                        <!--Coverage-->
+                        <div class="col-10">
+                            <h4 id="RiskManagementsFeatures_Label" class="mb-3">
+                                Standard Extension
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-8">
+                            <div class="" *ngFor="let item of wcStandardcoverageType">
+                                <div *ngIf="item.coverageType !='Medical Expenses'">
+                                    <h5><i class="pi pi-info-circle mr-2" id="covers_Icon" style="color: blue;"></i>
+                                        {{item.coverageType}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+
+                <p-card class="">
+                    <div class="">
+                        <ul>
+                            <div class="grid">
+                                <div class="col-10">
+                                    <h4 id="RiskManagementsFeatures_Label" class="mb-3">
+                                        Coverages Extension
+                                    </h4>
+                                </div>
+                                <div class="col-2">
+                                    <button pButton pRipple type="button" label="Paid"
+                                        class="custom-button p-button-outlined p-button-warning"></button>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-9">
+                                    <div class="inner-container" *ngFor="let item of wccoverageTypesAll">
+                                        <div *ngIf="item.coverageType =='Medical Expenses'">
+                                            <p-checkbox name="medicalenifits" id="medicalenifits" value="medicalenifits"
+                                                [binary]="true" [(ngModel)]="wcTemplateModel.medicalBenifits"
+                                                inputId="medicalenifits"></p-checkbox>
+                                            &nbsp;&nbsp; {{item.coverageType}}&nbsp;,
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5>Is Medical extension common for all type of employee?</h5>
+                                </div>
+                                <div class="col-4">
+                                    <p-toggleButton disabled="true" id="allmedicalBenifitsYesNo_button"
+                                        [(ngModel)]="wcTemplateModel.allmedicalBenifitsYesNo" onLabel="Yes"
+                                        offLabel="No" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times"
+                                        class="p-button-icon-right" styleClass="w-full sm:w-10rem"></p-toggleButton>
+                                </div>
+                            </div>
+
+                            <!-- <div class="grid mt-3" *ngIf="wcTemplateModel.allmedicalBenifitsYesNo">
+                                <div class="col-4">
+                                    <label class="form-label">Medical Extension Benefits</label>
+                                    <p-dropdown appendTo="body" id="gmc_SI" class="custom-dropdown" [options]="yesNoDDL"
+                                        placeholder="Select" optionLabel="label" optionValue="value"
+                                        name="medicalBenifitsAns" #medicalBenifitsAns="ngModel"
+                                        [(ngModel)]="wcTemplateModel.medicalBenifitsAns" (onChange)="setAmountandId()"
+                                        ></p-dropdown>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Amount</label>
+                                   
+                                    <p-dropdown
+                                    class="custom-dropdown"
+                                    [options]="medicalExpensesAmountLst"
+                                    name="medicalBenifitsAmount"
+                                    [(ngModel)]="wcTemplateModel.medicalBenifitsAmountId"
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    placeholder="Select"
+                                    (onChange)="setAmount()"
+                                    [disabled]="wcTemplateModel.medicalBenifitsAns == 'No'"
+                                  >
+                                  <ng-template let-amt pTemplate="item">
+                                    <span><app-currency  [value]="(amt.siAmount ?? 0)"></app-currency></span>
+                                  </ng-template>
+                                  <ng-template let-amtSelected pTemplate="selectedItem">
+                                    <span><app-currency [value]="(amtSelected.siAmount ?? 0)"></app-currency></span>
+                                  </ng-template>
+                                  </p-dropdown>
+                                  
+                                    </div>
+                            </div>
+
+                            <div class="grid mt-2" *ngIf="!wcTemplateModel.allmedicalBenifitsYesNo">
+                                <div class="col-12">
+                                    <p-button label="View All" [link]="true"
+                                        *ngIf="!wcTemplateModel.allmedicalBenifitsYesNo && wcDetails.length>0"
+                                        (click)="this.openCoverageExtension()"></p-button>
+
+
+                                </div>
+                            </div> -->
+
+                            <div class="col-6 mt-2">
+                                <label class="form-label">Medical Extension Benefits</label>
+                                <!-- Dropdown for ME or ME AGGREGATE -->
+                                <p-dropdown appendTo="body" id="medicalBenifitsOption" [options]="optionsMELOV"
+                                    [(ngModel)]="wcTemplateModel.medicalBenifitsOption" placeholder="Select"
+                                    optionLabel="label" optionValue="value" name="medicalBenifitsOption"
+                                    #medicalBenifitsOption="ngModel"
+                                    (onChange)="setmedicalBenifitsOption()"></p-dropdown>
+                            </div>
+                            <div class="col-4" *ngIf="wcTemplateModel.medicalBenifitsOption == 'ME_AGGREGATE'">
+                                <!-- Checkbox for Actual -->
+                                <!-- <p-checkbox style="font-weight: bold;" label="Actual" [(ngModel)]="wcTemplateModel.isActual" (onChange)="onCheckboxChange()"></p-checkbox> -->
+                                <p-checkbox label="Actual" style="font-weight: bold;"
+                                    [(ngModel)]="wcTemplateModel.isActual" [binary]="true"
+                                    (onChange)="onCheckboxChange()"></p-checkbox>
+                            </div>
+                            <!-- SI Dropdown -->
+                            <div class="col-6 mt-2">
+                                <label class="form-label">Amount</label>
+                                <p-dropdown appendTo="body" id="medicalBenifitsAmountId" class="custom-dropdown"
+                                    [options]="medicalExpensesAmountLst" name="medicalBenifitsAmountId"
+                                    [(ngModel)]="wcTemplateModel.medicalBenifitsAmountId"
+                                    #medicalBenifitsAmountId="ngModel" optionLabel="label" optionValue="value"
+                                    placeholder="Select" (onChange)="setAmount()"
+                                    [disabled]="wcTemplateModel.isActual && wcTemplateModel.medicalBenifitsOption != 'ME'">
+                                    <ng-template let-amt pTemplate="item">
+                                        <span *ngIf="amt.label!='0'"><app-currency
+                                                [value]="(amt.siAmount ?? 0)"></app-currency></span>
+                                        <span *ngIf="amt.label=='0'">N/A</span>
+                                    </ng-template>
+                                    <ng-template let-amtSelected pTemplate="selectedItem">
+                                        <span *ngIf="amtSelected.label!='0'"><app-currency
+                                                [value]="(amtSelected.siAmount ?? 0)"></app-currency></span>
+                                        <span *ngIf="amtSelected.label=='0'">N/A</span>
+                                    </ng-template>
+                                </p-dropdown>
+
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="button-container" style="margin-top: 25px;">
+                        <button type="button" (click)="save()" id="btn_Save" pButton pRipple label="Save"
+                            icon="pi pi-check" class="btn btn-success"></button>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-5">
+                <!-- <div class="col-4"> -->
+                <p-card class="">
+                    <div class="inner-container">
+                        <div class="grid mb-2">
+                            <div class="col-6">
+                                <label for="" class="form-label">Discount based on premium (%)</label>
+                                <p-inputNumber class="text-right" id="discountbasedonPremium" placeholder="0"
+                                    [(ngModel)]="wcTemplateModel.discountbasedonPremium" (keyup)="recalPremium()"
+                                    #discountbasedonPremium="ngModel" name="discountbasedonPremium"
+                                    [maxlength]="2"></p-inputNumber>
+                            </div>
+                        </div>
+
+                        <div class="grid mt-2">
+                            <div class="col-6">
+                                <label for="" class="form-label" id="lblDescription">Discounted Amount</label>
+                                <input maxlength="20" pInputText id="addonCoversAmount"
+                                    [(ngModel)]="wcTemplateModel.addonCoversAmount" name="addonCoversAmount"
+                                    #addonCoversAmount="ngModel" type="text" currencyMask
+                                    [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1 text-left mt-3"
+                                    [readonly]="true" />
+                            </div>
+                        </div>
+                        <div class="grid mt-2">
+                            <div class="col-6">
+                                <label for="" class="form-label" id="otherDetails_Deductibles_FLOP">Discounted Premium
+                                </label>
+                                <input maxlength="20" pInputText id="targetPremium"
+                                    [(ngModel)]="wcTemplateModel.targetPremium" name="targetPremium"
+                                    #targetPremium="ngModel" type="text" currencyMask
+                                    [options]="{ prefix: '₹ ' , precision:0 }" class="p-inputtext1 text-left mt-3"
+                                    [readonly]="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-container" style="margin-top: 25px;">
+                        <button type="button" (click)="save()" id="btn_Save" pButton pRipple label="Save"
+                            icon="pi pi-check" class="btn btn-success"></button>
+                    </div>
+                </p-card>
+                <!-- </div> -->
+
+                <!-- <div class="col-4" > -->
+                <p-card class="col-9" *ngIf="quotePolicyType=='rollover'">
+                    <div class="inner-container">
+                        <div class="col-10">
+                            <h4 id="prvpolicyInfo_Label" class="mb-3">
+                                Previous Policy Details
+                            </h4>
+                        </div>
+                        <!-- <div class="col-6">               
+                                    <label for="previousPolicyDetails" class="form-label">Previous Policy Details</label>
+                                    <input type="text" pInputText id="previousPolicyDetails" placeholder="Enter Previous policy details"
+                                    [(ngModel)]="wcTemplateModel.previousPolicyDetails" #previousPolicyDetails="ngModel"
+                                    name="previousPolicyDetails" class="p-inputtext1 text-left mt-3">
+                            </div> -->
+                        <div class="mb-3">
+                            <div class="col-6">
+                                <label for="previousCompany" class="form-label">Previous Company</label>
+                                <input id="previousCompany" pInputText placeholder="Enter Previous company name"
+                                    [(ngModel)]="wcTemplateModel.previousCompany" #previousCompany="ngModel"
+                                    name="previousCompany" class="p-inputtext1 text-left mt-3" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="col-6">
+                                <label for="previousPolicyno" class="form-label">Previous Policy Number</label>
+                                <input id="previousPolicyno" pInputText placeholder="Enter Previous policy number"
+                                    [(ngModel)]="wcTemplateModel.previousPolicyno" #previousPolicyno="ngModel"
+                                    name="previousPolicyno" class="p-inputtext1 text-left mt-3" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="grid md-2">
+                            <div class="col-6">
+                                <label class="form-label">Previous Policy Start Date</label>
+                                <p-calendar id="previousStartdate" aria-placeholder="Select"
+                                    [(ngModel)]="wcTemplateModel.previousStartdate" [showIcon]="true"
+                                    name="previousStartdate" #previousStartdate="ngModel"
+                                    class="p-inputtext1 text-left"></p-calendar>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Previous Policy End Date</label>
+                                <p-calendar id="previousEnddate" aria-placeholder="Select"
+                                    [(ngModel)]="wcTemplateModel.previousEnddate" [showIcon]="true"
+                                    name="previousEnddate" #previousEnddate="ngModel"
+                                    class="p-inputtext1 text-left"></p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-container" style="margin-top: 25px;">
+                        <button type="button" (click)="save()" id="btn_Save" pButton pRipple label="Save"
+                            icon="pi pi-check" class="btn btn-success"></button>
+                    </div>
+                </p-card>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</div>

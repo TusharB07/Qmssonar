@@ -1,0 +1,211 @@
+<!-- Old_Quote -->
+<!-- <div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width:500px">
+        <p-card class="no-class">
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="otherDetails_Indicative_Quote">Indicative Quote</h6>
+                        <p class="sub-head" id="otherDetails_ProductType">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right"> -->
+<!-- <p class="premium" id="otherDetails_TotalPremium">Total Premium</p> -->
+<!-- <p class="premium-price" id="otherDetails_TotalPremium_Amount">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+<!-- <p class="premium-price" id="otherDetails_TotalPremium_Amount"><span><app-currency -->
+<!-- [value]="this.quote?.totalIndictiveQuoteAmt"></app-currency></span></p> -->
+<!-- <p class="premium-price">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+<!-- </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width:500px" *ngIf="this.quote.otcType !=='OTC'">
+        <div class="grid">
+            <div class="col-12">
+                <app-other-details-crud-card [quote]="this.quote"></app-other-details-crud-card> -->
+<!-- COMPLETED -->
+<!-- </div>
+        </div>
+    </div>
+    <div class="mx-3"> -->
+<!-- <div class="grid mb-5" style="display:none ;">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="otherDetails_Industry_Average_Quote">Industry Average Quote</h5>
+                    <p class="sub-heading" id="otherDetails_Industry_Average_Quote_Product">
+                        {{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p>Avg. Premium </p>
+                        <p class="price" id="otherDetails_Industry_Avg_Premium"><span><app-currency
+                                    [value]="this.quote?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                    </div>
+                    <div class="sum-assured">
+                        <span class="icon" id="otherDetails_Industry_Sum_Assured"></span> Sum
+                        Assured:<span><app-currency [maximumFractionDigits]="0"
+                                [value]="this.quote?.totalSumAssured"></app-currency></span> -
+                        {{toWords.convert(this.quote?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit" id="otherDetails_Industry_View_Breakup">View
+                            Breakup</button>
+                    </div>
+                    <div class="info" id="otherDetails_Industry_fetched_Info"><i class="pi pi-info-circle"></i> This
+                        information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div> -->
+
+
+<!-- <div class="claim-exp-location">
+            <app-hypothication-details-crud-card *ngIf="this.quote" [quote]="this.quote"></app-hypothication-details-crud-card> -->
+<!-- COMPLETED -->
+
+<!-- </div>
+    </div> -->
+<!-- Broker Module -->
+<!-- <div class="mx-3" *ngIf="this.quote.partnerId['brokerModeStatus'] == true">
+        <div class="claim-exp-location">
+            <app-insure-details-crud-card *ngIf="this.quote" [quote]="this.quote"></app-insure-details-crud-card>
+           
+        </div>
+    </div> -->
+<!-- </div> -->
+
+<!-- New_Quote_Option -->
+<div class="grid" *ngIf="this.quote">
+    <div class="mx-3" style="width:500px">
+        <p-card class="no-class">
+            <ng-template pTemplate="header">
+                <div class="grid">
+                    <div class="col-8">
+                        <h6 class="mb-2" id="otherDetails_Indicative_Quote">Indicative Quote</h6>
+                        <p class="sub-head" id="otherDetails_ProductType">{{this.quote?.productId?.type}}</p>
+                    </div>
+                    <div class="col-4 text-right" *ngIf="this.quote.partnerId['isRate'] == true">
+                        <p class="premium" id="otherDetails_TotalPremium">Total Premium</p>
+                        <!-- <p class="premium-price" id="otherDetails_TotalPremium_Amount">{{(this.quote?.totalIndictiveQuoteAmt ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) }}</p> -->
+                        <p class="premium-price" id="otherDetails_TotalPremium_Amount"><span><app-currency
+                                    [value]="this.quoteOptionData?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                        <!-- <p class="premium-price">{{(this.quote?.totalIndictiveQuoteAmt ?? 0) | currency:'INR' }}</p> -->
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>
+<div class="grid risk-parameters-container">
+    <div class="mx-3" style="width:500px" *ngIf="this.quote.otcType !=='OTC'">
+        <div class="grid">
+            <div class="col-12">
+                <app-other-details-crud-card [quoteOptionData]="this.quoteOptionData"></app-other-details-crud-card>
+                <!-- COMPLETED -->
+            </div>
+        </div>
+    </div>
+    <div class="mx-3">
+        <!-- <div class="grid mb-5" style="display:none ;">
+            <div class="col-12">
+                <div class="average-quote-container">
+                    <h5 class="heading" id="otherDetails_Industry_Average_Quote">Industry Average Quote</h5>
+                    <p class="sub-heading" id="otherDetails_Industry_Average_Quote_Product">
+                        {{this.quote?.productId?.type}}</p>
+                    <div class="avg-premium">
+                        <p>Avg. Premium </p>
+                        <p class="price" id="otherDetails_Industry_Avg_Premium"><span><app-currency
+                                    [value]="this.quote?.totalIndictiveQuoteAmt"></app-currency></span></p>
+                    </div>
+                    <div class="sum-assured">
+                        <span class="icon" id="otherDetails_Industry_Sum_Assured"></span> Sum
+                        Assured:<span><app-currency [maximumFractionDigits]="0"
+                                [value]="this.quote?.totalSumAssured"></app-currency></span> -
+                        {{toWords.convert(this.quote?.totalSumAssured ?? 0)}}
+                    </div>
+                    <div class="bg-container">
+                        <button class="btn btn-success" type="submit" id="otherDetails_Industry_View_Breakup">View
+                            Breakup</button>
+                    </div>
+                    <div class="info" id="otherDetails_Industry_fetched_Info"><i class="pi pi-info-circle"></i> This
+                        information is been fetched
+                        from: source name</div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div class="claim-exp-location">
+            <app-hypothication-details-crud-card *ngIf="this.quote" [quote]="this.quote"
+                [quoteOptionData]="this.quoteOptionData"></app-hypothication-details-crud-card>
+            <!-- COMPLETED -->
+
+        </div>
+
+        <div class="dropdown">
+            <app-declaration-clause-card *ngIf="this.quote" [quote]="this.quote"
+                [quoteOptionData]="this.quoteOptionData"></app-declaration-clause-card>
+        </div>
+
+    </div>
+    <!-- Broker Module -->
+    <!-- <div class="mx-3" *ngIf="this.quote.partnerId['brokerModeStatus'] == true">
+        <div class="claim-exp-location">
+            <app-insure-details-crud-card *ngIf="this.quote" [quote]="this.quote"></app-insure-details-crud-card>
+           
+        </div>
+    </div> -->
+</div>
+<div *ngIf="!this.user.partnerId['brokerModeStatus']">
+    <div class="mx-3" *ngIf="this.user.partnerId['isRiskInspection'] == false" style="min-width: 90vw;">
+        <div class="grid">
+            <div class="col-12">
+                <app-claim-experience id="RiskInspectionStatusTab_ClaimExperience" [quote]="this.quote"
+                    [quoteOptionData]="this.quoteOptionData" [permissions]="['read','update']"></app-claim-experience>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mx-3" *ngIf="!this.user.partnerId['isRiskInspection']">
+    <p-card [style]="{ width: '510px', height: '250px' }">
+        <div *ngIf="this.user.partnerId['brokerModeStatus']">
+            <div class="grid" style="margin-bottom:30px;">
+                <h5 id="claimExperience">Claim Experience Upload</h5>
+                <div class="col-12">
+                    <p-fileUpload #fileUpload [auto]="true" (onUpload)="this.onUploadClaimExperienceReport()"
+                        styleClass="upload-outline-light" [name]="this.onUploadClaimExperienceReport.name"
+                        [mode]="this.onUploadClaimExperienceReport.mode" [url]="this.onUploadClaimExperienceReport.url"
+                        [method]="this.onUploadClaimExperienceReport.method"
+                        (onUpload)="this.onUploadClaimExperienceReport.onUpload($event.originalEvent.body)"
+                        (onError)="this.errorHandler($event, fileUpload)"
+                        [headers]="this.onUploadClaimExperienceReport.headers" [showCancelButton]="true"
+                        [auto]="this.onUploadClaimExperienceReport.auto" uploadLabel="Claim Experience upload"
+                        chooseLabel="Upload Claim experience Report">
+                    </p-fileUpload>
+                </div>
+                <a href="{{this.quote?.claimAttachmentUrl}}" target="_blank">{{this.quote?.claimAttachmentUrl}}</a>
+            </div>
+            <div style="margin-left: 10px;">
+                <div class="flex justify-content-center">
+                    <button class="btn btn-info mr-4" id="SidSumInsured_Split_Download"
+                        (click)="this.downloadSampleFile()"><i class="pi pi-download"></i> Download Sample File</button>
+                    <div>
+                        <p-fileUpload #fileUpload id="SidSumInsured_Split_Upload" styleClass="btn btn-primary"
+                            [name]="this.quoteLocationBreakupBulkImportProps.name"
+                            [mode]="this.quoteLocationBreakupBulkImportProps.mode"
+                            [url]="this.quoteLocationBreakupBulkImportProps.url"
+                            [method]="this.quoteLocationBreakupBulkImportProps.method"
+                            (onUpload)="this.quoteLocationBreakupBulkImportProps.onUpload($event.originalEvent.body)"
+                            (onError)="this.errorHandler($event, fileUpload)"
+                            [headers]="this.quoteLocationBreakupBulkImportProps.headers" [showCancelButton]="true"
+                            [auto]="this.quoteLocationBreakupBulkImportProps.auto"
+                            [uploadLabel]="this.quoteLocationBreakupBulkImportProps.uploadLabel"
+                            [chooseLabel]="this.quoteLocationBreakupBulkImportProps.chooseLabel"></p-fileUpload>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>

@@ -1,0 +1,336 @@
+<div class="mb-3" *ngIf="this.quote">
+    <div [ngClass]="{'overlay': quickView}" (click)="this.quickView = false"></div>
+    <div class="grid">
+        <div class="">
+            <p-sidebar [(visible)]="visibleSidebar" position="right" styleClass="p-sidebar-md" [baseZIndex]="1"
+                [style]="{'width':'32%'}">
+                <app-query-discussion-box *ngIf="visibleSidebar" [quote]="this.quote"></app-query-discussion-box>
+            </p-sidebar>
+        </div>
+
+        <div class="col sidebar" style="max-width: 360px">
+            <div class="p-3" data-aos="fade-left">
+
+                <div class="text-center mb-3" id="QuoteComparisoReview_StepsImage">
+                    <img src="/assets/step3-pic.png" width="80px" alt="">
+                </div>
+                <div class="px-3">
+                    <h4 id="QuoteComparisoReview_QuoteNo">Quote Id: {{this.quote.quoteNo}}</h4>
+                    <p id="QuoteComparisoReview_ProductType">
+                        {{this.quote.productId.type}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="" data-aos="fade-up">
+                <div class="p-3 ">
+                    <ul>
+                        <li *ngFor="let tab of this.tabs"
+                            [class]="'tab-item ' + (selectedTabId === tab.id ? 'active' : '')"
+                            (click)="this.selectTab(tab)" id="QuoteComparisoReview_SelectTab">
+                            <div class="flex align-items-start p-3">
+                                <i [class]="'pi pi-chevron-right mt-1 mr-3' "></i> <span>{{tab.label}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col ">
+            <div class="p-3">
+                <div class="edit-quote-link-container">
+                    <!-- Top Section with Title and Buttons -->
+                    <div class="header-top">
+                        <!-- Title Section -->
+                        <div class="header-title">
+                            <strong>
+                                <a style="color: blue;"> <i class="pi pi-chart-bar mr-3" style="font-size: 1.5rem"
+                                        id="QuoteComparisoReview_ViewAnalytics"></i> {{
+                                    this.quote?.hasOwnProperty('qcrVersion') ?
+                                    ('Quote Comparison Report (QCR) - Version_' + this.selectedVersion) :
+                                    'Quote Comparison Report (QCR)' }}
+                                </a>
+                            </strong>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="header-actions">
+                            <button class="btn-custom" (click)="downloadExcel()">
+                                <i class="pi pi-download"></i>
+                                Download Excel
+                            </button>
+                            <button class="btn-custom" (click)="toggleQuickView()">Quick QCR View</button>
+                            <button *ngIf="this.user._id == this.quote.assignedToPlacementMakerId" class="btn-custom"
+                                (click)="qcrEdit(quote.quoteNo)">QCR Edit</button>
+                        </div>
+
+                        <div
+                            *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && !this.quote.qcrApproved && this.quote.qcrApprovedRequested">
+                            <button class="btn-primary" style="margin-right: 20px" (click)="this.pushBackTo()">Push
+                                Back</button>
+                            <button class="btn-primary" type="button"
+                                (click)="sendQuoteForApprovalbymaker()">Approve</button>
+                        </div>
+                        <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                            <div *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId">
+                                <div *ngIf="this.quote.qcrApprovedRequested == false">
+                                    <button class="btn-primary" (click)="sendQuoteForApproval()">Send for
+                                        approval</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Section with Dropdowns -->
+                    <div class="header-bottom">
+                        <div class="header-dropdowns">
+                            <div class="dropdown-group">
+                                <label class="dropdown-label">Select Version: </label>
+                                <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleVersion"
+                                    placeholder="Select Version" [(ngModel)]="selectedVersion"
+                                    (onChange)="onVersionChange($event)" [options]="versionOptions"
+                                    field="label"></p-dropdown>
+                            </div>
+
+                            <div class="dropdown-group">
+                                <label class="dropdown-label">Select Option: </label>
+                                <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleOptions"
+                                    placeholder="Select Option" [(ngModel)]="selectedQuoteOption"
+                                    (onChange)="handleQuoteOptionChangeLiability($event)"
+                                    [options]="optionsQuoteOptions" field="label"></p-dropdown>
+                            </div>
+
+                            <div class="dropdown-group">
+                                <label class="dropdown-label">Select Insurer: </label>
+                                <p-dropdown [filter]="true" [filterBy]="'label'" id="requisitionTab_handleIC"
+                                    placeholder="Select Insurer" [(ngModel)]="selectedInsurer" optionLabel="name"
+                                    (onChange)="showInsuranceCompanyDetails($event)" class="custom-dropdown"
+                                    [options]="this.dropdownName" field="label"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3  ">
+                    <div class="quote-comparision-table" *ngIf="this.selectedTabId">
+                        <table>
+                            <thead class="header">
+                                <tr>
+                                    <th *ngFor="let col of cols" [ngClass]="{
+                                  'text-right': selectedTabId === 'add_ons' || selectedTabId === 'sum_insured_details' || selectedTabId === 'business_suraksha_covers'
+                                }">
+                                        {{ col.label }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mapping">
+                                    <td *ngFor="let col of cols" [ngClass]="{
+                                  'text-right': item[col.id]?.isAlignmentRequired,
+                                  'text-left': !item[col.id]?.isAlignmentRequired
+                                }">
+                                        <div *ngIf="item[col.id]?.type === 'string'">
+                                            <div [style.color]="item[col.id].styleaddon">{{ item[col.id]?.value || "" }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'html'" [innerHtml]="item[col.id]?.value">
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'button'">
+                                            <button [class]="item[col.id].buttonClassName"
+                                                (click)="item[col.id].onClick()">
+                                                {{ item[col.id].value }}
+                                            </button>
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'buttons'">
+                                            <button *ngFor="let button of item[col.id]?.buttons"
+                                                [class]="button.buttonClassName" (click)="button.onClick()">
+                                                {{ button.value }}
+                                            </button>
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'boolean'">
+                                            <i *ngIf="item[col.id]?.value" class="pi pi-check"
+                                                style="color: green; font-weight: bold"></i>
+                                            <i *ngIf="!item[col.id]?.value" class="pi pi-times"
+                                                style="color: red; font-weight: bold"></i>
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'tickOrValue'">
+                                            <div *ngIf="item[col.id]?.value">{{ item[col.id]?.value }}</div>
+                                            <i *ngIf="!item[col.id]?.value" class="pi pi-check"
+                                                style="color: green; font-weight: bold"></i>
+                                        </div>
+                                        <div *ngIf="item[col.id]?.type === 'currency'">
+                                            <span [style.color]="item[col.id].styleaddon">
+                                                <app-currency [maximumFractionDigits]="0"
+                                                    [value]="item[col.id]?.value ?? 0"></app-currency>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="col-10"
+                    *ngIf="[AllowedProductTemplate.LIABILITY_CGL].includes(this.quote?.productId['productTemplate']) && this.quote">
+                    <div style="margin-top: 25px" *ngFor="let item of templateArray">
+                        <p-card *ngIf="this.selectedTabId == 'territorysubsidiary'">
+                            <table class="static-table" cellpadding="0" cellspacing="0"
+                                style="width: 70%; border-collapse: separate; border-radius: 5px; overflow: hidden">
+                                <!-- Header Row -->
+                                <tr
+                                    style="background-color: #0048bc; color: white; text-align: center; font-size: 10px">
+                                    <td colspan="3" id="WCPSubTemplate_EmployementDetails_Header" style="padding: 5px">
+                                        <h4 style="color: white; margin: 0">Subsidiary Details for {{ item.label }}</h4>
+                                    </td>
+                                </tr>
+
+                                <!-- Table Content -->
+                                <tr *ngIf="item.template.subsidaryDetails?.length > 0; else noSubsidiaries">
+                                    <table style="width: 100%; border-collapse: collapse">
+                                        <thead>
+                                            <tr style="background-color: #e0e0e0; font-size: 12px; text-align: center">
+                                                <th style="width: 33%; padding: 5px; border: 1px solid #ccc">Location
+                                                    Name</th>
+                                                <th style="width: 33%; padding: 5px; border: 1px solid #ccc">Is Business
+                                                    Activity not as per
+                                                    parent company?</th>
+                                                <th style="width: 34%; padding: 5px; border: 1px solid #ccc">Activity
+                                                    Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let sub of item.template.subsidaryDetails"
+                                                style="font-size: 12px">
+                                                <td style="text-align: left; padding: 5px; border: 1px solid #ccc">
+                                                    {{ sub.countryName }}
+                                                </td>
+                                                <td style="text-align: center; padding: 5px; border: 1px solid #ccc">
+                                                    {{ sub.isSelected ? "Yes" : "No" }}
+                                                </td>
+                                                <td style="text-align: left; padding: 5px; border: 1px solid #ccc">
+                                                    {{ sub.activityName || "N/A" }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </tr>
+                            </table>
+
+                            <!-- No Subsidiaries Template -->
+                            <ng-template #noSubsidiaries>
+                                <p style="text-align: center; font-size: 18px; margin: 20px 0">No Subsidiary Details
+                                    Found</p>
+                            </ng-template>
+                        </p-card>
+                    </div>
+
+
+                </div>
+                <!-- <div class="col-10" *ngIf="(this.quote?.productId?.type == 'Fire Insurance Policy') && this.quote && this.quote.quoteType == 'existing'"> -->
+                <div class="col-10" *ngIf="this.quote">
+                    <p-card *ngIf="this.selectedTabId=='risk_inspection_status_and_claim_experience'">
+                        <div>
+                            <div class=" tblz01-pdf mt-4">
+                                <table class="p-datatable p-datatable-striped"
+                                    style="border-collapse: collapse;width:100%">
+                                    <tbody class="p-datatable-tbody">
+
+                                        <tr>
+                                            <td colspan="6" class="text-black">Claim Experience</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td id="QuoteComparisoReview_Year_Label">Year</td>
+                                            <td id="QuoteComparisoReview_Year"
+                                                *ngFor="let claim of this.claimExperiences">{{claim['year']-1}} -
+                                                {{claim['year']}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="QuoteComparisoReview_PremiumPaid_Label">Premium Paid </td>
+                                            <!-- <td id="QuoteComparisoReview_PremiumPaid" *ngFor="let claim of this.claimExperiences">{{(claim.premiumPaid ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                                            <td id="QuoteComparisoReview_ClaimAmount"
+                                                *ngFor="let claim of this.claimExperiences"><span><app-currency
+                                                        [value]="(claim.premiumPaid ?? 0)"></app-currency></span></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td id="QuoteComparisoReview_ClaimAmount_Label">claim Amount </td>
+                                            <!-- <td id="QuoteComparisoReview_ClaimAmount" *ngFor="let claim of this.claimExperiences">{{(claim.claimAmount ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                                            <td id="QuoteComparisoReview_ClaimAmount"
+                                                *ngFor="let claim of this.claimExperiences"><span><app-currency
+                                                        [value]="(claim.claimAmount ?? 0)"></app-currency></span></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td id="QuoteComparisoReview_NoOfClaims_Label">No. of claims</td>
+                                            <td id="QuoteComparisoReview_NoOfClaims"
+                                                *ngFor="let claim of this.claimExperiences">{{claim.numberOfClaims ??
+                                                0}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td id="QuoteComparisoReview_NatureOfClaim_Label">Nature of claim</td>
+                                            <td id="QuoteComparisoReview_NatureOfClaim"
+                                                *ngFor="let claim of this.claimExperiences">{{(claim.natureOfClaim ??
+                                                'N/A')}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Quick View Toggler -->
+    <div class="p-3 quickView" *ngIf="this.quickView">
+        <div class="quote-comparision-table">
+            <table>
+                <tr class="header">
+                    <th [style]="col.style" class="text-align-center" *ngFor="let col of cols"
+                        id="QuoteComparisoReview_BrokerLabel">
+                        {{col.label}}
+                    </th>
+                </tr>
+                <tr *ngFor="let item of mappingQCRArr">
+
+                    <td class="text-left" *ngFor="let col of cols">
+
+                        <div class="">
+                            <div class="quickViewHeaderWrapper">
+                    <th class="quickViewHeader" *ngIf="item[col.id]?.type == 'header'" id="QuoteComparisoReview_value">
+                        {{item[col.id]?.value ?? ''}}
+                    </th>
+        </div>
+
+        <div class="cells" [style.color]="item[col.id].styleaddon" *ngIf="item[col.id]?.type == 'string'"
+            id="QuoteComparisoReview_value" [ngClass]="{'text-right' : item[col.id]?.isAlignmentRequired }"
+            [style.color]="item[col.id].styleaddon">
+            {{item[col.id]?.value ?? ''}}
+        </div>
+        <div class="cells" *ngIf="item[col.id]?.type == 'html'" id="QuoteComparisoReview_value2">
+            <div [innerHtml]="item[col.id]?.value"></div>
+        </div>
+        <div class="cells" *ngIf="item[col.id]?.type == 'boolean'" id="QuoteComparisoReview_ItemValue"
+            [ngClass]="{'text-right' : this.selectedTabId == 'add_ons'}">
+            <i *ngIf="item[col.id]?.value" class="pi pi-check" style="font-weight: 700; color: green"></i>
+            <i *ngIf="!item[col.id]?.value" class="pi pi-times" style="font-weight: 700;color: red"></i>
+        </div>
+        <div class="cells" *ngIf="item[col.id]?.type == 'tickOrValue'" id="QuoteComparisoReview_TicketOrValue">
+            <div *ngIf="item[col.id]?.value" id="QuoteComparisoReview_IdValue">{{item[col.id]?.value}}</div>
+            <i *ngIf="!item[col.id]?.value" class="pi pi-check" id="QuoteComparisoReview_NotIdValue"
+                style="font-weight: 700; color: green"></i>
+        </div>
+        <div class="cells text-right" *ngIf="item[col.id]?.type == 'currency'" id="QuoteComparisoReview_Currency">
+            <span [style.color]="item[col.id].styleaddon"><app-currency [maximumFractionDigits]="0"
+                    [value]="(item[col.id]?.value ?? 0)"></app-currency></span>
+        </div>
+    </div>
+    </td>
+    </tr>
+    </table>
+</div>
+</div>

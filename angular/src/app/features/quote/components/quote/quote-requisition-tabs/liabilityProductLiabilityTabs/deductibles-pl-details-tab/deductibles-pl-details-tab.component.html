@@ -1,0 +1,178 @@
+<div class="grid risk-parameters-container">
+    <div class="mx-3">
+        <div class="grid">
+            <div class="col-12 mx-0">
+                <!-- <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check" (click)="save()"
+                    class="btn btn-success"></button> -->
+                <div class="col-12">
+                    <div class="grid mt-1">
+                        <div class="col-4">
+                            <p-card>
+                                <ng-template pTemplate="header">
+                                    <div class="grid">
+                                        <div class="col-8">
+                                            <h6 class="mb-2" style="font-size: large; font-weight: bold;"
+                                                id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h6>
+                                            <label for="" id="lblClientIndustry"
+                                                *ngIf="templateName=='LIABILITY_PRODUCT'"
+                                                style="font-size: xx-small;  font-weight: bold;">Liability - Product
+                                                Liability Policy</label>
+                                            <label for="" id="lblClientIndustry" *ngIf="templateName=='LIABILITY_CYBER'"
+                                                style="font-size: xx-small;  font-weight: bold;">Liability - Cyber
+                                                Insurance Policy</label>
+                                            <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                                                {{this.quote?.productId?.type}}</p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium
+                                            </p>
+                                            <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span>
+                                                    <!-- <app-currency
+                                                [value]="this.quote?.totalIndictiveQuoteAmt ?? 0"></app-currency>-->
+                                                    <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                        [rate]="this.quote?.dollarRate"
+                                                        [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                        [value]='this.quotePLOptions?.totalPremiumAmt ?? 0'></app-currency-dollar-repee>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <div class="grid">
+                                    <div class="col-10">
+                                        <label class="form-label">Brokerage</label>
+                                        <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="brokerage"
+                                            locale="en-IN" autocomplete="off" maxlength="20"
+                                            [(ngModel)]="this.quote.brokerage" name="brokerage" #brokerage="ngModel"
+                                            [minFractionDigits]="0" class="text-right"></p-inputNumber>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="col-10">
+                                        <label class="form-label">Quote Submission Date</label>
+                                        <p-calendar [(ngModel)]="quoteSubmissionDate" [showIcon]="true"
+                                            [showOnFocus]="false" inputId="quoteSubmissionDate">
+                                        </p-calendar>
+                                    </div>
+                                </div>
+                                <div class="grid mb-2" *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                                    <div class="col-12 md:col-10">
+                                        <label for="" class="form-label">Other Business</label>
+                                        <p-multiSelect pInputText [options]="this.productsList" 
+                                            placeholder="Select Product" [(ngModel)]="this.selectedProduct" optionLabel="label"></p-multiSelect>
+                                    </div>
+                        
+                                    <h4 style="margin-top: 16px;">Selected Products</h4>
+                        
+                                    <div class="scrollable-container">
+                                        <div class="product-card" *ngFor="let item of this.selectedProduct">
+                                            {{ item.label }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="save-button-container">
+                                    <button type="button" (click)="saveBrokerage()" id="save_brokerage" pButton pRipple
+                                        label="Save" icon="pi pi-check" class="btn btn-success mr-4"></button>
+                                </div>
+                            </p-card>
+
+                            <p-card>
+                                <ng-template pTemplate="header">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <h4 style="font-size: medium; font-weight: bold;">Deductibles</h4>
+                                        <!-- <button class="btn btn-lg btn btn-primary" type="submit" id="deductibles_add"
+                                            (click)="loadMasterDeductibles()">
+                                            Load Master Deductibles</button> -->
+                                    </div>
+                                </ng-template>
+                                <ng-container>
+                                    <div style="margin-top: 10px;">
+                                        <div class="grid">
+                                            <div class="col-12">
+                                                <input maxlength="255" pInputText id="description" autocomplete="off"
+                                                    [(ngModel)]="this.deductiblesDetails.description" name="description"
+                                                    (keypress)="checkValidity()" #description="ngModel" type="text"
+                                                    placeholder="Enter Description"
+                                                    class="p-inputtext1 text-left mt-1" />
+                                            </div>
+                                            <div class="col-6">
+                                                <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="amount"
+                                                    locale="en-IN" autocomplete="off" maxlength="20"
+                                                    [(ngModel)]="this.deductiblesDetails.amount" name="amount"
+                                                    #limitOfLiability="ngModel" [minFractionDigits]="0"
+                                                    class="text-right" (onBlur)="checkValidity()"
+                                                    (onFocus)="checkValidity()"></p-inputNumber>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="col-7">
+                                        </div>
+                                        <div class="col-5 flex  justify-content-end" data-aos="fade-left"
+                                            style="z-index:1">
+                                            <div>
+                                                <button type="button" (click)="save()" id="save_deductible" pButton
+                                                    pRipple label="Save" icon="pi pi-check" class="btn btn-success mr-4"
+                                                    [disabled]="!this.isSaveEnabled"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <div class="grid" *ngIf="quotePLOptions.liabiltyDeductibles">
+                                    <div class="col-12">
+                                        <div *ngIf="quotePLOptions.liabiltyDeductibles.length>0">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center;">Description</th>
+                                                        <th style="text-align: center;">Amount</th>
+                                                        <th style="text-align: center;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let deduct of quotePLOptions.liabiltyDeductibles;  let i = index">
+                                                        <td style="text-align: left;">
+                                                            {{deduct.description}}
+                                                        </td>
+
+                                                        <td style="text-align: right;">
+                                                            <span>
+                                                                <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                                    [rate]="this.quote?.dollarRate"
+                                                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                                    [value]='deduct.amount ?? 0'></app-currency-dollar-repee>
+                                                            </span>
+                                                        </td>
+
+                                                        <td class="button-container">
+                                                            <button pButton pRipple label="" icon="pi pi-pencil"
+                                                                class="p-button-success mr-2"
+                                                                (click)="this.editRecord(deduct,i)"></button>
+                                                            <button pButton pRipple label="" icon="pi pi-trash"
+                                                                class="p-button-danger mr-2"
+                                                                (click)="this.deleteRecord(deduct,i)"></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-card>
+                        </div>
+
+                        <div class="col-6" *ngIf="this.quote">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <app-claim-experience id="DeductiblesTab_ClaimExperience" [quote]="this.quote"
+                                        [permissions]="['read','update']"></app-claim-experience>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

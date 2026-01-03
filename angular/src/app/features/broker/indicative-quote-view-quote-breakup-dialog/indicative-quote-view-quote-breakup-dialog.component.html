@@ -1,0 +1,198 @@
+<div class="card breakup-indicative-container">
+  <p-accordion>
+    <p-accordionTab>
+      <ng-template pTemplate="header"><span class="flex-grow-1" id="IndicativeQuoteBreakup_Flexa"> Flexa</span> <span
+          class="flex-shrink-0"><app-currency [maximumFractionDigits]="0"
+            [value]=" locationWiseBreakupData[0]?.flexapremium"></app-currency></span></ng-template>
+      <ng-template pTemplate="content">
+        <div class="breakup-indicative-collapse">
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateLabel">Rate (per mille)</div>
+            <div class="flex-grow-0 " id="LocationWIseCoversFlexa_Rate">
+              {{locationWiseBreakupData[0]?.flexaratePerMile}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_SumInsuredLabel">Sum insured </div>
+            <div class="flex-grow-0 " id="LocationWIseCoversFlexa_SumInsured"> <span><app-currency
+                  [maximumFractionDigits]="0" [value]=" locationWiseBreakupData[0]?.sumAssured "></app-currency></span>
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RiskCodeLabel">Risk Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_RiskCode"> {{locationWiseBreakupData[0]?.riskCode}}
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_RateCodeLabel">Rate Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_RateCode"> {{locationWiseBreakupData[0]?.rateCode}}
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_TACCodeLabel">TAC Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_TACCode"> {{locationWiseBreakupData[0]?.tacCode}}
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IIBCodeLabel">IIB Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_IIBCode"> {{locationWiseBreakupData[0]?.iibcode}}
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_OccupancyLabel">Occupancy</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_Occupancy"> {{locationWiseBreakupData[0]?.occupancy}}
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_HazardCategoryLabel">Hazard Category</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_HazardCategory">
+              {{locationWiseBreakupData[0]?.HazardCategory}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_FireSectionLabel">Fire Section</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_FireSection">
+              {{locationWiseBreakupData[0]?.fireSection}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversFlexa_IndustryLabel">Industry</div>
+            <div class="flex-grow-0" id="LocationWIseCoversFlexa_Industry"> {{locationWiseBreakupData[0]?.industry}}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-accordionTab>
+    <p-accordionTab>
+      <ng-template pTemplate="header"><span class="flex-grow-1" id="IndicativeQuoteBreakup_STFI"> STFI</span> <span
+          class="flex-shrink-0"><app-currency
+            [value]=" (locationWiseBreakupData[0]?.isStfi ? (locationWiseBreakupData[0]?.stfipremium): 0 )"></app-currency></span></ng-template>
+      <ng-template pTemplate="content">
+        <div class="breakup-indicative-collapse">
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateLabel">Rate (per mille)</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_Rate"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.stfiaratePerMile) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_SumInsuredLabel">Sum insured</div>
+            <div class="flex-grow-0 " id="LocationWIseCoversSTFI_SumInsured"> <span><app-currency
+                  [maximumFractionDigits]="0" [value]=" locationWiseBreakupData[0]?.sumAssured "></app-currency></span>
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RiskCodeLabel">Risk Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_RiskCode"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.riskCode) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_RateCodeLabel">Rate Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_RateCode"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.rateCode) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_TACCodeLabel">TAC Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_TACCode"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.tacCode) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IIBLabel">IIB Code</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_IIB"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.iibcode) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_OccupancyCodeLabel">Occupancy</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_OccupancyCode"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.occupancy) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_HazardCategoryLabel">Hazard Category</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_HazardCategory"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.HazardCategory) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_FireSectionLabel">Fire Section</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_FireSection"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.fireSection) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversSTFI_IndustryLabel">Industry</div>
+            <div class="flex-grow-0" id="LocationWIseCoversSTFI_Industry"> {{(locationWiseBreakupData[0]?.isStfi ?
+              (locationWiseBreakupData[0]?.industry) : 'NA')}} </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-accordionTab>
+    <p-accordionTab>
+      <ng-template pTemplate="header"><span class="flex-grow-1" id="IndicativeQuoteBreakup_Earthquake">
+          Earthquake</span> <span class="flex-shrink-0"><app-currency
+            [value]="(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.earthquakepremium) : 0 )"></app-currency></span></ng-template>
+      <ng-template pTemplate="content">
+        <div class="breakup-indicative-collapse">
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_RateLabel">Rate (per mille)</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_Rate"> {{(locationWiseBreakupData[0]?.isEarthquake
+              ? (locationWiseBreakupData[0]?.earthquakeratePerMile) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_PincodeLabel">Pincode</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_Pincode">
+              {{(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.pincodeName) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_StateLabel">State</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_State">
+              {{(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.stateName) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_DistrictLabel">District</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_District">
+              {{(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.districtName) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_ZoneLabel">Zone</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_Zone"> {{(locationWiseBreakupData[0]?.isEarthquake
+              ? (locationWiseBreakupData[0]?.earthquakeZone ?? 'NA') : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_FireSectionLabel">Fire Section</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_FireSection">
+              {{(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.fireSection) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversEarthquake_IndustryLabel">Industry</div>
+            <div class="flex-grow-0" id="LocationWIseCoversEarthquake_Industry">
+              {{(locationWiseBreakupData[0]?.isEarthquake ? (locationWiseBreakupData[0]?.industry) : 'NA')}} </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-accordionTab>
+    <p-accordionTab>
+      <ng-template pTemplate="header"><span class="flex-grow-1" id="IndicativeQuoteBreakup_Terrorism"> Terrorism</span>
+        <span class="flex-shrink-0"><app-currency
+            [value]="(locationWiseBreakupData[0]?.isTerrorism ? (locationWiseBreakupData[0]?.terrorismpremium) : 0 )"></app-currency></span></ng-template>
+      <ng-template pTemplate="content">
+        <div class="breakup-indicative-collapse">
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_RateLabel">Rate (per mille)</div>
+            <div class="flex-grow-0" id="LocationWIseCoversTerrorism_Rate"> {{(locationWiseBreakupData[0]?.isTerrorism ?
+              (locationWiseBreakupData[0]?.terrorismRatePerMile) : 'NA')}} </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_SumInsuredLabel">Sum insured</div>
+            <div class="flex-grow-0 " id="LocationWIseCoversTerrorism_SumInsured"><span><app-currency
+                  [maximumFractionDigits]="0" [value]=" locationWiseBreakupData[0]?.sumAssured "></app-currency></span>
+            </div>
+          </div>
+          <div class="flex align-items-center">
+            <div class="flex-grow-1" id="LocationWIseCoversTerrorism_IndustryLabel">Industry</div>
+            <div class="flex-grow-0" id="LocationWIseCoversTerrorism_Industry">
+              {{(locationWiseBreakupData[0]?.isTerrorism ? (locationWiseBreakupData[0]?.industry) : 'NA')}} </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-accordionTab>
+  </p-accordion>
+  <div class="total-section">
+    <div class="flex align-items-center w-100" id="IndicativeQuoteBreakup_Total"><span class="flex-grow-1">Total</span>
+      <span class="flex-shrink-0"><app-currency [value]="total"></app-currency></span>
+    </div>
+  </div>
+</div>

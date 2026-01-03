@@ -1,0 +1,29 @@
+:host ::ng-deep .p-calendar {
+    width: 100% !important;
+}
+
+:host ::ng-deep input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+:host ::ng-deep [type=number] {
+    -moz-appearance: textfield;
+}
+
+.banner-rt {
+    background: transparent linear-gradient(149deg, #0064BB 0%, #633CD2 100%) 0% 0% no-repeat padding-box;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: center;
+    padding-top: 15%;
+    border-radius: 12px;
+}
+
+.banner-rt .img-fluid {
+    max-width: 75%;
+    height: auto;
+}

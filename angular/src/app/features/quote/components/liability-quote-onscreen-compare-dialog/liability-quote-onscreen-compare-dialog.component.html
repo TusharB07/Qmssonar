@@ -1,0 +1,50 @@
+<div class="card comparison-card" *ngIf="optionOneTemplate && optionTwo">
+    <div class="p-3">
+      <div class="comparison-header">
+        <div class="dropdown-container">
+          <p-multiSelect placeholder="No Options Selected" [resetFilterOnHide]="true" [filter]="true"
+            [filterBy]="'label'" id="QuoteReviewPage_selectOptions" name="QuoteReviewPage_selectOptions"
+            [(ngModel)]="selectedOptions" pInputText #name="ngModel" [options]="optionsQuoteOptions"
+            optionLabel="label" class="custom-dropdown">
+            <ng-template pTemplate="empty">
+              No Options Found
+            </ng-template>
+          </p-multiSelect>
+        </div>
+        <button class="mr-3 btn btn-lg btn btn-primary" type="button" id="requisitionTab_createOptions"
+          (click)="compareLiabilityQuoteOptionsDialog()" style="font-size: 1.2rem; margin-left: 15px;">Compare</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr style="background-color: #c7c1c1;">
+              <th>Field</th>
+              <th>{{ optionOneTemplate?.optionName }}</th>
+              <th>{{ optionTwo.optionName }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let tab of tabs">
+              <tr *ngIf="tabMappings[tab.id]?.length > 0">
+                <td colspan="3" style="text-align: left; font-weight: bold;">
+                  {{ tab.label }}
+                </td>
+              </tr>
+              <ng-container *ngFor="let section of tabMappings[tab.id]">
+                <tr>
+                  <td class="field-name" style="width: 400px;">{{ section.labels.value }}</td>
+                  <td class="field-value" style="width: 300px;">
+                    {{ section[this.optionOneTemplate?._id]?.value || 'N/A' }}
+                  </td>
+                  <td class="field-value" [ngStyle]="section[optionTwo._id]?.style" style="width: 300px;">
+                    {{ section[optionTwo._id]?.value }}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

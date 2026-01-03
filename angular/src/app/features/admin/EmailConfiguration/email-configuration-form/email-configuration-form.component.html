@@ -1,0 +1,125 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <div class="">
+                        <p-toast></p-toast>
+                        <p-toolbar styleClass="">
+                            <ng-template pTemplate="left">
+                                <h3 class="mb-0" id="EmailConfigurationFormRecordName">{{this.recordSingularName}}</h3>
+                            </ng-template>
+                            <ng-template pTemplate="right">
+                                <button id="EmailConfigurationForm_SaveButton" type="submit" pButton pRipple
+                                    [disabled]="this.recordForm.invalid" label="Save" icon="pi pi-check"
+                                    class="p-button-success mr-2"></button>
+                                <button id="EmailConfigurationForm_CancelButton" pButton pRipple label="Cancel"
+                                    icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                    (click)="this.onCancel()"></button>
+                            </ng-template>
+                        </p-toolbar>
+                    </div>
+                </p-card>`
+            </div>
+            <div class="col">
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5 id="EmailConfigurationForm_GeneralInformationHeader">General Information</h5>
+                        <div class="field">
+                            <label id="EmailConfigurationForm_NameLabel" for="name">Name</label>
+                            <input maxlength="100" id="EmailConfigurationForm_Type" class="form-control" type="text"
+                                pInputText id="name" formControlName="name" required autofocus
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['name']}" />
+                            <small id="EmailConfigurationForm_TypeValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['name']">Type is required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="EmailConfigurationForm_ActionLabel" for="name">Action</label>
+                            <p-dropdown class="form-control" [options]="this.optionsAction" placeholder="Select Action"
+                                [showClear]="true" formControlName="action" emptyMessage="No Action Available"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['action'].valid}"></p-dropdown>
+                            <small id="EmailConfigurationForm_ActionValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['action']">Type is required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="EmailConfigurationForm_TypeLabel" for="subject">Subject</label>
+                            <input maxlength="100" id="EmailConfigurationForm_Type" class="form-control" type="text"
+                                pInputText id="subject" formControlName="subject" required autofocus
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['subject']}" />
+                            <small id="EmailConfigurationForm_SubjectValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['subject']">Type is required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="EmailConfigurationForm_bodyLabel" for="body">Body</label>
+                            <!-- <input maxlength="100" id="EmailConfigurationForm_body" class="form-control" type="text" pInputText
+                                id="name" formControlName="body" required autofocus
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['body']}" /> -->
+                            <small id="EmailConfigurationForm_bodyValidationError" class="ng-dirty ng-invalid"
+                                *ngIf="submitted && !recordForm.value['body']">Type is required.</small>
+                            <p-editor formControlName="body" [style]="{'height':'320px'}">
+                                <p-header>
+
+                                    <span class="ql-formats">
+                                        <select class="ql-header" tabindex="-1">
+                                            <option value="1" tabindex="-1">Heading</option>
+                                            <option value="2" tabindex="-1">Subheading</option>
+                                            <option selected tabindex="-1">Normal</option>
+                                        </select>
+                                        <select class="ql-font" tabindex="-1">
+                                            <option selected tabindex="-1">Sans Serif</option>
+                                            <option value="serif" tabindex="-1">Serif</option>
+                                            <option value="monospace" tabindex="-1">Monospace</option>
+                                        </select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold" aria-label="Bold" tabindex="-1"></button>
+                                        <button class="ql-italic" aria-label="Italic" tabindex="-1"></button>
+                                        <button class="ql-underline" aria-label="Underline" tabindex="-1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color" tabindex="-1"></select>
+                                        <select class="ql-background" tabindex="-1"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered" aria-label="Ordered List"
+                                            tabindex="-1"></button>
+                                        <button class="ql-list" value="bullet" aria-label="Unordered List"
+                                            tabindex="-1"></button>
+                                        <select class="ql-align" tabindex="-1">
+                                            <option selected tabindex="-1"></option>
+                                            <option value="center" tabindex="-1"></option>
+                                            <option value="right" tabindex="-1"></option>
+                                            <option value="justify" tabindex="-1"></option>
+                                        </select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-link" aria-label="Insert Link" tabindex="-1"></button>
+                                        <button class="ql-image" aria-label="Insert Image" tabindex="-1"></button>
+                                        <button class="ql-code-block" aria-label="Insert Code Block"
+                                            tabindex="-1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean" aria-label="Remove Styles" tabindex="-1"></button>
+                                    </span>
+                                </p-header>
+                            </p-editor>
+
+
+                        </div>
+
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_StatusLabel" for="active">Status</label>
+                            <p-toggleButton id="EmailConfigurationForm_Status" class="form-control"
+                                formControlName="active" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}'
+                                offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</form>

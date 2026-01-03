@@ -1,0 +1,127 @@
+ <form [formGroup]="this.recordForm" (ngSubmit)="submitted = true; this.saveRecord()">
+  <div class="form-container">
+    <div class="grid">
+      <div class="col-12">
+        <div class="card p-fluid">
+          <p-toast></p-toast>
+          <p-toolbar styleClass="">
+            <ng-template pTemplate="left">
+              <h3 class="mb-0" id="ClientLocationFormRecordName">{{ this.recordSingularName }}</h3>
+            </ng-template>
+            <ng-template pTemplate="right">
+              <button id="ClientLocationForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+              <button id="ClientLocationForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+            </ng-template>
+          </p-toolbar>
+        </div>
+      </div>
+      <div class="col-12 md:col-9">
+        <div class="card p-fluid">
+          <h5 id="ClientLocationForm_GeneralInformation">General Information</h5>
+
+          <div class="field">
+            <label for="clientId" id="ClientLocationForm_ClientsLabel">Clients</label>
+            <p-autoComplete
+              [dropdown]="true"
+              [suggestions]="this.optionsClients"
+              field="label"
+              formControlName="clientId"
+              (completeMethod)="this.searchOptionsClients($event)"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['clientId'].valid }"
+              id="ClientLocationForm_Clients"
+              >
+            </p-autoComplete>
+            <small id="ClientLocationForm_ClientsVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['clientId']">Client is required.</small>
+          </div>
+
+          <div class="field">
+            <label for="address" id="ClientLocationForm_AddressLabel">Address</label>
+            <input
+              maxlength="255"
+              class="form-control"
+              type="text"
+              pInputText
+              id="address"
+              formControlName="address"
+              required
+              autofocus
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['address'] }"
+              id="ClientLocationForm_Address"
+              />
+            <small id="ClientLocationForm_AddressVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['address']">Address is required.</small>
+            <!-- <small id="ClientLocationForm_AddressVallidationError" *ngIf="recordForm.controls['address'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+          </div>
+
+          <div class="field">
+            <label for="locationName" id="ClientLocationForm_LocationNameLabel">Location Name</label>
+            <input
+              maxlength="255"
+              class="form-control"
+              type="text"
+              pInputText
+              id="locationName"
+              formControlName="locationName"
+              required
+              autofocus
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.value['locationName'] }"
+              id="ClientLocationForm_LocationName"
+              />
+            <small id="ClientLocationForm_LocationNameVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['locationName']">Location Name is required.</small>
+            <!-- <small id="ClientLocationForm_AddressVallidationError" *ngIf="recordForm.controls['locationName'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+          </div>
+
+          <div class="field">
+            <label for="cityId" id="ClientLocationForm_CityLabel">City</label>
+            <p-autoComplete
+              [dropdown]="true"
+              [suggestions]="this.optionsCities"
+              field="label"
+              formControlName="cityId"
+              (completeMethod)="this.searchOptionsCities($event)"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid }"
+              id="ClientLocationForm_City"
+              >
+            </p-autoComplete>
+            <small id="ClientLocationForm_CityVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['cityId']">City is required.</small>
+          </div>
+
+          <div class="field">
+            <label for="pincodeId" id="ClientLocationForm_PincodeLabel">Pincode</label>
+            <p-autoComplete
+              [dropdown]="true"
+              [suggestions]="this.optionsPincodes"
+              field="label"
+              formControlName="pincodeId"
+              (completeMethod)="this.searchOptionsPincodes($event)"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid }"
+              id="ClientLocationForm_Pincode"
+              >
+            </p-autoComplete>
+            <small id="ClientLocationForm_PincodeVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['pincodeId']">Pincode is required.</small>
+          </div>
+
+          <div class="field">
+            <label for="stateId" id="ClientLocationForm_StateLabel">State</label>
+            <p-autoComplete
+              [dropdown]="true"
+              [suggestions]="this.optionsStates"
+              field="label"
+              formControlName="stateId"
+              (completeMethod)="this.searchOptionsStates($event)"
+              [ngClass]="{ 'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid }"
+              id="ClientLocationForm_State"
+              >
+            </p-autoComplete>
+            <small id="ClientLocationForm_StateVallidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['stateId']">State is required.</small>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-12 md:col-3">
+        <div class="card p-fluid">
+          <app-audit-trail [entityId]="this.id" id="ClientLocationForm_AuditTrail" [entityResourcePrefix]="'client-locations'"></app-audit-trail>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

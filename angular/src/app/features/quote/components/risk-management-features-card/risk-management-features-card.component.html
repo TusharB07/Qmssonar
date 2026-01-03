@@ -1,0 +1,66 @@
+<ul>
+    <!-- Old_Quote -->
+    <!-- <h3 id="RiskManagementsFeatures_Label" class="mb-3">
+        Risk Management Features : {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}}
+        - {{this.quote.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[5]}}
+    </h3> -->
+
+    <!-- New_Quote_Option -->
+    <h3 id="RiskManagementsFeatures_Label" class="mb-3">
+        Risk Management Features : {{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[0]}}
+        - {{this.quoteOptionData.locationBasedCovers.quoteLocationOccupancy.locationName.split(',')[5]}}
+    </h3>
+    <li class="mb-1" *ngFor="let rmFeature of riskManagementFeatures | slice:0:10">
+        <div class="grid">
+            <div class="col-1 pt-3">
+                <p-checkbox class="mr-2" name="rmFeatures" value="{{rmFeature?.riskManagementFeaturesdict?._id}}"
+                    [(ngModel)]="selectedRiskManagementFeatures"
+                    inputId="{{rmFeature?.riskManagementFeaturesdict?._id}}"
+                    [disabled]="this.riskManagementPermissionsForRM" id="RiskManagementFeatureCard"></p-checkbox>
+            </div>
+            <div class="col-11 flex align-items-center">
+                <label for="4" id="RiskManagementFeaturesdict_NameLabel">
+                    {{rmFeature?.riskManagementFeaturesdict?.name}}
+                </label>
+            </div>
+        </div>
+    </li>
+</ul>
+<div style="text-align: right; ">
+
+    <!--  style="text-decoration: underline; font-weight: bolder;" -->
+    <button (click)="saveRiskManagementFeature()" id="RiskManagementFeaturesdict_Save" class="btn btn-success mr-2"
+        *ngIf="this.permissions.includes('update')">Save</button>
+    <button class="btn btn-primary mr-2" (click)="showDialog()" id="RiskManagementFeaturesdict_ViewAll">View
+        All</button>
+</div>
+<!-- <p-dialog [(visible)]="showDialogeFlag" [style]="{width: '40vw','background':'#fff'}" id="RiskManagementFeatures_Dialog">
+    <div class="card">
+        <p-dataView #rm [value]="riskManagementFeatures" [paginator]="true" [rows]="10"
+    filterBy="riskManagementFeaturesdict.name" layout="list" id="RiskManagementFeatures_Dataview">
+    <ng-template pTemplate="header">
+        <div class="flex flex-column md:flex-row md:justify-content-between">
+            <span class="p-input-icon-left">
+                <input type="search" pInputText placeholder="Search by Name" id="RiskManagementFeatures_SearchBar"  (input)="rm.filter($event.target.value)">
+            </span>
+        </div>
+    </ng-template>
+    <ng-template let-rmFeature pTemplate="listItem">
+        <div class="col-12">
+            <div class="grid">
+                <div class="col-1 pt-3">
+                    <p-checkbox class="mr-2" id="RiskManagementFeatures_RMFeature" name="rmFeatures" value="{{rmFeature?.riskManagementFeaturesdict?._id}}"
+                        [(ngModel)]="selectedRiskManagementFeatures"
+                        inputId="{{rmFeature?.riskManagementFeaturesdict?._id}}" [disabled]="this.riskManagementPermissionsForRM"></p-checkbox>
+                </div>
+                <div class="col-11 flex align-items-center">
+                    <label for="4" id="RiskManagementFeatures_Name">
+                        {{rmFeature?.riskManagementFeaturesdict?.name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataView>
+    </div>
+</p-dialog> -->

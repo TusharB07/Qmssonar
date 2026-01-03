@@ -1,0 +1,79 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-12">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+                    <div class="field">
+                        <label for="quoteId">Quote Type</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote type is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="grossProfit">Gross Profit</label>
+                        <input class="form-control" type="text" pInputText id="grossProfit"
+                            formControlName="grossProfit" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['grossProfit']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['grossProfit']">Gross
+                            Profit
+                            is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="indmenityPeriod">Indmenity Period</label>
+                        <input class="form-control" type="text" pInputText id="indmenityPeriod"
+                            formControlName="indmenityPeriod" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['indmenityPeriod']}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['indmenityPeriod']">Indmenity Period is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="terrorism">Terrorism</label>
+                        <input class="form-control" type="text" pInputText id="terrorism" formControlName="terrorism"
+                            required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['terrorism']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['terrorism']">Terrorism
+                            is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="auditorsFees">Auditors Fees</label>
+                        <input class="form-control" type="text" pInputText id="auditorsFees"
+                            formControlName="auditorsFees" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['auditorsFees']}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['auditorsFees']">Auditors Fees is
+                            required.</small>
+                    </div>
+
+                    <!-- <div class="field">
+                        <label for="clientLocationId">Client Locations</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="clientLocationId" [suggestions]="this.optionsClientLocations" (completeMethod)="this.searchOptionsClientLocations($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['clientLocationId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['clientLocationId']?.errors?.required">Client Location is required.</small>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

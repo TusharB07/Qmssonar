@@ -1,0 +1,131 @@
+.form-control.form-control1 {
+    padding: 15px;
+}
+
+#left-bar::-webkit-scrollbar {
+    width: 0.1em;
+    height: 0.1em;
+}
+
+#left-bar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+#left-bar::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+#right-bar {
+    position: relative;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+#left-bar {
+    height: 100%;
+ 
+}
+
+// #left-bar .pdf-inner {
+
+// }
+
+/* Hide the slider track initially */
+.p-slider .p-slider-range {
+    background: transparent !important;
+}
+
+/* Show the slider track when the slider is active (being dragged) */
+.p-slider.p-slider-active .p-slider-range {
+    background: blue !important; /* Customize this color as needed */
+}
+
+/* Optional: Style for the slider handle to ensure it's visible */
+.p-slider .p-slider-handle {
+    background: gray; /* Adjust handle color as needed */
+}
+
+
+table, th, td {
+    border-collapse: collapse;
+    text-align: center;
+    color: white
+}
+
+h1{
+    color: white;
+}
+
+.static-tablee {
+    font-size: 1.8em;
+    width: 110%;
+    border: 5px solid white !important;
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    margin: 15px;
+    margin-bottom: 20px
+}
+
+.static-tablee td {
+    padding: 0.429rem 0.571rem;
+}
+
+.static-tablee tr th,td {
+    border: 1px solid white !important;
+}
+
+// .pdf-inner{
+//     // border-bottom: unset !important;
+// }
+
+
+
+.fist-img-table {
+    position: relative;
+    overflow: hidden;
+}
+
+.fist-img-table .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    z-index: -1;
+
+}
+
+.heading{
+    margin-left: 10px;
+}
+
+#SideBar_Location_Name{
+    height: 15px;
+    font-size: larger;
+}
+
+.clr-blue{
+    font-weight: 300;
+}
+
+
+.grid {
+    display: flex;
+}
+
+.scrollable-left {
+    overflow-y: auto;
+    height: calc(100vh - 2rem); 
+}
+
+
+.fixed-right {
+    position: sticky;
+    top: 0; 
+    height: calc(100vh - 2rem); 
+    overflow: hidden;
+    background-color: white;
+}
+

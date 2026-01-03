@@ -1,0 +1,153 @@
+<form class="" [formGroup]="otherDetailsForm" (ngSubmit)="this.submitOtherDetailsForm()">
+    <div class="grid mb-2" *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <div class="col-10">
+            <label for="" class="form-label" id="otherDetails_Brokerage">Brokerage
+                <span class="clr-blue"></span></label>
+                <input maxlength="5" pInputText formControlName="brokerage"
+                id="otherDetails_Deductibles_Brokerage_Input" placeholder="Enter Brokerage"
+                type="text" class="p-inputtext1"
+                (input)="validateInput($event)">
+        </div>
+        </div>
+
+    <div class="grid mb-2" *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label" id="otherDetails_Rewards">Rewards</label>
+            <input maxlength="11" pInputText formControlName="rewards"
+                id="otherDetails_Deductibles_Rewards_Input" placeholder="Enter Rewards "
+                type="text" class="p-inputtext1">
+        </div>
+    </div>
+    <div class="grid mb-2" *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label" id="otherDetails_Quote_Submission">Quote Submission
+                Date <span class="clr-blue">*</span></label>
+            <input pInputText formControlName="quoteSubmissionDate"
+                id="otherDetails_Deductibles_Quote_Submission_Input" type="date" [readonly]="this.quote.quoteState == this.AllowedQuoteStates.UNDERWRITTER_REVIEW"
+                class="p-inputtext1" [min]="this.today">
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label">
+                <span *ngIf="this.user.partnerId['partnerType'] != 'insurer'" class="mr-1"> <input type="checkbox"
+                        formControlName="isTargetPremium"></span>
+                <span id="otherDetails_Target_Premium">Target Premium <span
+                        class="clr-blue">*</span></span>
+            </label>
+            <div *ngIf="this.quote.partnerId['isRate'] == true">
+                <p-inputNumber maxlength="21" formControlName="targetPremium"
+                    id="otherDetails_Target_Premium_Input" mode="decimal" locale="en-IN" prefix="₹ " [maxFractionDigits]="2"
+                    [minFractionDigits]="" placeholder="₹"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isMatchingProductId()" class="grid my-2">
+        <div class="col-10">
+            <label for="articleType" class="form-label">
+                <span id="otherDetails_Article_Type">Article/Content Type <span
+                    class="clr-blue">*</span></span>
+            </label>
+
+            <input type="text" formControlName="articleType" id="otherDetails_Article_Type_Input" class="form-control" placeholder="Article/Content Type">
+        </div>
+    </div>
+
+    <!-- Year of Manufacturing -->
+    <div *ngIf="isMatchingProductId()" class="grid my-2">
+        <div class="col-10">
+            <label for="yearOfManufacturing" class="form-label">
+                <span id="otherDetails_Year_Of_Manufacturing">Year of Manufacturing <span
+                    class="clr-blue">*</span></span>
+            </label>
+
+            <input type="number" formControlName="yearOfManufacturing" id="otherDetails_Year_Of_Manufacturing_Input" class="form-control" placeholder="Year of Manufacturing">
+        </div>
+    </div>
+
+    <!-- Invoice Number -->
+    <div *ngIf="isMatchingProductId()" class="grid my-2">
+        <div class="col-10">
+            <label for="invoiceNumber" class="form-label">
+                <span id="otherDetails_Invoice_Number">Invoice Number <span
+                    class="clr-blue">*</span></span>
+            </label>
+
+            <input type="text" formControlName="invoiceNumber" id="otherDetails_Invoice_Number_Input" class="form-control" placeholder="Invoice Number">
+        </div>
+    </div>
+
+    <!-- Article Content Value -->
+    <div *ngIf="isMatchingProductId()" class="grid my-2">
+        <div class="col-10">
+            <label for="articleContentValue" class="form-label">
+                <span id="otherDetails_Article_Content_Value">Article Content Value <span
+                    class="clr-blue">*</span></span>
+            </label>
+
+            <p-inputNumber maxlength="21" formControlName="articleContentValue"
+                           id="otherDetails_Article_Content_Value_Input" mode="decimal" locale="en-IN" prefix="₹ " [maxFractionDigits]="2"
+                           [minFractionDigits]="" placeholder="₹"></p-inputNumber>
+        </div>
+    </div>
+    <!-- **REMOVED FOR FGI -->
+    <!-- <div class="grid mb-2">
+        <div class="col-10">
+            <div class="flex align-items-center justify-content-between">
+                <div class="flex">
+                    <label for="" class="form-label mr-3" id="otherDetails_Existing_Broker">Co-broker Available</label>
+                    <p-checkbox [formControl]="otherDetailsForm.controls['isCobroker']" [binary]="true"></p-checkbox>
+                </div>
+                <div>
+                    <a *ngIf="this.otherDetailsForm.value.isCobroker" href="javascript:void(0)" (click)="openCobrokerDialog()" style="float: right;">View Co-Brokers</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label" id="otherDetails_Existing_Broker">Existing Broker
+                and Brokers Involved for Current Year</label>
+            <input pInputText formControlName="existingBrokerCurrentYear"
+                id="otherDetails_Existing_Broker_Input" placeholder="Enter Broker Involved year"
+                type="text" class="p-inputtext1">
+        </div>
+    </div> -->
+    <!-- **REMOVED FOR FGI -->
+
+    <!-- ? Removed - Issue 7 -->
+    <!-- <div class="grid mb-2">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label" id="otherDetails_Preferred_Insurer">Preferred insurer</label>
+            <input pInputText formControlName="preferredInsurer" id="otherDetails_Preferred_Insurer_Input" placeholder=" Enter Preferred insurer" type="text" class="p-inputtext1">
+            <small class="ng-dirty ng-invalid" *ngIf="this.otherDetailsForm.controls['preferredInsurer']?.errors?.maxlength"> Preferred insurer cannot be more than 255 Characters.</small>
+        </div>
+    </div> -->
+
+    <!-- **REMOVED FOR FGI -->
+    <!-- <div class="grid mb-2">
+        <div class="col-10">
+            <label for="" class="form-label" id="otherDetails_Other_Terms">Other Terms</label>
+            <input maxlength="255" pInputText formControlName="otherTerms"
+                placeholder="Enter Terms" id="otherDetails_Other_Terms_Input" type="text"
+                class="p-inputtext1">
+        </div>
+    </div>
+    <div class="grid mb-2">
+        <div class="col-12 md:col-10">
+            <label for="" class="form-label" id="otherDetails_AdditionalInfo">Any Additional
+                Information</label>
+            <input maxlength="255" pInputText formControlName="additionalInfo"
+                id="otherDetails_AdditionalInfo_Input" placeholder="Enter aditional information"
+                type="text" class="p-inputtext1">
+        </div>
+    </div> -->
+    <!-- **REMOVED FOR FGI -->
+
+    <div *ngIf="isMatchingProductId() || this.user.partnerId['partnerType'] != 'insurer'" class="flex">
+        <button type="submit" id="otherDetails_Save" pButton pRipple label="Save" icon="pi pi-check"
+        class="btn btn-success"></button>
+    </div>
+
+</form>

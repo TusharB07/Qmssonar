@@ -1,0 +1,42 @@
+
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="PackagingFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="PackagingForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="PackagingForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field">
+                            <label id="PackagingForm_ageFromLabel" for="PackagingageFrom">Packaging</label>
+                                <input  id="PackagingForm_ageFrom" type="text"  pInputText id="packaging" formControlName="packaging" required
+                                      [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['packaging']}"/>
+                                        <small id="PackagingForm_ageFromValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['packaging']">Packaging is required.</small>
+                        </div>
+                    <div class="field">
+                        <label id="PackagingForm_StatuPackagingstatus" for="status">Status</label>
+                        <p-toggleButton id="PackagingForm_Status" class="form-control" formControlName="isActive" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,14 @@
+<div class="grid p-2">
+    <h4 id="AddBroker_Header">Select Brokers</h4>
+    <div class="field-checkbox col-12" *ngFor="let broker of this.brokers">
+        <p-checkbox id="AddBroker_CheckBox" name="group1" value="{{broker}}" [(ngModel)]="selectedBrokers" inputId="{{broker}}"></p-checkbox>
+        <label for="ny" id="AddBroker_Broker_Label">{{broker?broker:''}}</label>
+    </div>
+    <button class="btn btn-blue1"  for="ny" id="AddBroker_Apply_Button" (click)="apply()">Apply</button>
+    <div class="col-12">
+        <i class="pi pi-info-circle mr-2" id="AddBroker_List"></i>
+        <p class="inline-block" id="AddBroker_CompareAllBrokers">
+            By Selecting on brokers you'll be able to compare all selected brokers.
+        </p>
+    </div>
+</div>

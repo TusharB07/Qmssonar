@@ -1,0 +1,378 @@
+<div class="px-5 py-3" *ngIf="quote.quoteState == allowedQuoteStates.REJECTED">
+    <h3 class="text-center" style="color: red;">
+        This Quote is rejected by {{quote?.rejectedBy}} and the reason for rejection is {{'"' + quote?.rejectReason +
+        '"'}}
+    </h3>
+</div>
+<div class="px-5">
+    <div class="tblz01-pdf">
+        <p-table [value]="this.covers" responsiveLayout="scroll" dataKey="id"
+            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <h4 class="text-center text-black" id="BLUSSubTemplate_SumInsuredDetails_Header">
+                    Sum Insured
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th id="BLUSSubTemplate_SectionsCovers_Header" class="text-center text-black">Sections/Covers</th>
+                    <th id="BLUSSubTemplate_SumInsured_Header" class="text-center text-black">Sum Insured(₹) </th>
+                    <!-- <th id="BLUSSubTemplate_NetPremium_Header" class="text-center text-black">Net Premium(₹) </th>
+                    <th id="BLUSSubTemplate_GST@18%_Header" class="text-center text-black">GST @ 18%</th>
+                    <th id="BLUSSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹) </th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cover>
+                <tr class="no-border">
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-left">
+                        {{cover?.sectionOrCover == 'Business Suraksha Shop' ? 'Fire' : cover?.sectionOrCover}} </td>
+                    <td id="BLUSSubTemplate_SumInsured" class="text-center text-right text-nowrap "><span><app-currency
+                                [maximumFractionDigits]="0" [value]="(cover?.sumInsured ?? 0)"></app-currency></span>
+                    </td>
+                    <!-- <td id="BLUSSubTemplate_NetPremium" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(cover?.netPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                    <td id="BLUSSubTemplate_Gst" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(cover?.gst ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                    <td id="BLUSSubTemplate_TotalPremium" class="text-black text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(cover?.totalPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td> -->
+                </tr>
+            </ng-template>
+
+            <!-- https://alwrite.youtrack.cloud/issues?q=&preview=BLUS-32 -->
+            <!-- To  show Discount in quoteslip -->
+            <ng-template  pTemplate="footer" *ngIf="(this.discountPercentage)">
+                <tr class="no-border">
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-left"
+                        style="border: 1px solid #0462BC">Discount</td>
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-black text-right"
+                        style="border: 1px solid #0462BC">{{this.discountPercentage}}%</td>
+                </tr>
+                <!-- <tr class="no-border">
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-left" style="border: 1px solid #0462BC">{{this.discount.sectionOrCover}}</td>
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-right" style="border: 1px solid #0462BC" ></td>
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-right" style="border: 1px solid #0462BC" ><span><app-currency [value]="(this.discount.netPremium)"></app-currency></span></td>
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-right" style="border: 1px solid #0462BC" ><span><app-currency [value]="(this.discount.gst)"></app-currency></span></td>
+                    <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-right" style="border: 1px solid #0462BC" ><span><app-currency [value]="(this.discount.totalPremium)"></app-currency></span></td>
+                </tr> -->
+            </ng-template>
+
+
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="5" id="BLUSSubTemplate_NoRecordsFoundMSG">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="mt-3 custom-border" *ngIf="this.quote.partnerId['isRate'] == true">
+            <p-table [value]="this.total" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th id="BLUSSubTemplate_SectionsCovers_Header" class="text-center text-black">Sections/Covers</th>
+                        <th id="BLUSSubTemplate_SumInsured_Header" class="text-center text-black">Sum Insured(₹) </th> -->
+                        <th id="BLUSSubTemplate_NetPremium_Header" class="text-center text-black">Net Premium(₹) </th>
+                        <th id="BLUSSubTemplate_GST@18%_Header" class="text-center text-black">GST @ 18%</th>
+                        <th id="BLUSSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹)
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cover>
+                    <tr class="no-border">
+                        <!-- <td id="BLUSSubTemplate_SectionOrCover" class="text-center text-black text-left">{{cover?.sectionOrCover}} </td>
+                        <td id="BLUSSubTemplate_SumInsured" class="text-center text-right text-nowrap "><span><app-currency [maximumFractionDigits]="0" [value]="(cover?.sumInsured ?? 0)"></app-currency></span></td> -->
+                        <td id="BLUSSubTemplate_NetPremium" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage  ? this.discount.netPremium :cover?.netPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                        <td id="BLUSSubTemplate_Gst" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage ? this.discount.gst : cover?.gst ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                        <td id="BLUSSubTemplate_TotalPremium" class="text-black text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage ? this.discount.totalPremium : cover?.totalPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="5" id="BLUSSubTemplate_NoRecordsFoundMSG">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <!-- <div style="margin-top: 1rem;">
+        <sub class="p-3">** Covers Valid For All Location</sub>
+    </div> -->
+
+    <p class="p-3 mb-4" id="BLUSSubTemplate_QuotationInformation"> This Quotation is based on information provided by
+        the client/intermediary. It should be noted that, it is only a quotation and not an offer for acceptance of
+        business. No coverage is provided until the customer enters into a contract with the company by paying premium
+        in advance.</p>
+
+    <div class="tblz01-pdf locationTabe">
+
+        <p-table [value]="this.addressData" responsiveLayout="scroll" dataKey="id"
+            styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+
+            <ng-template pTemplate="header">
+            </ng-template>
+            <ng-template pTemplate="body" let-address>
+                <tr>
+                    <td id="BLUSSubTemplate_LocationAddress_Headers" class=" text-black" colspan="2">Location Address
+                    </td>
+                    <td id="BLUSSubTemplate_Occupancy_Headers" class="text-center  text-black" colspan="2">Occupancy
+                    </td>
+                    <!-- <td id="BLUSSubTemplate_TotalSumInsured_Headers" class="text-center  text-black" colspan="2">Total Sum Insured</td>
+                    <td id="BLUSSubTemplate_BasePremium_Headers" class="text-center  text-black">Base Premium</td> -->
+                </tr>
+                <tr class="no-border">
+                    <td id="BLUSSubTemplate_LocationAddress" class="text-black" colspan="2">{{address.address}}</td>
+                    <td id="BLUSSubTemplate_Occupancy" colspan="2" class="text-center">{{address.occupancy}}</td>
+                    <!-- <td id="BLUSSubTemplate_TotalSumInsured" colspan="2" class="text-center text-nowrap " rowspan="3"> <span><app-currency [maximumFractionDigits]="0" [value]="(address.totalSumAssured ?? 0)"></app-currency></span></td>
+                    <td id="BLUSSubTemplate_BasePremium" class="text-center text-black text-nowrap " rowspan="3"><span><app-currency [value]="(address.premium ?? 0)"></app-currency></span></td> -->
+                </tr>
+                <tr>
+                    <td class="text-black text-center" *ngFor="let header of address.locationDetailHeaders"
+                        id="BLUSSubTemplate_LocationDetails_Headers"> {{header}}</td>
+                    <!-- <td colspan="3"></td> -->
+                </tr>
+                <tr>
+                    <!-- <td class="text-center text-nowrap" *ngFor="let locationDetail of address.locationDetail" id="BLUSSubTemplate_LocationDetails">₹ {{ locationDetail.toLocaleString('en-IN') }} </td> -->
+                    <td class="text-center text-nowrap" *ngFor="let locationDetail of address.locationDetail" id="BLUSSubTemplate_LocationDetails"><span *ngIf="this.quote.partnerId['isRate'] == true"><app-currency [value]="locationDetail"></app-currency></span> </td>
+                    <!-- <td colspan="3"></td> -->
+
+                </tr>
+                <!-- <tr>
+                    <th colspan="7" style="height: 20px;"></th>
+                </tr>
+                <tr>
+                    <td id="BLUSSubTemplate_AddOnCovers_Headers" colspan="2" class="text-center text-black">Add-on Covers</td>
+                    <td id="BLUSSubTemplate_SumInsured_Headers" colspan="1" class="text-center text-black">Sum Insured</td>
+                    <td id="BLUSSubTemplate_Premium_Headers" colspan="1" class="text-center text-black">Premium</td>
+
+                </tr>
+                <tr class="no-border" *ngFor="let addOn of address.addonDetails">
+                    <td id="BLUSSubTemplate_AddOnCovers" colspan="2" class="text-left text-black ">{{addOn.coverName}}</td>
+                    <td id="BLUSSubTemplate_SumInsured" colspan="1" class="text-right text-nowrap "> <span><app-currency [maximumFractionDigits]="0" [value]="(addOn.sumInsured ?? 0)"></app-currency></span></td>
+                    <td id="BLUSSubTemplate_Premium" colspan="1" class="text-right text-nowrap "> <span><app-currency [value]="(addOn.premium ?? 0)"></app-currency></span></td>
+                </tr> -->
+                <!-- <tr class="mb-5">
+                    <th colspan="7" style="height: 50px">
+                        <hr style="border-top: dashed 3px;border-color : #0064BB">
+                    </th>
+                </tr> -->
+                <!-- <tr>
+                   <th style="" colspan="7"></th> 
+                </tr> -->
+            </ng-template>
+
+
+        </p-table>
+
+    </div>
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-black">
+                    <div class="flex mb-3 justify-content-between">
+                        <p>
+                            Section and Deductibles
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex mb-3 justify-content-between">
+                        <!-- <p class="" id="FireSubTemplate_ClauseLabel">{{this.quoteOption.dropdownClause ? 'Selected' : 'Not Selected'}}</p> -->
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <div *ngIf="this.expireDetails?.length">
+        <div class=" tblz01-pdf mt-4">
+            <table class="static-table" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="text-black" id="FireSubTemplate_DeletedPerils_Header">Expire Details</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_STFI_Label">Expiring Insurance Name</p>
+                            <p class="" id="FireSubTemplate_STFI_">{{ expireDetails[0]?.expiringIsurenceName }}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_Earthquake_Label">Expiring Insurance Office</p>
+                            <p class="" id="FireSubTemplate_Earthquake">{{ expireDetails[0]?.expiringIsurenceOffice }}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_Terrorism_Label">Policy Number</p>
+                            <p class="" id="FireSubTemplate_Terrorism">{{ expireDetails[0]?.expiringPolicyNumber }}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex mb-1 justify-content-between">
+                            <p class="" id="FireSubTemplate_Terrorism_Label">Policy Period</p>
+                            <p class="" id="FireSubTemplate_Terrorism">{{ expireDetails[0]?.expiringPolicyPeriod }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <hr style="border-top: dashed 3px;border-color : #0064BB">
+
+    <!--  page break -->
+    <div class="page-break"></div>
+
+    <div class=" tblz01-pdf mt-4">
+        <table class="static-table" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colSpan="2" class="text-center">
+                    <h4>Terms & Conditions</h4>
+                </td>
+            </tr>
+            <ng-container *ngFor="let row of termsAndConditions">
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <h5>{{row?.section}}</h5>
+                    </td>
+                </tr>
+                <tr *ngFor="let tc of row?.tc;let i = index">
+                    <td class="text-black custom-right-border" id="BLUSSubTemplate_ClausesWarranties_Header">
+                        {{tc?.type}}</td>
+                    <td id="BLUSSubTemplate_ClausesWarranties" class="custom-list">
+                        <div [innerHTML]="tc?.description"></div>
+                    </td>
+                </tr>
+            </ng-container>
+            <tr *ngFor="let clause of selectedBscClauses;let i = index">
+                <td *ngIf="i == 0" class="text-black custom-right-border" id="BLUSSubTemplate_ClausesWarranties_Header"
+                    [rowSpan]="selectedBscClauses.length">Clauses and Warranties For Other Sections</td>
+                <td id="BLUSSubTemplate_ClausesWarranties">
+                    <di [innerHTML]="clause.description"></di>
+                    <!-- <p class="mb-3">{{clause.description}}</p> -->
+                </td>
+            </tr>
+            <tr *ngFor="let item of this.warranties;let i = index">
+                <td *ngIf="i == 0" class="text-black custom-right-border" [attr.rowspan]="this.warranties.length">
+                    Warranties</td>
+                <td id="BLUSSubTemplate_CommonCondition">
+                    {{item?.warranty_dict?.name == 'Other' ? item?.warranty_dict?.others : item?.warranty_dict?.name}}
+                </td>
+            </tr>
+            <tr *ngFor="let item of this.subjectivities;let i = index">
+                <td *ngIf="i == 0" class="text-black custom-right-border" [attr.rowspan]="this.subjectivities.length">
+                    Subjectivities</td>
+                <td id="BLUSSubTemplate_CommonCondition">
+                    {{item?.subjectivity_dict?.name == 'Other' ? item?.subjectivity_dict?.others :
+                    item?.subjectivity_dict?.name}}
+                </td>
+            </tr>
+            <tr *ngFor="let item of this.exclusions;let i = index">
+                <td *ngIf="i == 0" class="text-black custom-right-border" style="border-bottom: unset !important;"
+                    [attr.rowspan]="this.exclusions.length">Exclusions</td>
+                <td id="BLUSSubTemplate_CommonCondition">
+                    {{item?.exclusion_dict?.name == 'Other' ? item?.exclusion_dict?.others :
+                    item?.exclusion_dict?.name}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <p class="p-3 mb-3" id="BLUSSubTemplate_QuoteValidNote">
+        Quotation is valid for 15 days from the date of quotation
+    </p>
+    <p class="p-3 mb-8" id="BLUSSubTemplate_ClientNameAndLocation"
+        *ngIf="this.quote?.otpVerifiedAt || this.quote?.offlineVerificationFormUrl">
+        Signed for and on behalf of the {{this.quote.clientId['name']}} <br>
+        <span>
+            {{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ? 'at : ' : 'URL :'}}
+        </span>
+        <a *ngIf="!this.quote?.otpVerifiedAt" [href]="this.quote.offlineVerificationFormUrl" target="_blank">
+            {{this.quote.offlineVerificationFormUrl}}
+        </a>
+        <span *ngIf="this.quote?.otpVerifiedAt">
+            <b>{{(this.quote.otpVerifiedAt | date:'dd-MMM-yyyy , h:mm a' ) ?? ''}}</b>
+        </span>
+    </p>
+
+    <!-- <div class="my-4 tblz01-pdf">
+        <p-table [value]="this.quoteLocationOccupancies" responsiveLayout="scroll" dataKey="address"
+            styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"> 
+            <ng-template pTemplate="caption">
+                <h4 class="text-center">
+                    {{this.quote?.productId?.type}}
+                </h4>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="pl-3">Location Address</th>
+                    <th class="pl-5">Occupancy</th>
+                    <th class="text-center">Total Premium (INR)</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+                <tr>
+
+                    <td class="pl-3">{{row?.locationName ?? ''}}</td>
+                    <td class="pl-5">{{row?.occupancyId.occupancyType ?? ''}}</td>
+                    <td class="text-center">{{row?.totalPremium | currency:'INR'}}</td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="3">
+                        No records found
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div> -->
+</div>
+<!-- <div class="px-5" *ngIf="(quote.otcType == 'NONOTC' && isQuoteslipAllowedUser) && quote.quoteState != 'Pending Payment' ">
+    <div class="tblz01-pdf">
+        <div>
+            <p class="mt-3" style="font-size: 15px;">
+                This premium is calculated based on information provided by the client/intermediary.
+                It should be noted that, it is only a indicative premium and not an offer for acceptance of business.
+                This is quote no : {{quote.quoteNo}} for your refrence
+            </p>
+        </div>
+        <div class="my-3 custom-border">
+            <p-table [value]="this.total" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-striped quoteSlip" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th id="BLUSSubTemplate_NetPremium_Header" class="text-center text-black">Net Premium(₹) </th>
+                        <th id="BLUSSubTemplate_GST@18%_Header" class="text-center text-black">GST @ 18%</th>
+                        <th id="BLUSSubTemplate_TotalPremium_Header" class="text-center text-black">Total Premium(₹) </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cover>
+                    <tr class="no-border">
+                        <td id="BLUSSubTemplate_NetPremium" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage > 0 ? this.discount.netPremium :cover?.netPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                        <td id="BLUSSubTemplate_Gst" class="text-center text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage > 0 ? this.discount.gst : cover?.gst ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                        <td id="BLUSSubTemplate_TotalPremium" class="text-black text-right text-nowrap "><span><app-currency *ngIf="!cover.isRequired" [value]="(this.discountPercentage > 0 ? this.discount.totalPremium : cover?.totalPremium ?? 0)"></app-currency></span><span *ngIf="cover.isRequired">-</span></td>
+                    </tr>
+                </ng-template>
+    
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="5"  id="BLUSSubTemplate_NoRecordsFoundMSG">
+                            No records found
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div> -->

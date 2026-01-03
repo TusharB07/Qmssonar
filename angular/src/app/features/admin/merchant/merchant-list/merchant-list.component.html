@@ -1,0 +1,115 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="Merchant_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                            rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                        <button id="Merchant_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete"
+                            icon="pi pi-trash" class="p-button-danger mr-2"
+                            (click)="this.openDeleteSelectedRecordsConfirmationDialog()"
+                            [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="Merchant_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+                
+
+                <!-- <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="Merchant_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="Merchant_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                </ng-template> -->
+            </p-toolbar>
+
+            <p-table [rowHover]="true" [paginator]="true" responsiveLayout="scroll" [value]="this.merchant" [lazy]="true"
+                (onLazyLoad)="this.loadRecords($event)" #dt [rowsPerPageOptions]="[10, 20, 30]" [rows]="20"
+                [totalRecords]="totalRecords" [loading]="loading">
+                <ng-template pTemplate="header">
+                    <tr>
+                        
+                        <!-- <th pSortableColumn="_id">
+                        <div class="flex justify-content-between align-items-center">
+                            <span> Id </span>
+                        </div>
+                    </th> -->
+
+                        <th pSortableColumn="merchantName">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="MerchantList_merchantName"> Name </span>
+                                <div>
+                                    <p-columnFilter id="MerchantList_merchantName" type="text"
+                                        field="merchantName" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="contains" operator="or"
+                                        placeholder="Search by Name"></p-columnFilter>
+                                    <p-sortIcon field="merchantName"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="merchantUrl">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="MerchantList_merchantUrl">Merchant URL</span>
+                                <div>
+                                    <p-sortIcon id="MerchantList_merchantUrl"
+                                        field="merchantUrl"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="merchantNumber">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap"
+                                    id="MerchantList_merchantNumber">
+                                    Merchant No
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <!-- <p-columnFilter type="text" field="MerchantTemplate" display="menu" placeholder="Search by to SI"></p-columnFilter> -->
+                                    <p-sortIcon field="merchantNumber"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                    
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-merchant>
+                    <tr (click)="this.editRecord(merchant)">
+                        
+
+                        <td id="MerchantList_merchantName">
+                            {{ merchant.merchantName }}
+                        </td>
+                        <td id="MerchantList_merchantUrl">
+                            {{ merchant.merchantUrl }}
+                        </td>
+
+                        <td id="MerchantList_merchantNumber">
+                            {{ merchant.merchantNumber }}
+                        </td>
+                        
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="MerchantList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(merchant._id)"></button>
+                                </div>
+                            </td> -->
+                            <!-- <button id="MerchantList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="
+                                this.openDeleteRecordConfirmationDialog(Merchant)
+                            "></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

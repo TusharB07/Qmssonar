@@ -1,0 +1,674 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ICCOnfigurationFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="ICCOnfigurationForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="ICCOnfigurationForm_CancelButton" pButton pRipple label="Cancel"
+                                icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col-6">
+
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5 class="mb-3" id="ICCOnfigurationForm_GeneralInformationHeader">General Information</h5>
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_ProductLabel" for="productId">Product</label>
+                            <p-autoComplete id="ICCOnfigurationForm_Product" placeholder="Select Product"
+                                [dropdown]="true" [suggestions]="this.optionsProducts" field="label"
+                                formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm?.controls['productId'].valid}"></p-autoComplete>
+                            <small id="ICCOnfigurationForm_Product_ValidationError"
+                                *ngIf="this.recordForm.controls['productId'].errors?.required"
+                                class="ng-invalid ng-dirty">This field is Required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_BrokerPartnerLabel" for="brokerPartnerId">Intermediary
+                                Partner</label>
+                            <p-autoComplete id="ICCOnfigurationForm_BrokerPartner" placeholder="Select Broker"
+                                [dropdown]="true" [suggestions]="this.optionsBrokerPartnerId" field="label"
+                                formControlName="brokerPartnerId"
+                                (completeMethod)="this.searchOptionsBrokerPartnerId($event)"></p-autoComplete>
+                            <small id="ICCOnfigurationForm_BrokerPartner_ValidationError"
+                                *ngIf="this.recordForm.controls['brokerPartnerId'].errors?.required"
+                                class="ng-invalid ng-dirty">This field is Required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_InsurerPartnerLabel" for="insurerPartnerId">Insurer
+                                Partner</label>
+                            <p-autoComplete id="ICCOnfigurationForm_InsurerPartner" placeholder="Select Insurer"
+                                [dropdown]="true" [suggestions]="this.optionsInsurerPartnerId" field="label"
+                                formControlName="insurerPartnerId"
+                                (completeMethod)="this.searchOptionsInsurerPartnerId($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm?.controls['insurerPartnerId'].valid}"></p-autoComplete>
+                            <small id="ICCOnfigurationForm_InsurerPartner_ValidationError"
+                                *ngIf="this.recordForm.controls['insurerPartnerId'].errors?.required"
+                                class="ng-invalid ng-dirty">This field is Required.</small>
+                        </div>
+
+                        <!-- <div class="field">
+                            <label for="mappedRmEmails">Ic RM Email</label>
+                            <p-chips placeholder="Enter IC RM Emails" (onAdd)="this.onIcRmEMailAdd($event)" [addOnTab]="true" [allowDuplicate]="false" [addOnBlur]="true" type="email" id="mappedRmEmails" formControlName="mappedRmEmails"></p-chips>
+                        </div> -->
+
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_OTCTypeLabel" for="otcType">OTC Type</label>
+                            <p-dropdown id="ICCOnfigurationForm_OTCType" [options]="this.optionsOtcType" field="label"
+                                formControlName="otcType" placeholder="Select Partner Type"
+                                optionLabel="label"></p-dropdown>
+                            <small id="ICCOnfigurationForm_OTCType_ValidationError"
+                                *ngIf="this.recordForm.controls['otcType'].errors?.required"
+                                class="ng-invalid ng-dirty">This field is Required.</small>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="checkbox ">
+                              <div class="field-checkbox">
+                                <p-checkbox id="Toggle_Validate_SI" [binary]="true" [formControl]="recordForm.get('validateSI')" name="validateSI" (onChange)="onValidateChanged()"></p-checkbox>
+                                <label for="validateSI" id="Toggle_Validate_SI_label">Validate Sum Insured</label>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- <div class="field">
+                            <label for="occupancyRules">Occupancy Rules</label>
+
+                            <input type="text" pInputText field="label" formControlName="occupancyRules" required autofocus/>
+                        </div>
+                        <div class="field">
+                            <label for="discountRules">Discount Rules</label>
+                            <p-autoComplete [dropdown]="true" field="label" formControlName="discountRules" ></p-autoComplete>
+                        </div> -->
+                        <!-- <div formArrayName="occupancyRules">
+                                <div class="">
+                                    <div class="field">
+                                        <label for="occupancySumInsured">Occupancy Suminsured</label>
+                                        <input class="form-control" type="text" pInputText id="occupancySumInsured" formControlName="occupancySumInsured" required autofocus />
+                                    </div>
+                                </div>
+                        </div>
+                        <div formArrayName="discountRules">
+                                <div class="">
+                                    <div class="field">
+                                        <label for="discountFrom">discountRulesFrom</label>
+                                        <input class="form-control" type="text" pInputText id="discountFrom" formControlName="discountFrom" required autofocus  />
+                                    </div>
+                                    <div class="field">
+                                        <label for="discountTo">Discount Rules From</label>
+                                        <input class="form-control" type="text" pInputText id="discountTo" formControlName="discountTo" required autofocus  />
+                                    </div>
+
+                                </div>
+                        </div> -->
+
+
+                        <h5 class="mb-3 mt-5" id="ICCOnfigurationForm_ConfigurationHeader">Configuration</h5>
+
+
+                        <div class="grid">
+                            <div class="col">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_FromSILabel" for="fromSI">From SI</label>
+                                    <!-- <input id="ICCOnfigurationForm_FromSI" placeholder="Enter From SI" mode="decimal" locale="en-IN" prefix="₹" 
+                                        class="form-control" type="number" pInputText id="fromSI"
+                                        formControlName="fromSI" autofocus 
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" />
+                                     -->
+                                    <p-inputNumber id="ICCOnfigurationForm_FromSI" mode="decimal" locale="en-IN"
+                                        prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="fromSI"
+                                        [ngClass]="{'ng-invalid ng-dirty':submitted &&  !recordForm.value['fromSI']}">
+                                    </p-inputNumber>
+
+                                    <small id="ICCOnfigurationForm_FromSI_ValidationError1"
+                                        *ngIf="recordForm.controls['fromSI'].errors?.min" class="ng-invalid">From SI
+                                        should be more than 0.</small>
+                                    <small id="ICCOnfigurationForm_FromSI_ValidationError2"
+                                        *ngIf="recordForm.controls['fromSI'].errors?.max" class="ng-invalid">From SI
+                                        should not be more than 5000000000000000000.</small>
+                                    <small id="ICCOnfigurationForm_FromSI_ValidationError3"
+                                        *ngIf="recordForm.controls['fromSI'].errors?.required" class="ng-invalid">This
+                                        Field is required.</small>
+
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_ToSILabel" for="toSI">To SI</label>
+                                    <!-- <input id="ICCOnfigurationForm_ToSI" placeholder="Enter To SI" class="form-control"
+                                        type="number" pInputText id="toSI" formControlName="toSI" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['ICCOnfigurationForm_ToSI']}" /> -->
+
+                                    <p-inputNumber id="ICCOnfigurationForm_ToSI" mode="decimal" locale="en-IN"
+                                        prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="toSI"
+                                        [ngClass]="{'ng-invalid ng-dirty':submitted &&  !recordForm.value['toSI']}">
+                                    </p-inputNumber>
+
+                                    <small id="ICCOnfigurationForm_ToSI_ValidationError1"
+                                        *ngIf="recordForm.controls['toSI'].errors?.min" class="ng-invalid">To SI should
+                                        be more than 0.</small>
+                                    <small id="ICCOnfigurationForm_ToSI_ValidationError2"
+                                        *ngIf="recordForm.controls['toSI'].errors?.max" class="ng-invalid">To SI should
+                                        not be more than 5000000000000000000.</small>
+                                    <small id="ICCOnfigurationForm_ToSI_ValidationError3"
+                                        *ngIf="recordForm.controls['toSI'].errors?.required" class="ng-invalid">This
+                                        Field is required.</small>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_DiscountFromLabel" for="discountFrom">Discount
+                                        From</label>
+                                    <input id="ICCOnfigurationForm_DiscountFrom" placeholder="Enter Discount From"
+                                        class="form-control" type="number" pInputText id="discountFrom"
+                                        formControlName="discountFrom" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['discountFrom']}" />
+                                    <small id="ICCOnfigurationForm_DiscountFrom_ValidationError1"
+                                        *ngIf="recordForm.controls['discountFrom'].errors?.min"
+                                        class="ng-invalid">Discount From should be more than 0.</small>
+                                    <small id="ICCOnfigurationForm_DiscountFrom_ValidationError2"
+                                        *ngIf="recordForm.controls['discountFrom'].errors?.max"
+                                        class="ng-invalid">Discount From should not be more than 99.</small>
+                                    <small id="ICCOnfigurationForm_DiscountFrom_ValidationError3"
+                                        *ngIf="recordForm.controls['discountFrom'].errors?.required"
+                                        class="ng-invalid">This Field is required.</small>
+
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_DiscountToLabel" for="discountTo">Discount To</label>
+                                    <input id="ICCOnfigurationForm_DiscountTo" placeholder="Enter Discount To"
+                                        class="form-control" type="number" pInputText id="discountTo"
+                                        formControlName="discountTo" autofocus
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['discountTo']}" />
+                                    <small id="ICCOnfigurationForm_DiscountTo_ValidationError1"
+                                        *ngIf="recordForm.controls['discountTo'].errors?.min"
+                                        class="ng-invalid">Discount To should be more than 0.</small>
+                                    <small id="ICCOnfigurationForm_DiscountTo_ValidationError2"
+                                        *ngIf="recordForm.controls['discountTo'].errors?.max"
+                                        class="ng-invalid">Discount To should not be more than 100.</small>
+                                    <small id="ICCOnfigurationForm_DiscountTo_ValidationError3"
+                                        *ngIf="recordForm.controls['discountTo'].errors?.required"
+                                        class="ng-invalid">This Field is required.</small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="col">
+                                <div class="field flex flex-wrap align-items-start h-full">
+                                    <label class="w-full" id="ICCOnfigurationForm_isNstpLabel" for="isNstp">Is Discount NSTP</label>
+                                    <p-checkbox [formControl]="recordForm.controls['isNstp']" [binary]="true"></p-checkbox>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_NstpMaxDiscountLabel" for="NstpMaxDiscount">NSTP Max Discount</label>
+                                    <input id="ICCOnfigurationForm_NstpMaxDiscount" placeholder="Enter NSTP Max Discount"
+                                        class="form-control" type="number" pInputText id="NstpMaxDiscount"
+                                        formControlName="NstpMaxDiscount" autofocus [attr.disabled]="!recordForm.controls['isNstp'].value ? '' : null"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['NstpMaxDiscount']}" />
+                                    <small id="ICCOnfigurationForm_NstpMaxDiscount_ValidationError1"
+                                        *ngIf="recordForm.controls['NstpMaxDiscount'].errors?.min"
+                                        class="ng-invalid">NSTP Max Discount should be more than {{recordForm.controls['discountFrom'].value}}.</small>
+                                    <small id="ICCOnfigurationForm_NstpMaxDiscount_ValidationError2"
+                                        *ngIf="recordForm.controls['NstpMaxDiscount'].errors?.max"
+                                        class="ng-invalid">NSTP Max Discount should not be more than {{recordForm.controls['discountTo'].value}}.</small>
+                                    <small id="ICCOnfigurationForm_NstpMaxDiscount_ValidationError3"
+                                        *ngIf="recordForm.controls['NstpMaxDiscount'].errors?.required"
+                                        class="ng-invalid">This Field is required.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label id="ICCOnfigurationForm_StatusLabel" for="active">Status</label>
+                            <p-toggleButton id="ICCOnfigurationForm_Status" class="form-control"
+                                formControlName="active" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}'
+                                offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div>
+
+
+                        <!-- <div class="grid">
+                            <div class="col">
+                                <div class="field">
+                                    <label for="applicableFrom">Applicable From</label>
+                                    <p-calendar placeholder="Enter Applicable From" class="form-control" type="date" [showIcon]="true" id="applicableFrom" formControlName="applicableFrom" dateFormat="yy-mm-dd"></p-calendar>
+
+                                </div>
+
+                            </div>
+                            <div class="col">
+
+                                <div class="field">
+                                    <label for="applicableTo">Applicable To</label>
+                                    <p-calendar placeholder="Enter Applicable To" class="form-control" type="date" [showIcon]="true" id="applicableTo" formControlName="applicableTo" dateFormat="yy-mm-dd"></p-calendar>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-6" *ngIf="this.recordForm.controls['otcType'].value?.value == 'BOTH'">
+
+                <p-card>
+                    <div class="card p-fluid">
+
+                        <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">Occupancy Rules</h5>
+                        <div formArrayName="occupancyRulesArray"
+                            *ngFor="let occupancyRuleForm of this.occupancyRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="flex flex-row min-h-full max-h-full"
+                                id="ICCOnfigurationForm_OccupancyForm">
+
+                                <!-- <div class="col-1" *ngIf="this.occupancyRulesArray?.length == 1 && !occupancyRuleForm.controls['occupancyId'].value?.value"> -->
+                                <div class="col-1" *ngIf="i == 0">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">All</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="isAll">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col" *ngIf="!isAll"> -->
+                                <div class="col" *ngIf="i != 0">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">Occupancy</label>
+                                        <p-autoComplete id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select Occupancy" [dropdown]="true" [forceSelection]="true"
+                                            [suggestions]="this.optionsOccupancyId" field="label"
+                                            formControlName="occupancyId"
+                                            (completeMethod)="this.searchOptionsOccupancyId($event)"></p-autoComplete>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="occupancyRuleForm.controls['occupancyId'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="i != 0">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">Sub-occupancy</label>
+                                        <p-autoComplete id="ICCOnfigurationForm_Occupancy"
+                                            placeholder="Select Occupancy" [dropdown]="true" [forceSelection]="true"
+                                            [suggestions]="this.optionsSubOccupancy" field="label"
+                                            formControlName="subOccupancyId"
+                                            (completeMethod)="this.searchoccupancysubType($event,occupancyRuleForm)"></p-autoComplete>
+                                        <!-- <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="occupancyRuleForm.controls['subOccupancyId'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small> -->
+
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_SumInsuredLabel">Sum Insured</label>
+                                        <!-- <input id="ICCOnfigurationForm_SumInsured" placeholder="Enter Sum Insured"
+                                            class="form-control" type="number" pInputText id="sumInsured"
+                                            formControlName="sumInsured" autofocus
+                                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" /> -->
+
+                                        <p-inputNumber id="ICCOnfigurationForm_SumInsured" formControlName="sumInsured"
+                                            mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0"
+                                            placeholder="0"
+                                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}"></p-inputNumber>
+                                        <small id="ICCOnfigurationForm_SumInsured_ValidationError1"
+                                            *ngIf="occupancyRuleForm.controls['sumInsured'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                        <small id="ICCOnfigurationForm_SumInsured_ValidationError2"
+                                            *ngIf="occupancyRuleForm.controls['sumInsured'].errors?.min"
+                                            class="ng-invalid">Sum Insured should be more than
+                                            {{this.recordForm.controls['fromSI'].value}}.</small>
+                                        <small id="ICCOnfigurationForm_SumInsured_ValidationError3"
+                                            *ngIf="occupancyRuleForm.controls['sumInsured'].errors?.max"
+                                            class="ng-invalid">Sum Insured should be less than
+                                            {{this.recordForm.controls['toSI'].value}}.</small>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_SumInsuredLabel">Max NSTP</label>
+                                        <!-- <input id="ICCOnfigurationForm_SumInsured" placeholder="Enter Sum Insured"
+                                            class="form-control" type="number" pInputText id="sumInsured"
+                                            formControlName="sumInsured" autofocus
+                                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" /> -->
+
+                                        <p-inputNumber  id="ICCOnfigurationForm_SumInsured"
+                                        formControlName="maxNstp" 
+                                        mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0" placeholder="0"
+                                        [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['maxNstp']}"
+                                        ></p-inputNumber>
+                                        <!-- <small id="ICCOnfigurationForm_SumInsured_ValidationError1"
+                                            *ngIf="occupancyRuleForm.controls['sumInsured'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small> -->
+                                      
+                                        <small id="ICCOnfigurationForm_SumInsured_ValidationError3"
+                                            *ngIf="occupancyRuleForm.controls['maxNstp'].errors?.max"
+                                            class="ng-invalid">Sum Insured should be less than
+                                            {{occupancyRuleForm.controls['sumInsured'].value}}.</small>
+                                    </div>
+                                </div>
+                                <div class="col-1 flex align-items-center" *ngIf="i != 0">
+                                    <div class="field">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteOccupancyRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="field pb-3" *ngIf="!this?.isAll"> -->
+                        <div class="field pb-4 flex">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm" (click)="this.onAddOccupancyRuleRow()"
+                                type="button" class="btn btn-success w-17rem"><i class="pi pi-plus"></i> Add New
+                                Occupancy
+                                Rule</button>
+                            <button class="btn btn-info ml-2 mr-2" id="SidSumInsured_Split_Download" (click)="bulkImportGenerateSample()"><i
+                                    class="pi pi-download"></i> Download Sample File</button>
+                            <div>
+                                <p-fileUpload mode="basic" id="BreakupMasterList_FileUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/wps-office.xlsx" [maxFileSize]="1000000" label="upload"
+                                    chooseLabel="Upload" class="mr-1 inline-block" (onSelect)="this.upload($event)"></p-fileUpload>
+                            </div>
+
+                            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="!this.permissions.includes('update')" [disabled]="true"><i class="pi pi-download"  ></i> Download Sample File</button> -->
+                            <!-- <p-fileUpload accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" styleClass="btn btn-primary" id="SidSumInsured_Split_Upload" name="quote_location_breakup" (onUpload)="this.fileUploaded($event)" mode="basic" url="{{this.uploadUrl}}" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post" *ngIf="this.permissions.includes('update')"></p-fileUpload> -->
+                        </div>
+
+                        <!-- <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">BSC Cover Rules</h5>
+                        <div formArrayName="bscCoverRulesArray" *ngFor="let bscCoverArrayForm of this.bscCoverRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="flex flex-row min-h-full max-h-full" 
+                            id="ICCOnfigurationForm_OccupancyForm">
+                                <div class="col-1" *ngIf="i == 0">  
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">All</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="isAll">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="i != 0">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">BSC Cover</label>
+                                        <p-dropdown id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select BSC Cover" [dropdown]="true" [forceSelection]="true"
+                                            [options]="this.opitionBSCDropDownRules" [optionLabel]="label" [optionValue]="value"
+                                            formControlName="bscCover"></p-dropdown>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['bscCover'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_SumInsuredLabel">Sum Insured</label>
+                                        <p-inputNumber  id="ICCOnfigurationForm_SumInsured"
+                                        formControlName="sumInsured"
+                                        mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0" placeholder="0"
+                                        ></p-inputNumber>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['sumInsured'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col-1 flex align-items-center" *ngIf="i != 0">
+                                    <div class="field">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteBSCCoverRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field pb-4">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm" (click)="this.onAddBscCoverRuleArray()"
+                                type="button" class="btn btn-success w-17rem"><i class="pi pi-plus"></i> Add New BSC Cover
+                                Rule</button>
+                        </div> -->
+                        <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">List Of Value Rules</h5>
+                        <div formArrayName="listofvalueRulesArray"
+                            *ngFor="let listOfArrayForm of this.listofvalueRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="flex flex-row min-h-full max-h-full"
+                                id="ICCOnfigurationForm_OccupancyForm">
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">List of value</label>
+                                        <p-autoComplete id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select LOV" [dropdown]="true" [forceSelection]="true"
+                                            [suggestions]="this.optionBSCListOfValues" field="label"
+                                            formControlName="listofValueId"
+                                            (completeMethod)="this.loadBSCDropdownListOfValueId($event)"></p-autoComplete>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="listOfArrayForm.controls['listofValueId'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">IsAllowed</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="select">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1 flex align-items-center">
+                                    <div class="field">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteListOfValueRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field pb-3">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm"
+                                (click)="this.onAddlistofvalueRulesArray()" type="button"
+                                class="btn btn-success w-17rem"><i class="pi pi-plus"></i> Add New LOV
+                                Rule</button>
+                        </div>
+
+                        <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">BSC Cover Rules</h5>
+                        <div formArrayName="bscCoverRulesArray" *ngFor="let bscCoverArrayForm of this.bscCoverRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="flex flex-row min-h-full max-h-full" id="ICCOnfigurationForm_OccupancyForm">
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">BSC Cover</label>
+                                        <!-- <p-autoComplete id="ICCOnfigurationForm_Occupancy" [required]="true" 
+                                            placeholder="Select BSC Cover" [dropdown]="true" [forceSelection]="true"
+                                            [suggestions]="this.opitionBSCDropDownRules" field="label"
+                                            formControlName="bscCover"
+                                            (completeMethod)="this.loadBSCCoverValues($event)"></p-autoComplete> -->
+                                        <p-dropdown id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select BSC Cover" [dropdown]="true" [forceSelection]="true"
+                                            [options]="this.opitionBSCDropDownRules" [optionLabel]="label" [optionValue]="value"
+                                            formControlName="bscCover"></p-dropdown>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['bscCover'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-5">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_SumInsuredLabel">Sum Insured</label>
+                                        <p-inputNumber  id="ICCOnfigurationForm_SumInsured"
+                                        formControlName="sumInsured"
+                                        mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0" placeholder="0"
+                                        ></p-inputNumber>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['sumInsured'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div> -->
+                                <div class="col-1">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">IsAllowed</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="isAllowed">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1 flex align-items-center">
+                                    <div class="">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteBSCCoverRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field pb-3">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm" (click)="this.onAddBscCoverRuleArray()"
+                                type="button" class="btn btn-success w-17rem"><i class="pi pi-plus"></i> Add New BSC Cover
+                                Rule</button>
+                        </div>
+                    </div>
+
+                </p-card>
+               
+                <p-card>
+                    <div class="card p-fluid">
+                        <h5 class="mb-3" id="ICCOnfigurationForm_DiscountRules_Header">Configuration Discount Rule</h5>
+                        <div class="flex flex-row min-h-full max-h-full" id="ICCOnfigurationForm_DiscountForm">
+                            <div class="col-3">
+                                <div class="field">
+                                    <label id="ICCOnfigurationForm_AllLabel">Discount (%)</label>
+                                    <div class="p-2">
+                                        <p-inputNumber id="ICCOnfigurationForm_wcConfigurationDiscount"
+                                            formControlName="wcConfigurationDiscount" placeholder="0" maxlength="3"
+                                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['wcConfigurationDiscount']}"></p-inputNumber>
+                                        <small id="ICCOnfigurationForm_wcConfigurationDiscount_ValidationError1"
+                                            *ngIf="this.recordForm.controls['wcConfigurationDiscount'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </div>
+                </p-card>
+
+            </div>
+
+            <!-- <div class="col-6">
+                <p-card>
+                    <div class="card p-fluid" style="height: 500px;overflow: hidden; overflow-y:scroll">
+                        <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">BSC Cover Rules</h5>
+                        <div formArrayName="bscCoverRulesArray" *ngFor="let bscCoverArrayForm of this.bscCoverRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="grid align-items-end mb-2" 
+                            id="ICCOnfigurationForm_OccupancyForm">
+                                <div class="col-1" *ngIf="i == 0">  
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">All</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="isAll">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="i != 0">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">BSC Cover</label>
+                                        <p-dropdown id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select BSC Cover" [dropdown]="true" [forceSelection]="true"
+                                            [options]="this.opitionBSCDropDownRules" [optionLabel]="label" [optionValue]="value"
+                                            formControlName="bscCover"></p-dropdown>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['bscCover'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_SumInsuredLabel">Sum Insured</label>
+                                        <p-inputNumber  id="ICCOnfigurationForm_SumInsured"
+                                        formControlName="sumInsured"
+                                        mode="decimal" locale="en-IN" prefix="₹" [minFractionDigits]="0" placeholder="0"
+                                        ></p-inputNumber>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="bscCoverArrayForm.controls['sumInsured'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col-1" *ngIf="i != 0">
+                                    <div class="field">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteBSCCoverRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field pb-3">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm" (click)="this.onAddBscCoverRuleArray()"
+                                type="button" class="btn btn-success"><i class="pi pi-plus"></i> Add New BSC Cover
+                                Rule</button>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-6">
+                <p-card>
+                    <div class="card p-fluid" style="height: 500px;overflow: hidden; overflow-y:scroll">
+                        <h5 class="mb-3" id="ICCOnfigurationForm_OccupancyRules_Header">List Of Value Rules</h5>
+                        <div formArrayName="listofvalueRulesArray" *ngFor="let listOfArrayForm of this.listofvalueRulesArray.controls; let i = index">
+                            <div [formGroupName]="i" class="grid align-items-end mb-2" id="ICCOnfigurationForm_OccupancyForm">
+                                <div class="col-1">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_AllLabel">IsAllowed</label>
+                                        <div class="p-2">
+                                            <input type="checkbox" id="ICCOnfigurationForm_All"
+                                                style="width: 20px; height: 20px" formControlName="select">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="field">
+                                        <label id="ICCOnfigurationForm_OccupancyLabel">List of value</label>
+                                        <p-autoComplete id="ICCOnfigurationForm_Occupancy" [required]="true"
+                                            placeholder="Select LOV" [dropdown]="true" [forceSelection]="true"
+                                            [suggestions]="this.optionBSCListOfValues" field="label"
+                                            formControlName="listofValueId"
+                                            (completeMethod)="this.loadBSCDropdownListOfValueId($event)"></p-autoComplete>
+                                        <small id="ICCOnfigurationForm_Occupancy_ValidationError"
+                                            *ngIf="listOfArrayForm.controls['listofValueId'].errors?.required"
+                                            class="ng-invalid">This field is Required.</small>
+                                    </div>
+                                </div>
+                                <div class="col-1" >
+                                    <div class="field">
+                                        <button id="ICCOnfigurationForm_DeleteOccupancyForm"
+                                            (click)="this.onDeleteListOfValueRuleRow(i)" type="button"
+                                            class="btn btn-danger"><i class="pi pi-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field pb-3">
+                            <button id="ICCOnfigurationForm_AddOccupancyForm" (click)="this.onAddlistofvalueRulesArray()"
+                                type="button" class="btn btn-success"><i class="pi pi-plus"></i> Add New LOV
+                                Rule</button>
+                        </div>
+                    </div>
+                </p-card>
+            </div> -->
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="card modal-body">
+    <form class="">
+      <div class="content">
+        <div class="row">
+          <div class="content">
+            <div class="grid">
+              <div class="col-12 md:col-12 mb-5">
+                <div class="col-12">
+                  <p-table #dt [value]="this.employeeInfo" class="table" id="empInfo" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                      <tr class="tableBorder tableHeaderRow" style="color: black;">
+                        <!-- <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Count From
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Count To
+                        </th> -->
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Employees Count
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Sum Insured
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Relation
+                        </th>
+
+                        <!-- <th class="tableBorder" style="width: 3rem;text-align: center;color: black">
+                          Age From
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black;">
+                          Age To
+                        </th> -->
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black;">
+                          Age band
+                        </th>
+                        <th class="tableBorder" style="width: 3rem;text-align: center;color: black;">
+                          Premium
+                        </th>
+
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-empRecord>
+                      <tr style="border: 1px solid #0064BB;">
+                        <!-- <td class="tableBorder" id="Emp_countFrom" style="width: 3rem;text-align: right;">{{ empRecord.countFrom }}</td>
+                        <td class="tableBorder" id="Emp_countTo" style="width: 3rem;text-align: right;"> {{
+                          empRecord.countTo }}</td> -->
+                        <td class="tableBorder" id="Emp_employeesCount" style="width: 3rem;text-align: left;"> {{
+                          empRecord.employeesCount }}</td>
+                        <td class="tableBorder" id="Emp_sumInsured" style="width: 3rem;text-align: right;">{{
+                          empRecord.sumInsured}}</td>
+                        <td class="tableBorder" id="Emp_relation" style="width: 3rem;text-align: left;">{{
+                          empRecord.relation }}</td>
+                        <!-- <td class="tableBorder" id="Emp_ageFrom" style="width: 3rem;text-align: right;">{{
+                          empRecord.ageFrom }}</td>
+                        <td class="tableBorder" id="Emp_ageTo" style="width: 3rem;text-align: right;">{{
+                          empRecord.ageTo }}</td> -->
+                        <td class="tableBorder" id="Emp_ageband" style="width: 3rem;text-align: left;">{{
+                          empRecord.ageband }}</td>
+                        <td class="tableBorder" id="Emp_premium" style="width: 3rem;text-align: right;">{{
+                          empRecord.premium }}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</div>

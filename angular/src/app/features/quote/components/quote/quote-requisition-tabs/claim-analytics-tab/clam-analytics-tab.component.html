@@ -1,0 +1,130 @@
+<div class="grid risk-parameters-container">
+  <div class="mx-3" style="width: 900px">
+    <div class="grid">
+      <div class="col-12">
+        <p-card class="">
+          <button class="btn btn-success mr-4" type="button" id="familyComposition_Save"
+            (click)="saveTabs()">Save</button>
+          <p-tabView [scrollable]="true">
+
+            <p-tabPanel [header]="item.subTabName" *ngFor="let item of tabsData.gmcSubTab; let i = index"
+              [selected]="i == 0">
+              <div class="grid mb-4" *ngFor="let itemSubLabel of item.gmcLabelForSubTab; let j = index">
+                <div class="col-4">
+                  <label for="" class="form-label" id="lblClientIndustry"> {{ itemSubLabel.labelName }}</label>
+                </div>
+                <div class="col-8">
+                  <div class="grid">
+                    <div class="col-6" *ngFor="let itemquestion of itemSubLabel.gmcQuestionAnswers; let k = index">
+                      <label *ngIf="itemquestion.isActive" for="" class="form-label" id="lblClientIndustry"> {{ itemquestion.question }}</label>
+                      <ng-container *ngIf="itemquestion.inputControl == 'dropdown'">
+                        <div>
+                          <p-dropdown id="gmc_question" class="custom-dropdown" [options]="itemquestion.answer"
+                            placeholder="Select" optionLabel="answer" optionValue="_id"
+                            [(ngModel)]="itemquestion.selectedAnswer" name="gmc_question" #gmc_question="ngModel"
+                            (onChange)="onDDLChange(itemquestion,itemSubLabel.gmcQuestionAnswers)"  [showClear]="true"></p-dropdown>
+                          <div *ngIf="itemquestion.freeText">
+                            <button pButton type="button" label="Add more info" class="p-button-link"
+                              (click)="itemquestion.freeText = !itemquestion.freeText"></button>
+                          </div>
+                          <input maxlength="100" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                            [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text"
+                            #itemquestion_text="ngModel" type="text" class="p-inputtext1 text-left mt-3" />
+                          <div *ngIf="!itemquestion.freeText">
+                            <button pButton type="button" label="Remove" class="p-button-link"
+                              (click)="itemquestion.freeText = !itemquestion.freeText"></button>
+                          </div>
+                        </div>
+                      </ng-container>
+              
+                      <ng-container *ngIf="itemquestion.inputControl == 'textbox'">
+                        <input maxlength="100" pInputText id="itemquestion_text"
+                          [(ngModel)]="itemquestion.selectedAnswer" name="itemquestion_text"
+                          #itemquestion_text="ngModel" [type]="itemquestion.answer[0].ansDataType" class="p-inputtext1 text-left" />
+                        <div *ngIf="itemquestion.freeText">
+                          <button pButton type="button" label="Add more info" class="p-button-link"
+                            (click)="itemquestion.freeText = !itemquestion.freeText"></button>
+                        </div>
+                        <input maxlength="100" *ngIf="!itemquestion.freeText" pInputText id="itemquestion_text"
+                          [(ngModel)]="itemquestion.freeTextValue" name="itemquestion_text" #itemquestion_text="ngModel"
+                          type="text" class="p-inputtext1 text-left mt-3" />
+                        <div *ngIf="!itemquestion.freeText">
+                          <button pButton type="button" label="Remove" class="p-button-link"
+                            (click)="itemquestion.freeText = !itemquestion.freeText"></button>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="item.subTabName =='Claim Experience'">
+                <div class="grid mb-4" *ngFor="let itemSubLabel of item.gmcLabelForSubTab; let j = index">
+                  <div class="col-4">
+                    <label for="" class="form-label" id="lblClientIndustry"> Claim Analytics</label>
+                  </div>
+                  <div class="col-7">
+                    <label for="" class="form-label" id="lblClientIndustry"> Claim Experience</label>
+                    <div class="grid" style="border: 1px solid blue !important;">
+                      <h3> <i (click)="preyear(currentClaim)" [class]="'pi pi-chevron-left cursor'"
+                          style="cursor: pointer;"></i>
+                        {{currentClaim.startYear}} - {{currentClaim.endYear}} <i (click)="nextyear(currentClaim)"
+                          [class]="'pi pi-chevron-right' " style="cursor: pointer;"></i></h3>
+                      <table class="table mt-4">
+                        <tr>
+                          <td>Premium Paid</td>
+                          <td> <input maxlength="20" pInputText id="premiumpaid" [(ngModel)]="currentClaim.premiumPaid"
+                              name="premiumPaid" #premiumPaid="ngModel" type="text" class="p-inputtext1 text-left"
+                              currencyMask [options]="{ prefix: '₹ ' , precision:0 }" /></td>
+                        </tr>
+                        <tr>
+                          <td>Paid Amount</td>
+                          <td><input maxlength="20" pInputText id="paidAmount" [(ngModel)]="currentClaim.paidAmount"
+                              name="paidAmount" #paidAmount="ngModel" type="text" class="p-inputtext1 text-left"
+                              currencyMask [options]="{ prefix: '₹ ' , precision:0 }" /></td>
+                        </tr>
+                        <tr>
+                          <td>Outstanding Amount</td>
+                          <td><input maxlength="20" pInputText id="outstandingAmount"
+                              [(ngModel)]="currentClaim.outstandingAmount" name="outstandingAmount"
+                              #outstandingAmount="ngModel" type="text" class="p-inputtext1 text-left" currencyMask
+                              [options]="{ prefix: '₹ ' , precision:0 }" /></td>
+                        </tr>
+                        <tr>
+                          <td>No. of Claims</td>
+                          <td><input maxlength="20" pInputText id="noOfClaims" [(ngModel)]="currentClaim.noOfClaims"
+                              name="noOfClaims" #noOfClaims="ngModel" type="text" class="p-inputtext1 text-right" />
+                          </td>
+                        </tr>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="head">Documents</p>
+                <div *ngIf="this.selectedQuoteTemplate?.claimsDocument?.documentUrl" class="done-upload-outline-light flex justify-content-between" id="claimsAnalytics_documentView">
+                    <a class="" pRipple (click)="this.downloadClaimAnalyticsReport()">View Document</a>
+
+                    <div class="flex" *ngIf="this.permissions.includes('update')">
+                        <a class="red-link" (click)="this.deleteClaimAnalyticsReport()" style="color: red;"><i class="pi pi-trash" id="claimsAnalytics_documentDelete"></i> Delete</a>
+                    </div>
+                </div>
+                <div *ngIf="!this.selectedQuoteTemplate?.claimsDocument?.documentUrl" class="done-upload-outline-light flex justify-content-between">
+                    <p class="red-link" id="claimsAnalytics_documentNotFound">No Document Found</p>
+                </div>
+
+                <div *ngIf="this.permissions.includes('update')">
+                    <p-fileUpload *ngIf="!this.selectedQuoteTemplate?.claimsDocument?.documentUrl" id="claim-analytics-document" [auto]="true" (onUpload)="this.onUploadDocument()" styleClass="upload-outline-light" name="claim-analytics-document" mode="basic" url="{{this.uploadDocumentUrl}}" accept="{{acceptedFiles}}"  maxFileSize="10000000" chooseIcon="pi pi-paperclip" chooseLabel="Upload Document" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                </div>
+            </div>
+            </p-tabPanel>
+
+          </p-tabView>
+          <!-- <ng-template pTemplate="right"> <button class="btn btn-success mr-4" type="button" id="claimtab_Save"
+              (click)="saveTabs()">Save</button> </ng-template> -->
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

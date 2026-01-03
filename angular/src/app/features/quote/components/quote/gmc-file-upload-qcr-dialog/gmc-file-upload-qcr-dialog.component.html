@@ -1,0 +1,60 @@
+<div class="grid" style="margin-bottom: 20px;margin: top 10px;">
+    <div class="col-12">
+        <input maxlength="255" pInputText id="basicDeatilsFileInput" autocomplete="off"
+            [(ngModel)]="basicDeatilsFileInput" name="basicDeatilsFileInput" type="text"
+            placeholder="Type here" class="p-inputtext1 text-left mt-1"
+            (focusout)="onBasicDeatilsFileInputFocusOut()" />
+        <div>
+            <p-fileUpload #fileUploadBasicDeatils
+                *ngIf="checkIfListOfBasicDeatilsFileUploadVisible()"
+                id="BasicDetails_Attachments_Upload" [auto]="true"
+                (onUpload)="this.onUploadBasicDetailsAttachmentUpload()"
+                (onError)="this.errorHandler($event, fileUploadBasicDeatils)"
+                name="basic_details_qcr_files_upload_gmc" mode="advanced"
+                url="{{this.uploadbasicDeatilsAttachmentUrl}}"
+                accept=".xls, .xlsx,application/pdf" maxFileSize="10000000"
+                chooseIcon="pi pi-paperclip" chooseLabel="Upload file"
+                [headers]="this.uploadHttpHeaders" method="post">
+            </p-fileUpload>
+        </div>
+    </div>
+</div>
+
+<div class="grid" style="margin-bottom: 20px;">
+    <div class="col-12">
+        <div *ngIf="this.attachmentDetails?.length > 0">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Description</th>
+                        <th style="text-align: center;">File Name</th>
+                        <th style="text-align: center;">Download</th>
+                        <th style="text-align: center;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let attachment of this.attachmentDetails">
+                        <td>{{ attachment.attachmentType }}</td>
+                        <td>{{ attachment.fileName }}</td>
+                        <td style="text-align: center;">
+                            <i class="pi pi-download"
+                                style="cursor: pointer; color: blue; font-size: 18px;"
+                                (click)="downloadBasicDetailsDetailsfile(attachment.id)"
+                                title="Download"></i>
+                        </td>
+                        <td style="text-align: center;">
+                            <i class="pi pi-trash"
+                                style="cursor: pointer; color: red; font-size: 18px;"
+                                (click)="deleteBasicDetailsAttachmentsDetails(attachment.id)"
+                                title="Delete"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div style="position: absolute; top: 30px; right: 30px; cursor: pointer;">
+    <i class="pi pi-times" style="font-size: 25px; color: white;" (click)="cancel()" title="Close"></i>
+</div>

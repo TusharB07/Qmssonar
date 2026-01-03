@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="lt-solid-box iq-addOns">
+        <p-accordion>
+            <p-accordionTab header="Property Damage" [selected]="true">
+            <!-- <p-accordionTab header="Property Damage" [selected]="true"> -->
+                <ul class="addOns-list" id="PropertyDamageList">
+                    <li *ngFor="let cover of selectedSectorAvgPaidCovers" >{{cover}}</li>
+
+                  </ul>
+            </p-accordionTab>
+            <!-- <p-accordionTab header="Business Interruption">
+                <ul class="addOns-list" id="BusinessInterruptionList">
+                    <li id="BusinessInterruptionList_AgreedBank">Agreed Bank Clause</li>
+                    <li id="BusinessInterruptionList_ReinstatementValue">Reinstatement Value Clause</li>
+                    <li id="BusinessInterruptionList_DesignationOfProperty">Designation Of Property Clause</li>
+                    <li id="BusinessInterruptionList_AuthoritiesClause">Local Authorities Clause</li>
+                    <li id="BusinessInterruptionList_ValuedPolicy">Valued Policy</li>
+                    <li id="BusinessInterruptionList_Dynamo">Dynamo Clause (Electrical Injury)</li>
+                    <li id="BusinessInterruptionList_RemovalOfDebris">Removal Of Debris Clause</li>
+                    <li id="BusinessInterruptionList_BrandLabelTrademark">Brand, Label and Trademark Clause</li>
+                  </ul>
+            </p-accordionTab> -->
+        </p-accordion>
+    </div>
+</div>

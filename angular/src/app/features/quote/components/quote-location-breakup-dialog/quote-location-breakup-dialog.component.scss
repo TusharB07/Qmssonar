@@ -1,0 +1,275 @@
+/**/
+.tblz01 {
+    color: #000;
+}
+
+.tblz01 ::ng-deep .p-treetable table {
+    text-align: right;
+}
+
+.tblz01 th {
+    font: normal normal bold 1.25rem/27px OpenSans-Bold;
+    color: #000;
+}
+
+.tblz01 td {
+    font: normal normal 600 0.875rem/19px OpenSans-SemiBold;
+    color: #6C7888;
+    padding: 1.5rem 0.5rem;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr>td:first-child {
+    text-align: left;
+}
+
+.tblz01 .table>:not(caption)>*>* {
+    /* padding: .5rem .5rem; */
+    border: 0;
+}
+
+.tblz01 thead {
+    border-style: hidden;
+}
+
+.tblz01 .table>:not(:first-child) {
+    border-top: 0;
+}
+
+.tblz01 tfoot td {
+    font: normal normal bold 0.875rem/19px OpenSans-Bold;
+    color: #000000;
+}
+
+.tblz01 .table {
+    text-align: right;
+}
+
+.tblz01 ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    text-align: right;
+    border: transparent;
+    color: #000000;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr>td {
+    text-align: right;
+    vertical-align: top;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tfoot>tr>td {
+    font: normal normal bold 0.875rem/19px OpenSans-Bold;
+    color: #000000;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tfoot>tr>td:first-child {
+    text-align: left;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr>td:last-child {
+    color: #000;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tfoot>tr>td {
+    text-align: right;
+    border: transparent;
+}
+
+.btn-blue-ff {
+    color: #2156C2;
+    background-color: #E8EFFF;
+    border-color: transparent;
+    border-radius: 6px;
+    font: normal normal bold 1rem/22px OpenSans-Bold;
+    padding: 0.55rem 2rem;
+    height: 48px;
+    cursor: pointer;
+}
+
+.btn-blue-ff:hover {
+    color: #2156C2;
+    background-color: #cad1e0;
+    border-color: transparent;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr td {
+    font: normal normal bold 1.25rem/27px OpenSans-Bold;
+    color: #000000;
+}
+
+// .tblz01 ::ng-deep .p-treetable .p-treetable-tbody > tr:nth-of-type(1) td:nth-of-type(1){
+//     font: normal normal bold 22px/30px OpenSans-Bold;
+//     color: #000000;
+// }
+// .tblz01 ::ng-deep .p-treetable .p-treetable-tbody > tr:nth-of-type(2) td:nth-of-type(1), .tblz01 ::ng-deep .p-treetable .p-treetable-tbody > tr:nth-of-type(3) td:nth-of-type(1){
+//     font: normal normal bold 1.25rem/27px OpenSans-Bold;
+//     color: #000000;
+// }
+.tblz01 ::ng-deep .p-treetable .p-treetable-thead>tr>th {
+    text-align: right;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr td {
+    position: relative
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tbody>tr:nth-of-type(1) .input01 {
+    background: transparent;
+    border: transparent;
+}
+
+.input01 {
+    background: #F6F6F6 0% 0% no-repeat padding-box;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+    width: 180px;
+    height: 32px;
+    font: normal normal 600 0.75rem/17px OpenSans-SemiBold;
+    padding: 5px;
+    text-align: center;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-tfoot>tr>th:first-child {
+    text-align: left;
+}
+
+.tblz01 ::ng-deep .p-treetable .p-treetable-thead>tr>th {
+    border: transparent;
+}
+
+.tblz01 ::ng-deep th {
+    position: relative;
+}
+
+.tblz01 ::ng-deep th a img,
+.tblz01 ::ng-deep .info-show .top-header img {
+    background-size: 100px;
+    width: 15px;
+    vertical-align: sub;
+}
+
+.info-show {
+    position: absolute;
+    top: 100%;
+    right: -20%;
+    opacity: 0;
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+    -webkit-transition: all 150ms linear;
+    -o-transition: all 150ms linear;
+    transition: all 150ms linear;
+    visibility: hidden;
+    pointer-events: none;
+    width: 210px;
+    height: auto;
+    text-align: left;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 12px #00000029;
+    border-radius: 13px;
+    z-index: 10;
+}
+
+a:hover+.info-show {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.info-show .top-header {
+    font: normal normal bold 12px/17px OpenSans-Bold;
+    padding: 15px;
+    border-bottom: 1px solid #C7C7C7;
+}
+
+.info-show .details {
+    font: normal normal normal 12px/20px OpenSans-Regular;
+    color: #6C7888;
+    padding: 15px
+}
+
+.info-show .details p {
+    margin-bottom: 15px;
+}
+
+.info-show .details p span {
+    font-family: OpenSans-SemiBold;
+    color: #000;
+    display: block;
+}
+
+
+.modal-container {
+    width: 80%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.styled-table thead th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.header-row {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+}
+
+.description-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.amount-input {
+    width: 100%;
+    padding: 8px;
+    // border: 1px solid #ddd;
+    // border-radius: 4px;
+    font-size: 16px;
+}
+
+.amount-input {
+    text-align: right;
+}
+
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}

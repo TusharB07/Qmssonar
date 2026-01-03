@@ -1,0 +1,16 @@
+<div class="p-5 flex justify-content-center">
+    <div class="mb-5">
+        <p-fileUpload
+            *ngIf="this.config.data.user?.roleId?.name == AllowedRoles.INSURER_ADMIN || this.config.data.user.roleId?.name == AllowedRoles.ADMIN"
+            [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+            [method]="this.uploadProps.method" (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+            [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()" [showCancelButton]="true"
+            [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload" [uploadLabel]="this.uploadProps.uploadLabel"
+            [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"
+            id="uploadLocationDetails_Excel"></p-fileUpload>
+    </div>
+    <div class="ml-2">
+        <button class="btn btn-primary" type="button" id="ElectronicEquipments_Dialog_Close"
+            (click)="cancel()">Close</button>
+    </div>
+</div>

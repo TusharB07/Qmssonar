@@ -1,0 +1,60 @@
+<form [formGroup]="recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="ExclusionFormRecordName">{{recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="Co-InsurersForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="Co-InsurersForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field">
+                            <label id="Co-InsurersForm_CompanyNameLabel" for="companyName">Insurance Company Name</label>
+                            <input id="Co-InsurersForm_CompanyName" type="text" pInputText formControlName="companyName" required
+                                   [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['companyName']}" />
+                            <small id="Co-InsurersForm_CompanyNameValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['companyName']">Co-Insurer Name is required.</small>
+                        </div>
+
+                        <!-- <div class="field">
+                            <label id="Co-InsurersForm_ShareLabel" for="share">Share</label>
+                            <input id="Co-InsurersForm_Share" type="number" pInputText formControlName="share" required
+                                   [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['share']}" />
+                            <small id="Co-InsurersForm_ShareValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['share']">Share is required and must be a non-negative number.</small>
+                        </div> -->
+
+                        <div class="field">
+                            <label id="Co-InsurersForm_CityLabel" for="cityOfIssuingOffice">City of Issuing Office</label>
+                            <input id="Co-InsurersForm_City" type="text" pInputText formControlName="cityOfIssueOffice" required
+                                   [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['cityOfIssueOffice']}" />
+                            <small id="Co-InsurersForm_CityValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['cityOfIssueOffice']">City is required.</small>
+                        </div>
+
+                        <!-- <div class="field">
+                            <label id="Co-InsurersForm_IsLeadLabel" for="isLead">Is Lead</label>
+                            <p-toggleButton id="Co-InsurersForm_IsLead" formControlName="isLead" onLabel="Yes" offLabel="No" onIcon="pi pi-check" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                        </div> -->
+
+                        <div class="field">
+                            <label id="Co-InsurersForm_DivisionOfficeLabel" for="divisionOfficeCode">Division Office</label>
+                            <input id="Co-InsurersForm_DivisionOffice" type="text" pInputText formControlName="divisionOfficeCode"
+                                   [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['divisionOfficeCode']}" />
+                            <small id="Co-InsurersForm_DivisionOfficeValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['divisionOfficeCode']">Division Office is optional.</small>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</form>

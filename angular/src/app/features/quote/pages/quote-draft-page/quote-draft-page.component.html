@@ -1,0 +1,2046 @@
+<div *ngIf="!isMobile">
+    <section class="main-container">
+        <p-toast [style]="{'font-size' : '15px','font-weight': 'bold'}"></p-toast>
+        <div class="grid">
+            <div class="col-12 lg:col-4 flex justify-content-center ">
+                <div class="text-center mt-8" data-aos="fade-right"><img src="assets/step3-pic.png" alt=""
+                        width="280px" />
+                </div>
+            </div>
+            <div class="col-12 lg:col-8">
+                <div class="rt step3-inner">
+                    <div data-aos="fade-left">
+                        <h2 class="head44" id="quote_Header">You're just few steps away from getting an indicative quote
+                        </h2>
+                        <p class="para23" id="quote_SubHeader">You'll be able to see quotes from various insurers after
+                            entering below details
+                        </p>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <div class="box-row">
+                                <div class="title">
+                                    <span *ngIf="!this.riskStartDate" id="quote_RiskStarIcons" id="quote_RiskStarIcons"
+                                        class="non-selected-icon"></span>
+                                    <span *ngIf="this.riskStartDate" id="quote_RiskStarIcons"
+                                        class="selected-icon"></span>
+                                    RFP Date
+                                </div>
+                                <div class="content">
+                                    <div class="grid flex align-items-center justify-content-between">
+                                        <div class="col-12">
+                                            <div class="input-row flex align-items-center" data-aos="fade-left">
+                                                <input type="date" id="quote_RiskStartDate" class="form-control"
+                                                    (ngModelChange)="this.onUpdateRiskStartDate($event)"
+                                                    [(ngModel)]="this.riskStartDate" [disabled]="true" />
+                                                <p class="title ml-3" id="quote_RiskStartDate">{{this.riskStartDate
+                                                    |date : 'fullDate'}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="box-row">
+                                <div class="grid flex justify-content-start">
+                                    <div>
+                                        <div class="title ml-2">
+                                            <span *ngIf="!riskStartDate" class="non-selected-icon"></span>
+                                            <span *ngIf="riskStartDate" class="selected-icon"></span>
+                                            Sector *
+                                        </div>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center">
+                                                <p-dropdown [options]="sectors" optionLabel="name" optionValue="_id"
+                                                    [(ngModel)]="selectedData.sectorId" placeholder="Select a Sector"
+                                                    class="custom-dropdowns" [disabled]="this.location?.length"
+                                                    (onChange)="updateQuoteWise('sectorId', selectedData.sectorId)"
+                                                    required>
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div>
+                                        <div class="title ml-7">Client Name *</div>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center">
+                                                <p-dropdown [options]="clients" optionLabel="name" optionValue="_id" [filter]="true"
+                                                    [(ngModel)]="selectedData.clientId"
+                                                    [disabled]="this.location?.length"
+                                                    placeholder="Select a Client Name" class="custom-dropdowns"
+                                                    (onChange)="updateQuoteWise('clientId', selectedData.clientId)"
+                                                    required>
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="add-btn">
+                                            <a href="javascript:void(0)" pButton type="button" label="Add New Client"
+                                                id="QuoteCreate_CreateNew_Client"
+                                                class="p-button-outlined btn-outline-blue"
+                                                (click)="createClientDialogue()"></a>
+                                        </div>
+                                    </div> -->
+                                    <div>
+                                        <div class="title ml-7">Client Name *</div>
+                                        <div class="content">
+                                            <div class="input-container">
+                                                <p-dropdown [options]="clients" optionLabel="name" optionValue="_id"
+                                                    [(ngModel)]="selectedData.clientId"
+                                                    [disabled]="this.location?.length"
+                                                    placeholder="Select a Client Name" class="custom-dropdowns"
+                                                    (onChange)="updateQuoteWise('clientId', selectedData.clientId)"
+                                                    appendTo="body" required>
+                                                </p-dropdown>
+
+                                                <a href="javascript:void(0)" pButton type="button" label="Create Client"
+                                                    id="QuoteCreate_CreateNew_Client"
+                                                    class="p-button-outlined btn-outline-blue add-client-btn"
+                                                    (click)="createClientDialogue()">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div>
+                                        <div class="title ml-7">Quote Type *</div>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center">
+                                                <p-dropdown [options]="optionsQuoteType" optionLabel="label"
+                                                    optionValue="value" [(ngModel)]="selectedData.quoteType"
+                                                    placeholder="Select a Quote Type" class="custom-dropdowns"
+                                                    [disabled]="this.location?.length"
+                                                    (onChange)="updateQuoteWise('quoteType', selectedData.quoteType)"
+                                                    required>
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-row">
+                                <div class="title">
+                                    <span *ngIf="!riskStartDate" class="non-selected-icon"></span>
+                                    <span *ngIf="riskStartDate" class="selected-icon"></span>
+                                    Insured Business
+                                </div>
+                                <div class="content">
+                                    <div class="col-12 text-left" style="width: 50%;">
+                                        <div class="ml-auto">
+                                            <input placeholder="Enter Here...." pInputText
+                                                [(ngModel)]="selectedData.insuredBusiness" class="form-control"
+                                                [disabled]="this.location?.length" maxlength="100"
+                                                (blur)="updateQuoteWise('insuredBusiness', selectedData.insuredBusiness)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-row"
+                                *ngIf="this.quote?.sectorId && this.quote?.clientId && this.quote?.quoteType">
+                                <div class="title">
+                                    <span *ngIf="!categorySelected" id="quote_CategoryIcons"
+                                        class="non-selected-icon"></span>
+                                    <span *ngIf="categorySelected" id="quote_CategoryIcons"
+                                        class="selected-icon"></span>
+                                    Category *
+                                </div>
+                                <div class="content">
+                                    <div class="grid flex align-items-center">
+                                        <div class="col-12">
+                                            <div class="field">
+                                                <div class="mb-3">
+                                                    <p-carousel [value]="carouselCategory" [numVisible]="1"
+                                                        [numScroll]="1" [circular]="false"
+                                                        [responsiveOptions]="responsiveOptions">
+
+                                                        <ng-template let-productsArr pTemplate="item">
+                                                            <div class="grid" data-aos="fade-left">
+                                                                <div class="col-6"
+                                                                    *ngFor="let category of productsArr; let i=index">
+                                                                    <button id="quote_productType"
+                                                                        [disabled]="this.location?.length || isEmpData"
+                                                                        (click)="this.onCategoryChange(category.value)"
+                                                                        [class]="'btn-product '"
+                                                                        [ngClass]="selectedCategoryId === category.value ? 'active': this.categoryName === category.label ? 'active' : ''">
+                                                                        <div class="flex">
+                                                                            <div class="label-icon">
+
+                                                                                <img src="{{category.imgUrl}}" alt="" />
+                                                                            </div>
+                                                                            <div class="label-text">
+                                                                                {{category.label}}
+                                                                            </div>
+                                                                        </div>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-carousel>
+                                                    <!-- <p-dropdown [options]="categoryOptions" placeholder="Select Category" optionLabel="label"  name="selectedCategory" id="quote_Category" (onChange)="onCategoryChange($event)" [(ngModel)]="selectedCategory"></p-dropdown> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product section -->
+                            <div class="box-row" *ngIf="categorySelected">
+                                <div class="title">
+                                    <span *ngIf="!this.quote?.productId?._id" id="quote_ProductIcons"
+                                        class="non-selected-icon"></span>
+                                    <span *ngIf="this.quote?.productId?._id" id="quote_ProductIcons"
+                                        class="selected-icon"></span>
+                                    <!-- <span id="quote_ProductIcons" class="selected-icon"></span> -->
+                                    Product *
+                                </div>
+                                <div class="content" *ngIf="this.productCarouselArray.length">
+                                    <p-carousel [value]="carouselProducts" [numVisible]="1" [numScroll]="1"
+                                        [circular]="false" [responsiveOptions]="responsiveOptions">
+                                        <ng-template let-productsArr pTemplate="item">
+                                            <div class="grid" data-aos="fade-left">
+                                                <div class="col-6" *ngFor="let product of productsArr; let i=index">
+                                                    <button id="quote_productType"
+                                                        [disabled]="!product.status || this.location?.length || isEmpData"
+                                                        (click)="this.updateQuoteProduct(product._id,i)"
+                                                        [class]="'btn-product '"
+                                                        [ngClass]="this.quote?.productId?._id === product._id ? 'active' : this.productNames === product.type ? 'active' :''">
+                                                        <div class="flex">
+                                                            <div class="label-icon">
+                                                                <img src="{{productImgs}}" alt="" />
+                                                            </div>
+                                                            <div class="label-text">{{product.type}}</div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-carousel>
+                                </div>
+                            </div>
+
+                            <!-- Expired Details button is for every category and product except CAR and EAR product -->
+                            <div class="box-row" *ngIf="productSelected && this.quote.quoteType == 'existing'">
+                                <div class="title">
+                                    <span *ngIf="!this.quote?.productId?._id" class="non-selected-icon"></span>
+                                    <span *ngIf="this.quote?.productId?._id" class="selected-icon"></span>
+                                    Expired Details
+                                </div>
+                                <div class="content flex">
+                                    <p-splitButton [disabled]="!this.quote?.productId?._id" id="expiredDetailsAddBtn"
+                                        styleClass="p-button-outlined mb-2 custom-create-btn" label="Add"
+                                        icon="pi pi-plus" (onClick)="expiredDetails()"
+                                        *ngIf="this.expiredDetailsData == undefined">
+                                    </p-splitButton>
+                                    <button type="submit" (click)="expiredDetails()" class="btn btn-link"
+                                        *ngIf="this.expiredDetailsData != undefined">View Expiring Details</button>
+                                    <span style="line-height: 19px;padding-left: 10px;">
+                                        <p-fileUpload #fileUpload id="ExpiryPolicyCopy_Upload" [auto]="true"
+                                            (onUpload)="this.onUploadExpiryPolicy()"
+                                            *ngIf="!this.quoteOptionData?.expiryCopyDocumentPath"
+                                            (onError)="this.errorHandler($event, fileUpload)" name="expiry-policy-copy"
+                                            mode="basic" url="{{this.uploadExpiryCopyUrl}}" accept="application/pdf"
+                                            maxFileSize="4000000" chooseIcon="pi pi-paperclip"
+                                            chooseLabel="Upload Expiry Policy Copy Report"
+                                            [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+                                    </span>
+                                </div>
+
+                                <p-fileUpload #fileUpload id="ExpiryPolicyCopy_Upload" [auto]="true"
+                                    (onUpload)="this.onUploadExpiryPolicy()"
+                                    *ngIf="!this.quoteOptionData?.expiryCopyDocumentPath"
+                                    (onError)="this.errorHandler($event, fileUpload)" name="expiry-policy-copy"
+                                    mode="basic" url="{{this.uploadExpiryCopyUrl}}" accept="application/pdf"
+                                    maxFileSize="4000000" chooseIcon="pi pi-paperclip"
+                                    chooseLabel="Upload Expiry Policy Copy Report" [headers]="this.uploadHttpHeaders"
+                                    method="post"></p-fileUpload>
+
+                                <div *ngIf="this.quoteOptionData?.expiryCopyDocumentPath"
+                                    class="done-upload-outline-light flex" id="ExpiryPolicyCopy">
+                                    <a class="" pRipple (click)="this.downloadExpiryCopy()"><i class="pi pi-eye"
+                                            id="View_ExpiryPolicyCopy"></i> View Expiry Policy Copy </a>
+
+                                    <div class="flex">
+                                        <a class="red-link" (click)="this.deleteExpiryCopy()" style="color: red;"
+                                            [disabled]="quote.quoteState == 'Rejected'"><i class="pi pi-trash"
+                                                id="Delete_ExpiryPolicyCopy"></i>
+                                            Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-row" *ngIf="productSelected">
+                                <div class="grid flex align-items-center"
+                                    *ngIf="this.quote?.productId?.shortName !== 'CAR' && this.quote?.productId?.shortName !== 'EAR'">
+                                    <div class="">
+                                        <div class="title">
+                                            <span *ngIf="!this.policyStartDate" id="policyStartDateIcons"
+                                                class="non-selected-icon ml-2"></span>
+                                            <span *ngIf="this.policyStartDate" id="policyStartDateIcons"
+                                                class="selected-icon ml-2"></span>
+                                            Policy Start Date
+                                        </div>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center" data-aos="fade-left">
+                                                <input type="date" id="policyStartDate" class="form-control"
+                                                    (ngModelChange)="this.updateQuoteOptionWise({policyStartDate:$event})"
+                                                    [min]="this.minStartDate" max="2100-12-31"
+                                                    [(ngModel)]="this.policyStartDate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <label class="title" style="padding-left: 45px;">Policy End Date</label>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center pt-2" data-aos="fade-left">
+                                                <input type="date" id="policyEndDate" class="form-control"
+                                                    (ngModelChange)="this.updateQuoteOptionWise({policyEndDate:$event})"
+                                                    [min]="this.minEndDate" max="2100-12-31"
+                                                    [(ngModel)]="this.policyEndDate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="">
+                                        <label class="title" style="padding-left: 45px;">Project Date (If
+                                            any)</label>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center pt-2" data-aos="fade-left">
+                                                <input type="date" id="projectDate" class="form-control"
+                                                    name="projectDate"
+                                                    (ngModelChange)="this.updateQuoteOptionWise({projectDate:$event})"
+                                                    [(ngModel)]="this.projectDate" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                      </div> -->
+                                    <!-- <div class=""
+                                        *ngIf="this.hideExpiredTermCheckbox?.length == 0 && this.templateName != 'GMC' && !this.isProductLiability()">
+                                        <label class="title" style="padding-left: 45px;">Expired Quote Option</label>
+                                        <div class="content">
+                                            <div class="input-row flex align-items-center pt-2" data-aos="fade-left">
+                                                <p-checkbox binary="true" [(ngModel)]="this.expiredQuoteOption"
+                                                    value="true"
+                                                    (ngModelChange)="this.updateQuoteOptionWise({expiredQuoteOption:$event})"
+                                                    name="expiredQuoteOption">
+                                                </p-checkbox>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div
+                                    *ngIf="quote?.productId?.shortName === 'CAR' || quote?.productId?.shortName === 'EAR'">
+                                    <div class="title">
+                                        <span id="projectDetails" class="selected-icon ml-2"></span>
+                                        Project Details
+                                    </div>
+                                    <div class="content">
+                                        <button id="projectDetailsAddBtn" class="btn btn-primary"
+                                            (click)="projectDetails()">+ Add Project Details
+                                        </button>
+                                        <!-- <button type="submit" (click)="projectDetails()" class="btn btn-link"
+                                            *ngIf="this.projectDetailsData != undefined">View Project Details</button> -->
+                                    </div>
+                                </div>
+                                <!-- <div class="box-row" *ngIf="this.showLiabilityTenure()">
+                                <div class="title">
+                                    <span id="quote_TenureIcons" *ngIf="!this.policyTenureYears" id="quote_Tenure"
+                                        class="non-selected-icon"></span>
+                                    <span id="quote_TenureIcons" *ngIf="this.policyTenureYears"
+                                        class="selected-icon"></span>
+                                    Quote Tenure
+                                </div>
+                                <div class="content">
+                                    <div class="w-3">
+                                        <p-autoComplete class="custom-dropdown"
+                                            [suggestions]="this.optionsIndmenityPeriod"
+                                            [disabled]="!this.quote?.productId"
+                                            id="InsuredDetailsDialog_RenewalPolicyPeriod"
+                                            placeholder="Select Indmenity Period" [(ngModel)]="this.policyTenureYears"
+                                            (completeMethod)="this.searchOptionsMandY($event)" [dropdown]="true"
+                                            (onSelect)="this.compute($event)"
+                                            [ngClass]="{'ng-invalid ng-dirty': this.isError}"
+                                            field="label"></p-autoComplete>
+                                        <small class="ng-dirty ng-invalid"></small>
+                                    </div>
+                                </div>
+                            </div>-->
+                                <div class="box-row" *ngIf="templateName == 'WORKMENSCOMPENSATION'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span
+                                                *ngIf="insuredBusinessActivityId==undefined || insuredBusinessActivityId==''"
+                                                id="quote_insuredBusinessActivityIdProduct"
+                                                class="non-selected-icon"></span>
+                                            <span
+                                                *ngIf="insuredBusinessActivityId != undefined && insuredBusinessActivityId != ''"
+                                                id="quote_insuredBusinessActivityIdProduct"
+                                                class="selected-icon"></span>
+                                            Insured Business Activity
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <div class="col-2 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <p-dropdown class="form-control"
+                                                        [options]="optionsInsuredBusinessActivity"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" [(ngModel)]="insuredBusinessActivityId"
+                                                        id="insuredBusinessActivityId" name="insuredBusinessActivityId"
+                                                        appendTo="body"
+                                                        (onChange)="onDropdownInsuredBusinessActivityChange($event)">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-left mt-1"
+                                                *ngIf="selectedInsuredBusinessActivity?.label?.includes('Others')">
+                                                <div class="ml-auto">
+                                                    <input maxlength="255" pInputText id="insuredBusinessActivityOther"
+                                                        autocomplete="off" [(ngModel)]="insuredBusinessActivityOther"
+                                                        name="insuredBusinessActivityOther" type="text"
+                                                        placeholder="Type here" class="p-inputtext1 text-left mt-1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Intergation-EB [Start] -->
+
+
+                                <div class="box-row" *ngIf="productSelected && this.templateName == 'GMC'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="flex">
+                                            <span *ngIf="!this.isEmpData" id="quote_DemographicIcons"
+                                                class="non-selected-icon"></span>
+                                            <span *ngIf="this.isEmpData" id="quote_DemographicIcons"
+                                                class="selected-icon"></span>
+                                            Demography Report
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onPlanTypeChanged($event)"
+                                                            [(ngModel)]="this.isPlanTypeIndividualfloater"
+                                                            value="Individual" label="Individual"
+                                                            id="PlanTypeIndividualfloateryes"
+                                                            name="PlanTypeIndividualfloateryes" #name="ngModel"
+                                                            inputId="ingredient1"></p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onPlanTypeChanged($event)"
+                                                            name="PlanTypeIndividualfloateryes" value="Floater"
+                                                            [(ngModel)]="this.isPlanTypeIndividualfloater"
+                                                            #name="ngModel" inputId="ingredient2" label="Floater"
+                                                            id="PlanTypeIndividualfloaternp"></p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onFileUploadTypeChanged($event)"
+                                                            [(ngModel)]="isFileUploadTypeAggregate" value="Aggregate"
+                                                            label="I don't have Member Details"
+                                                            id="FileUploadTypeAggregateYes" name="FileUploadType"
+                                                            #uploadType="ngModel"
+                                                            inputId="fileUploadAggregate"></p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onFileUploadTypeChanged($event)"
+                                                            name="FileUploadType" value="Normal"
+                                                            [(ngModel)]="isFileUploadTypeAggregate"
+                                                            #uploadType="ngModel" inputId="fileUploadNormal"
+                                                            label="I have Member Details"
+                                                            id="FileUploadTypeNormal"></p-radioButton>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex">
+                                            <div class="flex-2">
+                                                <p-fileUpload #fileUpload [name]="this.bulkImportProps.name"
+                                                    [mode]="this.bulkImportProps.mode" [url]="this.bulkImportProps.url"
+                                                    [method]="this.bulkImportProps.method"
+                                                    (beforeUpload)="beforeUploadHandler($event)"
+                                                    (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                                                    (onError)="this.errorHandler($event, fileUpload)"
+                                                    [headers]="this.bulkImportProps.headers" [showCancelButton]="true"
+                                                    [auto]="this.bulkImportProps.auto"
+                                                    [uploadLabel]="this.bulkImportProps.uploadLabel"
+                                                    [chooseLabel]="this.bulkImportProps.chooseLabel"
+                                                    styleClass="btn btn-primary" id="Employee_Demography_Upload_Excel"
+                                                    accept=".xlsx,.xls"></p-fileUpload>
+                                            </div>
+                                            <!-- <div class="flex-1 flex align-items-left justify-content-left px-5 py-3">
+                                            <div class="cursor download-sample-text" style="cursor: pointer"
+                                                id="Empdata_Download" (click)="this.downloadEmpDataSampleFile()">
+                                                <i class="pi pi-download"></i> <u> Download Sample file</u>
+                                            </div>
+                                        </div> -->
+                                            <div class="flex-2 px-5">
+                                                <div class="justify-content-center">
+                                                    <button class="btn btn-info mr-4"
+                                                        (click)="this.downloadEmpDataSampleFile()"
+                                                        id="demography_DownloadSampleFile"><i
+                                                            class="pi pi-download"></i>
+                                                        Download Sample File</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="flex" *ngIf="this.isDemographyFileuploaded">
+                                        <div class="flex-2 flex align-items-left justify-content-left px-2 py-2">
+                                            <div class="cursor download-sample-text" style="cursor: pointer"
+                                                (click)="this.getGMCEmployeeViewDialog()"><i class="pi pi-eye"></i> <u>
+                                                    View</u></div>
+                                        </div>
+                                        <div class="flex-2 flex align-items-left justify-content-left px-2 py-2">
+                                            <div class="cursor download-sample-text" style="cursor: pointer"
+                                                (click)="this.GMCEmployeeRemoveFile()"><i class="pi pi-trash"></i> <u>
+                                                    Remove</u></div>
+                                        </div>
+                                    </div> -->
+
+                                        <div class="flex py-4" *ngIf="this.isDemographyFileuploaded">
+                                            <div class="justify-content-center">
+                                                <button class="btn btn-info mr-4"
+                                                    (click)="this.getGMCEmployeeViewDialog()"
+                                                    id="demography_file_view"><i class="pi pi-eye"></i> View</button>
+                                            </div>
+                                            <div class="justify-content-center">
+                                                <button class="btn btn-info mr-4" (click)="this.GMCEmployeeRemoveFile()"
+                                                    id="demography_file_remove"><i class="pi pi-trash"></i>
+                                                    Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!----EB Policy types and plan-->
+
+                                <div class="box-row" *ngIf="productSelected && templateName == 'GMC'">
+                                    <div class="title flex justify-content-between align-items-center"
+                                        style="display: flex;">
+                                        <div class="title">
+                                            <span *ngIf="quote.ebPlan==undefined || quote.ebPlan==''"
+                                                id="quote_EBPolicyTypeAndPlan" class="non-selected-icon"></span>
+                                            <span *ngIf="quote.ebPlan!=undefined &&  quote.ebPlan!=''"
+                                                id="quote_EBPolicyTypeAndPlan" class="selected-icon"></span>
+                                            Policy Type & Plan<span style="color: red;">*</span>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <!-- Policy Type Dropdown -->
+                                            <div class="col-3 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <p-dropdown [options]="OptionEBPoilcyTypes"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" id="policyTypeEB"
+                                                        [(ngModel)]="quote.ebPolicyType" name="ebPolicyType"
+                                                        #ebPolicyType="ngModel" appendTo="body" (onChange)="updatequote()"
+                                                        class="eandO-dropdown"></p-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <!-- Plan Dropdown -->
+                                            <div class="col-3 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <p-dropdown [options]="OptionEBPlans" placeholder="Select Plan"
+                                                        optionLabel="label" optionValue="value" id="EBPlans"
+                                                        [(ngModel)]="quote.ebPlan" name="ebPlan" #ebPlan="ngModel"
+                                                        appendTo="body" class="eandO-dropdown" (onChange)="updatequote()"></p-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="col-3 text-left mt-1">
+                                            <div class="ml-auto">
+                                                <p-input type="text" pinputText [(ngModel)]="this.quote.ctcLink"
+                                                    #ctcLink="ngModel" id="ctcLink" name="ctcLink"></p-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-row"
+                                    *ngIf="productSelected && this.templateName == 'WORKMENSCOMPENSATION'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="flex">
+                                            <span id="quote_wcRatesReportIcons" class="selected-icon"></span>
+                                            Rate Report
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onTableTypeChange($event)"
+                                                            [(ngModel)]="isTableTypeNamedUnnamed" value="Named"
+                                                            label="Named" id="TableTypeNamed"
+                                                            name="isTableTypeNamedUnnamed" #Named="ngModel"
+                                                            inputId="ingredient1">
+                                                        </p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (click)="onTableTypeChange($event)"
+                                                            [(ngModel)]="isTableTypeNamedUnnamed" value="Unnamed"
+                                                            label="Unnamed" id="TableTypeUnnamed"
+                                                            name="isTableTypeNamedUnnamed" #Unnamed="ngModel"
+                                                            inputId="ingredient2">
+                                                        </p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex">
+                                            <div class="flex-2">
+                                                <p-fileUpload [name]="this.wcRatesbulkImportProps.name"
+                                                    [mode]="this.wcRatesbulkImportProps.mode"
+                                                    [url]="this.wcRatesbulkImportProps.url"
+                                                    [method]="this.wcRatesbulkImportProps.method"
+                                                    (onUpload)="this.wcRatesbulkImportProps.onUpload($event.originalEvent.body)"
+                                                    [headers]="this.wcRatesbulkImportProps.headers"
+                                                    [showCancelButton]="true" [auto]="this.wcRatesbulkImportProps.auto"
+                                                    [uploadLabel]="this.wcRatesbulkImportProps.uploadLabel"
+                                                    [chooseLabel]="this.wcRatesbulkImportProps.chooseLabel"
+                                                    [disabled]="this.isRateFileuploaded" styleClass="btn btn-primary"
+                                                    id="WC_Rates_Upload_Excel" accept=".xlsx,.xls"></p-fileUpload>
+                                            </div>
+                                            <div class="flex-2 px-5">
+                                                <div class="justify-content-center">
+                                                    <button class="btn btn-info mr-4"
+                                                        (click)="this.downloadWCRatesDataSampleFile()"
+                                                        id="wcRates_DownloadSampleFile"><i class="pi pi-download"></i>
+                                                        Download Sample File</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex py-4" *ngIf="this.isRateFileuploaded">
+                                            <div class="justify-content-center">
+                                                <button class="btn btn-info mr-4" (click)="this.getWCRatesViewDialog()"
+                                                    id="wcRates_file_view"><i class="pi pi-eye"></i> View</button>
+                                            </div>
+                                            <div class="justify-content-center">
+                                                <button class="btn btn-info mr-4" (click)="this.WCRatesRemoveFile()"
+                                                    id="wcRates_file_remove"><i class="pi pi-trash"></i> Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container" style="margin-top: 25px;">
+                                        <p-checkbox binary="true" [(ngModel)]="isOfferIndication" id="offerIndication"
+                                            name="isOfferIndication">
+                                        </p-checkbox>
+                                        <label for="agreeCheckbox">
+                                            The offer indication of otc is subject to no known or reported loss as on
+                                            date
+                                        </label>
+                                    </div>
+
+                                    <div class="col-12 text-right mt-5">
+                                        <div class="btn-div ml-auto">
+                                            <button (click)="this.getIndicativeQuoteWorkMan()"
+                                                [disabled]="!validateLiabilityGetIndicativeQuote()"
+                                                id="quote_GetIndicative_Quote" class="btn btn-lg btn btn-success">
+                                                Get Indicative Quote</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- D&O -->
+                                <div class="box-row"
+                                    *ngIf="productSelected && (templateName === 'LIABILITY' || templateName === 'LIABILITY_CRIME')">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="!insuredBusinessActivityId"
+                                                id="quote_insuredBusinessActivityId" class="non-selected-icon"></span>
+                                            <span *ngIf="insuredBusinessActivityId" id="quote_insuredBusinessActivityId"
+                                                class="selected-icon"></span>
+                                            Insured Business Activity
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <!-- Dropdown -->
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-dropdown class="form-control"
+                                                        [options]="optionsInsuredBusinessActivity"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" [(ngModel)]="insuredBusinessActivityId"
+                                                        id="insuredBusinessActivityId" name="insuredBusinessActivityId"
+                                                        appendTo="body"
+                                                        (onChange)="onDropdownInsuredBusinessActivityChange($event)">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <!-- Input Field (conditionally visible) -->
+                                            <div class="col-2 text-left mt-1"
+                                                *ngIf="selectedInsuredBusinessActivity?.label?.includes('Others')">
+                                                <div class="ml-auto">
+                                                    <input maxlength="255" pInputText id="insuredBusinessActivityOther"
+                                                        autocomplete="off" [(ngModel)]="insuredBusinessActivityOther"
+                                                        name="insuredBusinessActivityOther" type="text"
+                                                        placeholder="Type here" class="p-inputtext1 text-left mt-1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-row"
+                                    *ngIf="templateName == 'LIABILITY' || templateName == 'LIABILITY_CRIME'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="limitOfLiability == undefined || limitOfLiability == ''"
+                                                id="quote_limitOfLiability" class="non-selected-icon"></span>
+                                            <span *ngIf="limitOfLiability > 0" id="quote_limitOfLiability"
+                                                class="selected-icon"></span>
+                                            {{templateName === 'LIABILITY' ? 'Limit of Liability' : 'Limits'}}
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-inputNumber style="width: 140px !important;" mode="decimal"
+                                                        prefix="₹ " placeholder="₹ 0" id="limitOfLiability"
+                                                        locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="limitOfLiability" name="limitOfLiability"
+                                                        [minFractionDigits]="0" class="text-right">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                                    {{
+                                                    toWords.convert(limitOfLiability ?? 0, {
+                                                    currency: true,
+                                                    ignoreZeroCurrency: true
+                                                    })
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container" *ngIf="templateName === 'LIABILITY'">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="content last" *ngIf="templateName == 'LIABILITY'">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteLiability()"
+                                                    id="quote_GetIndicative_Quote_DandO"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container" *ngIf="templateName == 'LIABILITY_CRIME'">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="content last" *ngIf="templateName == 'LIABILITY_CRIME'">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteCrimeLiability()"
+                                                    id="quote_GetIndicative_Quote_DandO"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row"
+                                    *ngIf="templateName == 'LIABILITY_PRODUCT' || templateName == 'LIABILITY_CYBER'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span
+                                                *ngIf="insuredBusinessActivityId==undefined || insuredBusinessActivityId==''"
+                                                id="quote_insuredBusinessActivityIdProduct"
+                                                class="non-selected-icon"></span>
+                                            <span
+                                                *ngIf="insuredBusinessActivityId != undefined && insuredBusinessActivityId != ''"
+                                                id="quote_insuredBusinessActivityIdProduct"
+                                                class="selected-icon"></span>
+                                            Insured Business Activity
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <div class="col-2 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <p-dropdown class="form-control"
+                                                        [options]="optionsInsuredBusinessActivity"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" [(ngModel)]="insuredBusinessActivityId"
+                                                        id="insuredBusinessActivityId" name="insuredBusinessActivityId"
+                                                        appendTo="body"
+                                                        (onChange)="onDropdownInsuredBusinessActivityChange($event)">
+                                                    </p-dropdown>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-left mt-1"
+                                                *ngIf="selectedInsuredBusinessActivity?.label?.includes('Others')">
+                                                <div class="ml-auto">
+                                                    <input maxlength="255" pInputText id="insuredBusinessActivityOther"
+                                                        autocomplete="off" [(ngModel)]="insuredBusinessActivityOther"
+                                                        name="insuredBusinessActivityOther" type="text"
+                                                        placeholder="Type here" class="p-inputtext1 text-left mt-1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row"
+                                    *ngIf="templateName == 'LIABILITY_PRODUCT' || templateName == 'LIABILITY_CYBER'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="limitOfLiability==undefined || limitOfLiability==''"
+                                                id="quote_limitOfLiabilityProduct" class="non-selected-icon"></span>
+                                            <span *ngIf="limitOfLiability > 0" id="quote_limitOfLiabilityProduct"
+                                                class="selected-icon"></span>
+                                            Limit of Liability
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-inputNumber style="width: 140px !important;" mode="decimal"
+                                                        prefix="₹ " placeholder="₹ 0" id="limitOfLiability"
+                                                        locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="limitOfLiability" name="limitOfLiability"
+                                                        [minFractionDigits]="0" class="text-right">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="title m-0" id="quote_limitOfLiabilityProduct_InWords">
+                                                    {{
+                                                    toWords.convert(quote?.limitOfLiabilityProduct ?? 0, {
+                                                    currency: true,
+                                                    ignoreZeroCurrency: true
+                                                    })
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="content last">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteLiabilityProductLiability()"
+                                                    id="quote_GetIndicative_Quote_ProductLiability"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row" *ngIf="productSelected && templateName == 'LIABILITY_EANDO'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span
+                                                *ngIf="insuredBusinessActivityId==undefined || insuredBusinessActivityId==''"
+                                                id="quote_insuredBusinessActivityId" class="non-selected-icon"></span>
+                                            <span
+                                                *ngIf="insuredBusinessActivityId != undefined && insuredBusinessActivityId != ''"
+                                                id="quote_insuredBusinessActivityId" class="selected-icon"></span>
+                                            Insured Business Activity
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-dropdown class="form-control"
+                                                        [options]="optionsInsuredBusinessActivity"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" [(ngModel)]="insuredBusinessActivityId"
+                                                        id="insuredBusinessActivityId" name="insuredBusinessActivityId"
+                                                        appendTo="body"
+                                                        (onChange)="onDropdownInsuredBusinessActivityChange($event)">
+                                                    </p-dropdown>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-left mt-1"
+                                                *ngIf="selectedInsuredBusinessActivity?.label?.includes('Others')">
+                                                <div class="ml-auto">
+                                                    <input maxlength="255" pInputText id="insuredBusinessActivityOther"
+                                                        autocomplete="off" [(ngModel)]="insuredBusinessActivityOther"
+                                                        name="insuredBusinessActivityOther" type="text"
+                                                        placeholder="Type here" class="p-inputtext1 text-left mt-1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row" *ngIf="templateName == 'LIABILITY_EANDO'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="limitOfLiability==undefined || limitOfLiability==''"
+                                                id="quote_limitsEandO" class="non-selected-icon"></span>
+                                            <span *ngIf="limitOfLiability > 0" id="quote_limitsEandO"
+                                                class="selected-icon"></span>
+                                            Limit of Liability
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-inputNumber style="width: 140px !important;" mode="decimal"
+                                                        prefix="₹ " placeholder="₹ 0" id="limitOfLiability"
+                                                        locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="limitOfLiability" name="limitOfLiability"
+                                                        [minFractionDigits]="0" class="text-right">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                                    {{
+                                                    toWords.convert(quote?.limitsEandO ?? 0, {
+                                                    currency: true,
+                                                    ignoreZeroCurrency: true
+                                                    })
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteLiabilityEandO()"
+                                                    id="quote_GetIndicative_Quote_DandO"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-row"
+                                    *ngIf="templateName == 'LIABILITY_CGL' || templateName == 'LIABILITY_PUBLIC'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span
+                                                *ngIf="insuredBusinessActivityId==undefined || insuredBusinessActivityId==''"
+                                                id="quote_insuredBusinessActivityIdCGL"
+                                                class="non-selected-icon"></span>
+                                            <span
+                                                *ngIf="insuredBusinessActivityId != undefined && insuredBusinessActivityId != ''"
+                                                id="quote_insuredBusinessActivityIdCGL" class="selected-icon"></span>
+                                            Insured Business Activity
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <div class="col-2 text-left mt-1">
+                                                <p-dropdown class="form-control"
+                                                    [options]="optionsInsuredBusinessActivity" placeholder="Select Type"
+                                                    optionLabel="label" optionValue="value"
+                                                    [(ngModel)]="insuredBusinessActivityId"
+                                                    id="insuredBusinessActivityId" name="insuredBusinessActivityId"
+                                                    appendTo="body"
+                                                    (onChange)="onDropdownInsuredBusinessActivityChange($event)">
+                                                </p-dropdown>
+                                            </div>
+                                            <div class="col-2 text-left mt-1"
+                                                *ngIf="selectedInsuredBusinessActivity?.label?.includes('Others')">
+                                                <div class="ml-auto">
+                                                    <input maxlength="255" pInputText id="insuredBusinessActivityOther"
+                                                        autocomplete="off" [(ngModel)]="insuredBusinessActivityOther"
+                                                        name="insuredBusinessActivityOther" type="text"
+                                                        placeholder="Type here" class="p-inputtext1 text-left mt-1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- CGL -->
+                                <div class="box-row" *ngIf="productSelected && templateName == 'LIABILITY_CGL'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="typeOfProductId == undefined || typeOfProductId==''"
+                                                id="quote_typeOfProductId" class="non-selected-icon"></span>
+                                            <span *ngIf="typeOfProductId != undefined && typeOfProductId != ''"
+                                                id="quote_typeOfProductId" class="selected-icon"></span>
+                                            Type Of Product
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-dropdown class="form-control"
+                                                        [options]="this.OptionCGLTypeOfProducts"
+                                                        placeholder="Select Type" optionLabel="label"
+                                                        optionValue="value" id="typeOfProductId"
+                                                        [(ngModel)]="typeOfProductId" name="typeOfProductId"
+                                                        #name="ngModel" appendTo="body"></p-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row"
+                                    *ngIf="templateName == 'LIABILITY_CGL' || templateName == 'LIABILITY_PUBLIC'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="title">
+                                            <span *ngIf="limitOfLiability==undefined || limitOfLiability==''"
+                                                id="quote_limitOfLiability" class="non-selected-icon"></span>
+                                            <span *ngIf="limitOfLiability > 0" id="quote_limitOfLiabilityCGL"
+                                                class="selected-icon"></span>
+                                            {{templateName == 'LIABILITY_PUBLIC'?'Limits': 'Limit of Liability'}}
+                                        </div>
+                                    </div>
+                                    <div class="content last">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2 text-left">
+                                                <div class="ml-auto">
+                                                    <p-inputNumber style="width: 140px !important;" mode="decimal"
+                                                        prefix="₹ " placeholder="₹ 0" id="limitOfLiability"
+                                                        locale="en-IN" autocomplete="off" maxlength="20"
+                                                        [(ngModel)]="limitOfLiability" name="limitOfLiability"
+                                                        [minFractionDigits]="0" class="text-right">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="title m-0" id="quote_limitOfLiabilityCGL_InWords">
+                                                    {{
+                                                    toWords.convert(quote?.limitOfLiabilityCGL ?? 0, {
+                                                    currency: true,
+                                                    ignoreZeroCurrency: true
+                                                    })
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container" *ngIf="templateName == 'LIABILITY_CGL'">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="content last" *ngIf="templateName == 'LIABILITY_CGL'">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteLiabilityCGL()"
+                                                    id="quote_GetIndicative_Quote_CGL"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-container" *ngIf="templateName == 'LIABILITY_PUBLIC'">
+                                        <div class="checkbox-container" style="margin-top: 25px;">
+                                            <p-checkbox binary="true" [(ngModel)]="isOfferIndication"
+                                                id="offerIndication" name="isOfferIndication">
+                                            </p-checkbox>
+                                            <label for="agreeCheckbox">
+                                                The offer indication of otc is subject to no known or reported loss as
+                                                on date
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="content last" *ngIf="templateName == 'LIABILITY_PUBLIC'">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-right mt-1 mb-3">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuoteLiabilityPublicLiability()"
+                                                    id="quote_GetIndicative_Quote_PublicL"
+                                                    class="btn btn-lg btn btn-success"
+                                                    [disabled]="!validateLiabilityGetIndicativeQuote()">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="box-row" *ngIf="templateName == 'GMC' && this.isEmpData"> -->
+                                <div [ngClass]="{ 'box-row last': isPlanTypeIndividualfloater=='Individual', 'box-row': isPlanTypeIndividualfloater=='Floater' }"
+                                    *ngIf="productSelected && templateName == 'GMC'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="flex">
+                                            <span *ngIf="!this.isEmpData" id="quote_DemographicIcons"
+                                                class="non-selected-icon"></span>
+                                            <span *ngIf="this.isEmpData" id="quote_DemographicIcons"
+                                                class="selected-icon"></span>
+                                            <!-- Coverage Type & Details -->
+                                            Family Definition and Demography
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="col-12 text-left mt-2">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getEmpCoverageQuoteDialog()"
+                                                    id="quote_GetEmpCoveraes_Quote" class="btn btn-lg btn btn-success"
+                                                    [disabled]="!isEmpData">
+                                                    Select Coverage
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-left"
+                                            style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"
+                                            *ngIf="this.isEmpData && this.selectedCoverageType !=null">
+                                            <span class="font-bold">{{selectedCoverageType.abbreviation}} </span>
+                                            <span>({{selectedCoverageType.coverageType}})</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="box-row" *ngIf="productSelected && templateName == 'GMC'">
+                                    <div class="title" *ngIf="isPlanTypeIndividualfloater=='Floater'">
+                                        <span *ngIf="!quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                            class="non-selected-icon"></span>
+                                        <span *ngIf="quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                            class="selected-icon"></span>
+
+                                        Sum Insured
+                                    </div>
+                                    <div class="content last" *ngIf="isPlanTypeIndividualfloater=='Floater'">
+                                        <div class="grid flex align-items-center">
+                                            <div class="col-2">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (onClick)="onGradeFlatChange()"
+                                                            [(ngModel)]="this.isFlatGraded" value="flat" label="Flat"
+                                                            id="flatgraded"></p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2" *ngIf="isFileUploadTypeAggregate!='Aggregate'">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (onClick)="onGradeFlatChange()"
+                                                            [(ngModel)]="this.isFlatGraded" value="graded"
+                                                            label="Graded" id="flatgraded"></p-radioButton>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-2"
+                                                *ngIf="isFileUploadTypeAggregate!='Aggregate' &&  this.quote?.productId['type'].toLowerCase() !='group health policy' && this.quote?.productId['type'].toLowerCase() !='group health policy top up'">
+                                                <div class="field">
+                                                    <div class="mb-3">
+                                                        <p-radioButton (onClick)="onGradeFlatChange()"
+                                                            [(ngModel)]="this.isFlatGraded" value="ctclinked"
+                                                            label="CTC Link" id="flatgraded"></p-radioButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"
+                                            class="grid flex align-items-center justify-content-between">
+                                            <div class="col-12 md:col-4 mb-2" *ngIf="isFlatGraded == 'flat'">
+                                                <label for="" class="form-label" id="gmcSumInsured_label"> Sum Insured
+                                                    <!-- <i class="pi pi-tags"
+                                                    style="cursor: pointer; color: blue; font-size: 18px;"
+                                                    (click)="this.getAnsFromAI()" title="Get From AI"></i> -->
+                                                </label>
+                                                <div class="pp-dropdown-c">
+                                                    <!-- <p-autoComplete  [suggestions]="optionsSumInsured" class="custom-dropdown text-right"
+                                                (completeMethod)="searchOptionsSumInsured($event)"
+                                                (onSelect)="onSISelect($event)" field="label" [dropdown]="true" placeholder="Select Sum Insured">
+                                            </p-autoComplete> -->
+
+                                                    <p-dropdown id="gmc_SI" class="custom-dropdown"
+                                                        [options]="optionsSumInsured" placeholder="Select"
+                                                        optionLabel="label" name="gmc_SI" #gmc_SI="ngModel"
+                                                        [(ngModel)]="slectedValueSI"
+                                                        (onChange)="onSISelect($event)"></p-dropdown>
+
+                                                </div>
+                                                <div class="ml-4" *ngIf="quoteGmcOptions.siFlat!=undefined">
+                                                    <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                                        {{(toWords.convert(this.quoteGmcOptions.siFlat ?? 0,{
+                                                        currency: true ,ignoreZeroCurrency: true }))}} </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 md:col-4 mb-2" *ngIf="isFlatGraded == 'ctclinked'">
+                                                <!-- Policy Type Dropdown -->
+                                                <div class="text-left mt-1">
+                                                    <div class="ml-auto">
+                                                        <label for="" class="form-label" id="gmcSumInsured_label"> CTC
+                                                            Linked
+                                                        </label>
+                                                        <input pInputText class="form-control"
+                                                            [(ngModel)]="this.quote.ctcLink" #ctcLink="ngModel"
+                                                            id="ctcLink" name="ctcLink" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="margin-top: 3;" *ngIf="isFlatGraded =='graded'">
+                                                <table class="graded-form">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Grade</th>
+                                                            <th>Sum Insured</th>
+                                                            <th>Add More</th>
+                                                            <th>Action</th> <!-- New column for delete button -->
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr
+                                                            *ngFor="let row of quoteGmcOptions.gradedFormData; let i = index">
+                                                            <td>
+                                                                <input pInputText type="text"
+                                                                    [(ngModel)]="quoteGmcOptions.gradedFormData[i].grade"
+                                                                    placeholder="Add free text" />
+                                                            </td>
+                                                            <td>
+                                                                <input pInputText currencyMask
+                                                                    [options]="{ prefix: '₹ ' , precision:0 }"
+                                                                    class="input01"
+                                                                    [(ngModel)]="quoteGmcOptions.gradedFormData[i].sumInsured"
+                                                                    placeholder="Add free text" />
+                                                            </td>
+                                                            <td>
+                                                                <input pInputText type="text"
+                                                                    [(ngModel)]="quoteGmcOptions.gradedFormData[i].additionalColumn"
+                                                                    placeholder="Add free text" />
+                                                            </td>
+                                                            <td>
+                                                                <button (click)="deleteRow(i)"
+                                                                    class="p-button p-button-danger p-button-icon-only">
+                                                                    <i class="pi pi-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button pButton type="button" label="Add Row"
+                                                    (click)="addRow()"></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="box-row"
+                                    *ngIf="productSelected && this.quote?.productId['type']=='Group Health Policy Top Up'">
+                                    <div class="title flex justify-content-between align-items-center"
+                                        style="display: flex;">
+                                        <div class="title">
+                                            <span *ngIf="quote.ebPlan==undefined || quote.ebPlan==''"
+                                                id="quote_EBPolicyTypeAndPlan" class="non-selected-icon"></span>
+                                            <span *ngIf="quote.ebPlan!=undefined &&  quote.ebPlan!=''"
+                                                id="quote_EBPolicyTypeAndPlan" class="selected-icon"></span>
+                                            Quote No for Base Policy
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <div class="col-3 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <input pInputText class="form-control"
+                                                        [(ngModel)]="this.quote.baseQuoteNo" #baseQuoteNo="ngModel"
+                                                        id="baseQuoteNo" name="baseQuoteNo" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="box-row" *ngIf="productSelected && templateName == 'GMC'">
+                                    <div class="title flex justify-content-between align-items-center"
+                                        style="display: flex;">
+                                        <div class="title">
+                                            <span *ngIf="quote.ebPlan==undefined || quote.ebPlan==''"
+                                                id="quote_EBPolicyTypeAndPlan" class="non-selected-icon"></span>
+                                            <span *ngIf="quote.ebPlan!=undefined &&  quote.ebPlan!=''"
+                                                id="quote_EBPolicyTypeAndPlan" class="selected-icon"></span>
+                                            AI Document
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <!-- Policy Type Dropdown -->
+                                            <div class="col-3 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <label for="" class="form-label text-left" id="gmcSumInsured_label">
+                                                        Upload
+                                                        Document for AI Answers</label>
+                                                    <p-fileUpload #fileUpload id="Ai_Doc_Upload" [auto]="true"
+                                                        (onUpload)="this.onUploadSAIDocFile()"
+                                                        (onError)="this.errorHandler($event, fileUpload)"
+                                                        name="ai-document" mode="basic" url="{{this.uploadAIDocUrl}}"
+                                                        accept="application/pdf" maxFileSize="4000000"
+                                                        chooseIcon="pi pi-paperclip"
+                                                        chooseLabel="Upload Policy for AI Inputs"
+                                                        [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid flex align-items-center justify-content-left">
+                                            <!-- Plan Dropdown -->
+                                            <div class="col-3 text-left mt-1">
+                                                <div class="ml-auto">
+                                                    <div class="col-4" *ngIf="this.quote.aiDocument!=undefined">
+                                                        <button class="btn btn-info mr-4" (click)="this.downloadaiDoc()"
+                                                            id="wcRates_file_view"><i class="pi pi-eye"></i>
+                                                            View</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="content">
+                                        <div class="col-3 text-left mt-1">
+                                            <div class="ml-auto">
+                                                <p-input type="text" pinputText [(ngModel)]="this.quote.ctcLink"
+                                                    #ctcLink="ngModel" id="ctcLink" name="ctcLink"></p-input>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-12 text-right mt-3">
+
+                                        <div class="btn-div ml-auto">
+                                            <button (click)="this.getIndicativeQuoteGMC()"
+                                                id="quote_GetIndicative_Quote" class="btn btn-lg btn btn-success"
+                                                [disabled]="isDisableButton()">
+                                                Get Indicative Quote
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Intergation-EB [End] -->
+                                <div class="box-row" *ngIf="productSelected && templateName == 'MARINE'">
+                                    <div class="title flex justify-content-between align-items-center">
+                                        <div class="flex">
+                                            <span *ngIf="quote.marinePolicyType==undefined"
+                                                id="quote_marineCoverageType" class="non-selected-icon"></span>
+                                            <span *ngIf="quote.marinePolicyType!=undefined"
+                                                id="quote_marineCoverageType" class="selected-icon"></span>
+
+                                            Type Of Marine Policy
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="col-4 text-left mt-5">
+                                            <div class="ml-auto" style="width: 100px;">
+                                                <p-dropdown class="form-control" [options]="this.marinePolicyTypeLst"
+                                                    placeholder="Select Type" optionLabel="label" optionValue="value"
+                                                    id="marinePolicyType" [(ngModel)]="quote.marinePolicyType"
+                                                    name="marinePolicyType" #name="ngModel"
+                                                    appendTo="body"></p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="box-row"
+                                *ngIf=" productSelected && templateName != 'GMC' && templateName != 'LIABILITY' && templateName != 'LIABILITY_CRIME' && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' && templateName != 'LIABILITY_CYBER'  && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION'">
+                                <div class="title">
+                                    <!-- <div class="flex">
+                                        <span *ngIf="this.location?.length == 0" id="quote_RiskOccupancyLocationIcons"
+                                            class="non-selected-icon"></span>
+                                        <span *ngIf="this.location?.length != 0" id="quote_RiskOccupancyLocationIcons"
+                                            class="selected-icon"></span>
+                                        Risk Location Occupancy
+                                    </div> -->
+                                    <!-- <div class="mx-3"><a href="" class="view-more">Change</a></div> -->
+                                    <div class="text-right">
+                                        <div class="flex">
+                                            <span *ngIf="this.location?.length == 0"
+                                                id="quote_RiskOccupancyLocationIcons" class="non-selected-icon"></span>
+                                            <span *ngIf="this.location?.length != 0"
+                                                id="quote_RiskOccupancyLocationIcons" class="selected-icon"></span>
+                                            Risk Location Occupancy *
+                                        </div>
+                                        <!-- <div class="mx-3"><a href="" class="view-more">Change</a></div> -->
+                                        <div class="text-right">
+                                            <div class="flex">
+                                                <div class="mr-2">
+                                                    <!-- <button pButton type="button" (click)="openRiskLocationOccupancyDialog()" class="p-button-outlined btn-outline-blue"><i class="pi pi-plus mr-2"></i> Create</button> -->
+                                                </div>
+                                                <div class="">
+                                                </div>
+                                                <!-- <button pButton type="button" (click)="openRiskLocationOccupancyDialog()" class="p-button-outlined btn-outline-success"><i class="pi pi-upload mr-2"></i> Import</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="content">
+                                    <div class="grid">
+                                        <div class="col-4">
+                                            <div class="input-row">
+                                                <button class="risk-occupancy-select" type="button">Select <i class="pi pi-chevron-down"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-row">
+                                                <button class="risk-occupancy-select" type="button">Select <i class="pi pi-chevron-down"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                    <div class="content">
+                                        <div class="mb-2">
+                                            <p-splitButton [disabled]="!this.quote?.productId?._id"
+                                                id="quote_OpenRiskLocationOccupancy_Dialog"
+                                                styleClass="p-button-outlined mb-2 custom-create-btn" label="Create"
+                                                icon="pi pi-plus" (onClick)="openRiskLocationOccupancyDialog()"
+                                                [model]="this.importOptions"></p-splitButton>
+                                        </div>
+                                        <p-dataView [lazy]="true" [totalRecords]="totalRecords"
+                                            (onLazyLoad)="this.loadQuoteLocationOccupancyList($event)" #dv
+                                            [value]="location" [paginator]="isPaginatorVisible()" [rows]="3"
+                                            layout="grid" sortField="locationName" sortOrder="1"
+                                            emptyMessage="No Occupancy Found Click on above add button to and create new occupancy">
+                                            <ng-template let-locationOccupancy pTemplate="gridItem">
+                                                <div class="col-6 xl:col-4" data-aos="fade-left">
+                                                    <div class="product-grid-item card risk-occupancy-location"
+                                                        id="quote_OpenRiskLocationOccupancy_Dialog">
+                                                        <div class="flex justify-content-between">
+                                                            <div>
+                                                                <h4 class="py-2" id="quote_ClientLocationName_PinCode">
+                                                                    <!-- {{locationOccupancy.clientLocationId.locationName}} - -->
+                                                                    {{
+                                                                    getcombinedlength(locationOccupancy.clientLocationId.locationName,locationOccupancy.pincodeId.name)
+                                                                    }}
+                                                                    <!-- {{locationOccupancy?.pincodeId?.name}} -->
+                                                                </h4>
+                                                            </div>
+                                                            <div class="p-2" style="display: flex;">
+                                                                <i class="pi pi-pencil mr-3 edit-delete-button"
+                                                                    style="color :  rgb(29, 13, 248) ; font-size: 1.5rem"
+                                                                    (click)="this.openRiskLocationOccupancyDialog(locationOccupancy._id)"></i>
+                                                                <i class="pi pi-trash edit-delete-button"
+                                                                    style="color :  red ; font-size: 1.5rem"
+                                                                    (click)="this.delete(locationOccupancy._id)"></i>
+                                                                <!-- <button class="btn btn-success mr-1" (click)="this.openRiskLocationOccupancyDialog(locationOccupancy._id)"></button> -->
+                                                                <!-- <button class="btn btn-danger"></i></button> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-grid-item-content">
+                                                            <ul>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Sum_Insured">Sum
+                                                                        Insured
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Sum_Insured_Amount">
+                                                                        <!-- {{locationOccupancy.sumAssured?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}} -->
+                                                                        <span><app-currency [maximumFractionDigits]="0"
+                                                                                [value]="locationOccupancy.sumAssured"></app-currency></span>
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Sum_Insured_InWords">
+                                                                        Sum
+                                                                        Insured In
+                                                                        Words</p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Sum_Insured_InWords">
+                                                                        {{(toWords.convert(locationOccupancy?.sumAssured
+                                                                        ??
+                                                                        0,{
+                                                                        currency: true ,ignoreZeroCurrency: true }))}}
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Occupancy_label">
+                                                                        Occupancy:
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_Occupancy"
+                                                                        style="text-transform: capitalize;">
+                                                                        {{locationOccupancy.occupancyId?.occupancyType}}
+                                                                    </p>
+                                                                </li>
+                                                                <li
+                                                                    *ngIf="this.quote?.productId['isOccupancySubTypeShow']">
+                                                                    <p class="sum-price" id="quote_Occupancy_label">Type
+                                                                        of
+                                                                        Shop: </p>
+                                                                </li>
+                                                                <li
+                                                                    *ngIf="this.quote?.productId['isOccupancySubTypeShow']">
+                                                                    <p class="sum-price" id="quote_Occupancy">
+                                                                        {{locationOccupancy?.occupancySubTypeId?.shopName}}
+                                                                        {{locationOccupancy?.typeOfShopDescription ?
+                                                                        '('+locationOccupancy?.typeOfShopDescription+')':''}}
+                                                                    </p>
+                                                                </li>
+
+                                                                <!-- <li>
+                                                                <p>Pincode: </p>
+                                                            </li>
+                                                            <li>
+                                                                <p>{{locationOccupancy.clientLocationId?.pincodeId?.name}}</p>
+                                                            </li> -->
+
+                                                                <!-- <li>
+                                                                    <p class="sum-price" id="quote_RiskCode">Risk Code:
+                                                                        {{locationOccupancy.occupancyId?.riskCode}}
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p class="sum-price" id="quote_RateCode">Rate Code:
+                                                                        {{locationOccupancy.occupancyId?.rateCode}}
+                                                                    </p>
+                                                                </li> -->
+                                                            </ul>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dataView>
+                                    </div>
+                                </div>
+
+                                <div class="box-row" *ngIf="this.location?.length > 0">
+                                    <div class="title">
+                                        <span *ngIf="this.location?.length == 0" id="quote_RiskStarIcons"
+                                            id="quote_RiskStarIcons" class="non-selected-icon"></span>
+                                        <span *ngIf="this.location?.length !== 0" id="quote_RiskStarIcons"
+                                            class="selected-icon"></span>
+                                        Sum Insured Split
+                                    </div>
+                                    <div class="content">
+                                        <div class="grid">
+                                            <div class="col-8">
+                                                <button (click)="this.openSumInsuredSplitDialog()"
+                                                    id="AppIndicativeQuote_SumInsuredSplitDialog"
+                                                    label="Sum Insured Split" type="button"
+                                                    class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93=""
+                                                        class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- D&O -->
+
+
+
+
+                                <!-- CGL -->
+
+
+                                <!-- E&O -->
+
+                                <!-- MARINE -->
+                                <div class="box-row" *ngIf="templateName == 'MARINE'">
+                                    <div class="title">
+                                        <span *ngIf="!quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                            class="non-selected-icon"></span>
+                                        <span *ngIf="quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                            class="selected-icon"></span>
+                                        Sum Insured
+                                    </div>
+                                    <div class="content last">
+                                        <div class="col-12 text-left mt-5" style="width: 50%;">
+                                            <div class="ml-auto">
+                                                <!-- <input maxlength="255" pInputText id="totalSumAssured"
+                                                [(ngModel)]="quote.totalSumAssured" name="totalSumAssured"
+                                                #totalSumAssured="ngModel" type="text" placeholder="₹ 0" currencyMask
+                                                [options]="{ prefix: '₹ ' , precision:0 }"
+                                                class="p-inputtext1 text-right mt-3" /> -->
+                                                <p-inputNumber id="totalSumAssured" mode="decimal" locale="en-IN"
+                                                    prefix="₹ " [minFractionDigits]="0" placeholder="0"
+                                                    [(ngModel)]="quote.totalSumAssured" name="totalSumAssured"
+                                                    #totalSumAssured="ngModel" maxlength="21">
+                                                </p-inputNumber>
+                                            </div>
+                                            <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                                {{
+                                                toWords.convert(quote?.totalSumAssured ?? 0, {
+                                                currency: true,
+                                                ignoreZeroCurrency: true
+                                                })
+                                                }}
+                                            </p>
+                                        </div>
+                                        <div class="col-12 text-right mt-5">
+                                            <div class="btn-div ml-auto">
+                                                <!-- <a  [routerLink]="['/backend/sum-insured-details']"  type="submit">Get Indicative Quote</a> -->
+                                                <button (click)="this.getIndicativeQuoteMarine()"
+                                                    id="quote_GetIndicative_Quote" class="btn btn-lg btn btn-success"
+                                                    [disabled]="!(quote?.totalSumAssured ?? 0 &&  this.quote?.marinePolicyType!=undefined && this.riskStartDate?? 0)">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Removed SI for WC-->
+                                <!-- <div class="box-row" *ngIf="templateName == 'WORKMENSCOMPENSATION'">
+                                <div class="title">
+                                    <span *ngIf="!quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                        class="non-selected-icon"></span>
+                                    <span *ngIf="quote?.totalSumAssured > 0" id="quote_SumInsuredIcons"
+                                        class="selected-icon"></span>
+                                    Sum Insured
+                                </div>
+                                <div class="content last">
+                                    <div class="col-12 text-left mt-5" style="width: 50%;">
+                                        <div class="ml-auto">
+                                            <p-inputNumber id="totalSumAssured" mode="decimal" locale="en-IN" prefix="₹ "
+                                                [minFractionDigits]="0" placeholder="0" [(ngModel)]="quote.totalSumAssured"
+                                                name="totalSumAssured" #totalSumAssured="ngModel" maxlength="21">
+                                            </p-inputNumber>
+    
+                                        </div>
+                                        <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                            {{
+                                            toWords.convert(quote?.totalSumAssured ?? 0, {
+                                            currency: true,
+                                            ignoreZeroCurrency: true
+                                            })
+                                            }}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 text-right mt-5">
+                                        <div class="btn-div ml-auto">
+                                            <button (click)="this.getIndicativeQuoteWorkMan()" id="quote_GetIndicative_Quote"
+                                                class="btn btn-lg btn btn-success"
+                                                [disabled]="!(quote?.totalSumAssured ?? 0) || !isRateFileuploaded || !isRateData">
+                                                Get Indicative Quote</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                                <!-- <div *ngIf="this.quote?.productId?.shortName !== 'CAR' && this.quote?.productId?.shortName !== 'EAR'">
+                                <div class="box-row"
+                                    *ngIf="productSelected && templateName != 'GMC' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION' && templateName != 'LIABILITY'  && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' && templateName != 'LIABILITY_CYBER'  && templateName != 'LIABILITY_CRIME'">
+                                    <div class="title">
+                                        <span id="quote_TenureIcons" *ngIf="!this.policyTenureYears" id="quote_Tenure"
+                                            class="non-selected-icon"></span>
+                                        <span id="quote_TenureIcons" *ngIf="this.policyTenureYears"
+                                            class="selected-icon"></span>
+                                        Quote Tenure
+                                    </div>
+                                    <div class="content">
+                                        <div class="w-3">
+                                            <p-autoComplete class="custom-dropdown"
+                                                [suggestions]="this.optionsIndmenityPeriod"
+                                                [disabled]="!this.quote?.productId"
+                                                id="InsuredDetailsDialog_RenewalPolicyPeriod"
+                                                placeholder="Select Indmenity Period" [(ngModel)]="this.policyTenureYears"
+                                                (completeMethod)="this.searchOptionsMandY($event)" [dropdown]="true"
+                                                (onSelect)="this.compute($event)"
+                                                [ngClass]="{'ng-invalid ng-dirty': this.isError}"
+                                                field="label"></p-autoComplete>
+                                            <small class="ng-dirty ng-invalid"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                                <div
+                                    *ngIf="this.quote?.productId?.shortName === 'CAR' || this.quote?.productId?.shortName === 'EAR'">
+                                    <div class="box-row"
+                                        *ngIf="productSelected && templateName != 'GMC' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION' && templateName != 'LIABILITY'  && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' && templateName != 'LIABILITY_CYBER'  && templateName != 'LIABILITY_CRIME'">
+                                        <div class="title">
+                                            <span id="quote_TenureIcons" *ngIf="!this.policyTenureYears"
+                                                id="quote_Tenure" class="non-selected-icon"></span>
+                                            <span id="quote_TenureIcons" *ngIf="this.policyTenureYears"
+                                                class="selected-icon"></span>
+                                            Project Tenure
+                                        </div>
+                                        <div class="content">
+                                            <div class="w-3">
+                                                <p-autoComplete class="custom-dropdown" [(ngModel)]="this.projectTenure"
+                                                    disabled></p-autoComplete>
+                                                <small class="ng-dirty ng-invalid"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    *ngIf="this.quote?.productId?.shortName !== 'CAR' && this.quote?.productId?.shortName !== 'EAR'">
+                                    <div class="box-row"
+                                        *ngIf="productSelected && templateName != 'GMC' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION' && templateName != 'LIABILITY'  && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' && templateName != 'LIABILITY_CYBER'  && templateName != 'LIABILITY_CRIME'">
+                                        <div class="title">
+                                            <span id="quote_TenureIcons" *ngIf="!this.policyTenureYears"
+                                                id="quote_Tenure" class="non-selected-icon"></span>
+                                            <span id="quote_TenureIcons" *ngIf="this.policyTenureYears"
+                                                class="selected-icon"></span>
+                                            Policy Tenure
+                                        </div>
+                                        <div class="content">
+                                            <div class="w-3">
+                                                <p-autoComplete class="custom-dropdown" [(ngModel)]="this.policyTenure"
+                                                    disabled></p-autoComplete>
+                                                <small class="ng-dirty ng-invalid"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-row"
+                                    *ngIf="productSelected && templateName != 'GMC' && templateName != 'LIABILITY' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION'  && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' &&  templateName != 'LIABILITY_CYBER'  && templateName != 'LIABILITY_CRIME'">
+                                    <div class="title">
+                                        <span *ngIf="!quote?.totalSumAssured" id="quote_SumInsuredIcons"
+                                            class="non-selected-icon"></span>
+                                        <span *ngIf="quote?.totalSumAssured" id="quote_SumInsuredIcons"
+                                            class="selected-icon"></span>
+
+                                        Total Sum Insured
+                                    </div>
+
+                                    <div class="content">
+                                        <div class="grid flex align-items-center justify-content-between">
+                                            <div class="col-12">
+                                                <div class="input-row flex align-items-center">
+                                                    <!-- <p class="form-control" [style]="{minWidth: '300px'}">{{(quote?.totalSumAssured ?? 0) | currency: '₹ '  : true : '1.0-0'}}</p> -->
+                                                    <p class="form-control" id="quote_totalSumAssured"
+                                                        [style]="{minWidth: '300px'}">
+                                                        <span><app-currency [maximumFractionDigits]="0"
+                                                                [value]="(this.quoteOptionData?.totalSumAssured) ?? 0"></app-currency></span>
+                                                    </p>
+                                                    <!-- {{quote?.totalSumAssured?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'}) ?? 'No Occupancy Found'}}</p> -->
+                                                    <!-- <p class="form-control" id="quote_totalSumAssured" [style]="{minWidth: '300px'}">
+                                                    <span><app-currency [value]="((quote?.totalSumAssured) ?? 'No Occupancy Found')"></app-currency></span></p> -->
+                                                    <div class="ml-4">
+                                                        <p class="title m-0" id="quote_totalSumAssured_InWords">
+                                                            {{(toWords.convert(this.quoteOptionData?.totalSumAssured ??
+                                                            0,{
+                                                            currency: true ,ignoreZeroCurrency: true }))}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-12 text-right mt-5">
+                                            <div class="btn-div ml-auto">
+                                                <button (click)="this.getIndicativeQuote()"
+                                                    id="quote_GetIndicative_Quote" class="btn btn-lg btn btn-success"
+                                                    [disabled]="!(quote?.totalSumAssured ?? 0 && !this.isError && this.quote?.productId?? 0 && this.riskStartDate?? 0)">
+                                                    Get Indicative Quote</button>
+                                            </div>
+                                        </div>  -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="box-row"
+                                    *ngIf="productSelected && templateName != 'GMC' && templateName != 'LIABILITY' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION'  && templateName != 'LIABILITY_EANDO' && templateName != 'LIABILITY_CGL' && templateName != 'LIABILITY_PUBLIC' && templateName != 'LIABILITY_PRODUCT' &&  templateName != 'LIABILITY_CYBER'  && templateName != 'LIABILITY_CRIME'">
+                                    <!-- <div class="title">
+                                        <span id="quote_TenureIcons" *ngIf="!this.policyTenureYears" id="quote_Tenure"
+                                            class="non-selected-icon"></span>
+                                        <span id="quote_TenureIcons" *ngIf="this.policyTenureYears"
+                                            class="selected-icon"></span>
+                                        Sum Insured Splits
+                                    </div> -->
+                                    <!-- <div class="content last">
+                                        <div class="grid flex align-items-center justify-content-between">
+                                            <div class="col-12">
+                                                <div class="w-3">
+                                                    <button (click)="this.openSumInsuredSplitDialog()"
+                                                        id="AppIndicativeQuote_SumInsuredSplitDialog"
+                                                        label="Sum Insured Split" type="button"
+                                                        class="btn btn-primary  mr-2"><i class="pi pi-pencil mr-1"></i>
+                                                        Sum Insured Split</button>
+                                                </div>
+                                            </div> -->
+                                    <div class="col-12 text-right mt-5">
+                                        <div class="btn-div ml-auto">
+                                            <button (click)="this.getIndicativeQuote()" id="quote_GetIndicative_Quote"
+                                                class="btn btn-lg btn btn-success"
+                                                [disabled]="!(quote?.totalSumAssured ?? 0 && !this.isError && this.quote?.productId?? 0 && this.riskStartDate?? 0)">
+                                                Get Indicative Quote</button>
+                                        </div>
+                                    </div>
+                                    <!-- </div> -->
+
+                                    <!-- </div> -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div *ngIf="isMobile">
+    <div class="step3-inner">
+        <div class="text-center my-5 mx-2">
+            <img src="assets/step3-pic.png" alt="" height="100px" />
+        </div>
+        <div class="text-center mx-2">
+            <h2 class="head44 mb-3" id="quote_Header">You're just few steps away from getting an indicative quote
+            </h2>
+            <p class="" id="quote_SubHeader">You'll be able to see quotes from various insurers after
+                entering below details
+            </p>
+        </div>
+        <div class="box-row mx-2">
+            <div class="title">
+                <span *ngIf="!this.riskStartDate" id="quote_RiskStarIcons" id="quote_RiskStarIcons"
+                    class="non-selected-icon"></span>
+                <span *ngIf="this.riskStartDate" id="quote_RiskStarIcons" class="selected-icon"></span>
+                Risk Start Date
+            </div>
+            <div class="content">
+                <div class="flex align-items-center justify-content-between">
+                    <div class="input-row flex align-items-center">
+                        <input type="date" id="quote_RiskStartDate" class="form-control"
+                            (ngModelChange)="this.onUpdateRiskStartDate($event)" [(ngModel)]="this.riskStartDate" />
+                        <!-- <p class="title ml-3" id="quote_RiskStartDate">{{this.riskStartDate | date :
+                            'fullDate'}}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-row mx-2">
+            <div class="title">
+                <span *ngIf="!this.quote?.productId?._id" id="quote_ProductIcons" class="non-selected-icon"></span>
+                <span *ngIf="this.quote?.productId?._id" id="quote_ProductIcons" class="selected-icon"></span>
+                Product
+            </div>
+            <div class="content" *ngIf="this.productCarouselArray.length">
+                <p-carousel class="custom-carousel" [value]="products" [numVisible]="2" [numScroll]="1"
+                    orientation="vertical" [circular]="true" [responsiveOptions]="responsiveOptions">
+                    <ng-template let-product pTemplate="item">
+                        <div>
+                            <button id="quote_productType"
+                                [disabled]="!product.status || this.location?.length || isEmpData"
+                                (click)="this.updateQuoteProduct(product._id,product)" [class]="'btn-product '"
+                                [ngClass]="this.quote?.productId?._id === product._id ? 'active' : ''">
+                                <div class="flex align-items-center">
+                                    <div class="label-icon">
+                                        <img src="assets/icons/fire.svg" alt="" />
+                                    </div>
+                                    <div class="label-text">{{product.type}}</div>
+                                </div>
+                            </button>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+        </div>
+        <div class="box-row mx-2"
+            *ngIf="templateName != 'GMC' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION'">
+            <div class="title">
+                <div class="flex">
+                    <span *ngIf="this.location?.length == 0" id="quote_RiskOccupancyLocationIcons"
+                        class="non-selected-icon"></span>
+                    <span *ngIf="this.location?.length != 0" id="quote_RiskOccupancyLocationIcons"
+                        class="selected-icon"></span>
+                    Risk Occupancy Location
+                </div>
+            </div>
+            <div class="content">
+                <div>
+                    <p-splitButton [disabled]="!this.quote?.productId?._id" id="quote_OpenRiskLocationOccupancy_Dialog"
+                        styleClass="p-button-outlined mb-2 custom-create-btn" label="Create" icon="pi pi-plus"
+                        (onClick)="openRiskLocationOccupancyDialog()" [model]="this.importOptions"></p-splitButton>
+                </div>
+                <p-dataView [lazy]="true" [totalRecords]="totalRecords"
+                    (onLazyLoad)="this.loadQuoteLocationOccupancyList($event)" #dv [value]="location" [paginator]="true"
+                    [rows]="1" layout="grid" sortField="locationName" sortOrder="1"
+                    emptyMessage="No Occupancy Found Click on above add button to and create new occupancy">
+                    <ng-template let-locationOccupancy pTemplate="gridItem">
+                        <div class="col-12">
+                            <div class="product-grid-item card risk-occupancy-location"
+                                id="quote_OpenRiskLocationOccupancy_Dialog"
+                                (click)="this.openRiskLocationOccupancyDialog(locationOccupancy._id)">
+                                <h4 class="py-2" id="quote_ClientLocationName_PinCode">
+                                    {{locationOccupancy.clientLocationId.locationName}} -
+                                    {{locationOccupancy?.pincodeId?.name}}</h4>
+                                <div class="product-grid-item-content">
+                                    <ul>
+                                        <li>
+                                            <p class="" id="quote_Sum_Insured">Sum Insured</p>
+                                        </li>
+                                        <li>
+                                            <p class="sum-price" id="quote_Sum_Insured_Amount">
+                                                <span><app-currency [maximumFractionDigits]="0"
+                                                        [value]="locationOccupancy.sumAssured"></app-currency></span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="" id="quote_Sum_Insured_InWords">Sum Insured In
+                                                Words</p>
+                                        </li>
+                                        <li>
+                                            <p class="sum-price" id="quote_Sum_Insured_InWords">
+                                                {{(toWords.convert(locationOccupancy?.sumAssured ?? 0,{
+                                                currency: true ,ignoreZeroCurrency: true }))}}</p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_Occupancy_label">Occupancy: </p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_Occupancy">
+                                                {{locationOccupancy.occupancyId?.occupancyType}}</p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_Occupancy_label">Type of Shop: </p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_Occupancy">
+                                                {{locationOccupancy?.occupancySubTypeId?.shopName}}</p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_RiskCode">Risk Code:
+                                                {{locationOccupancy.occupancyId?.riskCode}}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p id="quote_RateCode">Rate Code:
+                                                {{locationOccupancy.occupancyId?.rateCode}}
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+        </div>
+        <div class="box-row mx-2"
+            *ngIf="templateName != 'GMC' && templateName != 'MARINE' && templateName != 'WORKMENSCOMPENSATION'">
+            <div class="title">
+                <span *ngIf="!quote?.totalSumAssured" id="quote_SumInsuredIcons" class="non-selected-icon"></span>
+                <span *ngIf="quote?.totalSumAssured" id="quote_SumInsuredIcons" class="selected-icon"></span>
+                Sum Insured
+            </div>
+            <div class="content last">
+                <div class="grid flex align-items-center justify-content-between">
+                    <div class="col-12">
+                        <div class="input-row flex align-items-center">
+                            <p class="form-control" id="quote_totalSumAssured" [style]="{minWidth: '300px'}">
+                                <span><app-currency [maximumFractionDigits]="0"
+                                        [value]="(totalSumAssured) ?? 0"></app-currency></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="">
+                        <p class="title m-0" id="quote_totalSumAssured_InWords">
+                            {{(toWords.convert(totalSumAssured ?? 0,{
+                            currency: true ,ignoreZeroCurrency: true }))}}</p>
+                    </div>
+                    <div class="col-12 text-right mt-5">
+                        <div class="btn-div ml-auto">
+                            <button (click)="this.getIndicativeQuote()" id="quote_GetIndicative_Quote"
+                                class="btn btn-lg btn btn-success"
+                                [disabled]="!(quote?.totalSumAssured ?? 0 &&  this.quote?.productId?? 0 && this.riskStartDate?? 0)">
+                                Get Indicative Quote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

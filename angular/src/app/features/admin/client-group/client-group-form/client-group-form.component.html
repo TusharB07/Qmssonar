@@ -1,0 +1,104 @@
+<p-tabView>
+    <p-tabPanel header="Client Group Details">
+        <form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+            <div class="form-container">
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="card p-fluid">
+                            <p-toast></p-toast>
+                            <p-toolbar styleClass="">
+                                <ng-template pTemplate="left">
+                                    <h3 class="mb-0" id="ClientGroupFormRecordName">{{this.recordSingularName}}</h3>
+                                </ng-template>
+                                <ng-template pTemplate="right">
+                                    <button id="ClientGroupForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                                    <button id="ClientGroupForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                                </ng-template>
+                            </p-toolbar>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="grid">
+                            <div class="col-12 md:col-6">
+
+                                <div class="card p-fluid">
+                                    <h5 id="ClientGroupForm_GeneralInformation">General Information</h5>
+
+
+                                    <div class="field">
+                                        <label id="ClientGroupForm_VinLabel" for="vin">Vin</label>
+                                        <input id="ClientGroupForm_Vin" class="form-control" type="text" pInputText id="vin" formControlName="vin" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['vin']}" />
+                                        <small id="ClientGroupForm_VinError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['vin']">Vin is
+                                            required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="ClientGroupForm_ClientGroupNameLabel" for="clientGroupName">Client Group Name</label>
+                                        <input maxlength="100" id="ClientGroupForm_ClientGroupName" class="form-control" type="text" pInputText id="clientGroupName" formControlName="clientGroupName" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['clientGroupName']}" />
+                                        <small id="ClientGroupForm_ClientGroupNameError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['clientGroupName']">Client Group Name is
+                                            required.</small>
+                                        <!-- <small  *ngIf="recordForm.controls['clientGroupName'].errors?.maxlength" class="ng-invalid">Cannot be More than 100.</small> -->
+                                    </div>
+                                    <div class="field">
+                                        <label id="ClientGroupForm_ClientGroupContactNameLabel" for="clientGroupContactName">Client Group Contact Name</label>
+                                        <input maxlength="60" id="ClientGroupForm_ClientGroupContactName" class="form-control" type="text" pInputText id="clientGroupContactName" formControlName="clientGroupContactName" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['clientGroupContactName']}" />
+                                        <small id="ClientGroupForm_ClientGroupContactNameError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['clientGroupContactName']">Client Group Contact Name
+                                            is
+                                            required.</small>
+                                        <!-- <small  *ngIf="recordForm.controls['clientGroupContactName'].errors?.maxlength" class="ng-invalid">Cannot be More than 60.</small> -->
+                                    </div>
+
+                                    <div class="field">
+                                        <label id="ClientGroupForm_ActiveLabel" for="active">Active?</label>
+                                        <p-toggleButton id="ClientGroupForm_ActiveToggleButton" class="form-control" formControlName="active" onLabel="{{'Client Group active'}}" offLabel="{{'Client Group inactive'}}" onIcon="{{'pi pi-check'}}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <div class="card p-fluid">
+                                    <h5>Address Information</h5>
+
+                                    <div class="field">
+                                        <label id="ClientGroupForm_AddressLabel" for="address">Address</label>
+                                        <input maxlength="255" id="ClientGroupForm_Address" class="form-control" type="text" pInputText id="address" formControlName="address" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['address']}" />
+                                        <small id="ClientGroupForm_AddressError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['address']">Address is
+                                            required.</small>
+                                        <!-- <small  *ngIf="recordForm.controls['address'].errors?.maxlength" class="ng-invalid">Cannot be More than 255.</small> -->
+                                    </div>
+                                    <div class="field">
+                                        <label id="ClientGroupForm_CityLabel" for="name">City</label>
+                                        <p-autoComplete id="ClientGroupForm_City" [dropdown]="true" field="label" formControlName="cityId" [suggestions]="this.optionsCities" (completeMethod)="this.searchOptionsCities($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['cityId'].valid}"></p-autoComplete>
+                                        <small id="ClientGroupForm_CityError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['cityId']?.errors?.required">City is required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="ClientGroupForm_PincodeLabel" for="name">Pincode</label>
+                                        <p-autoComplete id="ClientGroupForm_Pincode" [dropdown]="true" field="label" formControlName="pincodeId" [suggestions]="this.optionsPincodes" (completeMethod)="this.searchOptionsPincodes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['pincodeId'].valid}"></p-autoComplete>
+                                        <small id="ClientGroupForm_PincodeError" class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['pincodeId']?.errors?.required">City is required.</small>
+                                    </div>
+                                    <div class="field">
+                                        <label id="ClientGroupForm_EmailLabel" for="email">Email</label>
+                                        <input id="ClientGroupForm_Email" class="form-control" type="email" ngModel email pInputText id="email" formControlName="email" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['email']}" />
+                                        <small id="ClientGroupForm_EmailError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['email']">Email is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                        <div class="card p-fluid">
+                            <app-audit-trail [entityId]="this.id" id="ClientGroupForm_AuditTrail" [entityResourcePrefix]="'client-groups'"></app-audit-trail>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Clients" *ngIf="this.id != 'new'">
+        <app-client-list id="ClientGroupForm_clientList" [clientId]="this.id"></app-client-list>
+    </p-tabPanel>
+</p-tabView>

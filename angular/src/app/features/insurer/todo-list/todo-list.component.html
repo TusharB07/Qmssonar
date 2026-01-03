@@ -1,0 +1,52 @@
+<!-- <div class="root">
+    <div class="grid">
+        <div class="col-12">
+            <button label="Money In Transit" type="button" class="btn btn-outline-gray-custom"><i class="pi pi-angle-left pt-1 mr-2"></i>Back To Dashboard</button>
+        </div>
+        <div class="col-12">
+            <div class="col-6 inline-block">
+                <h5>To do List</h5>
+            </div>
+            <div class="col-6 inline-block" id="right-content">
+                <button label="View Details" type="button" class="btn btn-blue-ce-custom mr-2"><i class="pi pi-plus pt-1 mr-2"></i>Draft</button>
+                <button label="Money In Transit" type="button" class="btn btn-blue-ce-custom"><i class="pi pi-plus pt-1 mr-2"></i>Add Task</button>
+            </div>
+        </div>
+    </div>
+    <hr style="color: #2F51C614;">
+    <div class="board">
+        <div class="board-wrapper">
+            <div class="board-columns col-12" cdkDropListGroup>
+                <div class="col-3 inline-block" style="vertical-align: top;" *ngFor="let column of board.columns">
+                    <div class="board-column mx-3">
+
+                        <div class="column-title text-left">
+                            <h5>
+                                <i class="pi pi-plus-circle custom-plus"></i>
+                                {{ column.name }}
+                            </h5>
+                        </div>
+
+                        <div class="tasks-container p-2" cdkDropList [cdkDropListData]="column.cards" (cdkDropListDropped)="drop($event)">
+                            <div class="my-7 p-5" id="custom-shadow" *ngFor="let item of column.cards" cdkDrag>
+                                <div class="task">
+                                    <div class="mb-4 px-3" style="background-color: #2F51C60F; border-radius: 6px; color:#000000">
+                                        <h5>
+                                            {{ item.details.header }}
+                                        </h5>
+                                        {{ item.details.policyName }}
+                                    </div>
+                                    <div class="mt-2">
+                                        <img src="{{item.details.imageURL1}}" class="img-thumbnail mx-1" alt="img" style="border-radius: 23px;">
+                                        <img src="{{item.details.imageURL2}}" class="img-thumbnail mx-1" alt="img" style="border-radius: 23px;">
+                                        <img src="{{item.details.imageURL3}}" class="img-thumbnail mx-1" alt="img" style="border-radius: 23px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

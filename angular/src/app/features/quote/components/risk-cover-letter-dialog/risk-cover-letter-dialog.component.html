@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-12">
+
+        <app-risk-cover-letter-header *ngIf="this.quote" [quote]="this.quote"></app-risk-cover-letter-header>
+        <div class="align-items-center">
+        </div>
+        <div class="button-container-div p-3">
+            <!-- <h6 *ngIf="this.fgiInprogress">**Policy Generation is in process. Please Wait...</h6><br>
+            <h6 *ngIf="fgiRetry">**Soemthing Went Wrong. Please Retry</h6><br>
+            <button pButton pRipple type="button" id="RiskCoverLetter_GoToDashBoard" label="Go to dashboard"
+                class="btn btn-success mr-3" (click)="goToDashBoard()"></button>
+            <button pButton pRipple type="button" id="RiskCoverLetter_Re-try" label="Re-try"
+                class="btn btn-outline-success mr-3" *ngIf="this.fgiRetry" (click)="retryFgiQueue()"></button>
+            <button pButton pRipple type="button" *ngIf="this.fgiCompleted" id="RiskCoverLetter_DownLoad" label="Download"
+                class="btn btn-outline-success" (click)="download()"></button> -->
+            <!-- <p-dialog header="Policy Number" [(visible)]="displayModal" [modal]="true" [style]="{width: '30vw' ,height:'20vh'}"
+                [draggable]="false" [resizable]="false">
+                <strong ><h4>Your Policy Number : {{this.brokerQuote?.fgApiResponse?.policyNumber}}</h4></strong>
+            </p-dialog> -->
+        </div>
+
+    </div>
+</div>

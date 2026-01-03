@@ -1,0 +1,164 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button id="ClientKYCList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="ClientKYCList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="ClientKYCList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="ClientKYCList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" id="ClientKYCList_FileUpload" accept="image/*" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="ClientKYCList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+
+                        <th pSortableColumn="clientGroupName">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientKYCList_ClientGroupNameHeader" style="white-space: nowrap">
+                                    Client Group Name
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="ClientKYCList_ClientGroupNameColumnFilter" type="text"
+                                        field="clientGroupName" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by Client Group Name"></p-columnFilter>
+                                    <p-sortIcon id="ClientKYCList_ClientGroupNameSortIcon"
+                                        field="clientGroupName"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="clientName">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientKYCList_ClientNameHeader" style="white-space: nowrap">
+                                    Client Name
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="ClientKYCList_ClientNameColumnFilter" type="text"
+                                        field="clientName" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by Client Name"></p-columnFilter>
+                                    <p-sortIcon id="ClientKYCList_ClientNameSortIcon" field="clientName"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="pan">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientKYCList_PANNoHeader" style="white-space: nowrap">
+                                    PAN No.
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="ClientKYCList_PANNoColumnFilter" type="text" field="pan"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="contains"
+                                        operator="or" placeholder="Search by PAN No."></p-columnFilter>
+                                    <p-sortIcon id="ClientKYCList_PANNoSortIcon" field="pan"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="gst">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="ClientKYCList_GSTNoHeader" style="white-space: nowrap">
+                                    GST No.
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter id="ClientKYCList_GSTNoColumnFilter" type="text" field="gst"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="contains"
+                                        operator="or" placeholder="Search by GST No."></p-columnFilter>
+                                    <p-sortIcon id="ClientKYCList_GSTNoSortIcon" field="gst"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-clientKyc>
+                    <tr (click)="this.editRecord(clientKyc)">
+                        <td>
+                            <p-tableCheckbox [value]="clientKyc" id="ClientKYCList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <td id="ClientKYCList_ClientGroupName">
+                            {{clientKyc.clientGroupName}}
+                        </td>
+                        <td id="ClientKYCList_ClientName">
+                            {{clientKyc.clientName}}
+                        </td>
+                        <!-- <td id="ClientKYCList_PANNo">
+                            {{clientKyc.pan}}
+                        </td>
+                        <td id="ClientKYCList_GSTNo">
+                            {{clientKyc.gst}}
+                        </td> -->
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button id="ClientKYCList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(clientKyc)"></button>
+                                </div>
+                            </td> -->
+                        <!-- <button id="ClientKYCList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(clientKyc)"></button> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ClientKYCList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ClientKYCList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want
+                    to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ClientKYCList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ClientKYCList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ClientKYCList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                    style="font-size: 2rem"></i>
+                <span id="ClientKYCList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                    records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ClientKYCList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                    label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ClientKYCList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                    label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

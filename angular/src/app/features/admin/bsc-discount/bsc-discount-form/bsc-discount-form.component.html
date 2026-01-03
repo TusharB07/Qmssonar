@@ -1,0 +1,93 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-12">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+
+                    <div class="field">
+                        <label for="productId">Product Type</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="productId" [suggestions]="this.optionsProducts" (completeMethod)="this.searchOptionsProducts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['productId']?.errors?.required">Product type is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="bscType">BSC Type</label>
+                        <!-- <p-dropdown class="form-control" type="text" id="bscType" formControlName="bscType"
+                            required autofocus [options]="this.optionsTypes" placeholder="Select a type" optionLabel="label" optionValue="value" [showClear]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['bscType']}"></p-dropdown> -->
+                            <p-dropdown class="form-control" [options]="this.optionsTypes" placeholder="Bsc Type" optionLabel="label" optionValue="value" [showClear]="true" formControlName="bscType" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['bscType'].valid}"></p-dropdown>
+
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['bscType']">BSC Type is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="fromSI">From SI</label>
+                        <input class="form-control" type="number" pInputText id="fromSI" formControlName="fromSI" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['fromSI']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['fromSI']">This field
+                            is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="toSI">To SI</label>
+                        <input class="form-control" type="number" pInputText id="toSI" formControlName="toSI" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['toSI']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['toSI']">This field is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="ratePerMile">Rate Per Mile</label>
+                        <input class="form-control" type="number" pInputText id="ratePerMile"
+                            formControlName="ratePerMile" required autofocus 
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['ratePerMile']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['ratePerMile']">Rate
+                            Per Mile is required.</small>
+                    </div>
+
+                    <!-- <div class="field">
+                        <label for="applicable_from">Applicable from</label>
+                        <p-calendar class="form-control" type="text" id="applicable_from"
+                            formControlName="applicable_from" required autofocus [showIcon]="true" 
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['applicable_from']}"></p-calendar>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['applicable_from']">Applicable from date is
+                            required.</small>
+                    </div> -->
+
+                    <!-- <div class="field">
+                        <label for="applicable_to">Applicable To</label>
+                        <p-calendar class="form-control" type="text" id="applicable_to"
+                            formControlName="applicable_to" required autofocus [showIcon]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['applicable_to']}"></p-calendar>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['applicable_to']">Applicable to date is
+                            required.</small>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

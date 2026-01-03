@@ -1,0 +1,193 @@
+<div class="container">
+    <!-- <div class="grid mb-6 p-4 custom-detail-header">
+        <div class="col-9">
+            <h4>
+                Name Of Broker A
+            </h4>
+            <p style="font-weight: lighter; font-style: italic;">
+                You're editing this quote for Broker A
+            </p>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-blue-back mr-1" (click)="previousPage()">Back</button>
+            <button class="btn btn-outline-blue-next" (click)="nextPage()">Next</button>
+        </div>
+    </div> -->
+    <div class="grid">
+        <div class="col-12" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR" >
+            <div>
+                <p-dropdown placeholder="No Covers Selected" [dropdown]="true"  (onChange)="this.addonCoverTypeChanged($event)" [(ngModel)]="this.selectedAddonCoverType" [options]="this.optionsAddonCoverCategories"  ></p-dropdown>
+            </div>
+           <!-- <p-dropdown placeholder="No Covers Selected"  id="SideBar_multiSelection" (onChange)="this.coversUpdated($event)" [(ngModel)]="this.selectedAllowedBscCoversForQuote" [options]="this.selecteOption" optionLabel="label"  ></p-dropdown> -->
+
+           <!-- <p-autoComplete [dropdown]="true" field="label" formControlName="pincodeId" [suggestions]="this.selecteOption" (completeMethod)="this.searchOptionsPincodes($event)"></p-autoComplete> -->
+        </div>
+        <div class="col-6">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3 flex align-items-center justify-content-between">
+                        <h6 id="Addon_FlexaCover_Label">Flexa Covers</h6>
+                        <a id="Addon_FlexaCover_ViewAll" class="viewall" (click)="openFlexaCoversDialog()">VIEW ALL</a>
+
+                    </div>
+                </ng-template>
+                <ul>
+                    <li class="mb-4" *ngFor="let cover of flexaCovers | slice:0:5">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1" id="Addon_FlexaCover_Icon"></i> {{cover?.addOnCoverId?.name}}
+                    </li>
+                    <!--will change ngIf condition for all li -->
+                    <!-- <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Lighting
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Explosion/I
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Aircraft Damage
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Riot, Strike, MAlicious and Damage (RSMD)
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Impact Damage
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isFlexa">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp1"></i>
+                        Subsidence and Landslide including Rock Slide
+                    </li> -->
+                </ul>
+            </p-card>
+        </div>
+        <!-- <div class="col-3">
+            <p-card [style]="{'width': '15rem', 'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h6 id="Addon_CoversOpted_Label">Covers Opted</h6>
+                    </div>
+                </ng-template>
+                <ul>
+                    <li class="mb-4" id="Addon_IsEarthquake" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isEarthquake">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp" id="Addon_IsEarthquake_Icon"></i>
+                        Earthquake
+                    </li>
+                    <li class="mb-4" id="Addon_STFI" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isStfi">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp" id="Addon_STFI_Icon"></i>
+                        STFI
+                    </li>
+                    <li class="mb-4" *ngIf="quote.locationBasedCovers?.quoteLocationOccupancy.isTerrorism" id="Addon_Terrorism">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp" id="Addon_Terrorism_Icon"></i>
+                        Terrorism
+                    </li>
+                </ul>
+            </p-card>
+        </div> -->
+        <!-- <div class="col-12 custom-detail-header p-4 mb-4" *ngIf="this.isBLUS">
+            <h3>
+                Sector Avg. Add-ons
+            </h3>
+        </div>
+        <div class="col-6">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h6 class="inline-block">Sector Avg. Add-Ons</h6>
+                        <a (click)="openSectorAvgAddOnsDialog()" style="float: right; text-decoration: underline;">View All</a>
+                    </div>
+                </ng-template>
+                <ul>
+                    <li class="mb-4">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp"></i>
+                        Architects, Surveyors & Consulting Engineer's Fees
+
+                    </li>
+                    <li class="mb-4">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp"></i>
+                        Minor Works
+
+                    </li>
+                    <li class="mb-4 flex align-items-center">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp"></i>
+                        Removal Of Debris Clause
+                        <input class="mx-3" style="width: 50px" type="text" id="custom-input" pInputText />
+                        <label for="custom-input">Industry Avg: 40</label>
+
+                    </li>
+                    <li class="mb-4">
+                        <i class="pi pi-exclamation-circle mr-4" [pTooltip]="temp"></i>
+                        Escalation Clause
+
+                    </li>
+                </ul>
+            </p-card>
+        </div> -->
+        <div class="col-6">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}" *ngIf="[AllowedProductTemplate.FIRE,AllowedProductTemplate.IAR].includes(this.quote?.productId['productTemplate'])">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h6 class="inline-block" id="Addon_SectorConditional_Label">Sector Conditional Paid Add-ons</h6>
+                
+                            
+                            <a id="Addon_SectorConditional_ViewAll" (click)="openConditionalFreeAddOnsDialog()" style="float: right; text-decoration: underline;">View All</a>
+                    
+                    </div>
+                </ng-template>
+                <ul class="lists">
+                    <!-- <li class="my-3" *ngFor="let cover of conditionalFreeCovers | slice:0:5">
+                        <p-checkbox class="mr-2" name="conditionalFree" value="{{cover.name}}" [(ngModel)]="selectedConditionalFreeCovers" inputId="{{cover.name}}"></p-checkbox>
+                        {{cover.name}}
+                    </li> -->
+                    <li class="my-3" *ngFor="let cover of conditionalFreeCovers | slice:0:4">
+                        <p-checkbox class="mr-2" name="conditionalFree"
+                            value="{{cover.addOnCoverId.name}}"
+                            [(ngModel)]="selectedConditionalFreeCovers"
+                            inputId="{{cover.addOnCoverId.name}}"
+                            (onChange)="updateAddonCover(cover, $event)" [disabled]="true"
+                            id="Addon_SectorConditional_CheckBox"></p-checkbox>
+                        {{cover?.addOnCoverId?.name}}
+
+                    </li>
+                </ul>
+            </p-card>
+        </div>
+        <div class="col-6">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}" *ngIf="[AllowedProductTemplate.FIRE,AllowedProductTemplate.IAR].includes(this.quote?.productId['productTemplate'])">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h6 class="inline-block" id="Addon_SectorAvg_Label">Sector Avg. Paid Add-Ons</h6>
+                        <a id="Addon_SectorAvg_ViewAll" (click)="openSectorAvgPaidAddOnsDialog()"  style="float: right; text-decoration: underline;">View All</a>
+                    </div>
+                </ng-template>
+                <ul class="lists">
+                    <!-- <li class="my-3" *ngFor="let addon of sectorAvgPaidCovers | slice:0:5">
+                        <p-checkbox class="mr-2" name="sectorAvgPaid" value="{{addon.name}}" [(ngModel)]="selectedSectorAvgPaidCovers" inputId="{{addon.name}}"></p-checkbox>
+                        {{addon?.name}}
+                    </li> -->
+                    <li class="my-3" *ngFor="let addon of sectorAvgPaidCovers | slice:0:5">
+                        <p-checkbox class="mr-2" name="sectorAvgPaid"
+                            value="{{addon.addOnCoverId.name}}"
+                            [(ngModel)]="selectedSectorAvgPaidCovers"
+                            inputId="{{addon.addOnCoverId.name}}"
+                            id="Addon_SectorAvg_CheckBox"
+                            (onChange)="updateAddonCover(addon, $event)" [disabled]="true"></p-checkbox>
+                        {{addon?.addOnCoverId?.name}}
+                    </li>
+                </ul>
+            </p-card>
+        </div>
+        <!-- <div class="col-6">
+            <p-card [style]="{'margin-bottom': '2em','border-radius':'25px'}" *ngIf="this.isFIPR">
+                <ng-template pTemplate="header">
+                    <div class="py-3 px-3">
+                        <h6 class="inline-block">Optional Paid Add-Ons</h6>
+                        <a style="float: right; text-decoration: underline;">View All</a>
+                    </div>
+                </ng-template>
+            </p-card>
+        </div> -->
+    </div>
+</div>

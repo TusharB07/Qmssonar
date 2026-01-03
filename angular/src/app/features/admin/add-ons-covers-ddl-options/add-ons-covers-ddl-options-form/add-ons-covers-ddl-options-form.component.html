@@ -1,0 +1,57 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="AddOnsOptionsFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="AddOnsOptionsForm_SaveButton" type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button id="AddOnsOptionsForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5 id="AddOnsOptionsForm_GeneralInformation">General Information</h5>
+
+
+                    <div class="field">
+                        <label for="name" id="AddOnsOptionsForm_optionNameLabel">Option Name</label>
+                        <input maxlength="100" id="AddOnsOptionsForm_optionName" class="form-control" type="text" pInputText id="AddOnsOptionsName"
+                            formControlName="optionName" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['optionName']}" />
+                        <small id="AddOnsOptionsForm_optionName_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['optionName']">Option Name is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="AddOnsOptionsForm_ActiveLabel" for="AddOnsOptionsForm_Active">Active?</label>
+                        <p-toggleButton id="AddOnsOptionsForm_Active" class="form-control" formControlName="active"
+                            [onLabel]="'Option Active'" [offLabel]="'Option Inactive'" [onIcon]="'pi pi-check'"
+                            offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail id="AddOnsOptionsForm_AuditTrail" [entityId]="this.id" [entityResourcePrefix]="'addOnCoverOptions'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

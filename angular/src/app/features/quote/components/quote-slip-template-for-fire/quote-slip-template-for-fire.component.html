@@ -1,0 +1,328 @@
+<!-- <div class="review-quote-details">
+    <div class="pdf-inner">
+        <div class="header-section mb-5">
+
+            <div>
+                <div class="header-section-inner">
+                    <div class="grid">
+                        <div class="col-6">
+                            <h1 style="font-size: 50px;font-weight: 800 !important">Quote Slip</h1>
+
+                        </div>
+                        <div class="col-6">
+                            <h4 class="mt-3">{{this.quote?.productId?.type}}</h4>
+                            <p>{{this.quote?.clientId?.name}}</p>
+                        </div>
+                    </div>
+                    <div class="grid p-3" style="font-size: 10px !important;">
+                        <div class="col-2">
+                            <div>
+                                <h6>Quote No</h6>
+                            </div>
+                            <div>{{this.quote?.quoteNo}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Policy Type</h6>
+                            </div>
+                            <div class="text-capitalize">{{this.quote?.quoteType}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>IMD</h6>
+                            </div>
+                            <div>{{this.quote?.originalIntermediateName}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Quote Date</h6>
+                            </div>
+                            <div>{{this.quote?.createdOn | date}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Branch Name</h6>
+                            </div>
+                            <div>New Delhi</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Commission/Brokerage</h6>
+                            </div>
+                            <div>as per IRDA</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Proposer Name</h6>
+                            </div>
+                            <div>{{this.quote?.clientId?.name}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Correspondence Address</h6>
+                            </div>
+                            <div>{{this.quote?.clientId?.headOfficeLocationId?.locationName}}</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Policy Inception Date</h6>
+                            </div>
+                            <div>{{this.quote?.riskStartDate | date}}</div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <h6>Policy Period</h6>
+                            </div>
+                            <div>{{ this.quote?.renewalPolicyPeriod }} from the Inception Date</div>
+                        </div>
+                        <div class="col-2">
+                            <div>
+                                <h6>Number of Locations</h6>
+                            </div>
+                            <div> {{ this.quote?.allCoversArray?.quoteLocationOccupancies?.length }}</div>
+
+                        </div>
+                        <div class="col-3">
+                            <div>
+                                <h6>Hypothication</h6>
+                            </div>
+                            <div>{{this.quote?.hypothications }} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="px-5 ">
+             <div class="col-12 inline-flex">
+                 <div class="col-12">
+                     <div class="lt-solid-box iq-addOns">
+                         <h5 class="p-1">Risk Description Coverage</h5>
+
+                         <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                         <ul class="covers-list">
+                            <li class="p-3 pl-6" *ngFor="let riskManagment of riskManagements">
+                                {{riskManagment.riskManagementFeatureId.name}}
+                             </li>
+
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-12 inline-flex">
+                     <div class="col-12">
+                         <div class="lt-solid-box iq-addOns">
+                             <h5 class="p-1">Risk Description</h5>
+                             <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                                 <ul>
+                                     <p class="p-3" style="font-size: 10px;font-weight: 380 !important;">
+                                         All real and personal property other than what is excluded under the policy belonging to th einsured or property held in trust care, custody and/or control of insured,
+                                     </p>
+                                     <p class="p-3" style="font-size: 10px;font-weight: 380 !important;">
+                                         comprising or consisting of but not limited to Superstructure, Furnitures, Fixtures, Fitting, Domestic Appliances, Utensils, Personal Effects, Etc. Located at the risk
+                                         location
+                                     </p>
+                                 </ul>
+                             <hr style="padding-left: -45%; margin-left: -2px;">
+                             <ul  class="" >
+                                 <li class="clauses-list-item" >
+
+                                     <div class="name"><h5>Material damage Section * </h5></div>
+                                     <div class="perils-deleted-status"><h5>₹356,000,000</h5></div>
+                                 </li>
+                                 <li class="clauses-list-item" *ngFor="let breakup of this.quote?.allCoversArray.quoteLocationBreakupMaster">
+                                     <div class="name">{{breakup.lovKey}}</div>
+                                     <div class="perils-deleted-status">{{breakup.value}}</div>
+                                 </li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+
+
+             <div class="col-12 inline-flex">
+                 <div class="col-12">
+                     <div class="lt-solid-box iq-addOns">
+                         <h5 class="p-1">Perils to be deleted</h5>
+                         <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                         <ul  class="" >
+                                 <li class="clauses-list-item">
+                                     <div class="name">Strom, Tempest, Flood & Inundation (STFI)</div>
+                                     <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isStfi == true">Yes</div>
+                                     <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isStfi == false">No</div>
+                                    </li>
+                                    <li class="clauses-list-item">
+                                        <div class="name">Earthquake</div>
+                                        <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isEarthquake == true">Yes</div>
+                                        <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isEarthquake == false">No</div>
+                                 </li>
+                                 <li class="clauses-list-item">
+                                     <div class="name">Terrorism</div>
+                                     <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isTerrorism == true">Yes {{this.quote?.locationBasedCovers?.quoteLocationOccupancy.isTerrorism}}</div>
+                                     <div class="perils-deleted-status" *ngIf="this.quote?.allCoversArray.higherSumAssuredLocation.isTerrorism == false">No {{this.quote?.locationBasedCovers?.quoteLocationOccupancy.isTerrorism}}</div>
+                                 </li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="col-12 inline-flex">
+                 <div class="col-12">
+                     <div class="lt-solid-box iq-addOns">
+                         <h5 class="p-1">Clauses</h5>
+
+                         <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                         <ul  class="" >
+                                <li class="clauses-list-item" style="border-bottom: 1px solid #c1c1c1;" *ngFor="let clause of this.quote?.allCoversArray.quoteLocationAddonCovers">
+                                     <div class="name">{{clause?.addOnCoverId?.name}}</div>
+                                     <div class="perils-deleted-status" *ngIf="clause?.isChecked">Coverd</div>
+                                     <div class="perils-deleted-status" *ngIf="!clause?.isChecked">Not Coverd</div>
+                                </li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="col-12 inline-flex">
+                <div class="col-12">
+                    <div class="lt-solid-box iq-addOns">
+                        <h5 class="p-2">Co-Insurance Clause : Co-insurance Clause 2014 will be applicable with amendments as below:</h5>
+                        <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">1. Waiver of clause no. - 3.6, 3.7, 3.8 and 3.10 2.Any alterations and /or amendments and/or adjustments agreed upon the terms of leading insurer's agreement shall
+                            be automatically binding on the participating co-insurers hereon who agree to waive advice hereunder.</p>
+                            <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <h5 class="p-2">Further following terms are also agreed:</h5>
+                        <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <ul class="addOns-list">
+                            <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">1) In accordance with co-insurance agreement 2014, the Lead IFnsurer shall receive premium on behalf of all co-insurers and settle the premium with coinsurers
+                                within 21 days of receipt of premium. In the case of Bank Guarantee, the Insurer shall remit to the co-insurer/s their share of premium within 21 days from the date of
+                                receipt of premium under Bank Guarantee or invoking of Bank Guarantee, whichever is earlier. 2) For all claims beyond Rs 5 crores in magnitude for which the cash
+                                call would be raised by lead Insurer, the co-insurers would respond to the cash call immediately and pay their share of proportionate loss within 5 working days from
+                                the date the cash call is raised. 3) The coinsurance premium and / or cash call will not be kept pending for settlement/set off against any previous/pending cases and
+                                would be responded within the aforesaid timelines.</p>
+                        </ul>
+                        <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <h5 class="p-1">Co-insurance Clause 2014 </h5>
+
+                        <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <ul class="addOns-list">
+                            <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">3.6 During the currency of the policy, if there are any material changes in risk or as changes in original terms and conditions such as variation in Sum Insured,
+                                changes in premium charged, extension of policy period, etc., the same shall be communicated by the insured or his authorised representative giving sufficient
+                                advance notice of 7 days to the leader as well as all other participating co-insurers listed in the co-insurance schedule under paragraph 2 above and procure
+                                confirmation thereon. The endorsement to this effect shall be executed by the lead insurer under advice to all other participating co-insurers.</p>
+                            <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">3.7 The liability of the insurers shall in no case exceed in respect of each item of the sum expressed in the set schedule to be insured thereon or in the all, the total
+                                sum insured hereby or sums as may be substituted thereof by endorsement.</p>
+                            <P class="p-2" style="font-size: 10px;font-weight: 380 !important;">In the event of any of the Coinsurers chosen by the Insured as per Paragraph 3.1 above and listed in coinsurance schedule, wishes to withdraw from participation in
+                                this Policy at any time during currency, may do so after giving notice of 14 days (from date of intimation of changes in risk by Insured/ Intermediary) only in the event
+                                of following contingencies:</P>
+                            <P class="p-2" style="font-size: 10px;font-weight: 380 !important;">1.Increase in Sum Insured beyond the agreed and accepted amount including escalation in Sum Insured, as recorded in the underwriting slip</P>
+                            <P class="p-2" style="font-size: 10px;font-weight: 380 !important;">2.Change in Terms and conditions of Cover as agreed and accepted in the Underwriting Slip. In the event of withdrawal as above by any Insurer from Coinsurance
+                                participation under the policy, the Insured shall arrange for an alternative Insurer to take care of the full share of risk vacated by the existing Insurer. In the event of
+                                Insured failing to do so, the Insured shall be considered as his own Insurer for such share of risk or part there of which is not taken up by such alternative Co- Insurer.</P>
+                            <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">3.8 In the event of a claim under this policy, the insured shall give notice of its occurrence to the Lead Insurer with a copy to all the insurers as listed in clause 2
+                                above.</p>
+                            <p class="p-2" style="font-size: 10px;font-weight: 380 !important;">3.10 In the event of any claim being value of more than Rs. 5 crores, the lead insurer can immediately demand and the following co-insurer shall pay the cash call of
+                                their proportionate share of loss.</p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 inline-flex">
+                <div class="col-12">
+                    <div class="lt-solid-box iq-addOns">
+                        <h5 class="p-1">claimExperiences</h5>
+                        <div><hr style="padding-left: -45%; margin-left: -2px;"></div>
+                        <p-table >
+
+                            <ng-template pTemplate="header" >
+                                <tr>
+                                    <th>Year</th>
+                                    <th *ngFor="let claim of this.claimExperiences">{{claim['year']-1}} - {{claim['year']}} </th>
+                                </tr>
+                                <tr>
+                                    <th>Premium Paid </th>
+                                    <th *ngFor="let claim of this.claimExperiences">{{(claim.premiumPaid)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</th>
+                                </tr>
+                                <tr>
+                                    <th>claim Amount </th>
+                                    <th *ngFor="let claim of this.claimExperiences">{{(claim.claimAmount)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</th>
+                                </tr>
+                                <tr>
+                                    <th>No. of claims</th>
+                                    <th *ngFor="let claim of this.claimExperiences">{{claim.numberOfClaims}}</th>
+                                </tr>
+                                <tr>
+                                    <th>Nature of claim</th>
+                                    <th *ngFor="let claim of this.claimExperiences">{{(claim.natureOfClaim)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</th>
+                                </tr>
+
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 inline-flex"  calss="table2">
+                <div class="col-12">
+                    <div class="lt-solid-box iq-addOns">
+                        <h5>Annexure - Locations wise sum isured</h5>
+                        <b><hr style=" padding-left: -45%; margin-left: -2px;"></b>
+                    <p-treeTable>
+                        <ng-template pTemplate="header" >
+                            <tr style="border: 2px solid #0064BB;" >
+                                <th style="border: 2px solid #0064BB;">Risk Location</th>
+                                <th style="border: 2px solid #0064BB;">Risk Code </th>
+                                <th style="border: 2px solid #0064BB;">Building</th>
+                                <th style="border: 2px solid #0064BB;">Plinth& and Foundation, Roads and Bridges</th>
+                                <th style="border: 2px solid #0064BB;">Plant and mechanery</th>
+                                <th style="border: 2px solid #0064BB;">office Equipments, Furniture &fixtures, Electrical Instalations and other dcontents</th>
+                                <th style="border: 2px solid #0064BB;">Furniture,
+                                    Fixtures,
+                                    Fittings</th>
+                                <th style="border: 2px solid #0064BB;">Electrical
+                                    Installations&
+                                    Domestic
+                                    Appliances</th>
+                                <th style="border: 2px solid #0064BB;">Other items </th>
+                                <th style="border: 2px solid #0064BB;">Utensils</th>
+                                <th style="border: 2px solid #0064BB;">Personal
+                                    Effects</th>
+                                <th style="border: 2px solid #0064BB;">Valuables,
+                                    Paintings,
+                                    Jewellery,
+                                    if any</th>
+                                <th style="border: 2px solid #0064BB;">Other Misc
+                                    Items</th>
+
+                            </tr>
+                            <tr class="Annexure-data" >
+                                <td >Mumbai-744301{{this.quote?.allCoversArray.higherSumAssuredLocation.locationName}}</td>
+                                <td >2040 </td>
+                                <td >₹150,000,000</td>
+                                <td >₹0</td>
+                                <td >₹50,000,000 </td>
+                                <td >₹0</td>
+                                <td >₹10,000,000</td>
+                                <td >₹0</td>
+                                <td >₹50,000,000</td>
+                                <td >₹0</td>
+                                <td >₹40,000,000</td>
+                                <td >₹0</td>
+                                <td > ₹56,000,000</td>
+                            </tr><br>
+
+                            <br>
+                        </ng-template>
+                    </p-treeTable>
+                </div>
+            </div>
+        </div>
+
+
+
+        </div>
+    </div>
+</div>
+ -->

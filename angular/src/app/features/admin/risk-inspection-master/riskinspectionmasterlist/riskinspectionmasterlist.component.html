@@ -1,0 +1,270 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button id="RiskInspectionMasterList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button id="RiskInspectionMasterList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button id="RiskInspectionMasterList_Clear" pButton label="Clear" class="p-button-outlined"
+                            icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action"
+                            [(ngModel)]="this.selectedOption" optionLabel="name" (onChange)="selectAction($event)"
+                            (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="RiskInspectionMasterList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Search by LovKey" />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" id="RiskInspectionMasterList_FileUpload" accept="image/*"
+                        [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload> -->
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['lovKey']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="RiskInspectionMasterList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Partner</span>
+                                <p-columnFilter field="partnerId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">partnerId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedPartners" [suggestions]="optionsPartners"
+                                            (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="partnerIdHandleFilter($event)"
+                                            (onUnselect)="partnerIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="parentId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Parent Lov </span>
+                                <p-columnFilter field="parentId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Parent Lov filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedParentLovId"
+                                            [suggestions]="optionsParentLovId"
+                                            (completeMethod)="getOptionsParentLovId($event)" field="parentId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="ParentLovIdHandleFilter($event)"
+                                            (onUnselect)="ParentLovIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="riskTypeOrValue">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="RiskInspectionMasterList_LovTypeHeader">
+                                    Risk Type
+                                </span>
+                                <div>
+                                    <p-columnFilter id="RiskInspectionMasterList_LovTypeColumnFilter" type="text"
+                                        field="riskTypeOrValue" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by RiskType"></p-columnFilter>
+                                    <p-sortIcon id="RiskInspectionMasterList_LovTypeSortIcon"
+                                        field="riskTypeOrValue"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="discount">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="RiskInspectionMasterList_LovValueHeader">
+                                    Discount
+                                </span>
+                                <div>
+                                    <p-columnFilter id="RiskInspectionMasterList_LovValueColumnFilter" type="text"
+                                        field="discount" display="menu" [showMatchModes]="false" [showOperator]="false"
+                                        matchMode="in" operator="and" placeholder="Search Discount"></p-columnFilter>
+                                    <p-sortIcon id="RiskInspectionMasterList_LovValueSortIcon"
+                                        field="discount"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="isHeading">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="RiskInspectionMasterList_HeadingHeader">
+                                    Heading
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-sortIcon id="RiskInspectionMasterList_HeadingSortIcon"
+                                        field="active"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th pSortableColumn="isActive">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="RiskInspectionMasterList_ActiveHeader">
+                                    Active
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-sortIcon id="RiskInspectionMasterList_ActiveSortIcon"
+                                        field="isActive"></p-sortIcon>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap"
+                                    id="RiskInspectionMasterListStatusList_taskStatusHeader">
+                                    TaskStatus
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="RiskInspectionMasterList_taskStatusColumnFilter" type="text"
+                                        field="taskStatus" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by status"></p-columnFilter>
+                                    <p-sortIcon id="RiskInspectionMasterList_taskStatusSortIcon"
+                                        field="taskStatus"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap"
+                                    id="RiskInspectionMasterListStatusfailedMessage_failedMessageHeader">
+                                    FailedMessage
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-sortIcon id="RiskInspectionMasterList_failedMessageSortIcon"
+                                        field="failedMessage"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <!-- <td>
+                            <p-tableCheckbox [value]="item" id="RiskInspectionMasterList_ItemCheckBox"></p-tableCheckbox>
+                        </td> -->
+
+                        <td id="RiskInspectionMasterList_Product">
+                            {{item.productId?.type}}
+                        </td>
+                        <td>
+                            {{item?.partnerId?.name}}
+                        </td>
+                        <td id="RiskInspectionMasterList_ParentLov">
+                            {{item.parentId?.riskTypeOrValue ?? '-'}}
+                        </td>
+                        <td id="RiskInspectionMasterList_riskTypeOrValue">
+                            {{item.riskTypeOrValue}}
+                        </td>
+                        <td id="RiskInspectionMasterList_LovValue">
+                            {{item.discount ?? '-'}}
+                        </td>
+                       
+                        <td id="List_isHeading">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': !item?.isHeading, 'false-icon pi-times-circle': item?.isHeading}"></i>
+                        </td>
+                        <td id="List_isActive">
+                            <i class="pi"
+                                [ngClass]="{'true-icon pi-check-circle': item?.isActive, 'false-icon pi-times-circle': !item?.isActive}"></i>
+                        </td>
+                         <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{item?.taskStatus ?? '-'}}</td>
+
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{item?.failedMessage ?? '-'}}</td>
+                        <td>
+                            <div class="flex">
+                                <button id="RiskInspectionMasterList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(item)"></button>
+                                <!-- <button id="RiskInspectionMasterList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(item)"></button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

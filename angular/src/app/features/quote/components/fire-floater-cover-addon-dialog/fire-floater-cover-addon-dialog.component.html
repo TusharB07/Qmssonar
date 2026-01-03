@@ -1,0 +1,62 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="this.saveRecord();" id="FireFloaterCoverDialog_Form">
+
+    <p-table [tableStyle]="{'min-width': '46rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_TotalHeader"> Total</h5>
+                </th>
+                <!-- <th><h5></h5></th>
+                    <th><h5></h5></th> -->
+                <th>
+                    <!-- <h5>2000000</h5> -->
+                    <!-- <input maxlength="11" type="text" id="FireFloaterCoverDialog_Total" pInputText currencyMask
+                        [options]="{ prefix: '₹ ' , precision:0 }" formControlName="total"
+                        *ngIf="this.permissions.includes('update')">
+                    <input maxlength="11" type="text" id="FireFloaterCoverDialog_Total" pInputText currencyMask
+                        [options]="{ prefix: '₹ ' , precision:0 }" formControlName="total" disabled
+                        *ngIf="!this.permissions.includes('update')"> -->
+                    
+                        <p-inputNumber id="FireFloaterCoverDialog_Total" 
+                        mode="decimal" locale="en-IN" 
+                        prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="total"
+                        maxlength="21" [disabled]="!this.permissions.includes('update')">
+                        </p-inputNumber>  
+                </th>
+
+            </tr>
+            <tr>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_LocationHeadet">Location</h5>
+                </th>
+                <th>
+                    <h5 id="FireFloaterCoverDialog_StocksHeadet" class="text-right">Stocks (₹)</h5>
+                </th>
+
+            </tr>
+            <tr *ngFor="let floater of this.allFloaters">
+                <td class="pt-3" id="FireFloaterCoverDialog_LocationName">{{floater.locationName}}</td>
+                <td class="pt-3 text-right currency" id="FireFloaterCoverDialog_SumInsured"><span><app-currency
+                            [maximumFractionDigits]="0" [value]="floater.sumInsured ?? 0"> </app-currency></span></td>
+
+            </tr>
+        </ng-template>
+        <ng-template>
+            <tr>
+                <!-- <td>Location</td>
+                <td>Stocks stored in open</td>
+                <td>Max.value</td>
+                <td>Sum Insured</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="flex justify-content-end">
+        <div class="my-5">
+            <button class="btn btn-success mr-4" type="submit" *ngIf="this.permissions.includes('update')"
+                id="FireFloaterCoverDialog_Save">Save</button>
+            <button class="btn btn-outline-light mt-1" type="button" (click)="cancel()"
+                id="FireFloaterCoverDialog_Close">Close</button>
+        </div>
+    </div>
+
+</form>

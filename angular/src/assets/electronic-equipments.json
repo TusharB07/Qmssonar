@@ -1,0 +1,20 @@
+{
+    "data": [
+      {
+        "name": "Description of the Equipments",
+        "nd": "Desktops",
+        "ch": "All Electronic Equipment",
+        "mu": "Printers",
+        "am": "Scanners",
+        "hy": "Spectrometer"
+      },
+      {
+        "name": "Sum Insured",
+        "nd": "Rs. 10,000,000",
+        "ch": "Rs. 10,000,000",
+        "mu": "Rs. 10,000,000",
+        "am": "Rs. 10,000,000",
+        "hy": "Rs. 10,000,000"
+      }
+    ]
+  }

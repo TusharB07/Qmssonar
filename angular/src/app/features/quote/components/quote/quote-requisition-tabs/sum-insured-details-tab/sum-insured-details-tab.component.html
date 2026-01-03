@@ -1,0 +1,15 @@
+<!-- Old_Quote -->
+<!-- <div class="" *ngIf="this.quote">
+    <app-sum-insured-details-sub-template-fire [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateFire" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.FIRE" [quote]="this.quote"></app-sum-insured-details-sub-template-fire>
+    <app-sum-insured-details-sub-template-blus [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateBlus" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.BLUS" [quote]="this.quote"></app-sum-insured-details-sub-template-blus>
+    <app-sum-insured-details-sub-template-iar [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateIar" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR" [quote]="this.quote"></app-sum-insured-details-sub-template-iar>
+</div> -->
+
+<!-- New_Quote_Option -->
+<div class="" *ngIf="this.quote">
+    <app-sum-insured-details-sub-template-fire [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateFire" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.FIRE" [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-sum-insured-details-sub-template-fire>
+    <app-sum-insured-details-sub-template-blus [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateBlus" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.BLUS" [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-sum-insured-details-sub-template-blus>
+    <app-sum-insured-details-sub-template-iar [permissions]="this.permissions" id="SunInsuredDetailsTab_SubTemplateIar" *ngIf="this.quote?.productId['productTemplate'] == AllowedProductTemplate.IAR" [quoteOptionData]="this.quoteOptionData" [quote]="this.quote"></app-sum-insured-details-sub-template-iar>
+</div>
+
+

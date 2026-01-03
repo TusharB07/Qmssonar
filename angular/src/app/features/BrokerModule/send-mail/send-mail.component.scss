@@ -1,0 +1,163 @@
+.input-container {
+  border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+input {
+  border: none !important;
+  width: 100%;
+}
+
+::ng-deep .p-chips .p-chips-multiple-container {
+  border: none;
+  background: transparent;
+  
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  background: #ffffff ;
+}
+::ng-deep .p-dialog .p-dialog-content {
+  background: #ffffff;
+}
+::ng-deep .p-dialog .p-dialog-header {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  height: 5px;
+}
+
+::ng-deep .p-chips .p-chips-multiple-container .p-chips-token {
+  background: none;
+  color: black;
+  font-size: 15px;
+
+}
+
+::ng-deep .pi-times {
+  font-size: 18px;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+  margin-top: 16px;
+}
+
+::ng-deep .p-chips {
+    display: inline-flex;
+    width: 352px;
+}
+
+::ng-deep .p-inputtext.p-element, .p-inputtext.p-element:enabled:focus, .p-inputtext, .p-inputtext:enabled:focus{
+    background: none;
+    border: none;
+    color: black;
+    font-size: 15px;
+    // width: 400px;
+}
+
+label {
+  font-size: 15px;
+  margin: 5px;
+  color: black;
+}
+
+h1 {
+  color: black;
+}
+
+.cc-box {
+  display: flex;
+  border-bottom:1px solid black;
+  padding: 5px;
+}
+
+span{
+    font-size: 15px;
+    cursor: pointer;
+    margin: 5px;
+    color: black;
+}
+
+.textarea-container{
+    margin-top: 5px;
+    border: none;
+}
+.btn-send button{
+    font-size: 15px;
+    background-color: blue;
+    border:1px solid blue;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 30px;
+    width: 80px;
+}
+
+// .mail-body{
+//   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+//   height: 30px;
+//   width: 100%;
+//   margin: 3px;
+//   padding: 5px;
+//   // justify-content: space-between;
+//   display: flex;
+//   align-items: center;
+// }
+.ql-formats{
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 10px !important;
+}
+
+::ng-deep .p-editor{
+  margin-bottom: 20px;
+  position: relative;
+  top: 55px;
+}
+
+// ::ng-deep .p-editor-content{
+//   display: none !important;
+// }
+
+::ng-deep .ql-toolbar.ql-snow{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  border: 0px !important;
+  border-radius: 0px !important;
+  padding: 0px;
+}
+::ng-deep .p-editor-container .p-editor-toolbar.ql-snow{
+  border: none !important;
+  margin-bottom: 58px;
+    top: 250px;
+    position: relative;
+}
+::ng-deep .ql-container{
+  top: -96px;
+  // background: #ffffff !important;
+}
+::ng-deep .p-editor-container .p-editor-content .ql-editor{
+  background: #ffffff !important;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  position: relative;
+  top: 6px;
+  height: 200px;
+  color: black;
+  font-size: 15px;
+
+}
+::ng-deep .ql-container.ql-snow {
+  border: none !important;
+}
+::ng-deep .toolBarEditor .p-editor-toolbar{
+  display: none;
+}
+::ng-deep .p-chips .p-chips-multiple-container .p-chips-input-token input {
+  font-size: 1.5rem !important;
+}

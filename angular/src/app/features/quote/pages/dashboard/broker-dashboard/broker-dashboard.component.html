@@ -1,0 +1,549 @@
+<div *ngIf="!isMobile">
+    <section class="main-container broker-dashboard">
+
+        <!--MESSAGE_PART -->
+        <div class="grid mx-3">
+            <div class="col-8">
+                <p class="title" id="Dashboard_Wishes">Hello {{user.name}},</p>
+                <p class="para23" id="Dashboard_Wishes2">Here's what's happening today.</p>
+            </div>
+            <div class="col-4 text-right">
+                <div class="flex justify-content-between align-items-center">
+                    <!-- <label for="date" class="block download-text" id="Dashboard_StartDateAndEndDate_Label">Select Start
+                                    Date and End Date</label> -->
+                    <div class="flex justify-content-start align-items-center">
+                        <p class="p-1" style="font-size: 1.6rem;">Start & End Date:</p>
+                        <p-calendar id="Dashboard_StartDateAndEndDate" [(ngModel)]="this.dateRange"
+                            (ngModelChange)="this.rangeChanged($event)" [maxDate]="this.dateToday" [showIcon]="true"
+                            selectionMode="range" inputId="date" dateFormat="dd/mm/yy">
+                        </p-calendar>
+                    </div>
+                    <div class="flex justify-content-start align-items-center" *ngIf="this.isAllowedCreateQuote">
+                        <!-- <a [routerLink]="this.appService.routes.quotes.new()" pButton
+                            class="p-button-success p-blue-button" id="Dashboard_AddQuote"><i
+                                class="pi pi-plus pr-2"></i> Create Quote</a> -->
+                        <button pButton type="submit" label="Create Quote" id="QuoteCreate_CreateQuote"
+                        class="btn btn-primary" (click)="this.createQuote()"><i class="pi pi-plus pt-1 mr-2"
+                            id="QuoteKanban_CreateTask"></i></button>
+                            <!-- <button *ngIf="this.isAllowedCreateQuote" (click)="this.createQuote()" type="button"
+                            class="btn btn-primary"><i class="pi pi-plus pt-1 mr-2"
+                                id="QuoteKanban_CreateTask"></i>Create Quote</button>     -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--DASHBOARD_SCREEN-->
+        <div class="grid mx-3 overflow-hidden">
+
+            <!--LEFT_PART_SCREEN-->
+            <div class="col-8">
+                <div class="grid mb-1">
+                    <!-- QUOTE OPEN CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+
+                            <div class="flex justify-content-between mb-1">
+                                <div class="card-title" id="Dashboard_QuoteOpen">QUOTES OPEN</div>
+                                <!-- <div class="card-percent success">
+                                    <i class="pi pi-arrow-up-right pr-2" id="Dashboard_OpenQuoteSubValue"></i>
+                                    <span>{{this.dashboardData?.quotesOpenedCard?.subValue}} %</span>
+                                </div> -->
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <div>
+                                    <p class="count mb-1" id="Dashboard_QuotesOpened_value">
+                                        {{this.dashboardData?.quotesOpenedCard?.value}}</p>
+                                    <div class="text-underline">
+                                        <a class="text-black" (click)="this.openAllOpenQuotes()"
+                                            id="Dashboard_ViewOpenedQuotes">View all open quotes</a>
+                                    </div>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-blue-100 border-round mt-1"
+                                    style="width: 4rem;height: 4rem;" id="Dashboard_BookImage"><img
+                                        src="assets/dashboard/quotes_open.png">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- <app-quote-placed-card [myDashboardData]="this.dashboardData"></app-quot-placed-card> -->
+                    <!-- QUOTE PLACED CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+
+                        <!-- <app-quote-placed-card [myDashboardData]="this.dashboardData" [partner]="this.partner"
+                            *ngIf="this.partner.partnerType == AllowedPartnerTypes.broker"></app-quote-placed-card> -->
+
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+                            <div class="flex justify-content-between mb-1">
+                                <div class="card-title" id="Dashboard_QUOTESPLACED">QUOTES PLACED</div>
+                                <!-- <div class="card-percent error">
+                                    <i class="pi pi-arrow-up-right pr-2" id="Dashboard_QuotesPlacedSubvalue"></i>
+                                    <span
+                                        *ngIf="this.partner?.partnerType == AllowedPartnerTypes.broker">{{this.myDashboardData?.quotesPlacedCard?.subValue}}
+                                        %</span>
+                                    <span
+                                        *ngIf="this.partner?.partnerType == AllowedPartnerTypes.insurer">{{this.myDashboardData?.quotesPlacedCardForInsurer?.subValue}}
+                                        %</span>
+                                </div> -->
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <div>
+                                    <p class="count mb-1" id="Dashboard_QuotesPlacedvalue">
+                                        {{this.dashboardData?.quotesPlacedCard?.value}}
+                                    </p>
+                                    <!-- <p class="count mb-4" id="Dashboard_QuotesPlacedvalue" *ngIf="this.partner?.partnerType == AllowedPartnerTypes.insurer">
+                                            {{this.myDashboardData?.quotesPlacedCardForInsurer?.value}}
+                                        </p> -->
+                                    <div class="text-underline">
+                                        <a class="text-black" (click)="this.openPlacedQuotes()"
+                                            id="Dashboard_ViewPlacedQuotes">View all placed
+                                            quotes</a>
+
+                                    </div>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                    id="Dashboard_CopyImage" style="width: 4rem;height: 4rem;"><img
+                                        src="assets/dashboard/quotes_placed.png"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- TAT CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+                            <div class="flex justify-content-between mb-1">
+                                <div class="card-title" id="Dashboard_SentToInsurer">
+                                    <div class="flex align-items-center">
+                                        <span class="pr-2">TAT:</span>
+                                        <p-dropdown (onChange)="this.handleBrokerTatOption($event)"
+                                            [options]="this.optionsForTat" optionLabel="label"></p-dropdown>
+                                    </div>
+                                </div>
+                                <!-- <div class="card-percent error">
+                                    <i class="pi pi-arrow-down-left pr-2" id="Dashboard_SentToInsurerSubvalue"></i>
+                                    <span>{{this.dashboardData?.quotesPlacedRatioCard?.subValue}} %</span>
+                                </div> -->
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <p class="count" id="Dashboard_QuotesPlacedvalue">
+                                    <!-- {{this.days?.value?.toFixed(2) ?? 0}} Mins</p> -->
+                                    {{this.days ? (this.days+' D,'):'' }} {{this.hours ? (this.hours+' H,'):'' }}
+                                    {{this.remainingMinutes ? (this.remainingMinutes.toFixed(2)+' M'):'' }}
+                                </p>
+                                <!-- <div class="progressbar-container mb-4">
+                                    <p-progressBar [value]="this.dashboardData?.quotesPlacedRatioCard?.value" id="Dashboard_SentToInsurerValue" styleClass="custom-progressbar mb-4"></p-progressBar>
+                                    <div class="">
+                                        <a class="text-black" href="#" id="Dashboard_QuotesPlacedRatio">Quotes Placed Ratio</a>
+                                    </div>
+                                </div> -->
+                                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                    style="width: 4rem;height: 4rem;" id="Dashboard_WatchImage">
+                                    <img src="assets/dashboard/Tat.png">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--QUOTE_PENDING-WITH-CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+                        <!-- <app-quote-pending-card [partner]="this.partner" [myDashboardData]="this.dashboardData"
+                            *ngIf="this.partner.partnerType == AllowedPartnerTypes.broker"></app-quote-pending-card> -->
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+                            <div class="flex justify-content-between mb-1">
+                                <div class="card-title" id="Dashboard_PendingWithInsurerHeader">PENDING WITH INSURER
+                                    <!-- <span *ngIf="this.partner.partnerType == AllowedPartnerTypes.broker">INSURER</span>
+                                    <span *ngIf="this.partner.partnerType != AllowedPartnerTypes.broker">UNDERWRITER </span> -->
+                                </div>
+                                <!-- <div class="card-percent success">
+                                    <i class="pi pi-arrow-up-right pr-2" id="Dashboard_QuotesPlacedCardSubValue"></i>
+                                    <span>{{this.dashboardData?.quotesPlacedCard?.subValue}} %</span>
+                                </div> -->
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <div>
+                                    <p class="count mb-1" id="Dashboard_QuotesPlacedValue">
+                                        {{this.dashboardData?.quotesPendingWithInsurerCard?.value}}</p>
+                                    <div class="text-underline">
+                                        <a class="text-black" (click)="this.openPendingInsurerQuotes()"
+                                            id="Dashboard_ViewAllPendingQuotes">View
+                                            all pending quotes</a>
+                                    </div>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-orange-100 border-round mt-5"
+                                    style="width: 4rem;height: 4rem;">
+                                    <img src="assets/dashboard/pending_with_insurer.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOTAL-PREMIUM-CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+                            <div class="flex justify-content-between mb-1">
+                                <div>
+                                    <p class="card-title" id="Dashboard_AllQuotesTotalPremium_Label">TOTAL PREMIUM
+                                        OF ALL QUOTES (Incl. Taxes)</p>
+                                    <p class="small-text" id="Dashboard_AllQuotes_DateRange">(within date range)</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <div>
+                                    <p class="count mb-1"></p>
+                                    <p class="count" id="Dashboard_AllQuotesTotalPremium">&#x20B9;
+                                        {{this.dashboardData?.totalPremiumOfAllQuotesCard?.value?.toLocaleString()}}</p>
+
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                    style="width: 4rem;height: 4rem;">
+                                    <img src="assets/dashboard/premium.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOTAL-COMMISION-TILL-DATE-CARD -->
+                    <div class="col-12 md:col-6 lg:col-4 max-h-full min-h-full">
+                        <div
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full">
+                            <div class="flex justify-content-between mb-1">
+                                <div>
+                                    <p class="card-title" id="Dashboard_TotalCommisionTillDate_Label">TOTAL
+                                        COMMISSION TILL DATE</p>
+                                    <p class="small-text">&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-content-between align-items-end">
+                                <div>
+                                    <p class="count mb-1"></p>
+                                    <p class="count" id="Dashboard_TotalCommisionTillDate">&#x20B9;
+                                        {{this.dashboardData?.totalComissionTillDateCard?.value}}</p>
+                                </div>
+                                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                    style="width: 4rem;height: 4rem;">
+                                    <img src="assets/dashboard/commission.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--CHART -->
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="surface-card shadow-2 p-3 border-round">
+                            <div class="flex align-items-center justify-content-between mb-1">
+
+                                <p-dropdown [options]="this.optionsBrokerDashboardGraphs"
+                                    [(ngModel)]="this.selectBrokerDashboardGraph"
+                                    (ngModelChange)="setSelectedBrokerDashboardGraph($event)"></p-dropdown>
+
+                                <ng-container class="" [ngSwitch]="this.selectBrokerDashboardGraph">
+
+
+                                    <ng-container *ngSwitchCase="AllowedBrokerDashboardGraphs.PRODUCT_WISE_COUNT_GRAPH">
+                                        <h5 class="m-0" id="Dashboard_ProductwiseCountHeader">PRODUCTS WISE COUNT
+                                        </h5>
+                                        <p-multiSelect [options]="this.optionsProducts"
+                                            (onChange)="this.productWiseFilterChanged()"
+                                            [(ngModel)]="this.selectedProducts" optionLabel="label"></p-multiSelect>
+                                    </ng-container>
+
+                                    <ng-container *ngSwitchCase="AllowedBrokerDashboardGraphs.PRODUCT_WISE_TAT_GRAPH">
+                                        <h5 class="m-0" id="Dashboard_ProductwiseCountHeader">PRODUCTS WISE TAT</h5>
+                                        <p-dropdown [options]="this.optionsProducts" [(ngModel)]="this.selectedProduct"
+                                            (ngModelChange)="setSelectedProduct($event)" optionLabel="label"
+                                            optionValue="value"></p-dropdown>
+
+                                    </ng-container>
+
+                                </ng-container>
+
+                            </div>
+                            <p-chart type="line" [data]="basicData" [options]="basicOptions"
+                                (onDataSelect)="selectedData($event)"></p-chart>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--RIGHT_PART_SCREEN-->
+            <div class="col-4">
+                <!-- CALENDER & DOWNLOAD  -->
+                <!-- CALENDER -->
+                <!-- DOWNLOAD DATA  -->
+                <!-- <div class="flex align-items-center">
+                    <p class="pr-2 download-text" id="Dashboard_DownloadData">Download Data</p>
+                    <i class="pi pi-arrow-down" id="Dashboard_DownloadDownArrow"></i>
+                </div> -->
+
+                <!-- CLIENT-PENDING-PEOPLE-CARD -->
+                <div class="surface-card shadow-2 p-3 border-round mb-2"
+                    *ngIf="this.partner.partnerType == AllowedPartnerTypes.broker">
+                    <div class="form-label py-2">CLIENT WISE PENDING QUOTES</div>
+                    <p-table [value]="clients">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="text-black-heading" id="Dashboard_CLIENT_Label">Client</th>
+                                <th class="text-black-heading" id="Dashboard_PENDING_Label">Pending Quote</th>
+                                <th class="text-black-heading" id="Dashboard_PEOPLE_Label"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-client>
+                            <tr class="client-data" *ngIf="client.pendingQuotes > 0">
+                                <td id="Dashboard_CLIENT">{{client.clientName}}</td>
+                                <td id="Dashboard_PENDING">{{client.pendingQuotes}}</td>
+                                <!-- <td id="Dashboard_PEOPLE" class="position-relative"><img src="assets/dashboard/person1.png"
+                                        class="person-image first-image"><img src="assets/dashboard/person2.png"
+                                        class="person-image  second-image"><span class="more-text pl-2">+2 more</span></td> -->
+                                <td class="flex justify-content-end">
+                                    <button pButton pRipple class="btn btn-sm p-button-outlined"
+                                        (click)="clientWisePendingQuote(client)">View</button>
+                                    <!-- <button pButton pRipple (click)="this.openQuote(client.quoteId)"
+                                        class="btn btn-sm p-button-outlined">
+                                        View
+                                    </button> -->
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="3" class="text-center p-3" id="Dashboard_RecordsFound">No Records Found
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+                <!-- CLIENT_PRODUCT-STAGE-CARD -->
+                <!-- <app-client-product-stage-card [stages]="this.stages"></app-client-product-stage-card> -->
+                <div class="surface-card shadow-2 p-3 border-round">
+                    <div class="flex justify-content-between">
+                        <div class="form-label py-2">PRODUCT WISE PENDING QUOTES</div>
+                        <div class="text-underline"><a class="" (click)="this.openAllOpenQuotes()">View all</a>
+                        </div>
+                    </div>
+                    <p-table [value]="stages">
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="3" class="text-center p-3" id="Dashboard_RecordsFound2">No Records Found
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="text-black-heading" id="Dashboard_CLIENT2_Label">Client</th>
+                                <th class="text-black-heading" id="Dashboard_PRODUCT2_Label">Product</th>
+                                <th class="text-black-heading" id="Dashboard_STAGE2_Label">Stage</th>
+                                <th class="text-black-heading" id="Dashboard_STAGE2_Action"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-stage>
+                            <tr class="client-data">
+                                <td id="Dashboard_CLIENT2">{{stage.clientName}}</td>
+                                <td id="Dashboard_PRODUCT2">{{stage.productName}}</td>
+                                <td id="Dashboard_STAGE2">{{stage.stage}}</td>
+                                <td class="flex justify-content-end">
+                                    <button pButton pRipple (click)="this.openQuote(stage.quoteId)"
+                                        class="btn btn-sm p-button-outlined">
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</div>
+<div *ngIf="isMobile">
+    <section class="main-container broker-dashboard" style="margin-bottom: 50px;">
+        <div class="grid mx-2">
+            <div class="col-10">
+                <p class="title" id="Dashboard_Wishes">Hello {{user.name}},</p>
+                <p class="para23" id="Dashboard_Wishes2">Here's what's happening today.</p>
+            </div>
+            <div class="col-2 flex justify-content-center align-items-center">
+                <!-- for calendar icon -->
+                <span class="p-2 custom-calendar-icon">
+                    <i class="pi pi-calendar" style="font-size: 2rem;" (click)="showCalendar()"></i>
+                </span>
+            </div>
+            <div class="col-12 mobile-quote-create">
+                <a [routerLink]="this.appService.routes.quotes.new()" pButton
+                    class="p-button-success p-blue-button mobile-quote-create-button flex justify-content-center"
+                    id="Dashboard_AddQuote">
+                    <div class="w-full">
+                        <i class="pi pi-plus pr-2"></i> Create Quote
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="flex custom-slide py-1" style="overflow: scroll;">
+                    <div *ngFor="let card of carouselCards"
+                        class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full mx-2"
+                        style="min-width: 80vw;">
+                        <div class="flex justify-content-between mb-1">
+                            <div *ngIf="!card?.isTat" class="card-title" id="Dashboard_QuoteOpen">
+                                {{card?.label}}
+                                <p class="small-text" id="Dashboard_AllQuotes_DateRange">{{card?.sublabel}}</p>
+                            </div>
+                            <div *ngIf="card?.isTat" class="card-title" id="Dashboard_SentToInsurer">
+                                <div class="flex align-items-center">
+                                    <span class="pr-2">{{card?.label}}</span>
+                                    <p-dropdown class="custom-dropdown" (onChange)="this.handleBrokerTatOption($event)"
+                                        [options]="this.optionsForTat" optionLabel="label"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="card-percent success" *ngIf="card?.subvalue || card?.subvalue == 0">
+                                <i class="pi pi-arrow-up-right pr-2" id="Dashboard_OpenQuoteSubValue"></i>
+                                <span>{{card?.subvalue}} %</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-between align-items-end">
+                            <div *ngIf="!card?.isTat">
+                                <p class="count mb-1" id="Dashboard_QuotesOpened_value">
+                                    <span *ngIf="card?.iscurrency">&#x20B9;</span>{{card?.value}}
+                                </p>
+                                <div class="text-underline">
+                                    <a class="text-black" (click)="card?.navigateFunction()"
+                                        id="Dashboard_ViewOpenedQuotes">{{card?.navigateFunctionLabel}}</a>
+                                </div>
+                            </div>
+                            <p *ngIf="card?.isTat" class="count" id="Dashboard_QuotesPlacedvalue">
+                                {{this.days ? (this.days+' D,'):'' }} {{this.hours ? (this.hours+' H,'):'' }}
+                                {{this.remainingMinutes ? (this.remainingMinutes.toFixed(2)+' M'):'' }}
+                            </p>
+                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round mt-1"
+                                style="width: 4rem;height: 4rem;" id="Dashboard_BookImage"><img [src]="card?.imageURL">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid mx-1 overflow-hidden">
+            <div class="col-12">
+                <div class="surface-card shadow-2 p-3 border-round">
+                    <div class="flex align-items-center justify-content-between mb-1">
+                        <ng-container class="" [ngSwitch]="this.selectBrokerDashboardGraph">
+                            <ng-container *ngSwitchCase="AllowedBrokerDashboardGraphs.PRODUCT_WISE_COUNT_GRAPH">
+                                <h5 class="m-0" id="Dashboard_ProductwiseCountHeader">PRODUCTS WISE COUNT
+                                </h5>
+                                <p-multiSelect class="custom-multiselect" [options]="this.optionsProducts"
+                                    (onChange)="this.productWiseFilterChanged()" [(ngModel)]="this.selectedProducts"
+                                    optionLabel="label"></p-multiSelect>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="AllowedBrokerDashboardGraphs.PRODUCT_WISE_TAT_GRAPH">
+                                <h5 class="m-0" id="Dashboard_ProductwiseCountHeader">PRODUCTS WISE TAT</h5>
+                                <p-dropdown [options]="this.optionsProducts" [(ngModel)]="this.selectedProduct"
+                                    (ngModelChange)="setSelectedProduct($event)" optionLabel="label"
+                                    optionValue="value"></p-dropdown>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <p-dropdown [options]="this.optionsBrokerDashboardGraphs"
+                        [(ngModel)]="this.selectBrokerDashboardGraph"
+                        (ngModelChange)="setSelectedBrokerDashboardGraph($event)"></p-dropdown>
+                    <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="surface-card shadow-2 p-3 border-round mb-2"
+                    *ngIf="this.partner.partnerType == AllowedPartnerTypes.broker">
+                    <div class="form-label py-2">CLIENT WISE PENDING QUOTES</div>
+                    <p-table [value]="clients" [scrollable]="true" scrollDirection="both">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:180px" class="text-black-heading" id="Dashboard_CLIENT_Label">Client
+                                </th>
+                                <th style="width:100px" class="text-black-heading" id="Dashboard_PENDING_Label">Pending
+                                    Quote
+                                </th>
+                                <th style="width:60px" class="text-black-heading" id="Dashboard_PEOPLE_Label"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-client>
+                            <tr class="client-data" *ngIf="client.pendingQuotes > 0">
+                                <td style="width:180px" id="Dashboard_CLIENT">{{client.clientName}}</td>
+                                <td style="width:100px" id="Dashboard_PENDING">{{client.pendingQuotes}}</td>
+                                <td style="width:60px" class="flex justify-content-end">
+                                    <!-- <button pButton pRipple class="btn btn-sm p-button-outlined">View</button> -->
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="3" class="text-center p-3" id="Dashboard_RecordsFound">No Records Found
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="py-3 border-round">
+                    <div class="flex justify-content-between">
+                        <div class="form-label py-2">PRODUCT WISE PENDING QUOTES</div>
+                        <div class="text-underline"><a class="" (click)="this.openAllOpenQuotes()">View all</a>
+                        </div>
+                    </div>
+                    <div class="flex custom-slide" style="overflow: scroll;">
+                        <div *ngFor="let card of stages"
+                            class="flex justify-content-between flex-column surface-card shadow-2 p-3 border-round max-h-full min-h-full m-2"
+                            style="min-width: 40vw;">
+                            <div class="my-3">
+                                <h5 class="mb-2">Client</h5>
+                                <span class="text-base">{{card?.clientName}}</span>
+                            </div>
+                            <div class="my-3">
+                                <h5 class="mb-2">Product</h5>
+                                <span class="text-base">{{card?.productName}}</span>
+                            </div>
+                            <div class="my-3">
+                                <h5 class="mb-2">Stage</h5>
+                                <span class="text-base">{{card?.stage}}</span>
+                            </div>
+                            <button pButton pRipple (click)="this.openQuote(card?.quoteId)"
+                                class="btn btn-sm p-button-outlined w-4">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <p-dialog class="custom-dialog" [(visible)]="displayCalendar" position="bottom" [modal]="true"
+        [style]="{width: '100vw', margin: 'unset'}" [draggable]="false" [resizable]="false">
+        <p-calendar class="custom-calendar" id="Dashboard_StartDateAndEndDate" [(ngModel)]="this.dateRange"
+            [inline]="true" (ngModelChange)="this.rangeChanged($event)" [maxDate]="this.dateToday" [showIcon]="true"
+            selectionMode="range" inputId="date" dateFormat="dd/mm/yy">
+        </p-calendar>
+        <div>
+            <button class="w-full mb-5 h-3rem font-bold" pButton pRipple type="button" id="Login_Submit"
+                label="Apply Filter" style="background: #2156c2; border-color: #2156c2;"
+                (click)="displayCalendar = false"></button>
+        </div>
+    </p-dialog>
+</div>

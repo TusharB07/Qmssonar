@@ -1,0 +1,109 @@
+<div class="card modal-body" *ngIf="this.permissions.includes('read')">
+    <form class="" [formGroup]="moneyInSafeTillForm" (ngSubmit)="this.submitMoneyInSafeForm()" #$form="ngForm">
+        <div class="grid br-b">
+            <div class="col-12 mb-5">
+                <div class="pp-dropdown-cb">
+                    <label for="" class="form-label">Risk Location</label>
+                    <div>
+                        <!-- <p-multiSelect formControlName="riskLocation" placeholder="Select State" [options]="cities" [(ngModel)]="selectedCities"
+                            optionLabel="name" [maxSelectedLabels]="2" [selectedItemsLabel]="'{0} items selected'"
+                            class="custom-dropdown"></p-multiSelect> -->
+                        <!-- <h4>{{this.config.data.clientLocationId.name}}</h4> -->
+                        <p-autoComplete class="custom-dropdown" id="moneyInSafe_Dialog_Loaction" [disabled]="true"
+                            [(ngModel)]="this.selectedQuoteLocationOccpancy" [forceSelection]="true" [dropdown]="true"
+                            [suggestions]="this.optionsQuoteLocationOccupancies" field="label"
+                            (completeMethod)="this.searchOptionsQuoteLocationOccpancies()"
+                            [ngModelOptions]="{standalone: true}"></p-autoComplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid md:mb-5">
+            <!-- <div class="col-6 mb-5">
+                <label for="" class="form-label">Occupancy</label>
+                <p-autoComplete class="custom-dropdown" [disabled]="true" [(ngModel)]="this.selectedOccupancy" [dropdown]="true" [suggestions]="this.optionsOccpanies" field="label" (completeMethod)="this.searchOptionsOccpancies()" [ngModelOptions]="{standalone: true}"></p-autoComplete>
+
+            </div> -->
+            <div class="col-12 md:col-6 mb-1 md:mb-5" tooltipPosition="bottom"
+                pTooltip="{{moneyInSafeTillForm.controls['moneySafe'].value && this.toWords.convert((moneyInSafeTillForm.controls['moneySafe'].value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">
+                <label for="" id="moneyInSafe_Dialog_MoneyInSafe_label" class="form-label">Money In Safe</label>
+                <!-- TO GET THE COUNT OF VALUES IN RUPEES INSTEAD OF MILLIONS -->
+                <p-inputNumber id="moneyInSafe_Dialog_MoneyInSafe_label" mode="decimal" locale="en-IN" prefix="₹ "
+                    [minFractionDigits]="0" placeholder="0" formControlName="moneySafe"
+                    [disabled]="!this.permissions.includes('update')" maxlength="21"
+                    [ngClass]="{'ng-invalid ng-dirty': $form.submitted && !moneyInSafeTillForm.controls['moneySafe'].value}">
+                </p-inputNumber>
+
+                <small class="ng-dirty ng-invalid" id="moneyInSafe_Dialog_MoneyInSafe_ValidationError"
+                    *ngIf="$form.submitted && moneyInSafeTillForm.controls['moneySafe']?.errors?.required">Money in Safe
+                    is required.</small>
+                <small class="ng-dirty ng-invalid" id="moneyInSafe_Dialog_MoneyInSafe_ValidationError"
+                    *ngIf="$form.submitted && moneyInSafeTillForm.controls['moneySafe']?.errors?.min">Money in Safe
+                    should be greater than 1.</small>
+                <small style="color :brown;font-style: italic;">Range for SI is {{min}} - {{max}}</small><br>
+                <small style="color :brown;font-style: italic;">NSTP Range for SI is {{minNSTP}} - {{maxNSTP}}</small>
+
+                <!-- NO NEED OF VALIDATION AS MAXLENGTH VALIDATION APPLIED IN INPUT FIELD -->
+                <!-- <small class="ng-dirty ng-invalid"  id="moneyInSafe_Dialog_MoneyInSafe_ValidationError2" *ngIf="moneyInSafeTillForm.controls['moneySafe']?.errors?.max">Money in Safe is cannot be more than 11 Characters..</small> -->
+
+                <!-- <input maxlength="11"  pInputText id="moneyInSafe_Dialog_MoneyInSafe" formControlName="moneySafe" value="" *ngIf="this.permissions.includes('update')" currencyMask  [options]="{ prefix: '₹ ' , precision:0 }"  class="p-inputtext1">
+                <input maxlength="11"  pInputText id="moneyInSafe_Dialog_MoneyInSafe" formControlName="moneySafe" value="" *ngIf="!this.permissions.includes('update')" disabled currencyMask  [options]="{ prefix: '₹ ' , precision:0 }"  class="p-inputtext1"> -->
+            </div>
+
+            <div class="col-12 md:col-6 mb-1 md:mb-5" tooltipPosition="bottom"
+                pTooltip="{{moneyInSafeTillForm.controls['moneyTillCounter'].value && this.toWords.convert((moneyInSafeTillForm.controls['moneyTillCounter'].value ?? 0), { currency: true ,ignoreZeroCurrency: true })}}">
+                <label for="" id="moneyInSafe_Dialog_MoneyInTillCounter_Label" class="form-label">Money In Till /
+                    Counter</label>
+
+                <!-- TO GET THE COUNT OF VALUES IN RUPEES INSTEAD OF MILLIONS -->
+                <p-inputNumber id="moneyInSafe_Dialog_MoneyInTillCounter_Label" mode="decimal" locale="en-IN"
+                    prefix="₹ " [minFractionDigits]="0" placeholder="0" formControlName="moneyTillCounter"
+                    [disabled]="!this.permissions.includes('update')" maxlength="21"
+                    [ngClass]="{'ng-invalid ng-dirty': $form.submitted && !moneyInSafeTillForm.controls['moneyTillCounter'].value}">
+                </p-inputNumber>
+
+                <small class="ng-dirty ng-invalid" id="moneyInSafe_Dialog_MoneyInTillCounter_ValidationError"
+                    *ngIf="$form.submitted && moneyInSafeTillForm.controls['moneyTillCounter']?.errors?.required">Money
+                    in Till/Counter required.</small>
+
+                <small class="ng-dirty ng-invalid" id="moneyInSafe_Dialog_MoneyInTillCounter_ValidationError"
+                *ngIf="$form.submitted && moneyInSafeTillForm.controls['moneyTillCounter']?.errors?.min">Money
+                in Till/Counter should be greater than 1.</small>
+
+                <!-- NO NEED OF VALIDATION AS MAXLENGTH VALIDATION APPLIED IN INPUT FIELD -->
+                <!-- <small class="ng-dirty ng-invalid" id="moneyInSafe_Dialog_MoneyInTillCounter_ValidationError2   " *ngIf="moneyInSafeTillForm.controls['moneyTillCounter']?.errors?.max">Money in Till/Counter cannot be more than 11 Characters.</small> -->
+
+                <!-- <input maxlength="11" pInputText id="moneyInSafe_Dialog_MoneyInTillCounter" formControlName="moneyTillCounter" value="" *ngIf="this.permissions.includes('update')" currencyMask  [options]="{ prefix: '₹ ' , precision:0 }"  class="p-inputtext1">
+                <input maxlength="11" pInputText id="moneyInSafe_Dialog_MoneyInTillCounter" formControlName="moneyTillCounter" value="" *ngIf="!this.permissions.includes('update')"  disabled currencyMask  [options]="{ prefix: '₹ ' , precision:0 }"  class="p-inputtext1"> -->
+            </div>
+            <!-- <div class="col-6 mb-5">
+                <div class="total-premium mt-7">
+                    <div class="premium">Total Premium</div>
+                    <div class="price"> {{totalPremium | currency:"INR"}}</div>
+                  </div>
+            </div> -->
+            <div class="col-12 md:col-6 mb-1 md:mb-5" *ngIf="!moneyInSafeTillForm.value['fileInput'] || (moneyInSafeTillForm.value['fileInput'] && isFile(moneyInSafeTillForm.value['fileInput']))">
+                <label for="" id="PortableEquipments_Dialog_SumInsured_label" class="form-label">File</label>
+                <input style="display: none;" type="text" formControlName="fileInput">
+                <p-fileUpload mode="advanced" name="demo[]" maxFileSize="10000000" styleClass="upload-outline-light"
+                    chooseIcon="pi pi-paperclip" chooseLabel="Upload Document" accept=""
+                    (onSelect)="onBasicUpload($event)"></p-fileUpload>
+                <small style="font-style: italic;">**Allowed File Types XLX/XLSX.</small>
+            </div>
+            <div class="col-12 md:col-4 mb-1 md:mb-5 max-h-full min-h-full flex align-items-center" *ngIf="moneyInSafeTillForm.value['fileInput'] && !isFile(moneyInSafeTillForm.value['fileInput'])">
+                <a [href]="moneyInSafeTillForm.value['fileInput']" (click)="downloadFile()" class="mr-2">
+                    <i class="pi pi-download  mr-1" style="font-size: 1rem"></i>Download File
+                </a>
+                <i *ngIf="moneyInSafeTillForm.value['fileInput'] && this.permissions.includes('update')"  class="pi pi-trash" style="font-size: 1.5rem" (click)="deletefile($e)"></i>   
+            </div>
+            <div class="col-12 mt-3">
+                <div class="flex justify-content-end">
+                    <button id="moneyInSafe_Dialog_Save" class="btn btn-success mr-4" type="submit"
+                        *ngIf="this.permissions.includes('update', 'create')">Save</button>
+                    <button id="moneyInSafe_Dialog_Close" class="btn btn-outline-light mt-1" type="button"
+                        (click)="cancel()">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

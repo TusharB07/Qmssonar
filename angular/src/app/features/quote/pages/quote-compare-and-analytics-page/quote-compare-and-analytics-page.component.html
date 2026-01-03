@@ -1,0 +1,206 @@
+<div class="mb-3" *ngIf="this.quote">
+
+    <div class="grid">
+        <div class="col sidebar" style="max-width: 320px">
+            <div class="p-3">
+
+                <div class="text-center mb-3">
+                    <img src="/assets/step3-pic.png" width="80px" alt="">
+                </div>
+                <div class="px-3">
+                    <h4 id="QuoteCompareAnalytics_QuoteNo">Reference No : {{this.quote.quoteNo}}</h4>
+                    <p id="QuoteCompareAnalytics_ProductType">
+                        {{this.quote.productId.type}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="">
+
+                <div class="p-3 ">
+                    <ul>
+                        <li *ngFor="let tab of this.tabs" [class]="'tab-item ' + (selectedTabId === tab.id ? 'active' : '')" (click)="this.selectTab(tab)">
+                            <div class="flex align-items-start p-3" id="QuoteCompareAnalytics_TabLable">
+                                <i [class]="'pi pi-chevron-right mt-1 mr-3' "></i> <span>{{tab.label}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col ">
+            <div class="p-3">
+                <div class="edit-quote-link-container mb-3">
+                    <div class="flex align-items-center">
+                        <ul class="edit-quote-links" data-aos="zoom-in">
+                            <li class="ng-star-inserted">
+                                <a pripple class="p-ripple p-element" id="QuoteCompareAnalytics_ComparisonAnalytics">
+                                    <i class="number ng-star-inserted">1</i><span class="ng-star-inserted">Comparison and Analytics</span>
+                                    <span class="p-ink"></span>
+                                </a>
+                            </li>
+
+
+                            <li class="p-highlight ng-star-inserted">
+                                <a pripple class="p-ripple p-element" id="QuoteCompareAnalytics_EditSendForApproval">
+                                    <i class="number ng-star-inserted">2</i><span class="ng-star-inserted">Edit and Send for
+                                        Approval</span>
+
+                                    <span class="p-ink"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="action flex justify-content-center align-items-center" data-aos="fade-left">
+                            <div class="button flex justify-content-center align-items-center status-button button-count-2" (click)="showTaskDialogModal()" id="QuoteCompareAnalytics_ShowTaskDialogModal">
+                                <img src="assets/quote/icons/work_in_progress.svg" />
+                                <img src="assets/quote/icons/completed.svg" />
+                                <img src="assets/quote/icons/pending.svg" />
+                                <span class="taskcount">{{this.quote.lastunderWriters}}</span>
+                            </div>
+                            <div class="button" (click)="showQuoteAuditTrailDialog()" id="QuoteCompareAnalytics_ShowQuoteAuditTrailDialog">
+                                <img src="assets/quote/icons/history.svg" />
+                                <!-- <img src="assets/quote/icons/success.svg" />
+                        <img src="assets/quote/icons/pending.svg" /> -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex align-items-center justify-content-between custom-detail-header py-3 px-5">
+                    <div class="mb-3">
+                        <strong>
+                            <a style="color: blue;"> <i class="pi pi-chart-bar mr-3" style="font-size: 1.5rem" id="QuoteCompareAnalytics_ViewAnalytics"></i> View Analytics</a>
+                        </strong>
+                    </div>
+                    <div class="mb-3">
+                        <button id="broker" class="btn btn-primary" (click)="navigateToBrokerComp()" id="QuoteCompareAnalytics_BrokerWiseComparison">Broker-wise Comparison</button>
+                        <!-- <button class="btn btn-outline-blue" style="border-top-left-radius: unset; border-bottom-left-radius: unset;" (click)="navigateToYearComp()">Yearly Comparison</button> -->
+                    </div>
+                    <div class="mb-3">
+                        <a [routerLink]="'/backend/quotes/' +quote._id + '/edit'" class="btn btn-primary text-white" id="QuoteCompareAnalytics_Next">Next</a>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="p-3  ">
+                <div class="quote-comparision-table" *ngIf="this.selectedTabId">
+
+                    <p-table [value]="this.mapping" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr class="header">
+                                <th [style]="col.style" class="text-left" *ngFor="let col of cols">
+
+                                    <div *ngIf="col.id == 'labels'" class="">
+                                        <button class="btn btn-success" (click)="this.selectedBrokerQuotes()" id="QuoteCompareAnalytics_SelectedBrokerQuotes"><i class="pi pi-plus"></i> Add Brokers</button>
+                                    </div>
+                                    <div *ngIf="col.id != 'labels'" class="" id="QuoteCompareAnalytics_BrokerLabel" [ngClass]="{'text-right' : this.selectedTabId =='add_ons' || this.selectedTabId == 'sum_insured_details'}">
+
+                                        {{col.label}}
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-mappingIndex="rowIndex">
+                            <tr>
+                                <td [style]="col.style" class="text-left" *ngFor="let col of cols">
+
+                                    <div class="">
+
+                                        <div class="" *ngIf="item[col.id]?.type == 'string'" id="QuoteCompareAnalytics_value" [ngClass]="{'text-right' : item[col.id]?.isLabelAligned && (this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'add_ons')}">
+                                            {{item[col.id]?.value ?? ''}}
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'html'" id="QuoteCompareAnalytics_value2">
+                                            <div [innerHtml]="item[col.id]?.value"></div>
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'button'" id="QuoteCompareAnalytics_ItemIdValue">
+                                            <button [class]="item[col.id].buttonClassName" (click)="item[col.id].onClick()">{{item[col.id].value}}</button>
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'buttons'" id="QuoteCompareAnalytics_ButtonValue">
+                                            <button *ngFor="let button of item[col.id]?.buttons" [class]="button.buttonClassName" (click)="button.onClick()">{{button.value}}</button>
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'boolean'" id="QuoteCompareAnalytics_ItemValue" [ngClass]="{'text-right' : this.selectedTabId == 'add_ons'}">
+                                            <i *ngIf="item[col.id]?.value" class="pi pi-check" style="font-weight: 700; color: green"></i>
+                                            <i *ngIf="!item[col.id]?.value" class="pi pi-times" style="font-weight: 700;color: red"></i>
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'tickOrValue'" id="QuoteCompareAnalytics_TicketOrValue">
+                                            <div *ngIf="item[col.id]?.value" id="QuoteCompareAnalytics_IdValue">{{item[col.id]?.value}}</div>
+                                            <i *ngIf="!item[col.id]?.value" class="pi pi-check" id="QuoteCompareAnalytics_NotIdValue" style="font-weight: 700; color: green"></i>
+                                        </div>
+                                        <div class="" *ngIf="item[col.id]?.type == 'currency'" id="QuoteCompareAnalytics_Currency"
+                                        [ngClass]="{'text-right' : this.selectedTabId == 'sum_insured_details' || this.selectedTabId == 'add_ons'}">
+                                            <!-- ₹ {{item[col.id]?.value?.toLocaleString('en-IN') ?? ''}} -->
+                                            <span><app-currency [value]="(item[col.id]?.value ?? 0)"></app-currency></span>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        </ng-template>
+                    </p-table>
+                </div>
+
+            </div>
+
+            <div class="col-10" *ngIf="this.quote && this.quote.quoteType == 'existing'">
+                <p-card>
+                    <div class="flex align-items-center justify-content-between">
+                        <h3 id="QuoteCompareAnalytics_SelectedClaimExperience_Label">{{this.selectedClaimExperience?.label}}</h3>
+
+                        <div class="flex">
+                            <button class="btn btn-outline-primary" (click)="prevClaimExperience()" id="QuoteCompareAnalytics_PrevClaimExperience_Button"><i class="pi pi-arrow-left"></i> </button>
+                            <div class="p-2"></div>
+                            <button class="btn btn-outline-primary" (click)="nextClaimExperience()" id="QuoteCompareAnalytics_NextClaimExperience_Button"><i class="pi pi-arrow-right"></i> </button>
+                        </div>
+                    </div>
+                    <!-- <ul style="list-style-type: none;padding: 0;margin: 0;text-align: right">
+                            <i class="pi pi-angle-right" style="font-size: 2rem" (click)="openDropDown()" *ngIf="isOpenErrow"></i>
+                            <i class="pi pi-angle-down" style="font-size: 2rem" (click)="closeDropDown()" *ngIf="isCloseErrow"  ></i>
+                        </ul> -->
+                    <div >
+                        <div class=" tblz01-pdf mt-4">
+                            <table class="p-datatable p-datatable-striped" style="border-collapse: collapse;width:100%">
+                                <tbody class="p-datatable-tbody">
+
+                                    <tr>
+                                        <td colspan="6" class="text-black" id="QuoteCompareAnalytics_ClaimExperience">Claim Experience</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="QuoteCompareAnalytics_Year_Label">Year</td>
+                                        <td id="QuoteCompareAnalytics_Year" *ngFor="let claim of this.claimExperiences">{{claim['year']-1}} - {{claim['year']}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="QuoteCompareAnalytics_PremiumPaid_Label">Premium Paid </td>
+                                        <!-- <td id="QuoteCompareAnalytics_PremiumPaid" *ngFor="let claim of this.claimExperiences">{{(claim.premiumPaid ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                                        <td id="QuoteComparisoReview_ClaimAmount" *ngFor="let claim of this.claimExperiences"><span><app-currency [value]="(claim.premiumPaid ?? 0)"></app-currency></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="QuoteCompareAnalytics_ClaimAmount_Label" >claim Amount </td>
+                                        <!-- <td id="QuoteCompareAnalytics_ClaimAmount" *ngFor="let claim of this.claimExperiences">{{(claim.claimAmount ?? 0)?.toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</td> -->
+                                        <td id="QuoteComparisoReview_ClaimAmount" *ngFor="let claim of this.claimExperiences"><span><app-currency [value]="(claim.claimAmount ?? 0)"></app-currency></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="QuoteCompareAnalytics_NoOfClaims_Label">No. of claims</td>
+                                        <td id="QuoteCompareAnalytics_NoOfClaims" *ngFor="let claim of this.claimExperiences">{{claim.numberOfClaims ?? 0}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="QuoteCompareAnalytics_NatureOfClaim_Label">Nature of claim</td>
+                                        <td id="QuoteCompareAnalytics_NatureOfClaim" *ngFor="let claim of this.claimExperiences">{{(claim.natureOfClaim ?? 'N/A')}}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+
+        </div>
+
+    </div>
+</div>

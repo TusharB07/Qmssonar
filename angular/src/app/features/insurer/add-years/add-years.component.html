@@ -1,0 +1,14 @@
+<div class="grid p-2">
+    <h4 id="AddYear_SelectYear">Select Years</h4>
+    <div class="field-checkbox col-12" *ngFor="let year of this.years">
+        <p-checkbox name="group1" value="{{year}}" id="AddYear_CheckBox" [(ngModel)]="selectedYears" inputId="{{year}}"></p-checkbox>
+        <label for="{{year}}" id="AddYear_Label">{{year?year:''}}</label>
+    </div>
+    <button class="btn btn-blue1" id="AddYear_ApplyButton" (click)="apply()">Apply</button>
+    <div class="col-12">
+        <i class="pi pi-info-circle mr-2" id="AddYear_Icon"></i>
+        <!-- <p class="inline-block">
+            Lorem Ipsum Dolor Sit
+        </p> -->
+    </div>
+</div>

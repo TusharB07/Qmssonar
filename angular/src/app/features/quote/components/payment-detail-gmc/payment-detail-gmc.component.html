@@ -1,0 +1,134 @@
+<form class="p-fluid" [formGroup]="paymentDetailsForm" (ngSubmit)="createPaymentDetails()">
+    <!-- Reference Number -->
+    <div class="grid">
+        <div class="col-6 md-6">
+            <div class="field">
+                <label for="referenceNo">Reference No</label>
+                <input id="referenceNo" type="text" pInputText formControlName="referenceNo"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.referenceNo?.invalid}" />
+                <small *ngIf="submitted && f.referenceNo?.errors?.required" class="p-error">This field is
+                    required.</small>
+            </div>
+        </div>
+
+        <!-- Cheque Number -->
+        <div class="col-6 md-6">
+            <div class="field">
+                <label for="chequeNo">Cheque No</label>
+                <input id="chequeNo" type="text" pInputText formControlName="chequeNo"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.chequeNo?.invalid}" />
+                <small *ngIf="submitted && f.chequeNo?.errors?.required" class="p-error">This field is required.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Name -->
+    <div class="grid">
+        <div class="col-6 md-6">
+            <div class="field">
+                <label for="bankName">Bank Name</label>
+                <input id="bankName" type="text" pInputText formControlName="bankName"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.bankName?.invalid}" />
+                <small *ngIf="submitted && f.bankName?.errors?.required" class="p-error">This field is required.</small>
+            </div>
+        </div>
+
+        <!-- Payment Date -->
+        <div class="col-6 md-6">
+            <div class="field">
+                <label for="paymentDate">Payment Date</label>
+                <input id="paymentDate" type="date" pInputText formControlName="paymentDate"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.paymentDate?.invalid}" />
+                <small *ngIf="submitted && f.paymentDate?.errors?.required" class="p-error">This field is
+                    required.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Amount -->
+    <div class="grid">
+        <div class="col-6 md-6">
+            <div class="field">
+                <label for="paymentAmount">Payment Amount</label><span class="gst-label">Excluding GST</span>
+                <input id="paymentAmount" type="number" pInputText formControlName="paymentAmount"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.paymentAmount?.invalid}"
+                    (input)="checktotalAmount()" />
+                <small *ngIf="submitted && f.paymentAmount?.errors?.required" class="p-error">This field is
+                    required.</small>
+                <small *ngIf="submitted && f.paymentAmount?.errors?.min" class="p-error">Payment amount must be a
+                    positive value.</small>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-2 md-2">
+            <div class="field">
+                <label for="cgst">CGST (%)</label>
+                <input id="cgst" type="number" pInputText formControlName="cgst"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.cgst?.invalid}" (input)="checkGST()" />
+                <small *ngIf="submitted && f.cgst?.errors?.required" class="p-error">This field is required.</small>
+                <small *ngIf="f.cgst?.errors?.min" class="p-error">CGST must be greater than 9%.</small>
+            </div>
+        </div>
+
+        <div class="col-2 md-2">
+            <div class="field">
+                <label for="sgst">SGST (%)</label>
+                <input id="sgst" type="number" pInputText formControlName="sgst"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.sgst?.invalid}" (input)="checkGST()" />
+                <small *ngIf="submitted && f.sgst?.errors?.required" class="p-error">This field is required.</small>
+                <small *ngIf="f.sgst?.errors?.min" class="p-error">SGST must be greater than 9%.</small>
+            </div>
+        </div>
+
+        <div class="col-2 md-2">
+            <div class="field">
+                <label for="igst">IGST (%)</label>
+                <input id="igst" type="number" pInputText formControlName="igst"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.igst?.invalid}"
+                    [attr.disabled]="isIGSTDisabled ? true : null" (input)="checkGST()" />
+                <small *ngIf="submitted && f.igst?.errors?.required" class="p-error">This field is required.</small>
+            </div>
+        </div>
+        <div class="col-2 md-2">
+            <div class="field">
+                <label for="totalGST">Total GST %</label>
+                <input id="totalGST" type="text" pInputText formControlName="totalGST"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.totalGST?.invalid}" [readonly]="true" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Total GST -->
+
+    <div class="grid">
+        <div class="col-4 md-4">
+            <div class="field">
+                <label for="amountWithGST">GST Amount</label>
+                <input id="amountWithGST" type="text" pInputText formControlName="totalGSTAmount"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.amountWithGST?.invalid}" [readonly]="true" />
+            </div>
+        </div>
+
+        <div class="col-4 md-4">
+            <div class="field">
+                <label for="amountWithGST">Total Premium Payment</label><span class="gst-label">Including GST</span>
+                <input id="amountWithGST" type="text" pInputText formControlName="amountWithGST"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f.amountWithGST?.invalid}" [readonly]="true" />
+            </div>
+        </div>
+    </div>
+    <!-- Buttons -->
+    <div class="grid justify-between mt-3">
+        <div class="col-2 md-2 d-flex jc-start">
+            <button type="button" pButton icon="pi pi-times" label="Cancel" class="p-button-danger"
+                (click)="cancelPaymentDetails()"></button>
+        </div>
+        <div class="col-2 md-2 d-flex jc-end">
+            <button type="submit" pButton icon="pi pi-check" label="Submit" [disabled]="paymentDetailsForm.invalid"
+                class="p-button-success"></button>
+        </div>
+    </div>
+</form>

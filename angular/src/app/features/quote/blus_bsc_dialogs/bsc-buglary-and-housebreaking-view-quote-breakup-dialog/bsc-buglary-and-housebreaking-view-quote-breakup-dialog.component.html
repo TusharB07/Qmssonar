@@ -1,0 +1,159 @@
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && !isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_LocationName">Location</th>
+                        <th class="text-right custom-th-font-size" id="BurglaryBreakup_HDR_FirstLoss">First Loss %</th>
+                        <th class="text-right custom-th-font-size" id="BurglaryBreakup_HDR_Stocks">Stocks</th>
+                        <th class="text-right custom-th-font-size" id="BurglaryBreakup_HDR_OtherContents">Other Contents</th>
+                        <th class="text-right custom-th-font-size" id="BurglaryBreakup_HDR_FirstLossSumInsured">First Loss Sum Insured</th>
+                        <th class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Rsmd">RSMD</th>
+                        <th class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Theft">Theft</th>
+                        <th class="text-right custom-th-font-size" id="BurglaryBreakup_HDR_Total">Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <!-- <tr *ngFor="let covers of this.bscBurglaryAndHousebreakingCovers"> -->
+                    <tr>
+                        <td class="text-left" id="BurglaryBreakup_DATA_locationName">{{ quoteLocationOccupancy?.clientLocationId.locationName }} - {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td class="text-right" id="BurglaryBreakup_DATA_firstLoss">{{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['burglaryTypeId']['toSI']}}</td>
+                        <td class="text-right currency" id="BurglaryBreakup_DATA_stocks"><app-currency [maximumFractionDigits]="0"
+                            [value]="this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['stocks']"></app-currency>
+                            <!-- {{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['stocks']| currency : 'INR' }}  -->
+                        </td>
+                        <td class="text-right currency" id="BurglaryBreakup_DATA_otherContents">
+                            <app-currency [maximumFractionDigits]="0"
+                            [value]=" this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['otherContents']"></app-currency>
+                            <!-- {{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['otherContents'] | currency : 'INR'}} -->
+                        </td>
+
+                        <td class="text-right currency" id="BurglaryBreakup_DATA_firstLossSumInsured">
+                            <app-currency [maximumFractionDigits]="0"
+                            [value]="this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['firstLossSumInsured']"></app-currency>
+                            <!-- {{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['firstLossSumInsured'] | currency : 'INR'}} -->
+                        </td>
+                        <td class="text-left" id="BurglaryBreakup_DATA_rsmd">{{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && (this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['rsmd'] ? 'Yes' : 'No') }}</td>
+                        <td class="text-left" id="BurglaryBreakup_DATA_theft">{{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && (this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['theft'] ? 'Yes' : 'No') }}</td>
+                        <td class="text-right currency" id="BurglaryBreakup_DATA_total">{{ this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] && this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['total'] | currency : 'INR'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <!-- <div>
+                <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()"><i class="pi pi-download"></i> Download Sample File</button>
+            </div>
+            <div>
+                <p-fileUpload styleClass="btn btn-primary" name="file" (onUpload)="this.fileUploaded($event)" *ngIf="this.permissions.includes('update')" mode="basic" url="{{this.uploadUrl}}" maxFileSize="10000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="patch"></p-fileUpload>
+            </div> -->
+            <button class="btn btn-outline-primary mr-3" id="BurglaryBreakup_Download_Excel" (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+
+                <p-fileUpload #fileUpload
+                [name]="this.bulkImportProps.name"
+                [mode]="this.bulkImportProps.mode"
+                [url]="this.bulkImportProps.url"
+                [method]="this.bulkImportProps.method"
+                (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                (onError)="this.errorHandler($event, fileUpload)"
+                [headers]="this.bulkImportProps.headers"
+                [showCancelButton]="true"
+                [accept]="this.bulkImportProps.accept"  
+                [auto]="this.bulkImportProps.auto"
+                [uploadLabel]="this.bulkImportProps.uploadLabel"
+                [chooseLabel]="this.bulkImportProps.chooseLabel"
+                [accept]="this.bulkImportProps.accept"
+                styleClass="btn btn-primary"
+
+                id="BurglaryBreakup_Upload_Excel"
+                ></p-fileUpload>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies" [scrollable]="true" scrollDirection="both">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 150px;" class="text-left custom-th-font-size"
+                            id="BurglaryBreakup_HDR_LocationName">Location</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size"
+                            id="BurglaryBreakup_HDR_FirstLoss">First Loss %</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Stocks">
+                            Stocks</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size"
+                            id="BurglaryBreakup_HDR_OtherContents">Other Contents</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size"
+                            id="BurglaryBreakup_HDR_FirstLossSumInsured">First Loss Sum Insured</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Rsmd">
+                            RSMD</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Theft">
+                            Theft</th>
+                        <th style="width: 100px;" class="text-left custom-th-font-size" id="BurglaryBreakup_HDR_Total">
+                            Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td style="width: 150px;" class="text-left" id="BurglaryBreakup_DATA_locationName">{{
+                            quoteLocationOccupancy?.clientLocationId.locationName }} -
+                            {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td style="width: 100px;" class="text-left" id="BurglaryBreakup_DATA_firstLoss">{{
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['burglaryTypeId']['toSI']}}
+                        </td>
+                        <td style="width: 100px;" class="text-left currency" id="BurglaryBreakup_DATA_stocks">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]="this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['stocks']"></app-currency>
+                        </td>
+                        <td style="width: 100px;" class="text-left currency" id="BurglaryBreakup_DATA_otherContents">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]=" this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['otherContents']"></app-currency>
+                        </td>
+                        <td style="width: 100px;" class="text-left currency"
+                            id="BurglaryBreakup_DATA_firstLossSumInsured">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]="this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['firstLossSumInsured']"></app-currency>
+                        </td>
+                        <td style="width: 100px;" class="text-left" id="BurglaryBreakup_DATA_rsmd">{{
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] &&
+                            (this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['rsmd'] ? 'Yes' :
+                            'No') }}</td>
+                        <td style="width: 100px;" class="text-left" id="BurglaryBreakup_DATA_theft">{{
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] &&
+                            (this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['theft'] ? 'Yes' :
+                            'No') }}</td>
+                        <td style="width: 100px;" class="text-left currency" id="BurglaryBreakup_DATA_total">{{
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']] &&
+                            this.bscBurglaryAndHousebreakingCovers[quoteLocationOccupancy['_id']]['total'] | currency :
+                            'INR'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <button class="btn btn-outline-primary mr-3" id="BurglaryBreakup_Download_Excel"
+                (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel
+                Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+                <p-fileUpload #fileUpload [name]="this.bulkImportProps.name" [mode]="this.bulkImportProps.mode"
+                    [url]="this.bulkImportProps.url" [method]="this.bulkImportProps.method"
+                    (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                    (onError)="this.errorHandler($event, fileUpload)" [headers]="this.bulkImportProps.headers"
+                    [showCancelButton]="true" [accept]="this.bulkImportProps.accept" [auto]="this.bulkImportProps.auto"
+                    [uploadLabel]="this.bulkImportProps.uploadLabel" [chooseLabel]="this.bulkImportProps.chooseLabel"
+                    [accept]="this.bulkImportProps.accept" styleClass="btn btn-primary"
+                    id="BurglaryBreakup_Upload_Excel"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>

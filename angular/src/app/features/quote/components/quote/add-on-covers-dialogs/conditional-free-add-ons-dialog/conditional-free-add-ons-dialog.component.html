@@ -1,0 +1,342 @@
+<div *ngIf="!isMobile">
+    <div class="covers py-3 px-6">
+        <div class="grid">
+            <div class="col-12">
+                <app-toggle-cover-opted id="SideBar_ToggleCoverOpted"
+                    [isConditionAddon]="this.isConditionAddon"></app-toggle-cover-opted>
+            </div>
+        </div>
+        <ng-container *ngIf="propertyDamageAddon?.length">
+            <h4>
+                <p>{{this.optionsAddonCoverCategories[0].label}}</p>
+            </h4>
+            <p-table [value]="this.propertyDamageAddon" responsiveLayout="scroll">
+                <ng-template pTemplate="body" let-rowData>
+                    <tr style="border-top: 1px solid #dee2e6;">
+                        <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                            <i class="pi pi-info-circle" [pTooltip]="rowData?.description" tooltipPosition="top"
+                                (click)="openEditDialog(rowData)">
+                            </i>
+
+                            <p-dialog [(visible)]="displayDialog" [closable]="true" [modal]="false"
+                                header="Edit Tooltip" [style]="{ width: '500px', height: '300px' }">
+                                <div class="p-fluid">
+                                    <h5 for="tooltipDescription" class="mb-1">Description :-</h5>
+                                    <textarea id="tooltipDescription" [(ngModel)]="selectedDescription" rows="4"
+                                        cols="50" pInputTextarea placeholder="Enter tooltip description"></textarea>
+                                </div>
+
+                                <p-footer>
+                                    <button pButton label="Save" icon="pi pi-check"
+                                        (click)="updateQuoteLocationAddon(selectedRowData, {description:selectedDescription})"></button>
+                                    <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"
+                                        class="p-button-text"></button>
+                                </p-footer>
+                            </p-dialog>
+                        </td>
+
+                        <td>
+                            <p-checkbox name="isChecked" [(ngModel)]="rowData.isChecked" binary="true" value="true"
+                                (onChange)="toggleSelection(rowData,$event)"></p-checkbox>
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName">
+                            {{rowData?.addOnCoverId ? rowData?.addOnCoverId?.name : rowData?.name }}
+                        </td>
+                        <div *ngIf="this.product === 'CAR'" class="mr-2 broder-row">
+                            <td style="margin-top: 40px; width:40%;">
+                                <p-dropdown [options]="rowData?.addOnCoverId?.rateLimit"
+                                    [(ngModel)]="rowData.selectedRateLimit" optionLabel="limits"
+                                    placeholder="Select a rate limit"></p-dropdown>
+                            </td>
+
+                        </div>
+                        <td style="width: 25%;">
+                            <div *ngIf="this.permissions.includes('update')">
+                                <p-inputNumber id="conditionalFreeAddOnDialog_calculateSumInsured" mode="decimal"
+                                    locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+                                    [disabled]="!rowData.isChecked" maxlength="21" [(ngModel)]="rowData.sumInsured"
+                                    value="0" type="text">
+                                </p-inputNumber>
+                            </div>
+                            <div *ngIf="!this.permissions.includes('update')">
+                                <p id="conditionalFreeAddOnDialog_SumInssured" value="0" currencyMask>
+                                    <span><app-currency [maximumFractionDigits]="0"
+                                            [value]="rowData.sumInsured"></app-currency></span>
+                                </p>
+                            </div>
+                        </td>
+                        <!-- <td style="text-align: center;" *ngIf="!rowData.isExternal">
+                            <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                                (click)="deleteAddOnsCovers(rowData._id)" title="Delete"></i>
+                        </td> -->
+                        <td style="text-align: center;" *ngIf="!rowData.isExternal">
+                            <i class="" style="cursor: pointer; color: green; font-size: 18px;"
+                                style="cursor: pointer; font-size: 18px;"
+                                [style.color]="isDisabled(rowData) ? 'gray' : 'green'"
+                                [style.pointerEvents]="isDisabled(rowData) ? 'none' : 'auto'"
+                                (click)="updateQuoteLocationAddon(rowData, 'Pending')" title="Send">{{
+                                rowData.addonStatus === 'Approved' ? 'Approved' :
+                                '' }}</i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngIf="businessInterruptionAddon?.length">
+            <h4>{{this.optionsAddonCoverCategories[1].label}}</h4>
+            <p-table [value]="businessInterruptionAddon" responsiveLayout="scroll">
+                <ng-template pTemplate="body" let-rowData>
+                    <tr style="border-top: 1px solid #dee2e6;">
+                        <!-- <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                            <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.description"
+                                tooltipPosition="top"></i>
+                        </td> -->
+                        <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                            <i class="pi pi-info-circle" [pTooltip]="rowData?.description" tooltipPosition="top"
+                                (click)="openEditDialog(rowData)">
+                            </i>
+
+                            <p-dialog [(visible)]="displayDialog" [closable]="true" [modal]="false"
+                                header="Edit Tooltip" [style]="{ width: '500px', height: '300px' }">
+                                <div class="p-fluid">
+                                    <h5 for="tooltipDescription" class="mb-1">Description :-</h5>
+                                    <textarea id="tooltipDescription" [(ngModel)]="selectedDescription" rows="4"
+                                        cols="50" pInputTextarea placeholder="Enter tooltip description"></textarea>
+                                </div>
+
+                                <p-footer>
+                                    <button pButton label="Save" icon="pi pi-check"
+                                        (click)="updateQuoteLocationAddon(selectedRowData, {description:selectedDescription})"></button>
+                                    <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"
+                                        class="p-button-text"></button>
+                                </p-footer>
+                            </p-dialog>
+                        </td>
+                        <td>
+                            <p-checkbox name="isChecked" [(ngModel)]="rowData.isChecked" binary="true" value="true"
+                                (onChange)="toggleSelection(rowData,$event)"></p-checkbox>
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName1" *ngIf='rowData?.isExternal == true'>
+                            <input pInputText type="text" [disabled]="!rowData.isChecked" #name
+                                (blur)="addOnCoverIdName(name.value)">
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName">
+                            {{rowData?.addOnCoverId ? rowData?.addOnCoverId?.name : rowData?.name }}
+                        </td>
+                        <div *ngIf="this.product === 'CAR'" class="mr-2 broder-row">
+                            <td style="margin-top: 40px; width:40%;">
+                                <p-dropdown [options]="rowData.addOnCoverId.rateLimit"
+                                    [(ngModel)]="rowData.selectedRateLimit" optionLabel="limits"
+                                    placeholder="Select a rate limit"></p-dropdown>
+                            </td>
+
+                        </div>
+
+
+                        <td style="width: 25%;">
+                            <div *ngIf="this.permissions.includes('update')">
+                                <p-inputNumber id="conditionalFreeAddOnDialog_calculateSumInsured" mode="decimal"
+                                    locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+                                    [disabled]="!rowData.isChecked" maxlength="21" [(ngModel)]="rowData.sumInsured"
+                                    value="0" type="text">
+                                </p-inputNumber>
+                            </div>
+                            <div *ngIf="!this.permissions.includes('update')">
+                                <p id="conditionalFreeAddOnDialog_SumInssured" value="0" currencyMask>
+                                    <span><app-currency [maximumFractionDigits]="0"
+                                            [value]="rowData.sumInsured"></app-currency></span>
+                                </p>
+                            </div>
+                        </td>
+                        <!-- <td style="text-align: center;" *ngIf="rowData.isExternal">
+                            <i class="pi pi-trash" style="cursor: pointer; color: red; font-size: 18px;"
+                                (click)="deleteAddOnsCovers(rowData._id)" title="Delete"></i>
+                        </td> -->
+                        <td style="text-align: center;" *ngIf="!rowData.isExternal">
+                            <i class="" style="cursor: pointer; color: green; font-size: 18px;"
+                                style="cursor: pointer; font-size: 18px;"
+                                [style.color]="isDisabled(rowData) ? 'gray' : 'green'"
+                                [style.pointerEvents]="isDisabled(rowData) ? 'none' : 'auto'"
+                                (click)="updateQuoteLocationAddon(rowData, 'Pending')" title="Send">{{
+                                rowData.addonStatus === 'Approved' ? 'Approved' :
+                                '' }}</i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-container *ngIf="newAddon?.length">
+            <h4>Add More +</h4>
+            <p-table [value]="newAddon" responsiveLayout="scroll">
+                <ng-template pTemplate="body" let-rowData>
+                    <tr style="border-top: 1px solid #dee2e6;">
+                        <!-- <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                            <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.description"
+                                tooltipPosition="top"></i>
+                        </td> -->
+                        <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                            <i class="pi pi-info-circle" [pTooltip]="rowData?.description" tooltipPosition="top"
+                                (click)="openEditDialog(rowData)">
+                            </i>
+
+                            <p-dialog [(visible)]="displayDialog" [closable]="true" [modal]="false"
+                                header="Edit Tooltip" [style]="{ width: '500px', height: '300px' }">
+                                <div class="p-fluid">
+                                    <h5 for="tooltipDescription" class="mb-1">Description :-</h5>
+                                    <textarea id="tooltipDescription" [(ngModel)]="selectedDescription" rows="4"
+                                        cols="50" pInputTextarea placeholder="Enter tooltip description"></textarea>
+                                </div>
+
+                                <p-footer>
+                                    <button pButton label="Save" icon="pi pi-check"
+                                        (click)="updateQuoteLocationAddon(selectedRowData, {description:selectedDescription})"></button>
+                                    <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"
+                                        class="p-button-text"></button>
+                                </p-footer>
+                            </p-dialog>
+                        </td>
+                        <td>
+                            <p-checkbox name="isChecked" [(ngModel)]="rowData.isChecked" binary="true" value="true"
+                                (onChange)="toggleSelection(rowData,$event)"></p-checkbox>
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName1"
+                            *ngIf='rowData?.isExternal == true && !rowData?.hasOwnProperty("addonStatus")'>
+                            <input pInputText type="text" [disabled]="!rowData.isChecked" #name
+                                [(ngModel)]="rowData.name" (blur)="addOnCoverIdName(name.value)">
+                        </td>
+                        <td id="conditionalFreeAddOnDialog_CoverIdName" *ngIf="rowData?.hasOwnProperty('addonStatus')">
+                            {{rowData?.addOnCoverId ? rowData?.addOnCoverId?.name : rowData?.name }}
+                        </td>
+                        <div *ngIf="this.product === 'CAR'" class="mr-2 broder-row">
+                            <td style="margin-top: 40px; width:40%;">
+                                <p-dropdown [options]="rowData.addOnCoverId.rateLimit"
+                                    [(ngModel)]="rowData.selectedRateLimit" optionLabel="limits"
+                                    placeholder="Select a rate limit"></p-dropdown>
+                            </td>
+
+                        </div>
+                        <td style="width: 25%;">
+                            <div *ngIf="this.permissions.includes('update')">
+                                <p-inputNumber id="conditionalFreeAddOnDialog_calculateSumInsured" mode="decimal"
+                                    locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+                                    [disabled]="!rowData.isChecked" maxlength="21" [(ngModel)]="rowData.sumInsured"
+                                    value="0" type="text">
+                                </p-inputNumber>
+                            </div>
+                            <div *ngIf="!this.permissions.includes('update')">
+                                <p id="conditionalFreeAddOnDialog_SumInssured" value="0" currencyMask>
+                                    <span><app-currency [maximumFractionDigits]="0"
+                                            [value]="rowData.sumInsured"></app-currency></span>
+                                </p>
+                            </div>
+                        </td>
+                        <td style="text-align: center;" *ngIf="rowData.isExternal">
+                            <button [ngClass]="{
+                                        'btn-pending': rowData.addonStatus === 'Pending',
+                                        'btn-approved': rowData.addonStatus === 'Approved',
+                                        'btn-rejected': rowData.addonStatus === 'Reject',
+                                        'btn-default': !rowData.addonStatus
+                                    }" [disabled]="isDisabled(rowData)"
+                                (click)="updateQuoteLocationAddon(rowData, 'Pending')" title="Send To Master">
+                                {{
+                                rowData.addonStatus === 'Pending' ? 'Approval Pending' :
+                                rowData.addonStatus === 'Approved' ? 'Approved' :
+                                rowData.addonStatus === 'Reject' ? 'Reject' :
+                                'Send To Master'
+                                }}
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <div class="col-12">
+            <div class="flex justify-content-end">
+                <button class="btn btn-info add-button mr-4" (click)="addmoreAddOns()">
+                    + Add More
+                </button>
+                <button class="btn btn-success save-button"
+                    (click)="saveSelectedAddons(); updateExistingAddonsSumInsured();">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-end">
+                <div class="flex align-items-center" *ngIf="this.permissions.includes('update')">
+                    <!-- <button type="button" class="btn btn-success" (click)="closeModal()" id="conditionalFreeAddOnDialog_CloseModal">Close</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isMobile">
+    <div class="covers py-3 px-6">
+        <p-table [value]="covers" [scrollable]="true" scrollDirection="both">
+            <ng-template pTemplate="body" let-rowData>
+                <tr style="border-top: 1px solid #dee2e6;">
+                    <td id="conditionalFreeAddOnDialog_CoverIdTooltip">
+                        <i class="pi pi-info-circle" [pTooltip]="rowData?.addOnCoverId?.name" tooltipPosition="top"></i>
+                    </td>
+                    <td>
+                        <!-- <p-checkbox class="mr-2" name="{{rowData.cover}}" value="true" [(ngModel)]="rowData.checked" inputId="{{rowData.cover}}" ></p-checkbox> -->
+                        <p-checkbox class="mr-2" name="conditionalFree" value="{{rowData.addOnCoverId.name}}"
+                            id="conditionalFreeAddOnDialog_CheckBox" [(ngModel)]="selectedConditionalFreeCovers"
+                            inputId="{{rowData.addOnCoverId.name}}"
+                            (onChange)="updateQuoteLocationAddon(rowData, $event)"
+                            [disabled]="this.sectorConditionalPermissions">
+                        </p-checkbox>
+                    </td>
+                    <td style="width: 250px;" id="conditionalFreeAddOnDialog_CoverIdName">
+                        {{rowData?.addOnCoverId?.name}}
+                    </td>
+                    <td style="width: 150px" id="conditionalFreeAddOnDialog_FreeUpToText">
+                        {{rowData?.addOnCoverId?.freeUpToText}}
+                    </td>
+                    <td style="width: 150px;">
+                        <div *ngIf="this.permissions.includes('update')">
+                            <!-- <input [(ngModel)]="rowData.sumInsured" value="0" type="text" id="" currencyMask maxlength="11"
+                                [options]="{ prefix: '₹ ' , precision:0 }" pInputText [disabled]="!rowData.isChecked"
+                                (focusout)="calculateSumInsured(rowData)" id="conditionalFreeAddOnDialog_calculateSumInsured"> -->
+                            <p-inputNumber id="conditionalFreeAddOnDialog_calculateSumInsured" mode="decimal"
+                                locale="en-IN" prefix="₹ " [minFractionDigits]="0" placeholder="0"
+                                [disabled]="!rowData.isChecked" maxlength="21" [(ngModel)]="rowData.sumInsured"
+                                value="0" type="text" (focusout)="calculateSumInsured(rowData)">
+                            </p-inputNumber>
+                        </div>
+                        <div *ngIf="!this.permissions.includes('update')">
+                            <!-- <p id="conditionalFreeAddOnDialog_SumInssured"  value="0" currencyMask> {{rowData.sumInsured | currency:'INR'}}</p> -->
+                            <p id="conditionalFreeAddOnDialog_SumInssured" value="0" currencyMask> <span><app-currency
+                                        [maximumFractionDigits]="0" [value]="rowData.sumInsured"></app-currency></span>
+                            </p>
+                        </div>
+                    </td>
+                    <td class="text-right" style="width: 150px;"
+                        id="conditionalFreeAddOnDialog_calculatedIndicativePremium">
+                        <!-- {{rowData?.calculatedIndicativePremium ?? 0 | currency: 'INR':'symbol':'1.0'}} -->
+                        <span><app-currency [value]=" rowData?.calculatedIndicativePremium  ?? 0"></app-currency></span>
+
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="col-12">
+            <div class="flex justify-content-end">
+                <button class="btn btn-info add-button" (click)="addmoreAddOns()">
+                    + Add More
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-end">
+                <div class="flex align-items-center" *ngIf="this.permissions.includes('update')">
+                    <!-- <button type="button" class="btn btn-success" (click)="closeModal()" id="conditionalFreeAddOnDialog_CloseModal">Close</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

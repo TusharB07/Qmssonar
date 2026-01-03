@@ -1,0 +1,54 @@
+
+    <form>
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="EmpRatesFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+           
+            <div class="col">
+               <p-card> 
+                <div class="card p-fluid">
+                    <h5 id="UserForm_AccessRoleHeader">Excel Upload</h5>
+                        <div class="field">
+                            <label id="xlsxUploadForm_ProductLabel" for="productIdExcel">Product</label>
+                            <p-autoComplete id="xlsxUploadForm_Product"  [dropdown]="true" [suggestions]="this.optionsProductsExcel" field="label"  (completeMethod)="this.searchOptionsProductsExcel($event)" (onSelect)="this.ProductChanged($event.value)"></p-autoComplete>
+                        </div>                    
+                        <div class="content">
+                            <div class="flex">
+                                <div class="flex-2">
+                                    <p-fileUpload [name]="this.bulkImportProps.name"
+                                        [mode]="this.bulkImportProps.mode" [url]="this.bulkImportProps.url"
+                                        [method]="this.bulkImportProps.method"
+                                        (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                                        [headers]="this.bulkImportProps.headers" [showCancelButton]="true"
+                                        [auto]="this.bulkImportProps.auto"
+                                        [uploadLabel]="this.bulkImportProps.uploadLabel"
+                                        [chooseLabel]="this.bulkImportProps.chooseLabel"
+                                        styleClass="btn btn-primary" id="Employee_Rates_Upload_Excel"
+                                        accept=".xlsx,.xls"></p-fileUpload>
+                                </div>
+                                <div class="flex-1 flex align-items-left justify-content-left px-5 py-3">
+                                    <div class="cursor download-sample-text" style="cursor: pointer"
+                                        id="EmpRatesdata_Download" (click)="this.downloadEmpRatesDataSampleFile()">
+                                        <i class="pi pi-download"></i> <u> Download Sample file</u>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+</form>

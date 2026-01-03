@@ -1,0 +1,112 @@
+
+
+14/10/2022
+
+Invalid input data.
+Cast to ObjectId failed for value "{ label: 'Pune', value: '6343c3027aa58206fc9791ee' }" (type Object) at path "cityId"
+Cast to ObjectId failed for value "{ label: '400062', value: '6343c3027aa58206fc979244' }" (type Object) at path "pincodeId"
+Cannot create client contact without specifying the linked client reference.
+
+
+
+
+Invalid input data.
+Cast to ObjectId failed for value "{ label: 'Mumbai', value: '6343c3027aa58206fc9791e7' }" (type Object) at path "cityId"
+Cast to ObjectId failed for value "410210" (type string) at path "pincodeId"
+Cannot create client contact without specifying the linked client reference.
+
+Invalid input data.
+Cast to ObjectId failed for value "{ label: 'Mumbai', value: '6343c3027aa58206fc9791e7' }" (type Object) at path "cityId"
+Cast to ObjectId failed for value "{ label: '400062', value: '6343c3027aa58206fc979244' }" (type Object) at path "pincodeId"
+Cannot create client contact without specifying the linked client reference.
+
+
+
+Invalid input data.
+Cast to ObjectId failed for value "{ label: 'Mumbai', value: '6343c3027aa58206fc9791e7' }" (type Object) at path "cityId"
+Cast to ObjectId failed for value "{ label: '400063', value: '6343c3027aa58206fc97924e' }" (type Object) at path "pincodeId"
+Cannot create client contact without specifying the linked client reference.
+
+
+
+
+
+
+
+Invalid input data.
+Cast to ObjectId failed for value "{ label: 'Baroda', value: '6343c3027aa58206fc979211' }" (type Object) at path "cityId"
+Cast to ObjectId failed for value "{ label: '400062', value: '6343c3027aa58206fc979244' }" (type Object) at path "pincodeId"
+Cannot create client contact without specifying the linked client reference.
+
+
+
+
+
+
+Client Location address form validation 
+*address input value not accepting 'Numbers' ---Done
+
+<!-- * dropdowns - according perticler areas---  -->
+
+<!-- http://localhost:4200/backend/admin/client-locations
+* search validation - getting according address
+* when click new, getting popup -->
+
+http://localhost:4200/backend/admin/client-locations
+*When try to delete the spesific location navigat to the 404 error page. Using delete icon wt end of the  address area
+
+
+http://localhost:4200/backend/admin/clients/6343c30c7aa58206fc97ade2
+* some times client llocation list empty
+*  If create address with new details getting list of addresses
+
+http://localhost:4200/backend/admin/client-locations
+- after creation getting list of locations
+http://localhost:4200/backend/admin/clients/6343c30c7aa58206fc97ade2 - getting empty list
+
+
+client location list 
+*state, pincode , location , city, filter is not working with minimum letters
+*When clear the little filters, using top filterclear button  getting error
+
+
+Client Details
+Client Form - Creation Date
+
+
+
+client contact create form 
+* unable to create form
+
+http://localhost:4200/backend/admin/clients/6343c30c7aa58206fc97adf4/client-locations/new  - creation not done
+																							- 
+
+
+
+* If get back to client location list page from errorpage. when delete the client location from client location list  its redirect to client Details page 
+client type not availabel in client details form
+
+
+http://localhost:4200/backend/admin/client-groups
+*filter alignment, and not working without checkbox
+
+
+http://localhost:4200/backend/admin/clients
+*table headers  activated When click tableheader
+
+
+
+http://localhost:4200/backend/admin/clients/6343c30c7aa58206fc97ade2
+client type not availabel in client detailes form inout dropdown,
+cont able to write client type as custem
+
+
+http://localhost:4200/backend/admin/client-locations
+cont delete client location using delete icon end of the location  
+
+http://localhost:4200/backend/admin/client-locations/634a436222322641a46504fe
+address input value store in titleCase
+
+
+http://localhost:4200/backend/admin/client-locations
+pincode, state, city filter not working

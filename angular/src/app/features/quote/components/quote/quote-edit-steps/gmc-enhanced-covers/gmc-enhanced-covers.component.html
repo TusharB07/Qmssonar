@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="grid">
+        <div class="col-12 p-0 ">
+            <p-card class="p-3">
+                <div class="py-5">
+                    <table *ngIf="questionAnswerList.length > 0" class="table"
+                        style="width: 100%;">
+                        <thead>
+                            <tr style="border: 1px solid #0064BB;">
+                                    <th style="border: 1px solid #0064BB;" *ngFor="let quest of qcrHeadersLst">
+                                        {{quest.label}}
+                                    </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ques of questionAnswerList" style="border: 1px solid #0064BB;">
+
+                                <td style="width: 630px;">                                  
+                                    <span *ngIf="ques.isSubHeader">
+                                        <h5  style="margin-top: 7px;margin-bottom: 7px;">&nbsp;&nbsp;{{ques.question}}</h5>
+                                    </span>
+                                    <span *ngIf="ques.isHeader">
+                                        <h3>{{ques.question}}</h3>
+                                    </span>
+                                    <span *ngIf="ques.isLabel"><i class="pi pi-circle-on" style="font-size: 5px;"></i> &nbsp; {{ques.question}}</span>
+                                </td>
+                                <td *ngFor="let ans of ques.answer" style="width: 130px;">
+                                    {{ans.answer}}
+                                    <br />
+                                    <span><a
+                                        href="javascript:void(0);" class="link"
+                                        (click)="openMoreInfoDialog(ans.freeTextValue)"
+                                        *ngIf="ans.freeTextValue!=''">Info</a>
+                                    </span>                                    
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </p-card>
+        </div>
+
+    </div>
+
+</div>

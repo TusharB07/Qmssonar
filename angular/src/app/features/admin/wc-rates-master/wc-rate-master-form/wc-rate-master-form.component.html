@@ -1,0 +1,104 @@
+
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="wcRatesFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="wcRatesForm_SaveButton"  type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="wcRatesForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="card p-fluid">
+                        <div class="field" *ngIf="this.role.name == AllowedRoles.ADMIN">
+                            <label id="wcRatesForm_PartnerLabel" for="name">Partner</label>
+                            <p-autoComplete [disabled]="this.mode == 'edit'" id="wcRatesForm_Partner" [dropdown]="true"
+                                optionValue="value" field="label" formControlName="partnerId"
+                                [suggestions]="this.optionsPartners" (completeMethod)="this.searchOptionsPartners($event)"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['partnerId'].valid}"></p-autoComplete>
+                            <small id="wcRatesForm_Partner_ValidationError"
+                                *ngIf="this.recordForm.controls['partnerId'].errors?.required" class="ng-invalid">This field
+                                Required.</small>
+                        </div>
+
+                        <div class="field">
+                            <label id="wcRatesForm_ProductLabel" for="productId">Product</label>
+                            <p-autoComplete id="wcRatesForm_Product" [dropdown]="true" [suggestions]="this.optionsProducts" field="label" formControlName="productId" (completeMethod)="this.searchOptionsProducts($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['productId'].valid}"></p-autoComplete>
+                        </div>
+
+                        <div class="field">
+                            <label id="wcRatesForm_businessLabel" for="productId">Business Type</label>
+                            <p-autoComplete id="wcRatesForm_business" [dropdown]="true" [suggestions]="this.optionsBusinessTypes" field="label" formControlName="businessTypeId" (completeMethod)="this.searchOptionsBusinessTypes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['businessTypeId'].valid}"></p-autoComplete>
+                        </div>
+                       
+                        <div class="field">
+                            <label id="wcRatesForm_salaryLabel" for="productId">Salary</label>
+                            <p-autoComplete id="wcRatesForm_salary" [dropdown]="true" [suggestions]="this.optionsSalaries" field="label" formControlName="salaryId" (completeMethod)="this.searchOptionsSalaries($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['salaryId'].valid}"></p-autoComplete>
+                        </div>
+
+
+                        <div class="field">
+                            <label id="wcRatesForm_rateLabel" for="rate">Rate</label>
+                                <input  id="wcRatesForm_rate" type="number"  pInputText id="rate" formControlName="rate" required
+                                      [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rate']}" />
+                                        <small id="wcRatesForm_rateValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['rate']">Rate is required.</small>
+                        </div>
+                        <div class="field">
+                            <label id="wcRatesForm_rateAboveLabel" for="rateAbove">Rate Above</label>
+                                <input  id="wcRatesForm_rateAbove" type="number"  pInputText id="rateAbove" formControlName="rateAbove" required
+                                      [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rateAbove']}" />
+                                        <small id="wcRatesForm_rateAboveValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['rateAbove']">Rate Above is required.</small>
+                        </div>
+                        <div class="field">
+                            <label id="wcRatesForm_endorsementNo" for="endorsementNo">Endorsement No.</label>
+                            <input id="wcRatesForm_endorsementNo" class="form-control" type="text" pInputText id="endorsementno" formControlName="endorsementNo" required [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['endorsementNo']}" />
+                            <small id="wcRatesForm_endorsementNoValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['endorsementNo']">Endorsement No is required.</small>
+     
+                        </div>
+
+                        <div class="field">
+                            <label id="wcRatesForm_classificationNo" for="endorsementNo">Classification No.</label>
+                            <input id="wcRatesForm_endorsementNo" class="form-control" type="text" pInputText id="classificationno" formControlName="classificationNo" required [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['classificationNo']}" />
+                            <small id="wcRatesForm_endorsementNoValidationError" class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['classificationNo']">Classification No is required.</small>
+     
+                        </div>
+                        <div class="field">
+                            <label id="wcRatesForm_effectiveStartDateLabel" for="effectiveStartDate">Effective Start Date</label>
+                            <p-calendar  class="form-control" id="wcRatesForm_EffectiveStartDate"  type="date" [showIcon]="true" id="effectiveStartDate" formControlName="effectiveStartDate" dateFormat="yy-mm-dd"></p-calendar>
+
+                        </div>
+                    <div class="field">
+                        <label id="wcRatesForm_StatuwcRatesel" for="status">Status</label>
+                        <p-toggleButton id="wcRatesForm_Status" class="form-control" formControlName="active" onLabel="Active" offLabel="Inactive" onIcon='{{"pi pi-check"}}' offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                    </div>
+                    <div class="field" *ngIf="this.mode == 'edit' && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value">
+                        <label for="taskStatus" id="wcRatesForm_taskStatusLabel">Task Status</label>
+                        <input id="wcRatesForm_taskStatus" class="form-control" type="text" pInputText id="taskStatus"
+                        formControlName="taskStatus" />
+                    </div>
+
+                    <div class="field" *ngIf="this.mode == 'edit'  && this.user?.partnerId?.partnerType == 'self' && recordForm.controls.taskStatus.value == 'failed'">
+                        <label for="failedMessage" id="wcRatesForm_failedMessageLabel">Failed Reasson</label>
+                        <input id="wcRatesForm_failedMessage" class="form-control" type="text" pInputText id="failedMessage"
+                        formControlName="failedMessage" />
+                    </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

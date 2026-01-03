@@ -1,0 +1,55 @@
+<div class="card-list" *ngIf="this.permissions.includes('read')">
+    <p-card class="card-list">
+        <ng-template pTemplate="header">
+            <!-- *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN" -->
+            <div class="text-right"> 
+                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-danger mr-2 text-right" style="text-align: right;"
+                (click)="triggeropenDeleteCoverDialog(bscCoverHeader)"></button> -->
+            </div>            
+            <div class="grid">
+                <div class="col-8">
+                    <h6 class="mb-2" id="BSC_card_name">
+                        <i *ngIf="description" class="pi pi-info-circle" [pTooltip]="description?.description" tooltipPosition="top"></i>
+                        {{this.label ?? 'Cover Name'}} 
+                        <i *ngIf="this.isNonOtc" class="pi pi-circle-fill ml-1" style="color :red"></i>
+                    </h6>
+                    <p class="sub-head" id="BSC_product_name">{{this.productName ?? 'Product Name'}}</p>
+                </div>
+                <div class="col-4 text-right" *ngIf="this.quote?.partnerId['isRate'] == 'true'"> 
+                    <p class="premium" id="BSC_card_premium">Premium</p>
+                    <p class="premium-price" id="BSC_card_premiumAmount"><span><app-currency
+                                [value]="(this.premium ?? 0)"></app-currency></span></p>
+                </div>
+            </div>
+        </ng-template>
+        <div class="view-breakup h-100">
+            <div class="grid mb-2">
+                <div class="col-7 md:col-8">
+                    <span class="name" id="BSC_card_SumInsured">Sum Insured:</span>
+                    <!-- <span class="price"id="BSC_card_SumInsured_Amount" pTooltip="{{this.toWords.convert(this.sumInsured ?? 0, { currency: true ,ignoreZeroCurrency: true })}}">{{(this.sumInsured ?? 0).toLocaleString('en-IN' , {style: 'currency', currency: 'INR'})}}</span> -->
+                    <span class="price" id="BSC_card_SumInsured_Amount"><app-currency [maximumFractionDigits]="0"
+                            [value]="(this.sumInsured ?? 0)"></app-currency></span>
+                </div>
+                <div *ngIf="this.isView" class="col-5 md:col-4 text-right"><a (click)="this.tiggerViewDialog()" label="Burglary View Quote Breakup" href="javascript:void(0);" class="link" id="BSC_card_SumInsured_Breakup">View Quote Breakup</a></div>
+            </div>
+            <div class="grid">
+                <div class="col-8" *ngIf="!this.sumInsured && this.permissions.includes('create')">
+                    <button (click)=" this.tiggerFormDialog()" id="BSC_card_SumInsured_Split" type="button"
+                        class="btn btn-primary mr-2"><i class="pi pi-plus mr-1"></i> Sum Insured Split</button>
+                </div>
+                <div class="col-8" *ngIf="this.sumInsured&& this.permissions.includes('update')">
+                    <button (click)="this.tiggerFormDialog()" type="button" id="BSC_card_SumInsured_Split"
+                        class="btn btn-primary mr-2"><i class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+                </div>
+                <div class="col-8"
+                    *ngIf="this.permissions.includes('read') && !this.permissions.includes('create') && !this.permissions.includes('update')">
+                    <button (click)="this.tiggerFormDialog()" type="button" id="BSC_card_SumInsured_Split"
+                        class="btn btn-primary mr-2"><i class="pi pi-eye mr-1"></i> Sum Insured Split</button>
+                </div>
+                <div class="col-4 text-right" *ngIf="this.permissions.includes('update') && this.user?.roleId?.name == 'insurer_underwriter' && this.label !=='* Burglary & Housebreaking (including Theft & RSMD)' && this.label !=='Burglary & Housebreaking (including Theft & RSMD)'">
+                    <button (click)="this.deleteDialogFun()" type="button" id="BSC_card_DeleteCover" class="btn btn-danger mr-2"><i class="pi pi-trash mr-1"></i>Delete</button>
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>

@@ -1,0 +1,72 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="this.saveRecord()">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="UnderWriterFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="UnderWriterForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="UnderWriterForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="grid">
+
+                    <div class="col-6">
+                        <div class="card p-fluid">
+                            <h5>General Information</h5>
+                            <div class="field">
+                                <label for="productId">Product</label>
+                                <p-autoComplete id="BrokerModuleForm_Product" [dropdown]="true" field="label"
+                                formControlName="productId" [suggestions]="this.optionsProducts"
+                                (completeMethod)="this.searchOptionsProducts($event)">
+                                </p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label for="salesCreaterId">Sales Created</label>
+                                <p-autoComplete id="BrokerModuleForm_SalesCreated" [dropdown]="true" field="label"
+                                formControlName="salesCreaterId" [suggestions]="this.salesCreater"
+                                (completeMethod)="this.searchOptionsUsers($event)">
+                                </p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label for="placementMakerId">Placement Marked</label>
+                                <p-autoComplete id="BrokerModuleForm_PlacementMarked" [dropdown]="true" field="label"
+                                formControlName="placementMakerId" [suggestions]="this.placementMarker"
+                                (completeMethod)="this.searchOptionsUsers($event)">
+                                </p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label for="placementCheckerId">Placement Checked</label>
+                                <p-autoComplete id="BrokerModuleForm_PlacementChecked" [dropdown]="true" field="label"
+                                formControlName="placementCheckerId" [suggestions]="this.placementChecker"
+                                (completeMethod)="this.searchOptionsUsers($event)">
+                                </p-autoComplete>
+                            </div>
+                            <div class="field">
+                                <label id="fromSI" for="fromSI">From SI</label>
+                                <input id="fromSI" class="form-control" type="text" pInputText
+                                    id="fromSI" formControlName="fromSI" required autofocus/>
+                            </div>
+                            <div class="field">
+                                <label id="toSI" for="toSI">To SI</label>
+                                <input id="toSI" class="form-control" type="text" pInputText id="toSI"
+                                    formControlName="toSI" required autofocus/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+</form>            

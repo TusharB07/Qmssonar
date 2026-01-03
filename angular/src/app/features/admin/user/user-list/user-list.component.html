@@ -1,0 +1,475 @@
+<div class="px-3">
+    <div class="grid">
+        <div class="col-12">
+            <p-card>
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2 flex">
+                            <button id="UserList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                                class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <!-- <button id="UserList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                            <button id="UserList_Clear" pButton label="Clear" class="p-button-outlined"
+                                icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+
+                            <button pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                                icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                            <p-fileUpload [name]="this.uploadProps.name" [mode]="this.uploadProps.mode"
+                                [url]="this.uploadProps.url" [method]="this.uploadProps.method"
+                                (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                                [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                                [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                                [uploadLabel]="this.uploadProps.uploadLabel"
+                                [chooseLabel]="this.uploadProps.chooseLabel" styleClass="p-button-outlined"
+                                id="uploadLocationDetails_Excel"></p-fileUpload>
+
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="UserList_FilterGlobal"
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" accept="image/*" id="UserList_FileUpload" [maxFileSize]="1000000"
+                            label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                        <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                    </ng-template>
+                </p-toolbar>
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                    responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                    (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                    (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true"
+                    [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading"
+                    [globalFilterFields]="['name','email']">
+
+                    <!-- <p-table  [rowHover]="true" #dt [value]="users" [columns]="cols" responsiveLayout="scroll" [rows]="20" [globalFilterFields]="['name','email']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" dataKey="id"> -->
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="UserList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+                            <!-- <th pSortableColumn="_id">
+
+                                <div class="flex justify-content-between align-items-center">
+                                    <span>
+                                        Id
+                                    </span>
+                                    <div  style="white-space: nowrap">
+                                        <p-columnFilter type="text" field="_id" display="menu" matchMode="equals" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false" placeholder="Search by id"></p-columnFilter>
+                                        <p-columnFilter type="text" field="_id" display="menu" matchMode="equals" [matchModeOptions]="idFilterMatchModeOptions" placeholder="Search by id"></p-columnFilter>
+
+                                        <p-sortIcon field="_id"></p-sortIcon>
+                                    </div>
+                                </div>
+
+                            </th> -->
+                            <th style="min-width: 300px" pSortableColumn="name">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_NameHeader">
+                                        Name
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_NameColumnFilter" type="text" field="name"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="contains" operator="or"
+                                            placeholder="Search by name"></p-columnFilter>
+                                        <p-sortIcon id="UserList_NameSortIcon" field="name"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="email">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_EmailHeader">
+                                        Log In Email
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_EmailColumnFilter" type="text" field="email"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="in" operator="and"
+                                            placeholder="Search by email"></p-columnFilter>
+                                        <p-sortIcon id="UserList_EmailSortIcon" field="email"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th>
+                            <th pSortableColumn="userEmail">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_EmailHeader">
+                                        Email
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_EmailColumnFilter" type="text" field="userEmail"
+                                            display="menu" [showMatchModes]="false" [showOperator]="false"
+                                            matchMode="in" operator="and"
+                                            placeholder="Search by email"></p-columnFilter>
+                                        <p-sortIcon id="UserList_EmailSortIcon" field="userEmail"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th>
+                            <th pSortableColumn="mobileNumber">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="UserList_MobileNumberHeader">
+                                        Mobile Number
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_MobileNumberColumnFilter" type="text"
+                                            field="mobileNumber" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by mobile number"></p-columnFilter>
+                                        <p-sortIcon id="UserList_MobileNumberSortIcon"
+                                            field="mobileNumber"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="branchCode">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="UserList_BranchCodeHeader">
+                                        Branch Code
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_BranchCodeColumnFilter" type="text"
+                                            field="branchCode" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by mobile number"></p-columnFilter>
+                                        <p-sortIcon id="UserList_BranchCodeSortIcon" field="branchCode"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="staffCode">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap" id="UserList_StaffCodeHeader">
+                                        Staff Code
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_StaffCodeColumnFilter" type="text"
+                                            field="staffCode" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" matchMode="contains" operator="or"
+                                            placeholder="Search by mobile number"></p-columnFilter>
+                                        <p-sortIcon id="UserList_StaffCodeSortIcon" field="staffCode"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th pSortableColumn="partnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_PartnerHeader">
+                                        Partner
+                                    </span>
+                                    <div>
+                                        <p-columnFilter  id="UserList_PartnerColumnFilter" field="partnerId" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">Partner</span>
+                                                </div>
+                                            </ng-template> -->
+                            <!-- <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                                <p-multiSelect [ngModel]="value" [options]="optionsP" placeholder="Any" (onChange)="filter($event.value)" optionLabel="label">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="p-multiselect-representative-option">
+                                                            <span class="ml-1">{{option.label}}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-multiSelect>
+                                            </ng-template> -->
+                            <!-- </p-columnFilter>
+                                        <p-sortIcon id="UserList_PartnerSortIcon" field="partnerId"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th> -->
+
+                            <th style="width: 700px;" pSortableColumn="partnerId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Partner Id </span>
+                                    <p-columnFilter field="partnerId" matchMode="equals" display="menu"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">broker Partner filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedPartners"
+                                                [suggestions]="optionsPartners"
+                                                (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                                [dropdown]="true" [multiple]="true"
+                                                (onSelect)="partnerIdHandleFilter($event)"
+                                                (onUnselect)="partnerIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+
+                            <!-- <th pSortableColumn="roleId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_RoleHeader">
+                                        Role
+                                    </span>
+                                    <div>
+
+                                        <p-columnFilter field="roleId" id="UserList_RoleColumnFilter" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">Role</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                                <p-multiSelect [ngModel]="value" [options]="optionsRoles" placeholder="Any" (onChange)="filter($event.value)" optionLabel="label">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="p-multiselect-representative-option">
+                                                            <span class="ml-1">{{option.label}}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-columnFilter>
+
+                                        <p-sortIcon id="UserList_RoleSortIcon" field="roleId"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th> -->
+
+                            <th style="width: 700px;" pSortableColumn="roleId">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span style="white-space: nowrap">Role </span>
+                                    <p-columnFilter field="roleId" matchMode="equals" display="menu"
+                                        [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                        [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                        <ng-template pTemplate="header">
+                                            <div class="px-3 pt-3 pb-0">
+                                                <span class="font-bold">Role filter</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                            <p-autoComplete [(ngModel)]="selectedRoleId" [suggestions]="optionsRoleId"
+                                                (completeMethod)="getOptionsRoleId($event)" field="roleId"
+                                                [dropdown]="true" [multiple]="true"
+                                                (onSelect)="roleIdHandleFilter($event)"
+                                                (onUnselect)="roleIdHandleFilter($event)">
+                                                <ng-template let-group pTemplate="item">
+                                                    <div class="country-item">
+                                                        <div>{{group.label}}</div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template let-group pTemplate="selectedItem">
+                                                    <span style="font-size:18px">{{group.label}}</span>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </div>
+                            </th>
+
+                            <!-- <th pSortableColumn="configMenuType">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span  style="white-space: nowrap">
+                                        Menu Type
+                                    </span>
+                                    <div>
+
+                                        <p-columnFilter field="configMenuType" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">Menu Type</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                                <p-multiSelect [ngModel]="value" [options]="optionsMenuTypes" placeholder="Any" (onChange)="filter($event.value)" optionLabel="label">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="p-multiselect-representative-option">
+                                                            <span class="ml-1">{{option.label}}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-columnFilter>
+
+                                        <p-sortIcon field="configMenuType"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th> -->
+                            <!-- <th pSortableColumn="configColorScheme">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span  style="white-space: nowrap">
+                                        Color Scheme
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter field="configColorScheme" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                            <ng-template pTemplate="header">
+                                                <div class="px-3 pt-3 pb-0">
+                                                    <span class="font-bold">Color Scheme</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                                <p-multiSelect [ngModel]="value" [options]="optionsColorSchemes" placeholder="Any" (onChange)="filter($event.value)" optionLabel="label">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="p-multiselect-representative-option">
+                                                            <span class="ml-1">{{option.label}}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-columnFilter>
+
+                                        <p-sortIcon field="configColorScheme"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th> -->
+                            <!-- <th pSortableColumn="passwordChangedAt">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span  style="white-space: nowrap">
+                                        Password Changed At
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter type="date" field="passwordChangedAt" display="menu" placeholder="Search by password changed at"></p-columnFilter>
+                                        <p-sortIcon field="passwordChangedAt"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th> -->
+                            <th pSortableColumn="active">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_ActiveHeader">
+                                        Active
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter id="UserList_ActiveColumnFilter" matchMode="equals"
+                                            type="boolean" field="active" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" operator="and"
+                                            placeholder="Search by active"></p-columnFilter>
+                                        <p-sortIcon id="UserList_ActiveSortIcon" field="active"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th>
+                            <th pSortableColumn="islocked">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="UserList_ActiveHeader">
+                                        IsLocked
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <!-- <p-columnFilter id="UserList_ActiveColumnFilter" matchMode="equals"
+                                            type="boolean" field="is_locked" display="menu" [showMatchModes]="false"
+                                            [showOperator]="false" operator="and"
+                                            placeholder="Search by is_locked"></p-columnFilter> -->
+                                        <p-sortIcon id="UserList_ActiveSortIcon" field="is_locked"></p-sortIcon>
+                                    </div>
+
+                                </div>
+                            </th>
+                            <!-- <th>
+                                <div class="flex justify-content-center align-items-center">
+                                    <span>
+                                        Age
+                                    </span>
+                                    <div style="white-space: nowrap">
+                                        <p-columnFilter type="numeric" field="age" display="menu" placeholder="Search by age"></p-columnFilter>
+                                    </div>
+                                </div>
+                            </th> -->
+                            <!-- <th style="min-width: 50px;" alignFrozen="right" pFrozenColumn></th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user>
+                        <tr (click)="this.editRecord(user)">
+                            <td>
+                                <p-tableCheckbox [value]="user" id="UserList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <!-- <td><span class="p-column-title">Id</span> {{user._id}}</td> -->
+                            <td id="UserList_Name">{{user.name}}</td>
+                            <td id="UserList_Email">{{user.email}}</td>
+                            <td>{{user.userEmail}}</td>
+                            <td id="UserList_MobileNumber">{{user.mobileNumber}}</td>
+                            <td id="UserList_MobileNumber">{{user?.branchCode}}</td>
+                            <td id="UserList_MobileNumber">{{user?.staffCode}}</td>
+                            <td id="UserList_Partner">
+                                {{user?.partnerId?.name}}
+                                <!-- <a routerLink="/backend/admin/partners/{{user.partnerId?._id}}">{{user.partnerId?.name}}</a> -->
+                            </td>
+                            <td id="UserList_Role">
+                                {{user?.roleId?.name}}
+                                <!-- <a routerLink="/backend/admin/roles/{{user.roleId?._id}}">{{user.roleId?.name}}</a> -->
+                            </td>
+                            <!-- <td>{{user.configMenuType}}</td> -->
+                            <!-- <td>{{user.configColorScheme}}</td> -->
+                            <!-- <td>
+                                {{user.passwordChangedAt | date: 'MM/dd/yyyy'}}
+                            </td> -->
+                            <td id="UserList_UserActive">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': user.active, 'false-icon pi-times-circle': !user.active}"></i>
+                            </td>
+                            <td id="UserList_UserActive">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-times-circle': !user.isLocked, 'false-icon  pi-check-circle': user.isLocked}"></i>
+                            </td>
+                            <!-- <td>
+                                {{user.age}}
+                            </td> -->
+                            <!-- <td style="min-width: 50px;" alignFrozen="right" pFrozenColumn>
+                                <div class="flex">
+                                    <button id="UserList_editRecord" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="this.editRecord(user)"></button>
+                                    </div>
+                                </td> -->
+                            <!-- <button id="UserList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(user)"></button> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+
+            <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i id="UserList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3"
+                        style="font-size: 2rem"></i>
+                    <span id="UserList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to
+                        delete <b>{{selectedRecord.name}}</b>?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button id="UserList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                        label="No" (click)="this.deleteRecordDialog = false"></button>
+                    <button id="UserList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                        label="Yes" (click)="this.deleteRecord()"></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+                [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i id="UserList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3"
+                        style="font-size: 2rem"></i>
+                    <span id="UserList_DeleteManyConfirmationMSG">Are you sure you want to delete selected
+                        records?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button id="UserList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text"
+                        label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                    <button id="UserList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text"
+                        label="Yes" (click)="this.deleteSelectedRecords()"></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+<div class="grid px-3">
+    <div class="col-12">
+        <p-card>
+
+            <div class="card">
+                <p-toast></p-toast>
+                <p-toolbar styleClass="mb-4">
+                    <ng-template pTemplate="left">
+                        <div class="my-2">
+                            <button id="ProductWiseList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                            <button id="ProductWiseList_DeleteSelectedRecordsConfirmation" pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button>
+                            <button id="ProductWiseList_Clear" pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" id="ProductWise_FilterGlobal" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                            </span>
+                        </div>
+
+                        <p-fileUpload mode="basic" id="ProductWise_FileUpload" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                    </ng-template>
+                </p-toolbar>
+
+
+                <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)" responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords" (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll" (selectAllChange)="this.onSelectAllChange($event)"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['fromAge','toAge','age']">                   
+                 <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem">
+                                <p-tableHeaderCheckbox id="ProductWise_HeaderCheckBox"></p-tableHeaderCheckbox>
+                            </th>
+
+                            <th style="width: 700px;"  pSortableColumn="productId">
+                                <div class="flex justify-content-between align-items-center">
+                                  <span style="white-space: nowrap">Product </span>
+                                  <p-columnFilter field="productId" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete  [(ngModel)]="selectedProductId" [suggestions]="optionsProductId" (completeMethod)="getOptionsProductId($event)" field="productId"
+                                        [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)" (onUnselect)="handleFilter($event)">
+                                          <ng-template let-group pTemplate="item">
+                                            <div class="country-item">
+                                                <div>{{group.label}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-group pTemplate="selectedItem">
+                                          <span style="font-size:18px">{{group.label}}</span>
+                                      </ng-template>
+                                        </p-autoComplete>
+                                         </ng-template>
+                                </p-columnFilter>
+                                </div>
+                              </th>
+
+                            <th pSortableColumn="fromAge">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductWise_fromAgeeHeader">
+                                     Age From
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ProductWiseList_fromAgeColumnFilter" type="text" field="fromAge" display="menu" placeholder="Search by Age From"></p-columnFilter>
+                                        <p-sortIcon id="ProductWiseList_fromAgeSortIcon" field="fromAge"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="toAge">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductWise_toAgeHeader">
+                                     Age To
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ProductWiseList_toAgeColumnFilter" type="text" field="toAge" display="menu" placeholder="Search by Age To"></p-columnFilter>
+                                        <p-sortIcon id="ProductWiseList_toAgeSortIcon" field="toAge"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th pSortableColumn="age">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductWise_ageHeader">
+                                        Age
+                                    </span>
+                                    <div>
+                                        <p-columnFilter id="ProductWiseList_ageColumnFilter" type="text" field="abbagereviation" display="menu" placeholder="Search by Age"></p-columnFilter>
+                                        <p-sortIcon id="ProductWiseList_ageSortIcon" field="age"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="status">
+                                <div class="flex justify-content-between align-items-center">
+                                    <span id="ProductWiseList_StatusHeader"> Status </span>
+                                    <div>
+                                        <p-columnFilter type="boolean" field="active" display="menu" placeholder="Search by status"></p-columnFilter>
+                                        <p-sortIcon field="active"></p-sortIcon>
+                                    </div>
+                                </div>
+                            </th>
+                            <th></th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-productWise>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox [value]="productWise" id="ProductWiseList_ItemCheckBox"></p-tableCheckbox>
+                            </td>
+                            <td id="ProductWiseList_Product">
+
+                                <a routerLink="/backend/admin/products/{{product?.productId?._id}}">{{productWise.productId?.type}}</a>
+
+                            </td>
+
+                            <td  id="ProductWiseList_fromAge">
+                                {{productWise.fromAge}}
+
+                            </td>
+                            <td  id="ProductWiseList_toAge">
+                                {{productWise.toAge}}
+
+                            </td>
+                            <td  id="ProductWiseList_Age">
+                                {{productWise.age}}
+
+                            </td>
+                            <td id="ProductWiseList_Status">
+                                <i class="pi" [ngClass]="{'true-icon pi-check-circle': productWise.active, 'false-icon pi-times-circle': !productWise.active}"></i>
+
+                            </td>
+                            <td>
+                                <div class="flex">
+                                    <button id="ProductWiseList_editRecord" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="this.editRecord(productWise)"></button>
+                                    <button id="ProductWiseList_DeleteRecordConfirmationDialog" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(productWise)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ProductWiseList_DeleteRecordConfirmationIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="ProductWiseList_DeleteRecordConfirmationMSG" *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.age}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ProductWiseList_DeleteRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteRecordDialog = false"></button>
+                <button id="ProductWiseList_DeleteRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i id="ProductWiseList_DeleteManyConfirmationMSGIcon" class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span id="ProductWiseList_DeleteManyConfirmationMSG">Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button id="ProductWiseList_DeleteManyRecord_No" pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="this.deleteManyRecordsDialog = false"></button>
+                <button id="ProductWiseList_DeleteManyRecord_Yes" pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

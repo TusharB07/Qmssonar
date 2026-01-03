@@ -1,0 +1,71 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col-12 md:col-12">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+                    <div class="field">
+                        <label for="quoteId">Quote Type</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="quoteId" [suggestions]="this.optionsQuotes" (completeMethod)="this.searchOptionsQuotes($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['quoteId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['quoteId']?.errors?.required">Quote type is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="signageType">Signage Type</label>
+                        <input class="form-control" type="text" pInputText id="signageType" formControlName="signageType" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['signageType']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['signageType']">Signage Type is
+                            required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="signageDescription">Signage Description</label>
+                        <input class="form-control" type="text" pInputText id="signageDescription" formControlName="signageDescription" 
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['signageDescription']}" />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['signageDescription']">Signage Description is
+                            required.</small> -->
+                    </div>
+           
+                    <div class="field">
+                        <label for="sumInsured">Sum Insured</label>
+                        <input class="form-control" type="text" pInputText id="sumInsured" formControlName="sumInsured" 
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['sumInsured']}" />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['sumInsured']">Sum Insured is
+                            required.</small> -->
+                    </div>
+           
+                    <div class="field">
+                        <label for="total">Total</label>
+                        <input class="form-control" type="text" pInputText id="total" formControlName="total"
+                            autofocus />
+                        <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['total']">Signage Type is
+                            required.</small> -->
+                    </div>
+                    <!-- <div class="field">
+                        <label for="clientLocationId">Client Locations</label>
+                        <p-autoComplete [dropdown]="true" field="label" formControlName="clientLocationId" [suggestions]="this.optionsClientLocations" (completeMethod)="this.searchOptionsClientLocations($event)" [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['clientLocationId'].valid}"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && recordForm.controls['clientLocationId']?.errors?.required">Client Location is required.</small>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

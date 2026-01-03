@@ -1,0 +1,327 @@
+.blue-bg-section {
+    background: transparent linear-gradient(131deg, #0064bb 0%, #633cd2 100%) 0% 0% no-repeat padding-box;
+    color: #ffffff;
+    height: calc(100vh - 49px);
+    margin-top: -17px;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.5) inset;
+}
+
+.blue-bg-section .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blue-bg-section .main .grid {
+    flex-wrap: nowrap !important;
+}
+
+.create-quote-container {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.create-quote-container h2 {
+    color: #ffffff;
+    margin: 0;
+    font: normal normal 3.55rem/4.5rem OpenSans-Bold;
+}
+
+.create-quote-container h5 {
+    font: normal normal normal 1.438rem/32px OpenSans-Regular;
+    margin: 0;
+    color: #ffffff;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.separator .line {
+    height: 3px;
+    flex: 1;
+    background: #3346b8 0% 0% no-repeat padding-box;
+    border-radius: 15px;
+}
+
+.separator h4 {
+    padding: 0 2rem;
+    font: normal normal normal 1em/16px OpenSans-Regular;
+    color: #ffffff;
+}
+
+.add-new-client {
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.add-new-client .new-client {
+    display: flex;
+    align-items: center;
+}
+
+.add-new-client .new-client .img {
+    margin-right: 20px;
+}
+
+.add-new-client .new-client .detail .title {
+    font: normal normal bold 1.063rem/23px OpenSans-Bold;
+    margin-bottom: 3px;
+    color: #ffffff;
+}
+
+.add-new-client .new-client .detail p {
+    font: normal normal normal 0.875rem/19px OpenSans-Regular;
+}
+
+.btn-outline-blue {
+    color: #fff;
+    background-color: transparent;
+    border-color: #ffffff;
+    border-radius: 5px;
+    font: normal normal bold 1rem/24px OpenSans-Bold;
+    padding: 0.55rem 1.5rem;
+}
+
+.btn-outline-blue:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.create-quote .custom-dropdowns {
+    background-color: #ffffff;
+    // background-color: transparent;
+    // padding: 1.5rem;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    height: 40px;
+    // border: 1px solid transparent;
+}
+
+.custom-dropdowns1 {
+    height: 42px !important;
+}
+
+.create-quote ::ng-deep .custom-dropdowns .p-dropdown .p-dropdown-trigger {
+    width: 4rem;
+}
+
+.create-quote .grid .cq-col {
+    margin: 0 1rem;
+}
+
+// ::ng-deep .p-dropdown {
+//     background-color: transparent;
+//     padding: 0;
+//     width: 100%;
+// }
+
+::ng-deep.p-dropdown .p-dropdown-label {
+    padding: 0px;
+    font: normal normal normal 1.25rem/28px OpenSans-Regular;
+    color: #6C7888;
+}
+
+.create-quote ::ng-deep .custom-dropdowns .p-component {
+    font: normal normal normal 1.25rem/21px OpenSans-Regular;
+    color: #6C7888;
+}
+
+.btn-green {
+    color: #fff;
+    background-color: #4cb70f;
+    border-color: #4cb70f;
+    border-radius: 5px;
+    font: normal normal bold 1.375rem/40px OpenSans-Bold;
+    padding: 1rem 1.5rem;
+    min-width: 200px;
+}
+
+.white-bg {
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+::ng-deep .p-divider.p-divider-vertical:before {
+    border-left: 2px rgba(0, 0, 0, 0.2);
+}
+
+.no-padding-top-bottom {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.dropdown-content {
+    display: block;
+    width: 100%;
+    top: 68px;
+    left: 0;
+    border-radius: 15px;
+    height: 318px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 0.25rem;
+}
+
+.dropdown-content .dropdown-item {
+    padding: 0.75rem 2rem;
+    font-size: 1.25rem;
+    line-height: 30px;
+    color: #000000;
+    display: block;
+}
+
+.search-container {
+    position: relative;
+}
+
+.create-quote .search-container .custom-dropdowns {
+    background-color: #ffffff;
+    // padding: 1rem 1.5rem;
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    padding: 0;
+}
+
+.create-quote .search-container ::ng-deep .custom-dropdowns .p-autocomplete.p-component,
+.create-quote .search-container ::ng-deep .custom-dropdowns .p-autocomplete-input {
+    width: 100%;
+    background-color: transparent;
+    color: #6C7888 !important;
+    height: 40px;
+    border: 0;
+}
+
+.create-quote .search-container .custom-dropdowns ::ng-deep .p-focus {
+    border-color: transparent !important;
+}
+
+.search-container ::ng-deep .p-autocomplete .p-autocomplete-panel {
+    top: 40px !important;
+}
+
+::ng-deep .p-dropdown .p-dropdown-label {
+    color: #6C7888 !important;
+}
+
+// .blue-bg-section ::ng-deep .p-dropdown {
+//     padding: 1.5rem;
+// }
+.create-quote .custom-dropdowns ::ng-deep .p-inputtext {
+    padding: 0.25rem 1.5rem;
+    // height: 40px;
+    line-height: 34px;
+}
+
+.create-quote .custom-dropdowns ::ng-deep .p-dropdown {
+    height: 40px;
+    border: 0;
+    padding: 0;
+}
+
+.blue-bg-section .btn-green {
+    padding: 1.1rem 1.5rem;
+    height: 40px;
+}
+
+.search-container-wrapper {
+    background: #fff;
+    border-radius: 5px;
+    // color: #6C7888;
+    margin-top: 0;
+    height: 40px;
+}
+
+.create-quote .search-container-wrapper .custom-dropdowns ::ng-deep .p-inputtext {
+    padding: 0.25rem 1.5rem;
+    line-height: 34px;
+}
+
+.create-quote .custom-dropdowns ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    font: normal normal normal 1.125rem/23px OpenSans-Regular;
+    color: #000000;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.search-container:before {
+    content: "";
+    position: absolute;
+    background: #6C7888;
+    height: 28px;
+    width: 2px;
+    top: 7px;
+    right: 0;
+}
+@media only screen and (min-width:1681px) {
+.create-quote-container h2 {
+    line-height: 5rem;
+}
+.create-quote .custom-dropdowns {
+    // height: 60px;
+}
+.create-quote-container {
+    padding: 30px 0;
+}
+.separator {
+    margin: 30px 0;
+}
+.create-quote .search-container ::ng-deep .custom-dropdowns .p-autocomplete.p-component,
+.create-quote .search-container ::ng-deep .custom-dropdowns .p-autocomplete-input {
+    height: 60px;
+}
+.search-container ::ng-deep .p-autocomplete .p-autocomplete-panel {
+    top: 60px !important;
+}
+.create-quote .custom-dropdowns ::ng-deep .p-inputtext {
+    // height: 60px;
+    line-height: 54px;
+}
+
+.create-quote .custom-dropdowns ::ng-deep .p-dropdown {
+    height: 60px;
+}
+
+.blue-bg-section .btn-green {
+    height: 60px;
+}
+.search-container-wrapper {
+    height: 60px;
+}
+.create-quote .search-container-wrapper .custom-dropdowns ::ng-deep  .p-inputtext {
+    line-height: 54px;
+}
+.search-container:before {
+    height: 44px;
+}
+}
+
+@media only screen and (min-width:1280px) {
+    .create-quote {
+        // padding: 10px;
+    }
+}

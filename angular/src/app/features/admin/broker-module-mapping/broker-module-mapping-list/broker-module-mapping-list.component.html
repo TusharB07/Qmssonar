@@ -1,0 +1,196 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex">
+                        <button id="BrokerModuleMappingList_CreateRecord" pButton pRipple label="New" icon="pi pi-plus"
+                            class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" id="BrokerModuleMappingList_FilterGlobal"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <p-fileUpload mode="basic" accept="image/*" id="BrokerModuleMappingList_FileUpload" [maxFileSize]="1000000"
+                        label="" chooseLabel="" class="mr-2 inline-block"></p-fileUpload>
+                </ng-template>
+            </p-toolbar>
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll"  
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox id="BrokerModuleMappingList_HeaderCheckBox"></p-tableHeaderCheckbox>
+                        </th>
+                        <th style="width: 700px;" pSortableColumn="sectorId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Sales Creater</span>
+                                <p-columnFilter field="sectorId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Sales Creater filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedSectorId" [suggestions]="optionsSectorId"
+                                            (completeMethod)="getOptionsSectorId($event)" field="sectorId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="sectorIdHandleFilter($event)"
+                                            (onUnselect)="sectorIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="width: 700px;" pSortableColumn="occupancyId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Placement Marker </span>
+                                <p-columnFilter field="occupancyId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedOccupancyId"
+                                            [suggestions]="optionsOccupancyId"
+                                            (completeMethod)="getOptionsOccupancyId($event)" field="occupancyId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="occupancyIdHandleFilter($event)"
+                                            (onUnselect)="occupancyIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="zone">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="BrokerModuleMappingList_ZoneHeader">
+                                    Placement Checker
+                                </span>
+                                <div>
+                                    <p-columnFilter id="BrokerModuleMappingList_ZoneColumnFilter" type="text" field="zone"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by Zone"></p-columnFilter>
+                                    <p-sortIcon id="BrokerModuleMappingList_ZoneSortIcon" field="zone"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="width: 700px;" pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="ProductIdHandleFilter($event)"
+                                            (onUnselect)="ProductIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="fromSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="BrokerModuleMappingList_FromSIHeader">
+                                    From SI
+                                </span>
+                                <div>
+                                    <p-columnFilter id="BrokerModuleMappingList_FromSIColumnFilter" type="text" field="fromSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by From SI"></p-columnFilter>
+                                    <p-sortIcon field="fromSI" id="BrokerModuleMappingList_FromSISortIcon"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="toSI">
+                            <div class="flex justify-content-between align-items-center">
+                                <span id="BrokerModuleMappingList_ToSIHeader">
+                                    To SI
+                                </span>
+                                <div>
+                                    <p-columnFilter id="BrokerModuleMappingList_ToSIColumnFilter" type="text" field="toSI"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by To SI"></p-columnFilter>
+                                    <p-sortIcon id="BrokerModuleMappingList_ToSISortIcon" field="toSI"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="this.editRecord(item)">
+                        <td>
+                            <p-tableCheckbox [value]="item" id="BrokerModuleMappingList_ItemCheckBox"></p-tableCheckbox>
+                        </td>
+                        <td id="BrokerModuleMappingList_Sector">
+                            <a routerLink="/backend/admin/broker-module-mapping/{{item?._id}}">{{item.salesCreaterId?.name}}</a>
+                        </td>
+                        <td id="BrokerModuleMappingList_Occuppancy">
+                            <a
+                                routerLink="/backend/admin/broker-module-mapping/{{item?._id}}">{{item.placementMakerId?.name}}</a>
+
+                        </td>
+                        <td id="BrokerModuleMappingList_Zone">
+                            <a routerLink="/backend/admin/broker-module-mapping/{{item?._id}}">{{item.placementCheckerId?.name}}</a>
+                        </td>
+                        <td id="BrokerModuleMappingList_Product">
+                            <a routerLink="/backend/admin/broker-module-mapping/{{item?._id}}">{{item.productId?.type}}</a>
+                        </td>
+                        <td id="BrokerModuleMappingList_FromSI">
+                            {{item.fromSI}}
+                        </td>
+                        <td id="BrokerModuleMappingList_ToSIHeader">
+                            {{item.toSI}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>    

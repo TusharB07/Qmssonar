@@ -1,0 +1,88 @@
+<div class="py-3">
+    <div class="flex justify-content-between">
+        <div>
+            <h5 id="QuoteAuditTrailDialog_QuoteNo">Quote No: {{this.quote.quoteNo}}</h5>
+        </div>
+        <div class="flex align-items-center">
+            <!-- <p class="pr-2 download-text" id="Dashboard_DownloadData">Download Data</p> -->
+            <!-- <i class="pi pi-arrow-down" id="Dashboard_DownloadDownArrow" (click)="downloadAuditTrail()"></i> -->
+            <button class="btn btn-info mr-2" id="Dashboard_DownloadDownArrow" (click)="downloadAuditTrail()">
+                <i class="pi pi-download"></i> Download Excel
+            </button>
+        </div>
+    </div>
+
+
+    <!-- <div class="" *ngFor="let item of this.historyAction">
+
+        <div class="flex justify-content-between mb-5">
+
+            <div class="">
+
+                <h6>
+                    {{item.user.name}} {{item.eventType == 'onCreate' ? 'created new record for' : 'updated record of '}} {{item.collection}}
+                </h6>
+
+                <ul>
+                    <li class="mb-2" *ngFor="let action of item.actions">
+                        {{action.message}}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="">
+                {{item.timestamp}}
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <p-virtualScroller [value]="this.historyAction" scrollHeight="500px" [lazy]="true" (onLazyLoad)="loadRecords($event)">
+        <ng-template let-item pTemplate="item">
+            <div class="">
+
+                <p-panel [toggleable]="false" iconPos="left" [collapsed]="true" toggler="header">
+                    <ng-template pTemplate="header">
+                        <div class="flex justify-content-between w-100">
+                            <h6 id="QuoteAuditTrailDialog_UserName_Collections" class="mr-1">
+                                <span style="color: #5143ce;">{{item.user?.name}}</span> {{item?.eventType == 'onCreate' ? 'created new record for' : 'updated record of '}} {{item.collection + ' on'}}
+                            </h6>
+                            <div class="" id="QuoteAuditTrailDialog_TimeStamp">
+                                <span style="color: #5143ce;">{{item?.timestamp | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ul class="ml-3">
+                        <li class="mb-3" *ngFor="let action of item.actions" id="QuoteAuditTrailDialog_MSG">
+                            {{action.message}}
+                        </li>
+                    </ul>
+
+                </p-panel>
+
+
+
+            </div>
+        </ng-template>
+        <ng-template let-item pTemplate="loadingItem" id="QuoteAuditTrailDialog_Loading">
+            Loading...
+        </ng-template>
+    </p-virtualScroller> -->
+    <div>
+        <p-timeline [value]="historyAction" styleClass="customized-timeline">
+            <ng-template pTemplate="marker" let-event>
+                <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+                    <i class="pi pi-circle" style="background: #1a0163; border-radius: 50%;"></i>
+                </span>
+            </ng-template>
+            <ng-template pTemplate="opposite" let-event>
+                <h6 class="p-text-secondary">{{event.timestamp | date:'M/d/yy, h:mm a'}}</h6>
+            </ng-template>
+            <ng-template pTemplate="content" let-event>
+                <div class="custom-timeline-content">
+                    <span style="color: #5143ce;">{{event.user?.name}}</span> {{event?.eventType == 'onCreate' ?
+                    'created new record for' : 'updated record of '}} {{event.collection}}
+                </div>
+            </ng-template>
+        </p-timeline>
+    </div>
+</div>

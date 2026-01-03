@@ -1,0 +1,150 @@
+<div class="form-container px-3 pt-3">
+    <div class="grid">
+        <div class="col-12 mx-0">
+            <div class="col-12">
+                <div class="grid">
+                    <div class="col-4">
+                        <p-card>
+                            <ng-template pTemplate="header">
+                                <div class="grid">
+                                    <div class="col-8">
+                                        <h6 class="mb-2" style="font-size: large; font-weight: bold;"
+                                            id="IndicativeQuoteTab_TotalIndicative">Total Indicative Quote</h6>
+                                        <label for="" id="lblClientIndustry"
+                                            style="font-size: xx-small;  font-weight: bold;">Liability - Workmens
+                                            Compensation Policy </label>
+                                        <p class="sub-head" id="IndicativeQuoteTab_ProductType">
+                                            {{this.quote?.productId?.type}}</p>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <p class="premium" id="IndicativeQuoteTab_TotalPremium_Label">Total Premium</p>
+                                        <p class="premium-price " id="IndicativeQuoteTab_TotalPremium"><span>
+
+                                                <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                    [rate]="this.quote?.dollarRate"
+                                                    [selectedCurrencyDollar]="this.quote?.selectedCurrency=='$ Dollar'"
+                                                    [value]='this.wcTemplateModel?.indicativePremium ?? 0'></app-currency-dollar-repee>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-card>
+
+                        <!-- <p-card>
+                            <ng-template pTemplate="header">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h4 style="font-size: medium; font-weight: bold;">Deductibles</h4>
+                                    <button class="btn btn-lg btn btn-primary" type="submit" id="deductibles_add"
+                                        (click)="addDeductibles()"><i class="pi pi-plus" style="font-size: 0.8rem"></i>
+                                        Add Deductibles</button>
+                                </div>
+                            </ng-template>
+                            <ng-container *ngIf="showTextboxes">
+                                <div style="margin-top: 10px;">
+                                    <div class="grid">
+                                        <div class="col-12">
+                                            <input maxlength="255" pInputText id="description" autocomplete="off"
+                                                [(ngModel)]="this.deductiblesDetails.description" name="description"
+                                                (keypress)="checkValidity()" #description="ngModel" type="text"
+                                                placeholder="Enter Description" class="p-inputtext1 text-left mt-1" />
+                                        </div>
+                                        <div class="col-6">
+                                            <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="amount"
+                                                locale="en-IN" autocomplete="off" maxlength="20"
+                                                [(ngModel)]="this.deductiblesDetails.amount" name="amount"
+                                                #limitOfLiability="ngModel" [minFractionDigits]="0" class="text-right"
+                                                (onBlur)="checkValidity()" (onFocus)="checkValidity()"></p-inputNumber>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="col-7">
+                                    </div>
+                                    <div class="col-5 flex  justify-content-end" data-aos="fade-left" style="z-index:1">
+                                        <div>
+                                            <button type="button" (click)="save()" id="save_deductible" pButton pRipple
+                                                label="Save" icon="pi pi-check" class="btn btn-success mr-4"
+                                                [disabled]="!this.isSaveEnabled"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <div class="grid" *ngIf="wcTemplateModel.deductibles">
+                                <div class="col-12">
+                                    <div *ngIf="wcTemplateModel.deductibles.length>0">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Descriptions</th>
+                                                    <th style="text-align: center;">Amount</th>
+                                                    <th style="text-align: center;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let deduct of wcTemplateModel.deductibles; let i = index">
+                                                    <td
+                                                        style="text-align: left; max-width: 50px; word-wrap: break-word; word-break: break-all; white-space: normal;">
+                                                        {{deduct.description}}
+                                                    </td>
+                                                    <td
+                                                        style="text-align: right; max-width: 50px; word-wrap: break-word; word-break: break-all; white-space: normal;">
+                                                        <span>
+                                                            <app-currency-dollar-repee [maximumFractionDigits]="0"
+                                                                [rate]="this.quote?.dollarRate"
+                                                                [selectedCurrencyDollar]="this.quote?.selectedCurrency == '$ Dollar'"
+                                                                [value]="deduct.amount ?? 0">
+                                                            </app-currency-dollar-repee>
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style="text-align: center; max-width: 50px; word-wrap: break-word; word-break: break-all; white-space: normal;">
+                                                        <button pButton pRipple label="" icon="pi pi-pencil"
+                                                            class="p-button-success mr-2"
+                                                            (click)="this.editRecord(deduct, i)">
+                                                        </button>
+                                                        <button pButton pRipple label="" icon="pi pi-trash"
+                                                            class="p-button-danger mr-2"
+                                                            (click)="this.deleteRecord(deduct, i)">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card> -->
+                    </div>
+                    <div class="col-4">
+                        <p-card>
+                            <div class="grid">
+                                <div class="col-8">
+                                    <label for="" class="form-label" id="juridiction">Jurisdiction</label>
+                                    <input pInputText type="text" placeholder="India Only"
+                                        [(ngModel)]="this.wcTemplateModel.juridiction" #juridiction="ngModel"
+                                        id="juridiction" name="juridiction" [readOnly]="true" />
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-8">
+                                    <label for="" class="form-label" id="territory">Territory</label>
+                                    <input pInputText type="text" placeholder="India Only"
+                                        [(ngModel)]="this.wcTemplateModel.territory" #territory="ngModel"
+                                        id="territory" name="territory" [readOnly]="true" />
+                                </div>
+                            </div>
+                            <!-- <div class="button-container">
+                                <button type="button" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                                    (click)="save()" class="btn btn-success align-right"></button>
+                            </div> -->
+                        </p-card>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

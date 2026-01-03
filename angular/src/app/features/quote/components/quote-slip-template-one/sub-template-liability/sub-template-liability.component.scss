@@ -1,0 +1,37 @@
+.currency::first-letter {
+    padding-right: 0.3em;
+}
+
+:host ::ng-deep .tblz01-pdf .custom-border .p-datatable .p-datatable-thead>tr>th {
+    border-top: 1px solid #0462BC;
+    //  border-top: 1px solid red;
+}
+
+.page-break {
+    page-break-before: always;
+}
+
+
+
+.tableRev {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableRev th,
+.tableRev td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.tableRev th {
+    background-color: #f2f2f2;
+}
+
+.table-cell {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-width: 500px; /* Adjust the max width as needed */
+}

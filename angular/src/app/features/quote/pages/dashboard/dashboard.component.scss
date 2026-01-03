@@ -1,0 +1,134 @@
+.broker-dashboard {
+  .title {
+    letter-spacing: 0px;
+    color: #000000;
+    margin-bottom: 5px;
+    font: normal normal 2rem/2.5rem OpenSans-Bold;
+  }
+  .card-title {
+    font-family: "OpenSans-SemiBold" !important;
+    font-style: normal;
+    font-weight: normal;
+    background: #ffffff;
+    color: #000000;
+  }
+  .para23 {
+    font: normal normal normal 1.2rem/2rem OpenSans-Regular;
+    letter-spacing: 0px;
+    color: #000000;
+    margin-bottom: 8px;
+  }
+  .success {
+    color: #4cb70f;
+    font-size: 1.5rem;
+    .pi {
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+  }
+  .error {
+    color: #cc2d2d;
+    font-size: 1.5rem;
+    .pi {
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+  }
+  .count {
+    font: normal normal 3rem/3.5rem OpenSans-Bold;
+  }
+  .text-underline {
+    text-decoration: underline;
+  }
+  .text-black {
+    font-weight: normal !important;
+  }
+  .text-xl {
+    font-size: 1.9rem !important;
+  }
+  .progressbar-container {
+    min-width: 85%;
+    max-width: 85%;
+  }
+  .bg-orange-100 {
+    background-color: #f6e9d5;
+  }
+  .text-orange-500 {
+    color: #f3c98c;
+  }
+  .text-blue-500 {
+    color: #2156c2 !important;
+  }
+  .bg-blue-100 {
+    background-color: #b4cae3 !important;
+  }
+  .small-text {
+    font: normal normal 1rem/1.5rem OpenSans-Regular !important;
+  }
+  .p-blue-button {
+    background-color: #2156c2;
+    font: normal normal 600 1.3rem/2rem OpenSans-Regular !important;
+  }
+  .p-blue-button i {
+    font-size: 1.3rem;
+    font-weight: bolder;
+  }
+  .pi-arrow-down {
+    color: #2156c2;
+    border: 1px solid #2156c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+  .download-text {
+    font: normal normal 1.4rem/2rem OpenSans-SemiBold !important;
+  }
+  .text-black-heading {
+    font-size: 1.2rem;
+    color: #333333;
+    font-family: OpenSans-SemiBold;
+  }
+  tr.client-data {
+    font: normal normal normal 1.3rem/1.8rem OpenSans-Regular;
+    margin-bottom: 10px;
+  }
+  .position-relative {
+    position: relative;
+  }
+  .person-image {
+    position: absolute;
+    width: 25px;
+    top:50%;
+    transform: translateY(-50%);
+  }
+  .first-image {
+    left: 0;
+  }
+  .second-image {
+    left: 10px;
+    
+  }
+  .more-text{
+    position:absolute;
+    color:#2156C2;
+    right:-5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+::ng-deep .p-progressbar {
+  height: 22px !important;
+  background: #f6e9d5 !important;
+}
+::ng-deep .p-progressbar-value {
+  background: #f3c98c !important;
+}
+::ng-deep .p-progressbar-label {
+  color: #333333 !important;
+  font: normal normal 1.4rem/2rem OpenSans-Regular !important;
+}
+::ng-deep .p-inputtext {
+  height: auto !important;
+}

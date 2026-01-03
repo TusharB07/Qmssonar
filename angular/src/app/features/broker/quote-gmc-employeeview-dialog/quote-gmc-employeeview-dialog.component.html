@@ -1,0 +1,58 @@
+<!--TODO: Add Datatable-->
+<div class="row">
+  <div class="content">
+    <div class="grid">
+      <div class="col-12 md:col-12 mb-5">
+        <div class="col-12">
+          <p-table #dt [value]="this.employeeInfo" class="table" id="empInfo" responsiveLayout="scroll" dataKey="_id">
+            <ng-template pTemplate="header">
+              <tr class="tableBorder tableHeaderRow" style="color: white;">
+                <th class="tableBorder" style="width: 8rem;text-align: center;color: white">
+                  Age Band
+                </th>
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                  Self
+                </th>
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                  Spouse
+                </th>
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                  Child
+                </th>
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                  Parent
+                </th>
+
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white">
+                  Siblings
+                </th>
+                <th class="tableBorder" style="width: 3rem;text-align: center;color: white;">
+                  Grand Total
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-empRecord>
+              <tr style="border: 1px solid #0064BB;">
+                <td class="tableBorder" id="Emp_ageBand" style="width: 8rem;">{{ empRecord.ageBand }}</td>
+                <td class="tableBorder" id="Emp_selfCount" style="width: 3rem;text-align: right;"> {{
+                  empRecord.selfCount == 0?'-':empRecord.selfCount }}</td>
+                <td class="tableBorder" id="Emp_spouseCount" style="width: 3rem;text-align: right;"> {{
+                  empRecord.spouseCount== 0?'-':empRecord.spouseCount }}</td>
+                <td class="tableBorder" id="Emp_childCount" style="width: 3rem;text-align: right;">{{
+                  empRecord.childCount == 0?'-':empRecord.childCount}}</td>
+                <td class="tableBorder" id="Emp_parentCount" style="width: 3rem;text-align: right;">{{
+                  empRecord.parentCount == 0?'-':empRecord.parentCount}}</td>
+                <!-- <td id="Emp_ParentinLawCount" style="width: 4rem">{{ empRecord.ParentinLawCount }}</td> -->
+                <td class="tableBorder" id="Emp_siblingsCount" style="width: 3rem;text-align: right;">{{
+                  empRecord.siblingsCount== 0?'-':empRecord.siblingsCount }}</td>
+                <td class="tableBorder" id="Emp_grandTotal" style="width: 3rem;text-align: right;">{{
+                  empRecord.grandTotal == 0?'-':empRecord.grandTotal}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

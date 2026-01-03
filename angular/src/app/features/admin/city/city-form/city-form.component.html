@@ -1,0 +1,57 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container">
+        <div class="grid">
+            <div class="col-12">
+                <div class="card p-fluid">
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button type="submit" pButton pRipple label="Save" icon="pi pi-check"
+                                class="p-button-success mr-2"></button>
+                            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-danger mr-2 pr-3"
+                                (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="card p-fluid">
+                    <h5>General Information</h5>
+
+
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input maxlength="100" class="form-control" type="text" pInputText id="name" formControlName="name" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['name']}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['name']">Name is required.</small>
+                        <!-- <small id="ListOfValueForm_LovKeyValidationError" class="ng-dirty ng-invalid" *ngIf="recordForm.controls['name'].errors?.maxlength">Name cannot be more than 100 Characters.</small> -->
+                    </div>
+
+                    <div class="field">
+                        <label for="stateId">State</label>
+                        <p-autoComplete [dropdown]="true" [suggestions]="this.optionsStates" field="label"
+                            formControlName="stateId" (completeMethod)="this.searchOptionsStates($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.controls['stateId'].valid}">
+                        </p-autoComplete>
+
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !recordForm.value['stateId']">State is
+                            required.</small>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-12 md:col-3" *ngIf="this.id !== 'new'">
+
+                <div class="card p-fluid">
+                    <app-audit-trail [entityId]="this.id" [entityResourcePrefix]="'cities'"></app-audit-trail>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

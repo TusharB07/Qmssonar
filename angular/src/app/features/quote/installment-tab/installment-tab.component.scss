@@ -1,0 +1,78 @@
+.installment-form-container {
+  max-width: 600px;
+  // margin: auto;
+  // padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.form-row {
+  display: flex;
+  // justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.form-label {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  display: flex;
+  gap: 15px;
+}
+
+#numberOfInstallments {
+  width: 100px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.installment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.installment-table th,
+.installment-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.installment-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.table-input {
+  width: 95%;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background-color: #218838;
+}
+.form-input {
+  width: 100%; /* Ensure input width */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Prevent overflow issues */
+}

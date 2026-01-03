@@ -1,0 +1,32 @@
+.currency::first-letter {
+    padding-right: 0.3em;
+}
+
+:host ::ng-deep .tblz01-pdf .custom-border .p-datatable .p-datatable-thead>tr>th {
+    border-top: 2px solid #000000;
+    //  border-top: 1px solid red;
+}
+
+.button-container {
+    align-items: center; 
+  }
+  .view-link {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }

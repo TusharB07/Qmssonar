@@ -1,0 +1,131 @@
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && !isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-left" id="moneyInSafe_BreakUp_HDR_Loaction">Location</th>
+                        <th class="text-left" id="moneyInSafe_BreakUp_HDR_Occupancy">Occupancy</th>
+                        <th class="text-right" id="moneyInSafe_BreakUp_HDR_MoneySafe">Money In Safe</th>
+                        <th class="text-right" id="moneyInSafe_BreakUp_HDR_MoneyTillCounter">Money In Till/Counter</th>
+                        <th class="text-right" id="moneyInSafe_BreakUp_HDR_Total">Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td class="text-left" id="moneyInSafe_BreakUp_DATA_Loaction">{{ quoteLocationOccupancy?.clientLocationId.locationName }} - {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td class="text-left" id="moneyInSafe_BreakUp_DATA_OccupancyType">{{ quoteLocationOccupancy?.occupancyId?.occupancyType }}</td>
+                        <td class="text-right" id="moneyInSafe_BreakUp_DATA_MoneySafe">
+                            <!--[] {{ this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']] && this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneySafe'] | currency:'INR'}} -->
+                            <app-currency [maximumFractionDigits]="0"
+                            [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneySafe']"></app-currency>
+
+                        </td>
+                        <td class="text-right" id="moneyInSafe_BreakUp_DATA_MoneyTillCounter">
+                            <!-- {{ this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']] && this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneyTillCounter'] | currency:'INR'}} -->
+                            <app-currency [maximumFractionDigits]="0"
+                            [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneyTillCounter']"></app-currency>
+
+                        </td>
+                        <th class="text-right" id="moneyInSafe_BreakUp_DATA_Total">
+                            <!-- {{ this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']] && this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['total'] | currency:'INR'}} -->
+                            <app-currency [maximumFractionDigits]="0"
+                            [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['total']"></app-currency>
+
+                        </th>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" ><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="this.permissions.includes('update')"><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info mr-4" (click)="this.downloadSampleFile()" *ngIf="!this.permissions.includes('update')" [disabled]="true"><i class="pi pi-download"></i> Download Sample File</button> -->
+            <!-- <button class="btn btn-info" type="submit"><i class="pi pi-upload"></i> Upload Excel Sheet</button> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" (onUpload)="fileUploaded($event)" name="file" mode="basic" url="{{this.uploadUrl}}" *ngIf="this.permissions.includes('update')"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+            <!-- <p-fileUpload styleClass="btn btn-primary" (onUpload)="fileUploaded($event)" name="file" mode="basic" url="{{this.uploadUrl}}" *ngIf="!this.permissions.includes('update')" [disabled]="true" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" maxFileSize="1000000" chooseIcon="pi pi-upload" chooseLabel="Upload Excel Sheet" [headers]="this.uploadHttpHeaders" method="post"></p-fileUpload> -->
+
+            <button class="btn btn-outline-primary mr-3" id="moneyInSafe_BreakUp_Download_Excel" (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+
+                <p-fileUpload
+                [name]="this.bulkImportProps.name"
+                [mode]="this.bulkImportProps.mode"
+                [url]="this.bulkImportProps.url"
+                [method]="this.bulkImportProps.method"
+                (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                [headers]="this.bulkImportProps.headers"
+                [showCancelButton]="true"
+                [accept]="this.bulkImportProps.accept"  
+                [auto]="this.bulkImportProps.auto"
+                [uploadLabel]="this.bulkImportProps.uploadLabel"
+                [accept]="this.bulkImportProps.accept"
+                [chooseLabel]="this.bulkImportProps.chooseLabel"
+                styleClass="btn btn-primary"
+
+                id="moneyInSafe_BreakUp_Upload_Excel"
+                ></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card tblz01" *ngIf="this.permissions.includes('read') && isMobile">
+    <div class="grid">
+        <div class="col-12">
+            <p-table [value]="this.quoteLocationOccupacies" [scrollable]="true" scrollDirection="both">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 150px;" class="text-left" id="moneyInSafe_BreakUp_HDR_Loaction">Location</th>
+                        <th style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_HDR_Occupancy">Occupancy
+                        </th>
+                        <th style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_HDR_MoneySafe">Money In Safe
+                        </th>
+                        <th style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_HDR_MoneyTillCounter">Money
+                            In Till/Counter</th>
+                        <th style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_HDR_Total">Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-quoteLocationOccupancy>
+                    <tr>
+                        <td style="width: 150px;" class="text-left" id="moneyInSafe_BreakUp_DATA_Loaction">{{
+                            quoteLocationOccupancy?.clientLocationId.locationName }} -
+                            {{quoteLocationOccupancy?.pincodeId.name}}</td>
+                        <td style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_DATA_OccupancyType">{{
+                            quoteLocationOccupancy?.occupancyId?.occupancyType }}</td>
+                        <td style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_DATA_MoneySafe">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneySafe']"></app-currency>
+                        </td>
+                        <td style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_DATA_MoneyTillCounter">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['moneyTillCounter']"></app-currency>
+                        </td>
+                        <th style="width: 100px;" class="text-left" id="moneyInSafe_BreakUp_DATA_Total">
+                            <app-currency [maximumFractionDigits]="0"
+                                [value]=" this.bscMoneySafeTillCovers[quoteLocationOccupancy['_id']]['total']"></app-currency>
+                        </th>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <div class="flex justify-content-center" *ngIf="this.permissions.includes('update')">
+            <button class="btn btn-outline-primary mr-3" id="moneyInSafe_BreakUp_Download_Excel"
+                (click)="this.bulkImportGenerateSample()"><i class="pi pi-download"></i> Download Sample Excel
+                Sheet</button>
+            <div class="" *ngIf="this.bulkImportProps">
+                <p-fileUpload [name]="this.bulkImportProps.name" [mode]="this.bulkImportProps.mode"
+                    [url]="this.bulkImportProps.url" [method]="this.bulkImportProps.method"
+                    (onUpload)="this.bulkImportProps.onUpload($event.originalEvent.body)"
+                    [headers]="this.bulkImportProps.headers" [showCancelButton]="true"
+                    [accept]="this.bulkImportProps.accept" [auto]="this.bulkImportProps.auto"
+                    [uploadLabel]="this.bulkImportProps.uploadLabel" [accept]="this.bulkImportProps.accept"
+                    [chooseLabel]="this.bulkImportProps.chooseLabel" styleClass="btn btn-primary"
+                    id="moneyInSafe_BreakUp_Upload_Excel"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<form [formGroup]="this.recordForm" (ngSubmit)="submitted=true; this.saveRecord();">
+    <div class="form-container px-3">
+        <div class="grid">
+            <div class="col-12">
+                <p-card>
+                    <p-toast></p-toast>
+                    <p-toolbar styleClass="">
+                        <ng-template pTemplate="left">
+                            <h3 class="mb-0" id="IcrmContactFormRecordName">{{this.recordSingularName}}</h3>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button id="IcrmContactForm_SaveButton" type="submit" pButton pRipple label="Save"
+                                icon="pi pi-check" class="p-button-success mr-2"></button>
+                            <button id="IcrmContactForm_CancelButton" pButton pRipple label="Cancel" icon="pi pi-times"
+                                class="p-button-danger mr-2 pr-3" (click)="this.onCancel()"></button>
+                        </ng-template>
+                    </p-toolbar>
+                </p-card>
+            </div>
+            <div class="col">
+
+                <p-card>
+                    <div class="field">
+                        <label id="IcrmContactForm_InsurerPartnerLabel" for="icPartnerId">Insurer Partner</label>
+                        <p-autoComplete id="IcrmContactForm_InsurerPartner" placeholder="Select Insurer"
+                            [dropdown]="true" [suggestions]="this.optionsInsurerPartnerId" field="label"
+                            formControlName="icPartnerId" (completeMethod)="this.searchOptionsInsurerPartnerId($event)"
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm?.controls['icPartnerId'].valid}"></p-autoComplete>
+                        <small id="IcrmContactForm_InsurerPartner_ValidationError"
+                            *ngIf="this.recordForm.controls['icPartnerId'].errors?.required"
+                            class="ng-invalid ng-dirty">This field is Required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label id="IcrmContactForm_RMNameLabel" for="rmName">RM Name</label>
+                        <input id="IcrmContactForm_RMName" type="text" pInputText id="rmName" formControlName="rmName"
+                            required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rmName']}" />
+                        <small id="IcrmContactForm_RMName_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rmName']">RM Name is required.</small>
+                    </div>
+                    <div class="field">
+                        <label id="IcrmContactForm_RMEmailLabel" for="rmEmail">RM Email</label>
+                        <input id="IcrmContactForm_RMEmail" type="text" pInputText id="rmEmail"
+                            formControlName="rmEmail" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['rmEmail']}" />
+                        <small id="IcrmContactForm_RMEmail_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['rmEmail']">RM Email is required.</small>
+                        <small id="CreateClient_Name_ValidationError2"
+                            *ngIf="this.recordForm.controls['rmEmail'].errors?.['invalidEmail']"
+                            class="ng-invalid">Invalid Email.</small>
+                    </div>
+                    <div class="col">
+                        <div class="card p-fluid">
+                            <div class="field">
+                                <label id="IcrmContactForm_ActiveLabel" for="active">Active</label><br>
+                                <p-toggleButton id="IcrmContactForm_Active" class="form-control"
+                                    formControlName="active" onLabel="{{ 'Active' }}" offLabel="{{ 'Inactive' }}"
+                                    onIcon="{{ 'pi pi-check' }}" offIcon="pi pi-times" iconPos="right"></p-toggleButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label id="IcrmContactForm_MobileNoLabel" for="mobileNo">MobileNo</label>
+                        <input id="IcrmContactForm_MobileNo" type="text" pInputText id="mobileNo"
+                            formControlName="mobileNo" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && !recordForm.value['mobileNo']}" />
+                        <small id="IcrmContactForm_MobileNo_ValidationError" class="ng-dirty ng-invalid"
+                            *ngIf="submitted && !recordForm.value['mobileNo']">MobileNo is required.</small>
+                        <small id="UserForm_MobileNumber_ValidationError"
+                            *ngIf="this.recordForm.controls['mobileNo'].errors?.pattern"
+                            class="ng-invalid">Enter Valid Mobile Number.</small>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</form>

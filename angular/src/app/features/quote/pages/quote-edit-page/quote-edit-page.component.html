@@ -1,0 +1,184 @@
+<div class="grid" style="position: relative;" *ngIf="this.quote && this.tabs">
+    <div id="editSidebar" class="mx-3 p-3 border-right" style="width: 360px;">
+        <div class="mb-5 " data-aos="fade-right">
+            <h4 id="QuoteEditPage_Header" class="mb-2">Reference No : {{this.quote.quoteNo}}</h4>
+            <p *ngIf="![AllowedProductTemplate.GMC].includes(this.quote?.productId['productTemplate'])"
+                id="QuoteEditPage_ProductType">{{this.quote.productId['type']}} | <strong class="premium-price">Premium:
+                    <app-currency [value]="(this.quote.totalIndictiveQuoteAmtWithGst)"></app-currency> *(Incl.
+                    Taxes)</strong></p>
+        </div>
+        <div class="" data-aos="fade-up">
+            <p-steps class="edit-list-steps" id="QuoteEditPage_Steps" [model]="this.tabs" [activeIndex]="this.index"
+                [readonly]="false"></p-steps>
+        </div>
+    </div>
+    <div id="editContent" class="col" style="width: calc(100vh - 360px)">
+        <div class="col-12">
+            <div class="flex align-items-center justify-content-between">
+                <ul class="edit-quote-links" data-aos="zoom-in">
+                    <li class="ng-star-inserted">
+                        <a pripple class="p-ripple p-element">
+                            <i class="number ng-star-inserted">1</i><span class="ng-star-inserted"
+                                id="QuoteEditPage_ComparisonAnalytics_Step">Comparison and Analytics</span>
+                            <span class="p-ink"></span>
+                        </a>
+                    </li>
+
+
+                    <li class="p-highlight ng-star-inserted">
+                        <a pripple class="p-ripple p-element">
+                            <i class="number ng-star-inserted">2</i><span class="ng-star-inserted"
+                                id="QuoteEditPage_EditForApproval_Step">Edit and Send for
+                                Approval</span>
+
+                            <span class="p-ink"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="action flex justify-content-center align-items-center" data-aos="fade-left">
+                    <p-toggleButton *ngIf="!this.hideBrokeRatesFromRM" class="mr-3" [(ngModel)]="this.isIcRates"
+                        (onChange)="this.toggleRates()" [onLabel]="'My Rates'"
+                        [offLabel]="'Broker Rates'"></p-toggleButton>
+                    <div *ngIf="this.isProceedFuther"
+                        class="button flex justify-content-center align-items-center status-button button-count-2"
+                        id="QuoteEditPage_showTaskDialogModal" (click)="showTaskDialogModal()">
+                        <img src="assets/quote/icons/work_in_progress.svg" />
+                        <img src="assets/quote/icons/completed.svg" />
+                        <img src="assets/quote/icons/pending.svg" />
+                        <span class="taskcount">{{this.quote.lastunderWriters}}</span>
+                    </div>
+                    <div class="button" id="QuoteEditPage_OpenQuoteAuditDialog" (click)="showQuoteAuditTrailDialog()">
+                        <img src="assets/quote/icons/history.svg" />
+                        <!-- <img src="assets/quote/icons/success.svg" />
+                        <img src="assets/quote/icons/pending.svg" /> -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12" *ngIf="this.tabs[this.index]" style="z-index: 99999;">
+            <div class="grid mb-6 p-3 custom-detail-header" style="z-index:1">
+                <div class="col-5" id="QuoteEditPage_originalIntermediateName">
+                    <h4>
+                        {{this.quote?.originalIntermediateName}}
+                    </h4>
+                    <p id="QuoteEditPage_SubOriginalIntermediateName">
+                        You're editing this quote for {{this.quote?.originalIntermediateName}}
+                    </p>
+                </div>
+                <div class="col-7 flex justify-content-end align-items-center">
+                    <!-- <button class="btn btn-primary mr-3" (click)="this.icRates()">Ic Rates</button> -->
+                    <!-- <button class="btn btn-primary mr-3" (click)="this.brokerRates()">Broker Rates</button> -->
+
+                    <app-select-location-occupany id="QuoteEditPage_LocationOccupany"
+                        *ngIf="this.tabs[this.index].routerLinkActiveOptions?.isMultilocation"
+                        class="mr-3"></app-select-location-occupany>
+
+                    <!-- <button id="QuoteEditPage_ToPreview" *ngIf="this.isPrev()" class="btn btn-primary mr-3"
+                        (click)="this.prevPage()">Prev</button>
+                    <button id="QuoteEditPage_ToNextPage" *ngIf="this.isNext()" class="btn btn-outline-primary"
+                        (click)="this.nextPage()">Next</button> -->
+                    <button id="QuoteEditPage_ToSendForApproval" *ngIf="!this.isNext() && this.isSendForApproval"
+                        class="btn btn-outline-primary" (click)="this.sendForApproval()">Send For Approval</button>
+                    <button id="QuoteEditPage_ToProceedFuther" *ngIf="!this.isNext() && this.isProceedFuther"
+                        class="btn btn-outline-primary" (click)="this.proceedFuther()">Proceed Further</button>
+
+                </div>
+            </div>
+            <div class="" style="z-index:0">
+
+                <app-quote-insurer-review-basic-details-tab id="QuoteEditPage_BasicDetails_Tab "
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-basic-details-tab'"></app-quote-insurer-review-basic-details-tab>
+                <app-quote-insurer-review-documents-uploaded-tab id="QuoteEditPage_DocumentsUploaded_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-documents-uploaded-tab'"></app-quote-insurer-review-documents-uploaded-tab>
+                <app-quote-insurer-review-preview-download-tab id="QuoteEditPage_Preview_Download_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-preview-download-tab'"></app-quote-insurer-review-preview-download-tab>
+                <app-quote-insurer-review-risk-cover-letter-tab id="QuoteEditPage_RiskHeaderLetter_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-risk-cover-letter-tab'"></app-quote-insurer-review-risk-cover-letter-tab>
+
+                <app-sum-insured-details-tab [permissions]="this.permissions"
+                    id="QuoteEditPage_SumInsuredDetails_Tab_REq"
+                    *ngIf="this.tabs[this.index].fragment == 'app-sum-insured-details-tab'">
+                </app-sum-insured-details-tab>
+                <app-sum-insured-details id="QuoteEditPage_SumInsuredDetails_Tab "
+                    *ngIf="this.tabs[this.index].fragment == 'app-sum-insured-details'"> </app-sum-insured-details>
+                <app-sid-sum-insured-split-dialog id="QuoteEditPage_SidSumInsuredSplit_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-sid-sum-insured-split-dialog'"></app-sid-sum-insured-split-dialog>
+                <app-quote-location-breakup *ngIf="this.tabs[this.index].fragment == 'app-quote-location-breakup'"
+                    [quote]="this.quote"></app-quote-location-breakup>
+                <app-quote-insurer-review-multilocation-annexure-tab id="QuoteEditPage_MultilocationAnnexure_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-multilocation-annexure-tab'"></app-quote-insurer-review-multilocation-annexure-tab>
+                <app-quote-insurer-review-addon-tab id="QuoteEditPage_Addon_Tab" [permissions]="this.permissions"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-addon-tab'"></app-quote-insurer-review-addon-tab>
+                <app-business-suraksha-covers-tab id="QuoteEditPage_BSC_Tab" [isEditAllowed]="this.isEditAllowed"
+                    *ngIf="this.tabs[this.index].fragment == 'app-business-suraksha-covers'"></app-business-suraksha-covers-tab>
+                <app-quote-insurer-review-risk-management-features-tab id="QuoteEditPage_RiskManagementFeatures_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-risk-management-features-tab'"></app-quote-insurer-review-risk-management-features-tab>
+                <app-quote-edit-steps-risk-inspection-claim-experience-tab
+                    id="QuoteEditPage_RiskInspection_ClaimExperience_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-edit-steps-risk-inspection-claim-experience-tab'"></app-quote-edit-steps-risk-inspection-claim-experience-tab>
+                <app-quote-insurer-review-warrenties-exclusions-subjectives-tab
+                    id="QuoteEditPage_Warrenties_Exclusions_Subjectives_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-warrenties-exclusions-subjectives-tab'"></app-quote-insurer-review-warrenties-exclusions-subjectives-tab>
+                <app-quote-insurer-review-decision-matrix-tab id="QuoteEditPage_DecisionMtrix_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-quote-insurer-review-decision-matrix-tab'"></app-quote-insurer-review-decision-matrix-tab>
+
+                <!-- Intergation-EB [Start] -->
+                <app-gmc-claim-analytics id="QuoteEditPage_ClaimAnalytivs_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-claim-analytics' && quote.quoteType != 'new'"></app-gmc-claim-analytics>
+                <app-gmc-cost-containment id="QuoteEditPage_costcontainment_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-cost-containment'"></app-gmc-cost-containment>
+                <app-gmc-coverages id="QuoteEditPage_coverages_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-coverages'"></app-gmc-coverages>
+
+                <app-gmc-enhanced-covers id="QuoteEditPage_app-gmc-enhanced-covers"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-enhanced-covers'"></app-gmc-enhanced-covers>
+
+                <app-gmc-employee-details id="QuoteEditPage_empdetails_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-employee-details'"></app-gmc-employee-details>
+                <app-gmc-family-composition id="QuoteEditPage_falimycomp_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-family-composition'"></app-gmc-family-composition>
+
+                <app-gmc-final-rater id="QuoteEditPage_finalrater_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-final-rater' && quote.quoteType != 'new'"></app-gmc-final-rater>
+                <app-gmc-maternity-benifits id="QuoteEditPage_maternity_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-maternity-benifits'"></app-gmc-maternity-benifits>
+                <app-gmc-other-details id="QuoteEditPage_otherdetails_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-gmc-other-details'"></app-gmc-other-details>
+                <!-- Intergation-EB [End] -->
+
+                <!-- Workmen Competation -->
+                <app-wc-employee-details id="QuoteEditPage_employee-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-wc-employee-details'"></app-wc-employee-details>
+                <app-wc-coverage-details id="QuoteEditPage_coverage_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-wc-coverage-details'"></app-wc-coverage-details>
+                <!-- LIABILITY -->
+                <app-liability-basic-details id="QuoteEditPage_basic-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-basic-details'"></app-liability-basic-details>
+                <app-liability-teritory-details id="QuoteEditPage_app-liability-teritory-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-teritory-details'"></app-liability-teritory-details>
+                <app-liability-exclusion-details id="QuoteEditPage_app-liability-exclusion-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-exclusion-details'"></app-liability-exclusion-details>
+                <app-liability-deductibles-details id="QuoteEditPage_app-liability-deductibles-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-deductibles-details'"></app-liability-deductibles-details>
+
+                <!--CGL-->
+                <app-liability-cgl-basic-details id="QuoteEditPage_basic-cgl-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-cgl-basic-details'">
+                </app-liability-cgl-basic-details>
+
+                <app-liability-cgl-teritory-details id="QuoteEditPage_app-liability-cgl-teritory-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-cgl-teritory-details'">
+                </app-liability-cgl-teritory-details>
+
+                <app-liability-cgl-claim-experience-turnover-details
+                    id="QuoteEditPage_app-liability-cgl-claim-experience-turnover-details_Tab"
+                    *ngIf="this.tabs[this.index].fragment == 'app-liability-cgl-claim-experience-turnover-details'">
+                </app-liability-cgl-claim-experience-turnover-details>
+            </div>
+
+            <!-- <router-outlet></router-outlet> -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+:host ::ng-deep p-inputnumber, .p-inputnumber {
+    display: inline-flex !important;
+    width: 100%;
+}
+:host ::ng-deep p-inputnumber, .p-inputnumber {
+    span {
+        display: inline-flex !important;
+    }
+}

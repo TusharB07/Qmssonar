@@ -1,0 +1,112 @@
+<div class="mx-3">
+    <div class="tblz01-pdf md-4">
+        <p-card>
+            <table class="static-table" cellpadding="0" cellspacing="0">
+                <tr style="background-color:#0048bc; color: white !important;">
+                    <td colspan="3" id="DandOSubTemplate_deductibilities">
+                        <h4 style="color: white;">Deductibles</h4>
+                    </td>
+                </tr>
+                <tr *ngIf="quoteDandOOptions.liabiltyDeductibles?.length > 0; else noDeductibles">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Description</th>
+                                <th style="text-align: center;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let deduct of quoteDandOOptions.liabiltyDeductibles">
+                                <td style="text-align: left;">{{ deduct.description }}</td>
+                                <td style="text-align: right;">
+                                    <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="quote?.dollarRate"
+                                        [selectedCurrencyDollar]="quote?.selectedCurrency === '$ Dollar'"
+                                        [value]="deduct.amount ?? 0">
+                                    </app-currency-dollar-repee>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+            </table>
+            <ng-template #noDeductibles>
+                <p style="text-align: center;">No Deductibles Found</p>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <p-card *ngIf="showEditOption">
+        <ng-template pTemplate="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="font-size: medium; font-weight: bold;">Deductibles</h4>
+                <button class="btn btn-lg btn-primary" type="button" id="deductibles_add" (click)="addDeductibles()">
+                    <i class="pi pi-plus" style="font-size: 0.8rem;"></i> Add Deductibles
+                </button>
+            </div>
+        </ng-template>
+        <ng-container *ngIf="showTextboxes">
+            <div style="margin-top: 10px;">
+                <div class="grid">
+                    <div class="col-12">
+                        <input maxlength="255" pInputText id="description" autocomplete="off"
+                            [(ngModel)]="deductiblesDetails.description" placeholder="Enter Description"
+                            class="p-inputtext1 text-left mt-1" />
+                    </div>
+                    <div class="col-6">
+                        <p-inputNumber mode="decimal" prefix="₹ " placeholder="₹ 0" id="amount" locale="en-IN"
+                            maxlength="20" [(ngModel)]="deductiblesDetails.amount" [minFractionDigits]="0"
+                            class="text-right">
+                        </p-inputNumber>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-7"></div>
+                <div class="col-5 flex justify-content-end">
+                    <button type="button" id="save_deductible" pButton pRipple label="Save" icon="pi pi-check"
+                        class="btn btn-success" [disabled]="!(this.deductiblesDetails.amount !== null && this.deductiblesDetails.amount !== undefined && this.deductiblesDetails.amount !== 0 && this.deductiblesDetails.description !== null && this.deductiblesDetails.description !== undefined && this.deductiblesDetails.description !== '')" (click)="save()">
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+
+        <div *ngIf="quoteDandOOptions.liabiltyDeductibles">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Description</th>
+                        <th style="text-align: center;">Amount</th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let deduct of quoteDandOOptions.liabiltyDeductibles; let i = index">
+                        <td style="text-align: left;">{{ deduct.description }}</td>
+                        <td style="text-align: right;">
+                            <app-currency-dollar-repee [maximumFractionDigits]="0" [rate]="quote?.dollarRate"
+                                [selectedCurrencyDollar]="quote?.selectedCurrency === '$ Dollar'"
+                                [value]="deduct.amount ?? 0">
+                            </app-currency-dollar-repee>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-success mr-2"
+                                (click)="editRecord(deduct, i)">
+                            </button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-danger"
+                                (click)="deleteRecord(deduct, i)">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </p-card>
+</div>
+<div class="col-6" *ngIf="this.quote">
+    <div class="grid">
+        <div class="col-12">
+            <app-claim-experience id="RiskInspectionStatusTab_ClaimExperience"
+                [quote]="this.quote" [permissions]="['read','update']"></app-claim-experience>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="container-fuild">
+  <div class="row">
+    <div class="col-4 center">
+      <h1 class="text-center">Mail Parsing</h1>
+      <form [formGroup]="AIForm" (ngSubmit)="OnSubmit()">
+        <div class="mt-6 mb-6">
+          <span class="p-float-label">
+            <input id="float-input" type="text" pInputText formControlName="quoteNo" />
+            <label for="float-input">Quote No</label>
+          </span>
+        </div>
+        <div class="mt-6 mb-6">
+          <p-dropdown [options]="partners" placeholder="Select a partner" formControlName="partnerName" optionLabel="name" [showClear]="true"> </p-dropdown>
+        </div>
+        <div class="mt-6 mb-6">
+          <span class="p-float-label">
+            <textarea pInputTextarea formControlName="emailData"></textarea>
+            <label for="float-input">Mail Body</label>
+          </span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

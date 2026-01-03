@@ -1,0 +1,208 @@
+<header class="py-3 header-container" id="header" style="display:none !important">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 7fr 3fr">
+        <div class="dropdown">
+            <a href="#" class="align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none " id="AppTopBar">
+                <!-- <img src="./../assets/broker/images/logos/new-india-assurance-co-ltd.png"> -->
+                <img src="./../assets/TATA_Logo1.jpg" id="AppTopBar_Image">
+            </a>
+        </div>
+        <app-menu></app-menu>
+
+        <div class="d-flex justify-content-end align-items-center">
+            <a class="rt-hr">
+                <img src="./../assets/broker/images/profile/user.png" width="32" height="32" id="AppTopBar_UserImage"
+                    class="rounded-circle pro-pic">
+                <span class="name">Akshay Mehta</span>
+            </a>
+            <a href="" class="rt-hr">
+                <img src="./../assets/broker/images/icons/notifications.svg" id="AppTopBar_Notification" alt="">
+                <!-- <i class="bx bx-bell fs-22"></i> -->
+            </a>
+            <div class="flex-shrink-0 dropdown rt-hr">
+
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2"
+                    id="AppTopBar_DropdownUser2">
+                    <li id="AppTopBar_NewProject"><a class="dropdown-item" href="#">New project...</a></li>
+                    <li id="AppTopBar_Settings"><a class="dropdown-item" href="#">Settings</a></li>
+                    <li id="AppTopBar_Profile"><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li id="AppTopBar_SignOut"><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div  *ngIf="!isMobile">
+    <div class="layout-topbar">
+        <div class="layout-topbar-left">
+            <a href="#" class="topbar-menu-button" id="AppTopBar_MenuButton" (click)="appMain.onMenuButtonClick($event)"
+                *ngIf="appMain.isOverlay() || appMain.isMobile()">
+                <i class="pi pi-bars"></i>
+            </a>
+    
+            <a href="#" class="logo">
+                <!-- <img src="./../assets/broker/images/logos/new-india-assurance-co-ltd.png"> -->
+                <img src="./../assets/TATA_Logo2.png" id="AppTopBar_InxImage">
+                <!-- <img [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'"> -->
+            </a>
+            <a href="#" id="darkLogo" >
+                <img src="./../assets/alwrite_logo_v3-copy.png" id="AppTopBar_InxImage">
+            </a>
+            <!--
+            <a href="#">
+                <img [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="app-name" />
+            </a>
+             -->
+        </div>
+    
+        <app-menu id="AppTopBar_AppMenu"></app-menu>
+    
+        <div class="layout-topbar-right">
+            <ul class="layout-topbar-right-items">
+    
+                <li #profile class="profile-item" [ngClass]="{'active-topmenuitem':appMain.activeTopbarItem === profile}">
+                    <a href="#" class="px-3" (click)="appMain.onTopbarItemClick($event,profile)" id="AppTopBar_TopBarItem">
+                        <!-- <img onerror="this.src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'" src="{{ this.staticUrl }}/users/{{ (this.currentUser$ | async).photo }}"> -->
+                        <i class="pi pi-caret-down"></i>
+    
+                    </a>
+    
+                    <ul class="fadeInDown">
+                        <li role="menuitem">
+                            <!-- <a  (click)="this.loadProfile()"> -->
+                            <a routerLink="/account/profile">
+                                <i class="pi pi-fw pi-user" id="AppTopBar_Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <!-- <a routerLink="/backend/admin/partners/{{ (this.currentUser$ | async).partnerId }}"> -->
+                            <a routerLink="/account/my-organization">
+                                <i class="pi pi-fw pi-building" id="AppTopBar_MyOrganization"></i>
+                                <span>My Organization</span>
+                            </a>
+                        </li>
+                        <!--
+                        <li role="menuitem">
+                            <a href="#" (click)="appMain.onTopbarSubItemClick($event)">
+                                <i class="pi pi-fw pi-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                         -->
+                        <li role="menuitem">
+                            <a  (click)="this.logout()">
+                                <i class="pi pi-fw pi-sign-out" id="AppTopBar_LogOut"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- <li *ngIf="this.queries?.length > 0">
+                    <a href="javascript:void(0)" (click)="op.toggle($event)">
+                        <i class="topbar-icon pi pi-fw pi-bell" ></i>
+                        <span class="topbar-badge" id="AppTopBar_Badge">{{this.queries.length}}</span>
+                        <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px',height:'450px',background:'white',overflow:'scroll'}" [showCloseIcon]="false">
+                            <ng-template pTemplate>
+                                <div class="p-2 m-2" style="background-color: #2F51C60F; border-radius: 6px; color:#000000"  
+                                *ngFor="let query of queries" (click)="this.tempFunction(query.quoteId[0]?._id)">
+                                    <p>{{query.assignedBy.partnerId.partnerType != this.user.partnerId.partnerType ? query.assignedBy.partnerId.name :  query.assignedBy.name}}  has replied on {{query.quoteId[0].quoteNo}} query.</p>
+                                </div>
+                            </ng-template>
+                        </p-overlayPanel>
+                        <span class="topbar-item-name" id="AppTopBar_ItemNotification">Notifications</span>
+                    </a>
+                </li> -->
+                <li>
+                    <div class="mr-3" *ngIf="photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage"
+                            onerror="this.src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'"
+                            src="{{ photo }}">
+                    </div>
+                    <div class="mr-3" *ngIf="!photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage"
+                            src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'>
+                    </div>
+    
+                    <div class="mr-3">
+                        <h6 class="" id="AppTopBar_Capitalize">{{ (this.currentUser$ | async)?.name }} <p-badge
+                                [style]="{textTransform:'capitalize'}"
+                                [value]="(this.currentUser$ | async)?.roleId.name.replace('_',' ').replace('creator_and_approver','Creator').replace('approver','Checker').replace('creator','Marker')"></p-badge>
+                        </h6>
+                        <small>{{ (this.currentUser$ | async)?.email }}</small><br>
+                        <small>Last Logged In : {{this.user.lastLogin  | date : 'dd MMM yyyy, h:mm a'}}</small>    
+                    </div>
+                </li>
+                <!--
+                    <li>
+                        <a href="#">
+                            <i class="topbar-icon pi pi-fw pi-comment"></i>
+                            <span class="topbar-badge">5</span>
+                            <span class="topbar-item-name">Messages</span>
+                        </a>
+                    </li> -->
+            </ul>
+        </div>
+    </div>
+</div>
+<div  *ngIf="isMobile">
+    <div class="layout-topbar">
+        <div class="layout-topbar-left">
+            <a href="#" class="topbar-menu-button" id="AppTopBar_MenuButton" (click)="appMain.onMenuButtonClick($event)"
+                *ngIf="appMain.isOverlay() || appMain.isMobile()">
+                <i class="pi pi-bars"></i>
+            </a>
+            <a href="#" class="logo">
+                <img src="./../assets/TATA_Logo2.png" id="AppTopBar_InxImage">
+            </a>
+        </div>
+        <app-menu id="AppTopBar_AppMenu"></app-menu>
+        <div class="layout-topbar-right">
+            <ul class="layout-topbar-right-items">
+                <li #profile class="profile-item" [ngClass]="{'active-topmenuitem':appMain.activeTopbarItem === profile}"
+                style="margin-right: 10px;">
+                    <a href="#" class="px-3" (click)="appMain.onTopbarItemClick($event,profile)" id="AppTopBar_TopBarItem">
+                        <i class="pi pi-caret-down"></i>
+                    </a>
+                    <ul class="fadeInDown">
+                        <li role="menuitem">
+                            <a routerLink="/account/profile">
+                                <i class="pi pi-fw pi-user" id="AppTopBar_Profile"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a routerLink="/account/my-organization">
+                                <i class="pi pi-fw pi-building" id="AppTopBar_MyOrganization"></i>
+                                <span>My Organization</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a  (click)="this.logout()">
+                                <i class="pi pi-fw pi-sign-out" id="AppTopBar_LogOut"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="" *ngIf="photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage" style="border-radius: 18px;"
+                            onerror="this.src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'"
+                            src="{{ this.staticUrl }}/users/{{ (this.currentUser$ | async)?.photo }}">
+                    </div>
+                    <div class="" *ngIf="!photo">
+                        <img height="35px" id="AppTopBar_UplpoadImage" style="border-radius: 18px;"
+                            src='https://www.blossomscare.in/wp-content/uploads/2020/09/user-dummy.jpg'>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,172 @@
+<div class="mx-3">
+    <div class="grid">
+
+        <div class="col-1">
+            <div (click)="saveTabs()" class="ml-4"><button class="btn btn-success">Save</button></div>
+        </div>
+        <div class="col-2" style="text-align: right;">
+            <p-button (click)="showDialog()" icon="pi pi-external-link" label="Sum Insured Split"></p-button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-4">
+            <p-card class="">
+                <div class="card p-fluid">
+                    <h4 id="MyOrganization_GeneralInformation">Transit Details</h4>
+                    <hr style="border: 1 solid grey;" />
+                    <div class="field">
+                        <label for="name" class="form-label" id="MyOrganization_Name_Label">Transit Type</label>
+                        <p-dropdown id="transit_type" class="custom-dropdown" [options]="optionsTransitTypeLst"
+                            placeholder="Select" optionLabel="label" optionValue="value"
+                            [(ngModel)]="marineSIData.transitType" name="transit_type" #transit_type="ngModel"
+                            (onChange)="onDDLChangeTransitType($event)"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <div class="grid">
+                            <div class="col-6">
+                                <label class="form-label" for="name" id="MyOrganization_Name_Label">Location
+                                    From</label>
+                                <input pInputText id="locationFrom" [(ngModel)]="marineSIData.locationFrom"
+                                    name="locationFrom" #locationFrom="ngModel" type="text"
+                                    class="p-inputtext1 text-left" />
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label" for="name" id="locationTo">Location To</label>
+                                <input pInputText id="locationTo" [(ngModel)]="marineSIData.locationTo"
+                                    name="locationTo" #locationTo="ngModel" type="text"
+                                    class="p-inputtext1 text-left" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="form-label" for="name" id="Country_Label">Country</label>
+                        <p-dropdown [disabled]="isCountryDisable" id="selectedCountry" class="custom-dropdown" [options]="optionsCountries"
+                            placeholder="Select" optionLabel="label" optionValue="value"
+                            [(ngModel)]="marineSIData.selectedCountry" name="selectedCountry"
+                            #selectedCountry="ngModel"></p-dropdown>
+
+                    </div>
+                    <hr style="border: 1 solid grey;" />
+
+
+                </div>
+
+            </p-card>
+            <div class="col-12">
+
+                <p-card class="">
+                    <div class="card p-fluid">
+                        <div class="grid">
+                            <div class="col-6">
+                                <label class="form-label" for="name" id="MyOrganization_Name_Label">Policy Start Date</label>
+                                <p-calendar id="policyStartDate" [(ngModel)]="marineSIData.policyStartDate"
+                                    [showIcon]="true" name="policyStartDate" #policyStartDate="ngModel"
+                                    class="p-inputtext1 text-left"></p-calendar>
+
+                            </div>
+                            <div class="col-6"> <label class="form-label" for="name" id="MyOrganization_Name_Label">Policy End
+                                    Date</label>
+                                <p-calendar id="policyEndDate" [(ngModel)]="marineSIData.policyEndDate"
+                                    [showIcon]="true" name="policyEndDate" #policyEndDate="ngModel"
+                                    class="p-inputtext1 text-left"></p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+        <div class="col-4">
+            <p-card class="">
+                <div class="card p-fluid">
+                    <h4 id="MyOrganization_GeneralInformation">Conveyance
+                    </h4>
+                    <hr style="border: 1 solid grey;" />
+                    <div class="field">
+                        <p-multiSelect id="conveyanveType" class="form-control" [ngModel]="marineSIData.conveyanveType"
+                            name="conveyanveType" #conveyanveType="ngModel" [options]="this.optionsConvaynceLst"
+                            placeholder="Any" (onChange)="onConvyance($event.value)" optionLabel="label"
+                            [showToggleAll]="false">
+                            <ng-template let-option pTemplate="item">
+                                <div class="flex align-items-center gap-2">
+                                    <span class="ml-1">{{option.label}}</span>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                    </div>
+                    <div class="field">
+                        <div class="grid">
+                            <div class="col-12" *ngFor="let item of this.marineSIData.conveyanceList;let i= index">
+                                <label class="form-label" for="name" id="label_con">{{item.label}}</label>
+                              
+                                <textarea maxlength="255" [(ngModel)]="item.text" name="con_text" style="width: 100%;"
+                                #con_text="ngModel" type="text" class="p-inputtext1 text-left" ></textarea>
+
+
+                                <!-- <input pInputText id="con_text" [(ngModel)]="item.text" name="con_text"
+                                    #con_text="ngModel" type="text" class="p-inputtext1 text-left" /> -->
+                                <!-- <p style="font-size: 10px;">RB/AL/AWB/LR details (if available)</p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+        <div class="col-4">
+            <p-card class="">
+                <div class="card p-fluid">
+                    <h4 id="MyOrganization_GeneralInformation">Cargo Details</h4>
+                    <hr style="border: 1 solid grey;" />
+                    <div class="field">
+                        <b><label for="name" id="conveyanveType_lbl" class="form-label">Interest</label></b>
+                        <p-dropdown id="interest" class="custom-dropdown" [options]="optionsIntrestLst"
+                            placeholder="Select" optionLabel="label" optionValue="value"
+                            [(ngModel)]="marineSIData.interest" name="interest" #interest="ngModel"
+                            (onChange)="onIntrestChange($event)"></p-dropdown>
+
+                    </div>
+                    <div class="field">
+                        <div class="grid">
+                            <div class="col-12" *ngFor="let item of this.marineSIData.interestList;let i= index">
+                                <label for="name" id="label_con" class="form-label">{{item.label}}</label>
+                              
+                                <textarea maxlength="255" [(ngModel)]="item.text" name="con_text1_{{i}}" id="con_text1_{{i}}" style="width: 100%;"
+                                #con_text1_{{i}}="ngModel" type="text" class="p-inputtext1 text-left" ></textarea>
+
+                                <!-- <input pInputText id="con_text" [(ngModel)]="item.text" name="con_text"
+                                    #con_text="ngModel" type="text" class="p-inputtext1 text-left" /> -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr style="border: 1 solid grey;" />
+                    <div class="field">
+                        <b><label for="name" id="conveyanveType_lbl" class="form-label">Packaging</label></b>
+                        <p-multiSelect id="packaging" class="custom-dropdown" [ngModel]="marineSIData.packaging"
+                            name="packaging" #packaging="ngModel" [options]="this.optionsPackagingLst" placeholder="Any"
+                            (onChange)="onPackagingChange($event.value)" optionLabel="label">
+                            <ng-template let-option pTemplate="item">
+                                <div class="p-multiselect-representative-option">
+                                    <span class="ml-1">{{option.label}}</span>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                    </div>
+                    <div class="field">
+                        <div class="grid">
+                            <div class="col-12" *ngFor="let item of this.marineSIData.packagingList;let i= index">
+                                <label for="name" id="label_con" class="form-label">{{item.label}}</label>
+                                <textarea maxlength="255" [(ngModel)]="item.text" name="con_text2_{{i}}" id="con_text2_{{i}}" style="width: 100%;"
+                                #con_text2_{{i}}="ngModel" type="text" class="p-inputtext1 text-left" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </p-card>
+        
+        </div>
+    </div>
+</div>

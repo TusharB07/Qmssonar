@@ -1,0 +1,62 @@
+<p-card>
+    <ng-template pTemplate="header">
+        <div class="grid">
+            <div class="col-8">
+                <h6 class="mb-2" id="AppIndicativeQuote_Header">Indicative Quote</h6>
+                <p class="sub-head" id="AppIndicativeQuote_ProductType">{{this.quote?.productId?.type == 'Business Suraksha Shop' ? this.quote?.productId?.type + ' (FIRE)': this.quote?.productId?.type}}</p>
+            </div>
+            <div class="col-4 text-right" *ngIf="this.quote?.partnerId['isRate'] == true">
+                <p class="premium" id="AppIndicativeQuote_TotalPremium_Label">Total Premium</p>
+                <p dirCurrency class="premium-price text-nowrap" id="AppIndicativeQuote_TotalPremium">
+                    <app-currency [value]="this.totalPremium"></app-currency>
+                </p>
+            </div>
+        </div>
+    </ng-template>
+    <div class="view-breakup h-100">
+        <div class="flex align-items-center mb-3" *ngIf="this.isShowBreakupType">
+            <div class="flex-grow-1">
+                <div class="flex">
+                    <div class="flex-shrink-0 ms-2" id="BSC_Tab_covers">
+                        <h5 style="font-weight: 900;" id="SubTemplateIar_MaterialDamageSection_Header"><b>(A) Material damage Section <span style="color: blue;">*</span></b></h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <h4 id="SubTemplateIar_MachineryBreakDown_Stock">
+                    <app-currency [maximumFractionDigits]="0" [value]="this.quoteOptionData?.locationBasedCovers?.quoteLocationOccupancy?.sumAssured ?? 0"></app-currency>
+
+                </h4>
+
+            </div>
+        </div>
+
+        <div class="grid mb-2" *ngIf="this.quote?.partnerId['isRate'] == true">
+            <div class="col-8">
+                <span class="name" id="AppIndicativeQuote_BasePremium_Label">Base Premium:</span>
+                <span class="price" id="AppIndicativeQuote_BasePremium">
+                    <app-currency [value]="this.totalPremium"></app-currency>
+                </span>
+            </div>
+            <!-- <div class="col-4 text-right"><a href="#" class="link">View Quote Breakup</a></div> -->
+        </div>
+        <div class="grid mb-3">
+            <div class="col-12">
+                <span class="name" id="AppIndicativeQuote_SumInsured_Label">Sum Insured:</span>
+                <!-- <span class="price"> ₹ {{this.quote.totalSumAssured?.toLocaleString('en-IN') }} </span> -->
+                <span class="price" id="AppIndicativeQuote_SumInsured">
+                    <app-currency [maximumFractionDigits]="0" [value]="this.quoteOptionData.totalSumAssured"></app-currency>
+                </span>
+                <!-- <span class="ml-2"><button (click)="this.EditSumInsuredDialog()" id="AppIndicativeQuote_EditSumInsuredDialog"
+                    label="Edit Sum Insured" type="button" class="btn btn-primary  mr-2"><i
+                        class="pi pi-pencil mr-1"></i> Edit Sum Insured</button></span> -->
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-8">
+                <button (click)="this.openSumInsuredSplitDialog()" id="AppIndicativeQuote_SumInsuredSplitDialog" label="Sum Insured Split" type="button" class="btn btn-primary  mr-2"><i _ngcontent-kvw-c93="" class="pi pi-pencil mr-1"></i> Sum Insured Split</button>
+            </div>
+        </div>
+    </div>
+</p-card>

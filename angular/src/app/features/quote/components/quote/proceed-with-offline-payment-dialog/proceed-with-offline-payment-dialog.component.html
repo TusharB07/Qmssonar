@@ -1,0 +1,77 @@
+<!-- <p>proceed-with-offline-payment-dialog works!</p> -->
+
+<div class="px-4 mt-5">
+
+    <h2 class="text-black" id="ProceedWithOfflinePaymentDialog_Header">Proceed with payment Offline payment</h2><br>
+    <h6 class="text-black mb-5" id="ProceedWithOfflinePaymentDialog_Instruction">Please fill all the details to proceed with payment</h6><br>
+
+    <form class=" mb-5" [formGroup]="this.offlinePaymentForm" (ngSubmit)="submitted = true; submitOfflinePaymentForm()" id="ProceedWithOfflinePaymentDialog_Form">
+        <!-- <div class="grid">
+
+            <div class="col-12 md:col-6 mb-2">
+                <label for="" class="form-label">Payment Mode </label>
+                <div class="pp-dropdown-c">
+                    <p-dropdown [options]="this.selectedCategory" optionLabel="label" optionValue="value" formControlName="paymentMode"></p-dropdown> -->
+                    <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && fireLossOfProfitForm.controls['optionNumberOfMonths']?.errors?.required">Terrorism is required.</small> -->
+                <!-- </div>
+            </div>
+        </div> -->
+
+        <div class="grid">
+
+            <!-- <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_DraweeBank_Label">Drawee Bank</label>
+                <input pInputText formControlName="paymentOfflineDraweeBank" id="ProceedWithOfflinePaymentDialog_DraweeBank" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_InstrumentTransferCode_Label">Instrument Transfer Code</label>
+                <input pInputText formControlName="paymentOfflineInstrumentTransferCode" id="ProceedWithOfflinePaymentDialog_InstrumentTransferCode" class="p-inputtext1" placeholder="Enter Value">
+            </div> -->
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_instrumentType_Label">Instrument Type</label>
+                <p-dropdown field="label" placeholder="selectOption"  formControlName="instrumentType" [options]="this.instrumentTypes"  [ngClass]="{ 'ng-invalid ng-dirty': submitted && !offlinePaymentForm.controls['instrumentType'].valid }"></p-dropdown>
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_ChequeNo_Label">UTR Number/Cheque Number </label>
+                <input pInputText formControlName="chequeNo" id="ProceedWithOfflinePaymentDialog_ChequeNo" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_BankName_Label">Bank Name </label>
+                <input pInputText formControlName="bankName" id="ProceedWithOfflinePaymentDialog_BankName" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_BranchName_Label">Branch Name </label>
+                <input pInputText formControlName="branchName" id="ProceedWithOfflinePaymentDialog_BranchName" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_ifscCode_Label">IFSC Code</label>
+                <input pInputText formControlName="ifscCode" id="ProceedWithOfflinePaymentDialog_IFSCCode" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+            <div  class="col-12 md:col-6 mb-2" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_paymentOperationAssignAt_Label">Payment Date</label>
+                <input pInputText type="date" formControlName="paymentOperationAssignAt" id="ProceedWithOfflinePaymentDialog_paymentOperationAssignAt" class="p-inputtext1" placeholder="Enter Value">
+            </div>
+
+            <div  class="col-12 md:col-6 mb-4" tooltipPosition="bottom" pTooltip="">
+                <label for="" class="form-label" id="ProceedWithOfflinePaymentDialog_Amount_Label">Amount *(Incl. Taxes)</label>
+                <!--
+                <input pInputText formControlName="instrumentTransferAmount" class="p-inputtext1" placeholder="Enter Value"> -->
+                <h5 class="p-3" id="ProceedWithOfflinePaymentDialog_Amount"><span><app-currency [value]="this.quote?.placedIcQuoteId?.totalIndictiveQuoteAmtWithGst"></app-currency></span> </h5>
+                <!-- <small class="ng-dirty ng-invalid" *ngIf="submitted && fireLossOfProfitForm.controls['instrumentTransferAmount']?.errors?.required">Auditors Fees
+                is required.</small> -->
+
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-between mt-5">
+
+            <div class="flex">
+                <button id="ProceedWithOfflinePaymentDialog_Cancel" class="btn btn-outline-light mr-4" type="button" (click)="cancel()">Back</button>
+                <button id="ProceedWithOfflinePaymentDialog_Next" class="btn btn-success" [disabled]="this.offlinePaymentForm.invalid" type="submit">Save</button>
+
+
+            </div>
+            <!-- <button class="btn btn-primary" type="button" (click)="this.viewQuote()">View Quote</button> -->
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,38 @@
+.green-box {
+  background-color: rgb(221, 253, 221);
+  border: 1px solid green;
+  height: 104px;
+  border-radius: 9px;
+  margin: 17px;
+}
+
+.blue-box {
+  background-color: rgb(207, 239, 254);
+  border: 1px solid rgb(58, 222, 222);
+  height: 104px;
+  border-radius: 9px;
+  margin: 17px;
+}
+
+.violet-box {
+  background-color: rgb(244, 197, 229);
+  border: 1px solid rgb(236, 26, 180);
+  height: 104px;
+  border-radius: 9px;
+  margin: 17px;
+}
+
+.greenyellow-box {
+  background-color: rgb(228, 246, 201);
+  border: 1px solid greenyellow;
+  height: 104px;
+  border-radius: 9px;
+  margin: 17px;
+}
+
+.total-premium .price {
+  font-size: 39px;
+  line-height: 53px;
+  font-family: OpenSans-Bold;
+  color: #4CB70F;
+}

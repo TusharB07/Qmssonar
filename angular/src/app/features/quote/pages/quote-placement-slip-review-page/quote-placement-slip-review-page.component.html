@@ -1,0 +1,590 @@
+<p-toast></p-toast>
+<section class="main-container review-quote-details" *ngIf="this.selectedInsurerQuote" id="QuotePlacementReview">
+    <div class="wrapper">
+        <div class="content-wrapper custom-style">
+            <div class="top-head-details">
+                <div class="grid px-3 align-items-center">
+                    <!-- <div class="col-11 pt-3">
+                        <p-progressBar [value]="progress" [showValue]="false"></p-progressBar>
+                    </div> -->
+                    <!-- <div class="col-1">
+                        <p>{{progress/100 | percent}} completed</p>
+                    </div> -->
+                    <div class="col-8">
+                        <div class="flex align-items-center">
+                            <a class="btn-outline-blue mr-5 px-3 py-1" pbutton [routerLink]="this.previous_url"><i
+                                    class="pi pi-chevron-left"></i> Back</a>
+                            <h2 class="m-0" id="QuotePlacementReview_Details_Header"> Review Quote Details</h2>
+                        </div>
+                        <!-- <p>Lorem Ipsum dolor sit</p> -->
+                    </div>
+                    <div class="col-4 text-right align-items-center">
+                        <div *ngIf="this.user.partnerId['brokerModeStatus'] == true">
+                            <div *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId">
+                                <div *ngIf="this.quote.quoteSlipGenerationRequested == false">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button"
+                                        (click)="sendQuoteForApproval()">Send for
+                                        approval</button>
+                                </div>
+                                <div *ngIf="this.quote.placementApproved != null">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button"
+                                        id="QuotePlacementReview_GeneratePlacementSlip"
+                                        (click)="generatePlacementSlip()">Generate
+                                        Placement Slip</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && this.quote?.quoteSlipGenerationRequested && !this.quote.placementApproved">
+                            <!-- <i class="pi pi-comments mr-3 button" style="font-size: 2rem;color : blue" (click)="visible()"
+                                position="right"></i> -->
+                            <button class="mr-3 btn btn-lg btn btn-primary" (click)="this.pushBackTo()">Push
+                                Back</button>
+
+                            <button class="btn btn-lg btn-primary mr-2" type="button"
+                                (click)="QuoteIsApproval()">Approve</button>
+                        </div>
+                        <div
+                            *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && this.quote.quoteSlipGenerationRequested && this.quote.placementApproved">
+                            <button class="btn btn-lg btn-primary mr-2" type="button" disabled>Quote Slip
+                                Approved</button>
+                        </div>
+                    </div>
+                    <div class="col-4 text-right align-items-center">
+                        <div *ngIf="this.user.partnerId['brokerModeStatus'] == false">
+                            <button class="btn btn-lg btn-primary mr-2" type="button"
+                                id="QuotePlacementReview_GeneratePlacementSlip"
+                                (click)="generatePlacementSlip()">Generate
+                                Placement Slip</button>
+
+                            <button class="btn btn-lg btn-primary mr-2" type="button"
+                                *ngIf="this.selectedInsurerQuoteOption.quoteId['productId'].categoryId.name == 'Property'"
+                                id="QuotePlacementReview_GeneratePlacementSlip"
+                                (click)="generateQuoteOptionPlacementSlip()">Generate
+                                Placement Slip</button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-4 text-right align-items-center"> -->
+                    <!-- No need of view -->
+                    <!-- <button class="btn-sm btn btn-outline-success mr-2" type="submit" id="QuotePlacementReview_View">View</button> -->
+                    <!-- <button *ngIf="this.isSendForApproval" [disabled]="(this.optionsInsurer?.length == 0 || this.selectedRMEmails.length == 0)" class="btn btn-lg btn-primary mr-2" type="button" (click)="sendQuoteForApproval()">Send for approval</button> -->
+                    <!-- <button class="btn btn-lg btn-primary mr-2" type="button"
+                            id="QuotePlacementReview_GeneratePlacementSlip" (click)="generatePlacementSlip()">Generate
+                            Placement Slip mmm</button> -->
+                    <!-- </div> -->
+                </div>
+                <!-- <div class="progress-bar-completed">Complete all the details in the quote to send it to the insurer.
+                </div> -->
+            </div>
+            <div class="content-details-tabs ">
+                <div class="grid px-3">
+                    <div class="col-12 mt-5 pr-4" id="left-bar">
+
+                        <div [hidden]="true" *ngIf="this.quote"
+                            style="background-color: transparent !important;margin-top: 50px;" id="QuoteSlipPDFPreview"
+                            #QuoteSlipPDFPreview>
+                            <app-quote-slip-template-one [quote]="this.quote" id="QuoteSlipPDFview"
+                                #QuoteSlipPDFview></app-quote-slip-template-one>
+                        </div>
+
+
+                        <app-quote-slip-template-one id="QuotePlacementReview_QuoteSlipTemplateOne"
+                            [quote]="this.selectedInsurerQuote"></app-quote-slip-template-one>
+                        <div class="pdf-inner" style="display: none;">
+                            <div class="header-section">
+
+                                <div class="mb-3">
+                                    <div class="header-section-inner">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <h1 style="font-size: 50px;font-weight: 800 !important"
+                                                    id="QuotePlacementReview_QuoteSlip_Header">Quote Slip</h1>
+                                            </div>
+                                            <div class="col-6">
+                                                <h5 id="QuotePlacementReview_ProductType">
+                                                    {{this.selectedInsurerQuote?.productId?.type}}</h5>
+                                                <p id="QuotePlacementReview_ClientName">
+                                                    {{this.selectedInsurerQuote?.clientId?.name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid p-3" style="font-size: 10px !important;">
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_QuoteNo_Label">Quote No</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_QuoteNo">
+                                                    {{this.selectedInsurerQuote.quoteNo}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyType_Label">Policy Type</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyType">
+                                                    {{this.selectedInsurerQuote.quoteType}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_IMD_Label">IMD</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_IMD">GlobeSecure</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_QuoteDate_Label">Quotation issued</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_QuoteDate">{{22/4/2022}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_Branch_Label">Branch Name</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_BranchName">New Delhi</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_CommissionBrokerage_Label">
+                                                        Commission/Brokerage</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_CommissionBrokerage">as per IRDA</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_ProposerName_Label">Proposer Name</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_ProposerName">XYZ LTD</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_CorrespondenceAddress_Label">
+                                                        Correspondence Address</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_CorrespondenceAddress">Lower Parel, Mumbai
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyInceptionDate_Label">Policy
+                                                        Inception Date</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyInceptionDate">15/6/2022</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyPeriod_Label">Policy Period</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyPeriod">12 months from the Inception
+                                                    Date</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_NumberOfLocations_Label">Number of
+                                                        Locations</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_NumberOfLocations">5</div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_Hypothication_Label">Hypothication</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_Hypothication">Bank Of India</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [lazy]="true" (onLazyLoad)="loadCustomers($event)" -->
+                            <div class="px-5">
+                                <div class="my-4 tblz01-pdf">
+                                    <p-table [value]="premiums" responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+                                        [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center" id="QuotePlacementReview_PremiumDetails_Header">
+                                                Sum Insured and Premium Details
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th id="QuotePlacementReview_SectionsCovers_Header" class="text-center">
+                                                    Sections/Covers</th>
+                                                <th id="QuotePlacementReview_SumInsured_Header">Sum Insured <br>(INR)
+                                                </th>
+                                                <th id="QuotePlacementReview_NetPremium_Header">Net Premium <br>(INR)
+                                                </th>
+                                                <th id="QuotePlacementReview_GST_Header">GST</th>
+                                                <th id="QuotePlacementReview_TotalPremium_Header">Total Premium
+                                                    <br>(INR)
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-row>
+                                            <tr>
+                                                <td id="QuotePlacementReview_SectionsCovers">{{row?.sectionOrCover}}
+                                                </td>
+                                                <td id="QuotePlacementReview_SumInsured">{{row?.sumInsured |
+                                                    currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_NetPremium">{{row?.netPremium |
+                                                    currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_GST">{{row?.gst | currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_TotalPremium">{{row?.totalPremium |
+                                                    currency:'INR'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="QuotePlacementReview_NoRecordsFound">
+                                                    No records found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+
+                                <p class="p-3" id="QuotePlacementReview_QuotationInformation">
+                                    This Quotation is based on information provided by the client/intermediary. It
+                                    should be noted that, it is only a quotation and not an offer for acceptance of
+                                    business. No coverage is provided until the customer enters into a contract with the
+                                    company
+                                    by paying premium in advance. <br> Quotation is valid for 15 days from the date of
+                                    quotation <br> Signed for and on behalf of the
+                                    {{this.selectedInsurerQuote.clientId.name}}, at
+                                    {{this.selectedInsurerQuote.clientId?.location??''}}
+                                </p>
+                                <div class="my-4 tblz01-pdf">
+                                    <p-table [value]="premiums" responsiveLayout="scroll" dataKey="address"
+                                        styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+                                        [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center" id="QuotePlacementReview_ProductType">
+                                                {{this.selectedInsurerQuote?.productId?.type}}
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th id="QuotePlacementReview_LocationAddress_Header" class="pl-3">
+                                                    Location Address</th>
+                                                <th id="QuotePlacementReview_Occupancy_Header" class="pl-5">Occupancy
+                                                </th>
+                                                <th id="QuotePlacementReview_TotalPremium_Header" class="text-center">
+                                                    Total Premium (INR)</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-row>
+                                            <tr>
+
+                                                <td id="QuotePlacementReview_LocationAddress" class="pl-3">
+                                                    {{row?.address ?? ''}}</td>
+                                                <td id="QuotePlacementReview_Occupancy" class="pl-5">{{row?.occupancy ??
+                                                    ''}}</td>
+                                                <td id="QuotePlacementReview_TotalPremium" class="text-center">
+                                                    {{row?.totalSumAssured | currency:'INR'}}</td>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="3" id="QuotePlacementReview_NoRecords">
+                                                    No records found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- New_Quote_option -->
+
+<section class="main-container review-quote-details" *ngIf="this.selectedInsurerQuoteOption" id="QuotePlacementReview">
+    <div class="wrapper">
+        <div class="content-wrapper custom-style">
+            <div class="top-head-details">
+                <div class="grid px-3 align-items-center">
+                    <div class="col-8">
+                        <div class="flex align-items-center">
+                            <a class="btn-outline-blue mr-5 px-3 py-1" pbutton (click)="navigateBack()"><i
+                                    class="pi pi-chevron-left"></i> Back</a>
+                            <h2 class="m-0" id="QuotePlacementReview_Details_Header"> Review Quote Details</h2>
+                        </div>
+                    </div>
+                    <div class="col-4 text-right align-items-center">
+                        <div *ngIf="this.user.partnerId['brokerModeStatus']">
+                            <div *ngIf="this.user._id == this.quote?.assignedToPlacementMakerId">
+                                <div *ngIf="!this.quote.quoteSlipGenerationRequested">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button"
+                                        (click)="sendQuoteForApprovalplacementslip()">Send for approval</button>
+                                </div>
+                                <div *ngIf="this.quote.quoteSlipGenerationRequested && !this.quote.placementApproved">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button" disabled
+                                        style="background-color: blue !important;color: white !important;">Quote Slip
+                                        sent for approval</button>
+                                </div>
+                                <div *ngIf="this.quote.placementApproved">
+                                    <button class="btn btn-lg btn-primary mr-2" type="button"
+                                        id="QuotePlacementReview_GeneratePlacementSlip"
+                                        (click)="generatePlacementSlip()">Generate
+                                        Placement Slip</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && this.quote?.quoteSlipGenerationRequested && !this.quote.placementApproved">
+                            <!-- <i class="pi pi-comments mr-3 button" style="font-size: 2rem;color : blue" (click)="visible()"
+                                position="right"></i> -->
+                            <button class="mr-3 btn btn-lg btn btn-primary" (click)="this.pushBackTo()">Push
+                                Back</button>
+                            <button class="btn btn-lg btn-primary mr-2" type="button"
+                                (click)="QuoteIsApproval()">Approve</button>
+                        </div>
+                        <div
+                            *ngIf="this.user._id == this.quote?.assignedToPlacementCheckerId && this.quote.quoteSlipGenerationRequested && this.quote.placementApproved">
+                            <button class="btn btn-lg btn-primary mr-2" type="button" disabled
+                                style="background-color: blue !important;color: white !important;">Quote Slip
+                                Approved</button>
+                        </div>
+                    </div>
+                    <div class="col-4 text-right align-items-center">
+                        <div *ngIf="this.user.partnerId['brokerModeStatus'] == false">
+                            <button class="btn btn-lg btn-primary mr-2" type="button"
+                                id="QuotePlacementReview_GeneratePlacementSlip"
+                                (click)="generatePlacementSlip()">Generate
+                                Placement Slip</button>
+
+                            <!-- <button class="btn btn-lg btn-primary mr-2" type="button"
+                            *ngIf="this.selectedInsurerQuoteOption.quoteId['productId'].categoryId.name == 'Property'"
+                                id="QuotePlacementReview_GeneratePlacementSlip"
+                                (click)="generateQuoteOptionPlacementSlip()">Generate
+                                Placement Slip</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-details-tabs ">
+                <div class="grid px-3">
+                    <div class="col-12 mt-5 pr-4" id="left-bar">
+
+                        <div [hidden]="true" *ngIf="this.quote"
+                            style="background-color: transparent !important;margin-top: 50px;" id="QuoteSlipPDFPreview"
+                            #QuoteSlipPDFPreview>
+                            <app-quote-slip-template-one [quote]="this.quote" id="QuoteSlipPDFview"
+                                #QuoteSlipPDFview></app-quote-slip-template-one>
+                        </div>
+
+
+                        <app-quote-slip-template-one id="QuotePlacementReview_QuoteSlipTemplateOne" [quote]="this.quote"
+                            [quoteOption]="this.selectedInsurerQuoteOption"></app-quote-slip-template-one>
+                        <div class="pdf-inner" style="display: none;">
+                            <div class="header-section">
+
+                                <div class="mb-3">
+                                    <div class="header-section-inner">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <h1 style="font-size: 50px;font-weight: 800 !important"
+                                                    id="QuotePlacementReview_QuoteSlip_Header">Quote Slip</h1>
+                                            </div>
+                                            <div class="col-6">
+                                                <h5 id="QuotePlacementReview_ProductType">
+                                                    {{this.selectedInsurerQuoteOption?.quoteId?.productId?.type}}</h5>
+                                                <p id="QuotePlacementReview_ClientName">
+                                                    {{this.selectedInsurerQuoteOption?.quoteId?.clientId?.name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid p-3" style="font-size: 10px !important;">
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_QuoteNo_Label">Quote No</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_QuoteNo">
+                                                    {{this.selectedInsurerQuoteOption?.quoteId?.quoteNo}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyType_Label">Policy Type</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyType">
+                                                    {{this.selectedInsurerQuoteOption?.quoteId?.quoteType}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_IMD_Label">IMD</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_IMD">GlobeSecure</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_QuoteDate_Label">Quote Date</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_QuoteDate">{{22/4/2022}}</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_Branch_Label">Branch Name</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_BranchName">New Delhi</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_CommissionBrokerage_Label">
+                                                        Commission/Brokerage</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_CommissionBrokerage">as per IRDA</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_ProposerName_Label">Proposer Name</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_ProposerName">XYZ LTD</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_CorrespondenceAddress_Label">
+                                                        Correspondence Address</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_CorrespondenceAddress">Lower Parel, Mumbai
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyInceptionDate_Label">Policy
+                                                        Inception Date</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyInceptionDate">15/6/2022</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_PolicyPeriod_Label">Policy Period</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_PolicyPeriod">12 months from the Inception
+                                                    Date</div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_NumberOfLocations_Label">Number of
+                                                        Locations</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_NumberOfLocations">5</div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div>
+                                                    <h6 id="QuotePlacementReview_Hypothication_Label">Hypothication</h6>
+                                                </div>
+                                                <div id="QuotePlacementReview_Hypothication">Bank Of India</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [lazy]="true" (onLazyLoad)="loadCustomers($event)" -->
+                            <div class="px-5">
+                                <div class="my-4 tblz01-pdf">
+                                    <p-table [value]="premiums" responsiveLayout="scroll" dataKey="id"
+                                        styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+                                        [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center" id="QuotePlacementReview_PremiumDetails_Header">
+                                                Sum Insured and Premium Details
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th id="QuotePlacementReview_SectionsCovers_Header" class="text-center">
+                                                    Sections/Covers</th>
+                                                <th id="QuotePlacementReview_SumInsured_Header">Sum Insured <br>(INR)
+                                                </th>
+                                                <th id="QuotePlacementReview_NetPremium_Header">Net Premium <br>(INR)
+                                                </th>
+                                                <th id="QuotePlacementReview_GST_Header">GST</th>
+                                                <th id="QuotePlacementReview_TotalPremium_Header">Total Premium
+                                                    <br>(INR)
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-row>
+                                            <tr>
+                                                <td id="QuotePlacementReview_SectionsCovers">{{row?.sectionOrCover}}
+                                                </td>
+                                                <td id="QuotePlacementReview_SumInsured">{{row?.sumInsured |
+                                                    currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_NetPremium">{{row?.netPremium |
+                                                    currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_GST">{{row?.gst | currency:'INR'}}</td>
+                                                <td id="QuotePlacementReview_TotalPremium">{{row?.totalPremium |
+                                                    currency:'INR'}}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="5" id="QuotePlacementReview_NoRecordsFound">
+                                                    No records found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+
+                                <p class="p-3" id="QuotePlacementReview_QuotationInformation">
+                                    This Quotation is based on information provided by the client/intermediary. It
+                                    should be noted that, it is only a quotation and not an offer for acceptance of
+                                    business. No coverage is provided until the customer enters into a contract with the
+                                    company
+                                    by paying premium in advance. <br> Quotation is valid for 15 days from the date of
+                                    quotation <br> Signed for and on behalf of the
+                                    {{this.selectedInsurerQuoteOption?.quoteId?.clientId.name}}, at
+                                    {{this.selectedInsurerQuoteOption?.quoteId?.clientId?.location??''}}
+                                </p>
+                                <div class="my-4 tblz01-pdf">
+                                    <p-table [value]="premiums" responsiveLayout="scroll" dataKey="address"
+                                        styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll"
+                                        [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+                                        <ng-template pTemplate="caption">
+                                            <h4 class="text-center" id="QuotePlacementReview_ProductType">
+                                                {{this.selectedInsurerQuote?.productId?.type}}
+                                            </h4>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th id="QuotePlacementReview_LocationAddress_Header" class="pl-3">
+                                                    Location Address</th>
+                                                <th id="QuotePlacementReview_Occupancy_Header" class="pl-5">Occupancy
+                                                </th>
+                                                <th id="QuotePlacementReview_TotalPremium_Header" class="text-center">
+                                                    Total Premium (INR)</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-row>
+                                            <tr>
+
+                                                <td id="QuotePlacementReview_LocationAddress" class="pl-3">
+                                                    {{row?.address ?? ''}}</td>
+                                                <td id="QuotePlacementReview_Occupancy" class="pl-5">{{row?.occupancy ??
+                                                    ''}}</td>
+                                                <td id="QuotePlacementReview_TotalPremium" class="text-center">
+                                                    {{row?.totalSumAssured | currency:'INR'}}</td>
+
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage" let-columns>
+                                            <tr>
+                                                <td [attr.colspan]="3" id="QuotePlacementReview_NoRecords">
+                                                    No records found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

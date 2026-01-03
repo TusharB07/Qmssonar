@@ -1,0 +1,106 @@
+<div class="grid">
+
+    <!-- <div class="col-3">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" value="earthquake" [disabled]="!this.isEarthquakeToggleEnabled" [binary]="true" (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake" inputId="earthquake"></p-checkbox>
+                <label for="earthquake">Earthquake</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" value="stfi" [disabled]="!this.isStfiToggleEnabled" [binary]="true" (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi" inputId="stfi"></p-checkbox>
+                <label for="stfi">STFI</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="checkbox ">
+            <div class="field-checkbox">
+                <p-checkbox name="group1" value="terrorism" [disabled]="!this.isTerrorismToggleEnabled" [binary]="true" (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism" inputId="terrorism"></p-checkbox>
+                <label for="terrorism">Terrorism</label>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="col-12">
+
+        <div class="mb-1">
+            <div class="grid">
+                <div class="col-7">
+                    <h6 class="inline-block mr-2" id="ToggleCoverOptedRadio_EarthquakeCoverageOpted">Earthquake Coverage Opted:</h6>
+                </div>
+                <div class="col-5">
+                    <!-- <div class="field-radiobutton inline-block mr-3">
+                        <p-radioButton name="earthquake" [value]="true" [disabled]="!this.isEarthquakeToggleEnabled" (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake" inputId="true">
+                        </p-radioButton>
+                        <label for="true">Yes</label>
+                    </div>
+                    <div class="field-radiobutton inline-block">
+                        <p-radioButton name="earthquake" [value]="false" [disabled]="!this.isEarthquakeToggleEnabled" (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake" inputId="false"></p-radioButton>
+                        <label for="false">No</label>
+                    </div> -->
+                    <div class="checkbox ">
+                        <div class="field-checkbox">
+                            <p-checkbox name="group1" id="ToggleCoverOptedRadio_EarthquakeCheckBox" value="earthquake" [disabled]="this.quote?.productId?.isEarthQuakeRequired" [binary]="true" (onChange)="this.coversOptedChanged('isEarthquake',$event)" [(ngModel)]="this.isEarthquake" inputId="earthquake"></p-checkbox>
+                            <label for="earthquake" id="ToggleCoverOptedRadio_EarthquakeCheckBox_Label">Earthquake</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="grid">
+                <div class="col-7">
+                    <h6 class="inline-block mr-2" id="ToggleCoverOptedRadio_STFICoverageOpted">STFI Coverage Opted:</h6>
+                </div>
+                <div class="col-5">
+                    <!-- <div class="field-radiobutton inline-block mr-3">
+                        <p-radioButton name="STFI" [value]="true" [disabled]="!this.isStfiToggleEnabled" (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi" inputId="true">
+                        </p-radioButton>
+                        <label for="true">Yes</label>
+                    </div>
+                    <div class="field-radiobutton inline-block">
+                        <p-radioButton name="STFI" [value]="false" [disabled]="!this.isStfiToggleEnabled" (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi" inputId="false">
+                        </p-radioButton>
+                        <label for="false">No</label>
+                    </div> -->
+                    <div class="checkbox ">
+                        <div class="field-checkbox">
+                            <p-checkbox name="group1" id="ToggleCoverOptedRadio_StfiCheckBox" value="stfi" [disabled]="this.quote?.productId?.isSTFIRequired" [binary]="true" (onChange)="this.coversOptedChanged('isStfi',$event)" [(ngModel)]="this.isStfi" inputId="stfi"></p-checkbox>
+                            <label for="stfi" id="ToggleCoverOptedRadio_StfiCheckBox_Label">STFI</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="grid">
+                <div class="col-7">
+                    <h6 class="inline-block mr-2" id="ToggleCoverOptedRadio_TerrorismCoverageOpted">Terrorism Coverage Opted:</h6>
+                </div>
+                <div class="col-5">
+                    <!-- <div class="field-radiobutton inline-block mr-3">
+                        <p-radioButton name="terrorism" [value]="true" [disabled]="!this.isTerrorismToggleEnabled" (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism" inputId="true">
+                        </p-radioButton>
+                        <label for="true">Yes</label>
+                    </div>
+                    <div class="field-radiobutton inline-block">
+                        <p-radioButton name="terrorism" [value]="false" [disabled]="!this.isTerrorismToggleEnabled" (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism" inputId="false">
+                        </p-radioButton>
+                        <label for="false">No</label>
+                    </div> -->
+                    <div class="checkbox ">
+                        <div class="field-checkbox">
+                            <p-checkbox name="group1" id="ToggleCoverOptedRadio_TerrorismCheckBox" value="terrorism" [disabled]="this.quote?.productId?.isTerrorismRequired" [binary]="true" (onChange)="this.coversOptedChanged('isTerrorism',$event)" [(ngModel)]="this.isTerrorism" inputId="terrorism"></p-checkbox>
+                            <label for="terrorism" id="ToggleCoverOptedRadio_TerrorismCheckBox_Label">Terrorism</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

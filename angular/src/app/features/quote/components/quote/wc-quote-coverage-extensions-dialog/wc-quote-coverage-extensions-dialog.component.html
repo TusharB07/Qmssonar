@@ -1,0 +1,79 @@
+<div class="py-3">
+    <p-card class="">
+        <div class="col-12 mx-0">
+            <!-- <button type="button" (click)="save()" id="btn_Save" pButton pRipple label="Save" icon="pi pi-check"
+                class="btn btn-success"></button> -->
+            <div class="inner-container">
+                <ul>
+                    <div class="grid">
+
+                        <!-- <div class="col-9">
+                        <div class="inner-container" *ngFor="let item of wccoverageTypes">
+                            <div *ngIf="item.coverageType =='Medical Expenses'">
+                                <p-checkbox name="medicalenifits" id="medicalenifits" value="medicalenifits"
+                                    [binary]="true" [(ngModel)]="wcTemplateModel.medicalBenifits"
+                                    inputId="medicalenifits"></p-checkbox>
+                                &nbsp;&nbsp; {{item.coverageType}}&nbsp;,
+                            </div>
+                        </div>
+
+                    </div> -->
+                    </div>
+
+                    <div class="grid mt-2" *ngIf="!wcTemplateModel.allmedicalBenifitsYesNo">
+                        <div class="col-12">
+                            <div class="inner-container" *ngFor="let wcrates of wcDetails" style="padding-top: 15px;">
+                                <div style="display: flex;">
+                                    <h4>Business Type: </h4>
+                                    <h5 style="margin-top: 2x;margin-left: 10px;">{{wcrates.natureOfWork}}</h5>
+                                </div>
+                                <div class="grid mt-2">
+                                    <div class="col-4">
+                                        <label class="form-label" >Medical Extension Benefits</label>
+                                        <p-dropdown appendTo="body" id="gmc_YesNo" class="custom-dropdown"
+                                            [options]="yesNoDDL" placeholder="Select" optionLabel="label"
+                                            optionValue="value" name="gmc_YesNo" #gmc_YesNo="ngModel" (onChange)="resetAmount(wcrates)"
+                                            [(ngModel)]="wcrates.medicalBenifitsAns"></p-dropdown>
+                                    </div>
+                                    <div class="col-8">
+                                        <label class="form-label">Amount</label>
+                                        <!-- <p-dropdown appendTo="body" id="mediAmttable" class="custom-dropdown"
+                                            [options]="medicalExpensesAmountLst" placeholder="Select"
+                                            optionLabel="label" optionValue="value" name="mediAmttable"
+                                            #mediAmttable="ngModel" (onChange)="setAmount(wcrates)"
+                                            [(ngModel)]="wcrates.medicalBenifitsAmountId"
+                                            [disabled]="wcrates.medicalBenifitsAns == 'No'"></p-dropdown> -->
+                                             
+                                    <p-dropdown
+                                    class="custom-dropdown"
+                                    appendTo="body"
+                                    [options]="medicalExpensesAmountLst"
+                                    name="mediAmttable"
+                                    [(ngModel)]="wcrates.medicalBenifitsAmountId"
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    placeholder="Select"
+                                    (onChange)="setAmount(wcrates)"
+                                    [disabled]="wcrates.medicalBenifitsAns == 'No'"
+                                    #mediAmttable="ngModel"
+                                    id="mediAmttable"
+                                  >
+                                    <ng-template let-amt pTemplate="item">
+                                      <span><app-currency  [value]="(amt.siAmount ?? 0)"></app-currency></span>
+                                    </ng-template>
+                                    <ng-template let-amtSelected pTemplate="selectedItem">
+                                      <span><app-currency [value]="(amtSelected.siAmount ?? 0)"></app-currency></span>
+                                    </ng-template>
+                                  </p-dropdown>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </p-card>
+</div>

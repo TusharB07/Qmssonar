@@ -1,0 +1,628 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2 flex mr-4">
+                        <button *ngIf="this.user?.partnerId?.partnerType == 'self'" pButton pRipple label="New"
+                            icon="pi pi-plus" class="p-button-success mr-2" (click)="this.createRecord()"></button>
+                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mr-2" (click)="this.openDeleteSelectedRecordsConfirmationDialog()" [disabled]="!this.selectedRecords || !this.selectedRecords.length"></button> -->
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
+                        <!-- <button
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            pButton label="Download Bulk Import Sample" class="p-button-outlined mx-2"
+                            icon="pi pi-download" (click)="this.bulkImportGenerateSample(dt)"></button>
+                        <p-fileUpload
+                            *ngIf="this.user.roleId?.name == AllowedRoles.INSURER_ADMIN || this.user.roleId?.name == AllowedRoles.ADMIN"
+                            [name]="this.uploadProps.name" [mode]="this.uploadProps.mode" [url]="this.uploadProps.url"
+                            [method]="this.uploadProps.method"
+                            (onUpload)="this.uploadProps.onUpload($event.originalEvent.body)"
+                            [headers]="this.uploadProps.headers" [accept]="this.uploadProps.accept.toString()"
+                            [showCancelButton]="true" [auto]="this.uploadProps.auto" chooseIcon="pi pi-upload"
+                            [uploadLabel]="this.uploadProps.uploadLabel" [chooseLabel]="this.uploadProps.chooseLabel"
+                            styleClass="p-button-outlined" id="uploadLocationDetails_Excel"></p-fileUpload> -->
+                        <p-dropdown [options]="action" class="p-button-outlined ml-2" placeholder="Action"
+                            [(ngModel)]="this.selectedOption" optionLabel="name" (onChange)="selectAction($event)"
+                            (onblur)="this.selectedOption = null" [showClear]="false"></p-dropdown>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <p-button label="Approve Pending Addons" badge="{{this.newQuoteAddonCoverData?.length}}" styleClass="custom-button" 
+                                 (click)="toggleDropdown()"></p-button>
+                        <div class="dropdown-menu" *ngIf="isDropdownOpen">
+                            <div class="table-container">
+                                <h5>Item List</h5>
+                                <table class="styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Sum Insured</th>
+                                            <!-- <th>Add On Type</th> -->
+                                            <th>Approve</th>
+                                            <th>Reject</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of newQuoteAddonCoverData; let i = index">
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.sumInsured | currency:'INR':'symbol' }}</td>
+                                            <!-- <td>{{ item.addonType }}</td> -->
+                                            <td>
+                                                <button class="delete-btn"
+                                                    (click)="updateNewAddonStatus(item.id, 'Approved')">✅</button>
+                                            </td>
+                                            <td>
+                                                <button class="delete-btn"
+                                                    (click)="updateNewAddonStatus(item.id, 'Reject')">❌</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-template>
+
+
+                <ng-template pTemplate="right">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center mr-2">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Search..." />
+                        </span>
+                    </div>
+
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="" chooseLabel=""
+                        class="mr-2 inline-block"></p-fileUpload> -->
+                    <!-- <button pButton pRipple label="" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button> -->
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [rowHover]="true" #dt [value]="this.records" [lazy]="true" (onLazyLoad)="this.loadRecords($event)"
+                responsiveLayout="scroll" dataKey="_id" [selection]="this.selectedRecords"
+                (selectionChange)="this.onSelectionChange($event)" [selectAll]="selectAll"
+                (selectAllChange)="this.onSelectAllChange($event)" [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                [rows]="20" [totalRecords]="totalRecords" [loading]="loading" [globalFilterFields]="['name','email']">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <!-- <th pSortableColumn="_id">
+
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Id
+                                </span>
+                            </div>
+
+                        </th> -->
+
+                        <!-- <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Product
+                                </span>
+                                <div> -->
+                        <!-- <p-columnFilter type="text" field="productId" display="menu"
+                                        placeholder="Search by Product Id"></p-columnFilter> -->
+                        <!-- <p-sortIcon field="productId"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="productId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Product </span>
+                                <p-columnFilter field="productId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Product filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedProductId" [suggestions]="optionsProductId"
+                                            (completeMethod)="getOptionsProductId($event)" field="productId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="partnerId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Partner</span>
+                                <p-columnFilter field="partnerId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">partnerId filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedPartners" [suggestions]="optionsPartners"
+                                            (completeMethod)="getOptionsPartnerId($event)" field="partnerId"
+                                            [dropdown]="true" [multiple]="true"
+                                            (onSelect)="partnerIdHandleFilter($event)"
+                                            (onUnselect)="partnerIdHandleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="sectorId">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">Sector </span>
+                                <p-columnFilter field="sectorId" matchMode="equals" display="menu"
+                                    [showClearButton]="false" [hideOnClear]="true" [showApplyButton]="false"
+                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Sector filter</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-group let-filter="filterCallback">
+                                        <p-autoComplete [(ngModel)]="selectedSectorId" [suggestions]="optionsSectorId"
+                                            (completeMethod)="getOptionsSectorId($event)" field="sectorId"
+                                            [dropdown]="true" [multiple]="true" (onSelect)="handleFilter($event)"
+                                            (onUnselect)="handleFilter($event)">
+                                            <ng-template let-group pTemplate="item">
+                                                <div class="country-item">
+                                                    <div>{{group.label}}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="selectedItem">
+                                                <span style="font-size:18px">{{group.label}}</span>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Name
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="name" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by name"></p-columnFilter>
+                                    <p-sortIcon field="name"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Section
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="category" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="contains" operator="or"
+                                        placeholder="Search by Section"></p-columnFilter>
+                                    <p-sortIcon field="category"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!--
+                        <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Sub Category
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="subCategory" display="menu" placeholder="Search by Sub Category"></p-columnFilter>
+                                    <p-sortIcon field="subCategory"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="isFree">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Free
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter matchMode="equals" type="boolean" field="isFree" display="menu" placeholder="Search by Is Free"></p-columnFilter>
+                                    <p-sortIcon field="isFree"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="isTariff">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Tariff
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter matchMode="equals" type="boolean" field="isTariff" display="menu" placeholder="Search by Is Tariff"></p-columnFilter>
+                                    <p-sortIcon field="isTariff"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="name">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Claim Clause
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="claimClause" display="menu"
+                                        placeholder="Search by Claim Clause"></p-columnFilter>
+                                    <p-sortIcon field="claimClause"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="monthOrDays">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Month Or Days
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter field="monthOrDays" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-multiSelect [ngModel]="value" [options]="this.optionsMonthOrDays" placeholder="Any" (onChange)="filter($event.value)" optionLabel="label">
+                                                <ng-template let-option pTemplate="item">
+                                                    <div class="p-multiselect-representative-option">
+                                                        <span class="ml-1">{{option.label}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </p-multiSelect>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                    <p-sortIcon field="monthOrDays"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="siLimit">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    SI Limit
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter matchMode="equals" type="boolean" field="siLimit" display="menu" placeholder="Search by SI Limit"></p-columnFilter>
+                                    <p-sortIcon field="siLimit"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+
+                        <!-- <th pSortableColumn="categoryOfImportance">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Category Of Importance
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="categoryOfImportance" display="menu" placeholder="Search by Category Of Importance"></p-columnFilter>
+                                    <p-sortIcon field="categoryOfImportance"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="sequenceNo">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Sequence No
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="sequenceNo" display="menu" placeholder="Search by Sequence No"></p-columnFilter>
+                                    <p-sortIcon field="sequenceNo"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="policyType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Policy Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="policyType" display="menu" placeholder="Search by Policy Type"></p-columnFilter>
+                                    <p-sortIcon field="policyType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="addonTypeFlag">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Add On Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="addonTypeFlag" display="menu"
+                                        [showMatchModes]="false" [showOperator]="false" matchMode="contains"
+                                        operator="or" placeholder="Search by Add On Type"></p-columnFilter>
+                                    <p-sortIcon field="addonTypeFlag"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="description">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Description
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="description" display="menu"
+                                        [showMatchModes]="false" [showOperator]="false" matchMode="contains"
+                                        operator="or" placeholder="Search by description"></p-columnFilter>
+                                    <p-sortIcon field="description"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="sumInsured">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Sum Insured
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="sumInsured" display="menu" placeholder="Search by Sum Insured"></p-columnFilter>
+                                    <p-sortIcon field="sumInsured"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <!-- <th pSortableColumn="isAddonSelected">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Addon Selected
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter matchMode="equals" type="boolean" field="isAddonSelected" display="menu" placeholder="Search by Is Addon Selected"></p-columnFilter>
+                                    <p-sortIcon field="isAddonSelected"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="rateType">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Rate Type
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="rateType" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Rate Type"></p-columnFilter>
+                                    <p-sortIcon field="rateType"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="rateParameter">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Rate Parameter
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="rateParameter" display="menu" placeholder="Search by Rate Parameter"></p-columnFilter>
+                                    <p-sortIcon field="rateParameter"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+                        <th pSortableColumn="freeUpToFlag">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Free Up To Flag
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="freeUpToFlag" display="menu"
+                                        [showMatchModes]="false" [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Free Up To Flag"></p-columnFilter>
+                                    <p-sortIcon field="freeUpToFlag"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th pSortableColumn="freeUpToParameter">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Free Up To Parameter
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="freeUpToParameter" display="menu" placeholder="Search by Free Up To Parameter"></p-columnFilter>
+                                    <p-sortIcon field="freeUpToParameter"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th> -->
+
+                        <!-- <th pSortableColumn="calculatedIndicativePremium">
+                            <calculatedIndicativePremium class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Calculated Indicative Premium
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="calculatedIndicativePremium" display="menu" placeholder="Search by Calculated Indicative Premium"></p-columnFilter>
+                                    <p-sortIcon field="calculatedIndicativePremium"></p-sortIcon>
+                                </div>
+                            </calculatedIndicativePremium>
+                        </th> -->
+
+                        <th pSortableColumn="rate">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="white-space: nowrap">
+                                    Rate
+                                </span>
+                                <div style="white-space: nowrap">
+                                    <p-columnFilter type="text" field="rate" display="menu" [showMatchModes]="false"
+                                        [showOperator]="false" matchMode="in" operator="and"
+                                        placeholder="Search by Rate"></p-columnFilter>
+                                    <p-sortIcon field="rate"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="taskStatus" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="AddonCoverList_taskStatusHeader">
+                                    TaskStatus
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-columnFilter id="AddonCoverList_RateColumnFilter" type="text" field="taskStatus"
+                                        display="menu" [showMatchModes]="false" [showOperator]="false" matchMode="in"
+                                        operator="and" placeholder="Search by status"></p-columnFilter>
+                                    <p-sortIcon id="AddonCoverList_RateSortIcon" field="taskStatus"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="failedMessage" *ngIf="this.user?.partnerId?.partnerType == 'self'">
+                            <div class="flex justify-content-between align-items-center">
+                                <span style="word-wrap: norwrap" id="AddonCoverListfailedMessage_failedMessageHeader">
+                                    FailedMessage
+                                </span>
+                                <div style="word-wrap: nowrap">
+                                    <p-sortIcon id="AddonCoverList_RateSortIcon" field="failedMessage"></p-sortIcon>
+                                </div>
+                            </div>
+                        </th>
+                        <!-- <th></th> -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-addonCover>
+                    <tr (click)="this.editRecord(addonCover)">
+                        <td>
+                            <p-tableCheckbox [value]="addonCover"></p-tableCheckbox>
+                        </td>
+                        <!-- <td ><span class="p-column-title">Id</span>
+                            {{addonCover._id}}
+                        </td> -->
+                        <td class="text-nowrap" style="min-width: 300px">
+                            {{addonCover.productId?.type}}
+                            <!-- <a routerLink="/backend/admin/products/{{addonCover.productId?._id}}">{{addonCover.productId?.type}}</a> -->
+                        </td>
+                        <td class="text-nowrap">
+                            {{addonCover.partnerId?.name}}
+                            <!-- <a routerLink="/backend/admin/partners/{{addonCover?.partnerId?._id}}">{{addonCover.partnerId?.name}}</a> -->
+
+                        </td>
+                        <td class="text-nowrap" style="min-width: 300px">
+                            {{addonCover.sectorId?.name}}
+                            <!-- <a routerLink="/backend/admin/products/{{addonCover.sectorId?._id}}">{{addonCover.sectorId?.name}}</a> -->
+                        </td>
+                        <td style="min-width: 300px">
+                            {{addonCover.name}}
+                        </td>
+                        <td class="text-nowrap">
+                            {{addonCover.category}}
+                        </td>
+                        <!--
+                        <td>
+                            {{addonCover.subCategory}}
+                        </td> -->
+                        <!-- <td class="text-center">
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': addonCover.isFree, 'false-icon pi-times-circle': !addonCover.isFree}"></i>
+                        </td> -->
+                        <!-- <td class="text-center">
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': addonCover.isTariff, 'false-icon pi-times-circle':
+                            !addonCover.isTariff}"></i>
+                        </td> -->
+                        <!-- <td >
+                            {{addonCover.claimClause}}
+                        </td> -->
+                        <!-- <td>
+                            {{addonCover.monthOrDays ? 'Month' : 'Days'}}
+                        </td> -->
+                        <!-- <td class="text-center">
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': addonCover.siLimit, 'false-icon pi-times-circle':
+                            !addonCover.siLimit}"></i>
+                        </td> -->
+                        <!-- <td>
+                            {{addonCover.categoryOfImportance}}
+                        </td> -->
+                        <!-- <td>
+                            {{addonCover.sequenceNo}}
+                        </td> -->
+                        <!-- <td>
+                            {{addonCover.policyType}}
+                        </td> -->
+                        <td class="text-nowrap">
+                            {{addonCover.addonTypeFlag}}
+                        </td>
+                        <td class="text-nowrap">
+                            {{addonCover.description}}
+                        </td>
+                        <!-- <td>
+                            {{addonCover.sumInsured}}
+                        </td> -->
+                        <!-- <td class="text-center">
+                            <i class="pi" [ngClass]="{'true-icon pi-check-circle': addonCover.isAddonSelected, 'false-icon pi-times-circle':
+                            !addonCover.isAddonSelected}"></i>
+                        </td> -->
+
+                        <td class="text-nowrap">
+                            {{addonCover.rateType}}
+                        </td>
+                        <!-- <td>
+                            {{addonCover.rateParameter}}
+                        </td> -->
+                        <td class="text-nowrap">
+                            {{addonCover.freeUpToText}}
+                        </td>
+                        <!-- <td>
+                            {{addonCover.freeUpToParameter}}
+                        </td> -->
+                        <!-- <td>
+                            {{addonCover.calculatedIndicativePremium}}
+                        </td> -->
+
+                        <td class="text-nowrap">
+                            {{addonCover.rate}}
+                        </td>
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{addonCover?.taskStatus ?? '-'}}</td>
+
+                        <td *ngIf="this.user?.partnerId?.partnerType == 'self'">{{addonCover?.failedMessage ?? '-'}}
+                        </td>
+
+                        <!-- <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="this.editRecord(addonCover)"></button>
+                                </div>
+                            </td> -->
+                    </tr>
+                    <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="this.openDeleteRecordConfirmationDialog(addonCover)"></button> -->
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="deleteRecordDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="this.selectedRecord">Are you sure you want to delete <b>{{selectedRecord.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="this.deleteRecordDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="this.deleteRecord()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="this.deleteSelectedRecordsDialog" header="Confirm" [modal]="true"
+            [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected records?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="this.deleteManyRecordsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="this.deleteSelectedRecords()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
